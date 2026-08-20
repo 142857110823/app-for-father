@@ -42,7 +42,7 @@ jobs:
         run: yes | sdkmanager --licenses || true
 
       - name: Sync Capacitor Android
-        run: ./node_modules/.bin/cap sync android
+        run: node ./node_modules/@capacitor/cli/bin/capacitor sync android
 
       - name: Build Debug APK
         run: cd android && ./gradlew assembleDebug
