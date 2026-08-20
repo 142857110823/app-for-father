@@ -423,6 +423,7 @@ a{color:inherit;text-decoration:none}
 <div class="toast" id="toast"></div>
 
 <script src="/knowledge.js"></script>
+<script src="/algorithm.bundle.js"></script>
 <script>
 let curData = null;
 let history = JSON.parse(localStorage.getItem('qimen_history') || '[]');
@@ -548,9 +549,15 @@ async function paipan() {
 
   showToast('排盘计算中...');
   try {
-    const r = await fetch(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`).then(r => r.json());
-    if (!r.ok) { showToast(r.error || '排盘失败'); return; }
-    curData = r.data;
+    let result;
+    if (typeof QiMenAlgorithm !== 'undefined' && QiMenAlgorithm.fullPaiPan) {
+      result = QiMenAlgorithm.fullPaiPan(yv, mv, dv, hv, minV);
+    } else {
+      const r = await fetch(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`).then(r => r.json());
+      if (!r.ok) { showToast(r.error || '排盘失败'); return; }
+      result = r.data;
+    }
+    curData = result;
     curData.input.name = nameV;
     curData.input.gender = genderV;
     curData.input.location = locationV;
@@ -561,7 +568,7 @@ async function paipan() {
     saveHistory(curData);
     showToast('排盘完成');
   } catch (e) {
-    showToast('网络错误: ' + e.message);
+    showToast('排盘错误: ' + e.message);
   }
 }
 

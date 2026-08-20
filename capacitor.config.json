@@ -1,0 +1,16 @@
+{
+  "appId": "cn.qimen.shisangong",
+  "appName": "十三宫奇门遁甲",
+  "webDir": "public",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#f7f5f0"
+    }
+  }
+}

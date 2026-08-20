@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">十三宫奇门遁甲</string>
+    <string name="title_activity_main">十三宫奇门遁甲</string>
+    <string name="package_name">cn.qimen.shisangong</string>
+    <string name="custom_url_scheme">cn.qimen.shisangong</string>
+</resources>

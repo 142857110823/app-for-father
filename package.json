@@ -4,11 +4,20 @@
   "description": "十三宫奇门遁甲排盘 APP",
   "main": "algorithm/qimen.js",
   "scripts": {
-    "test": "node algorithm/qimen.js"
+    "test": "node algorithm/qimen.js",
+    "build:browser": "esbuild algorithm/browser-entry.js --bundle --outfile=public/algorithm.bundle.js --format=iife --global-name=QiMenAlgorithmBundle",
+    "build:android": "npm run build:browser && npx cap sync android && cd android && ./gradlew assembleRelease",
+    "build:android:win": "npm run build:browser && npx cap sync android && cd android && gradlew.bat assembleRelease"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/cli": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
     "express": "^5.2.1",
     "lunar-javascript": "^1.6.11",
     "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }
