@@ -1,0 +1,14 @@
+{
+  "name": "qimen-shisan-gong",
+  "version": "1.0.0",
+  "description": "十三宫奇门遁甲排盘 APP",
+  "main": "algorithm/qimen.js",
+  "scripts": {
+    "test": "node algorithm/qimen.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "lunar-javascript": "^1.6.11",
+    "pdf-parse": "^2.4.5"
+  }
+}
