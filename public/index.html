@@ -327,8 +327,9 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
     <div class="rh-actions">
+      <button class="rh-btn" onclick="shiftTime(-1)">上局</button>
+      <button class="rh-btn" onclick="shiftTime(1)">下局</button>
       <button class="rh-btn" onclick="exportPDF()">导出</button>
-      <button class="rh-btn" onclick="showPage('home')">重排</button>
     </div>
   </div>
 
@@ -351,11 +352,6 @@ a{color:inherit;text-decoration:none}
   </div>
 
   <div class="analysis-hint">点击宫位查看详细解析</div>
-
-  <div style="display:flex;gap:10px;margin:0 16px 16px">
-    <button class="btn-ghost" style="flex:1" onclick="shiftTime(-1)">上一时辰</button>
-    <button class="btn-ghost" style="flex:1" onclick="shiftTime(1)">下一时辰</button>
-  </div>
 </div>
 
 <div id="page-history" class="page hidden">
@@ -587,6 +583,7 @@ function renderResult() {
 
   const infoGrid = document.getElementById('info-grid');
   infoGrid.innerHTML = `
+    <div class="ig-item full"><div class="ig-lbl">盘遁局</div><div class="ig-val">${curData.pan.pan}-${curData.pan.dun}-${curData.pan.ju}局</div></div>
     ${input.name ? `<div class="ig-item"><div class="ig-lbl">姓名</div><div class="ig-val">${input.name}</div></div>` : ''}
     ${input.gender ? `<div class="ig-item"><div class="ig-lbl">性别</div><div class="ig-val">${input.gender}</div></div>` : ''}
     <div class="ig-item"><div class="ig-lbl">公历</div><div class="ig-val">${timeText}</div></div>
