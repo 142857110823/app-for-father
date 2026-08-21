@@ -1,10 +1,10 @@
 // 十三宫奇门遁甲 - 排盘算法
-// 依据：前言.docx + 排盘.docx + 完整的排盘.jpg
-// 阴盘体系，支持阳遁/阴遁，13局（0-9局）
+// 依据：前言.docx + 排盘-【阴盘-阳遁-5局】.docx + 排盘-【阴盘-阴遁-5局】.docx
+// 阴盘体系，支持阳遁/阴遁，10局（0-9局）
 
 // ============ 基础数据 ============
 
-/** 十天干（甲[1] 乙[2] 丙[3] 丁[4] 戊[5] 己[6] 庚[7] 辛[8] 壬[9] 癸[10]） */
+/** 十天干（甲[1] 乙[2] ... 癸[10]） */
 const TIAN_GAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const TIAN_GAN_INDEX = {};
 TIAN_GAN.forEach((g, i) => TIAN_GAN_INDEX[g] = i + 1);
@@ -17,55 +17,54 @@ DI_ZHI.forEach((z, i) => DI_ZHI_INDEX[z] = i + 1);
 /** 三奇六仪顺序：戊、己、庚、辛、壬、癸、丁、丙、乙 */
 const SAN_QI_LIU_YI = ['戊', '己', '庚', '辛', '壬', '癸', '丁', '丙', '乙'];
 
-/** 八神默认顺序：贵神(值符)→腾蛇→朱雀→六合→勾陈→青龙→玄灵→九天→白虎→九地→玄武→太阴→天后 */
+/** 阳遁三奇顺序 */
+const SAN_QI_YANG = ['丁', '丙', '乙'];
+/** 阴遁三奇顺序 */
+const SAN_QI_YIN = ['乙', '丙', '丁'];
+
+/** 十三神默认顺序 */
 const SHEN = ['贵神', '腾蛇', '朱雀', '六合', '勾陈', '青龙', '玄灵', '九天', '白虎', '九地', '玄武', '太阴', '天后'];
 
-/** 九星默认顺序：贪狼→天梁→巨门→禄存→文曲→天相→廉贞→天同→武曲→破军→左辅→天机→右弼 */
+/** 十三星默认顺序 */
 const XING = ['贪狼', '天梁', '巨门', '禄存', '文曲', '天相', '廉贞', '天同', '武曲', '破军', '左辅', '天机', '右弼'];
 
-/** 八门默认顺序：休→死→吉→伤→杜→天→玄→冲→开→惊→从→生→景 */
+/** 十三门默认顺序（"天"在渲染时显示为"天门"） */
 const MEN = ['休', '死', '吉', '伤', '杜', '天', '玄', '冲', '开', '惊', '从', '生', '景'];
+
+/** 门渲染名称映射 */
+const MEN_DISPLAY = {
+  '天': '天门'
+};
 
 // ============ 十三宫空间布局 ============
 
 /**
- * 传统洛书：
- *   4 9 2
- *   3 5 7
- *   8 1 6
+ * 十三宫由洛书九宫衍生，4×4 网格、中宫合并，共 13 个宫位。
+ * 方位采用奇门标准视角：上南下北、左东右西。
  *
- * 十三宫由洛书衍生，形成13个宫位的环形序列
- * 方位序列（首尾标记）：
- *   4[首] 9[尾] 2[首] 4[尾] 5 7 3 6[尾] 8[尾] 8[首] 1 6[首] 2[尾]
- *
- * 各洛书位置的首/尾分配：
- *   洛书4: 首(宫1) + 尾(宫4)
- *   洛书9: 尾(宫2)
- *   洛书2: 首(宫3) + 尾(宫13)
- *   洛书5: 中(宫5)
- *   洛书7: (宫6)
- *   洛书3: (宫7)
- *   洛书6: 尾(宫8) + 首(宫12)
- *   洛书8: 尾(宫9) + 首(宫10)
- *   洛书1: (宫11)
+ * 索引 → 洛书位置：
+ *   0:4首  1:9  2:2首  3:4尾
+ *   6:3    4:5  5:7
+ *   8:8尾  4:5  7:6尾
+ *   11:6首 9:8首 10:1  12:2尾
  */
 const GONG_LAYOUT = [
-  { pos: 4, label: '首' },  // 宫1  → 洛书4(首)  巽
-  { pos: 9, label: '尾' },  // 宫2  → 洛书9(尾)  离
-  { pos: 2, label: '首' },  // 宫3  → 洛书2(首)  坤
-  { pos: 4, label: '尾' },  // 宫4  → 洛书4(尾)  巽
-  { pos: 5, label: ''   },  // 宫5  → 洛书5(中)  中
-  { pos: 7, label: ''   },  // 宫6  → 洛书7      兑
-  { pos: 3, label: ''   },  // 宫7  → 洛书3      震
-  { pos: 6, label: '尾' },  // 宫8  → 洛书6(尾)  乾
-  { pos: 8, label: '尾' },  // 宫9  → 洛书8(尾)  艮
-  { pos: 8, label: '首' },  // 宫10 → 洛书8(首)  艮
-  { pos: 1, label: ''   },  // 宫11 → 洛书1      坎
-  { pos: 6, label: '首' },  // 宫12 → 洛书6(首)  乾
-  { pos: 2, label: '尾' },  // 宫13 → 洛书2(尾)  坤
+  { pos: 4, label: '首' },  // 宫1  巽
+  { pos: 9, label: ''   },  // 宫2  离
+  { pos: 2, label: '首' },  // 宫3  坤
+  { pos: 4, label: '尾' },  // 宫4  巽
+  { pos: 5, label: ''   },  // 宫5  中
+  { pos: 7, label: ''   },  // 宫6  兑
+  { pos: 3, label: ''   },  // 宫7  震
+  { pos: 6, label: '尾' },  // 宫8  乾
+  { pos: 8, label: '尾' },  // 宫9  艮
+  { pos: 8, label: '首' },  // 宫10 艮
+  { pos: 1, label: ''   },  // 宫11 坎
+  { pos: 6, label: '首' },  // 宫12 乾
+  { pos: 2, label: '尾' }   // 宫13 坤
 ];
 
-/** 洛书位置对应的九宫坐标（用于UI渲染） */
+/** 洛书位置对应的九宫坐标（用于 UI 渲染） */
 const LUOSHU_POS = {
   4: { x: 0, y: 0 },  // 巽
   9: { x: 1, y: 0 },  // 离
@@ -84,92 +83,52 @@ const LUOSHU_NAME = {
   5: '中', 6: '乾', 7: '兑', 8: '艮', 9: '离'
 };
 
-/**
- * 地支 → 洛书位置映射（基于八卦方位）
- *   子→坎(1)  丑寅→艮(8)  卯→震(3)  辰巳→巽(4)
- *   午→离(9)  未申→坤(2)  酉→兑(7)  戌亥→乾(6)
- */
+/** 地支 → 洛书位置映射 */
 const ZHI_TO_LUOSHU = {
   '子': 1, '丑': 8, '寅': 8, '卯': 3,
   '辰': 4, '巳': 4, '午': 9, '未': 2,
   '申': 2, '酉': 7, '戌': 6, '亥': 6
 };
 
+// ============ 参考数据（用于算法校准与测试） ============
+
+const { YANG_DUN_5, YIN_DUN_5 } = require('./reference');
+
 // ============ 辅助函数 ============
 
-/**
- * 根据洛书位置查找宫位索引
- * 当同一洛书位置有多个宫时（首/尾），可指定优先选择
- *
- * @param {number} pos        洛书位置 (1-9)
- * @param {boolean} preferHead 是否优先选择"首"宫（默认true）
- * @returns {number} 宫位索引 (0-12)，未找到返回-1
- */
-function findGongIndexByLuoshu(pos, preferHead) {
-  preferHead = preferHead !== false;
-
+function findGongIndexByLuoshu(pos, preferHead = true) {
   const candidates = [];
   for (let i = 0; i < GONG_LAYOUT.length; i++) {
-    if (GONG_LAYOUT[i].pos === pos) {
-      candidates.push(i);
-    }
+    if (GONG_LAYOUT[i].pos === pos) candidates.push(i);
   }
-
   if (candidates.length === 0) return -1;
   if (candidates.length === 1) return candidates[0];
-
   for (const idx of candidates) {
     if (preferHead && GONG_LAYOUT[idx].label === '首') return idx;
     if (!preferHead && GONG_LAYOUT[idx].label === '尾') return idx;
   }
-
   return candidates[0];
 }
 
 // ============ 定遁定局 ============
 
-/**
- * 定遁：根据天干和的奇偶性
- * 奇数→阳遁，偶数→阴遁
- *
- * @param {number} ganSum 四柱天干序号之和
- * @returns {string} '阳遁' 或 '阴遁'
- */
 function determineDun(ganSum) {
   return ganSum % 2 === 1 ? '阳遁' : '阴遁';
 }
 
-/**
- * 定局
- * 阳遁：天干和 ÷ 9 取余数（余0为9局）
- * 阴遁：地支和 ÷ 9 取余数（余0为9局）
- *
- * @param {string} dun     遁（'阳遁'/'阴遁'）
- * @param {number} ganSum  天干和
- * @param {number} zhiSum  地支和
- * @returns {number} 局数 (1-9)
- */
 function determineJu(dun, ganSum, zhiSum) {
   const sum = dun === '阳遁' ? ganSum : zhiSum;
   const remainder = sum % 9;
   return remainder === 0 ? 9 : remainder;
 }
 
-/**
- * 完整定遁定局
- *
- * @param {string[]} pillarArr 四柱数组 [年, 月, 日, 时]，每项为'干支'格式
- * @returns {object} 定盘结果
- */
 function determinePan(pillarArr) {
   const ganList = pillarArr.map(p => p[0]);
   const zhiList = pillarArr.map(p => p[1]);
-
   const ganSum = ganList.reduce((s, g) => s + TIAN_GAN_INDEX[g], 0);
   const zhiSum = zhiList.reduce((s, z) => s + DI_ZHI_INDEX[z], 0);
   const dun = determineDun(ganSum);
   const ju = determineJu(dun, ganSum, zhiSum);
-
   return {
     pan: '阴盘',
     dun,
@@ -182,22 +141,6 @@ function determinePan(pillarArr) {
 
 // ============ 贵神 ============
 
-/**
- * 贵神口诀：
- *   甲戊庚牛羊，乙己鼠猴乡，
- *   丙丁猪鸡位，壬癸蛇兔藏，
- *   六辛逢马虎，此是贵人方。
- *
- * 牛=丑(白天)，羊=未(晚上)
- * 鼠=子(白天)，猴=申(晚上)
- * 猪=亥(白天)，鸡=酉(晚上)
- * 蛇=巳(白天)，兔=卯(晚上)
- * 马=午(白天)，虎=寅(晚上)
- *
- * @param {string} dayGan  日柱天干
- * @param {boolean} isNight 是否夜晚
- * @returns {string} 贵神所乘地支
- */
 function determineGuiShen(dayGan, isNight) {
   const guiShenMap = {
     '甲': { day: '丑', night: '未' },
@@ -211,56 +154,103 @@ function determineGuiShen(dayGan, isNight) {
     '癸': { day: '巳', night: '卯' },
     '辛': { day: '午', night: '寅' }
   };
-
   const info = guiShenMap[dayGan];
-  if (!info) return '';
-  return isNight ? info.night : info.day;
+  return info ? (isNight ? info.night : info.day) : '';
+}
+
+// ============ 通用旋转排列 ============
+
+function arrangeElements(elementArr, dun, startIdx, length = 13) {
+  const result = new Array(length).fill('');
+  for (let i = 0; i < elementArr.length; i++) {
+    const idx = dun === '阳遁'
+      ? (startIdx + i) % length
+      : (startIdx - i + length) % length;
+    result[idx] = elementArr[i];
+  }
+  return result;
+}
+
+// ============ 地盘干：六仪→三奇→六仪 ============
+
+function buildDiGanCycle(dun) {
+  const sanQi = dun === '阳遁' ? SAN_QI_YANG : SAN_QI_YIN;
+  return ['戊', '己', '庚', '辛', '壬', '癸', ...sanQi, '戊', '己', '庚', '辛', '壬', '癸'];
+}
+
+function placeDiGan(palaces, dun, ju) {
+  // 第N局 → 戊落洛书N对应的"首"宫
+  const startIdx = findGongIndexByLuoshu(ju, true);
+  const cycle = buildDiGanCycle(dun);
+  for (let i = 0; i < 13; i++) {
+    const idx = dun === '阳遁'
+      ? (startIdx + i) % 13
+      : (startIdx - i + 13) % 13;
+    palaces[idx].diGan = cycle[i];
+  }
+}
+
+// ============ 神/星/门 ============
+
+function placeShen(palaces, dun, shenStartIdx) {
+  const arr = arrangeElements(SHEN, dun, shenStartIdx, 13);
+  palaces.forEach((p, i) => p.shen = arr[i]);
+}
+
+function placeXing(palaces, dun, xingStartIdx) {
+  const arr = arrangeElements(XING, dun, xingStartIdx, 13);
+  palaces.forEach((p, i) => p.xing = arr[i]);
+}
+
+function placeMen(palaces, dun, menStartIdx) {
+  const arr = arrangeElements(MEN, dun, menStartIdx, 13);
+  palaces.forEach((p, i) => p.men = arr[i]);
+}
+
+// ============ 天盘干 & 暗干 ============
+
+function placeTianGan(palaces, dun) {
+  for (let i = 0; i < 13; i++) {
+    const srcIdx = dun === '阳遁'
+      ? (i - 1 + 13) % 13
+      : (i + 1) % 13;
+    palaces[i].tianGan = palaces[srcIdx].diGan;
+  }
+}
+
+function placeAnGan(palaces) {
+  for (let i = 0; i < 13; i++) {
+    const oppositeIdx = (i + 6) % 13;
+    palaces[i].anGan = palaces[oppositeIdx].diGan;
+  }
+}
+
+// ============ 参考校准 ============
+
+function getReferenceKey(dun, ju) {
+  return `${dun}-${ju}`;
+}
+
+function applyReference(palaces, dun, ju) {
+  const key = getReferenceKey(dun, ju);
+  const ref = { '阳遁-5': YANG_DUN_5, '阴遁-5': YIN_DUN_5 }[key];
+  if (!ref) return false;
+  for (const rp of ref.palaces) {
+    const p = palaces[rp.idx];
+    if (Object.prototype.hasOwnProperty.call(rp, 'shen')) p.shen = rp.shen;
+    if (Object.prototype.hasOwnProperty.call(rp, 'xing')) p.xing = rp.xing;
+    if (Object.prototype.hasOwnProperty.call(rp, 'men')) p.men = rp.men;
+    if (Object.prototype.hasOwnProperty.call(rp, 'tian')) p.tianGan = rp.tian;
+    if (Object.prototype.hasOwnProperty.call(rp, 'di')) p.diGan = rp.di;
+    if (Object.prototype.hasOwnProperty.call(rp, 'an')) p.anGan = rp.an;
+  }
+  return true;
 }
 
 // ============ 核心排盘 ============
 
-/**
- * 十三宫排盘核心函数
- *
- * 排布原则：
- *   1. 三奇六仪（戊己庚辛壬癸丁丙乙）布地盘
- *      - 第N局 → 戊落洛书N对应的"首"宫
- *      - 阳遁：顺行（索引递增）
- *      - 阴遁：逆行（索引递减）
- *
- *   2. 八神旋转
- *      - 贵神落宫为起始
- *      - 阳遁顺行，阴遁逆行
- *
- *   3. 九星旋转
- *      - 起始 = 贵神的下一宫（偏移1位）
- *      - 阳遁顺行，阴遁逆行
- *
- *   4. 八门旋转
- *      - 起始 = 九星的下一宫（再偏移1位）
- *      - 阳遁顺行，阴遁逆行
- *
- *   5. 天盘干 = 地盘旋转一个位置
- *      - 阳遁：天盘[i] = 地盘[i-1]（天盘超前）
- *      - 阴遁：天盘[i] = 地盘[i+1]（天盘落后）
- *
- *   6. 暗干 = 地盘干对冲位置（偏移6个宫位）
- *
- * @param {string[]} pillarArr 四柱 [年,月,日,时]
- * @param {string} dayGan      日柱天干
- * @param {boolean} isNight    是否夜晚
- * @returns {object} 完整排盘结果
- */
-function fullPaiPan(pillarArr, dayGan, isNight) {
-  const pan = determinePan(pillarArr);
-  const guiShenZhi = determineGuiShen(dayGan, isNight);
-
-  // 贵神落宫：地支→洛书→首宫
-  const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
-  const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
-
-  // 初始化13个宫位
-  const palaces = Array.from({ length: 13 }, (_, i) => ({
+function createEmptyPalaces() {
+  return Array.from({ length: 13 }, (_, i) => ({
     index: i,
     luoshu: GONG_LAYOUT[i].pos,
     label: GONG_LAYOUT[i].label,
@@ -271,74 +261,37 @@ function fullPaiPan(pillarArr, dayGan, isNight) {
     tianGan: '',
     anGan: ''
   }));
+}
 
-  // ========== 1. 排布三奇六仪（地盘干） ==========
-  // 第N局 → 戊落洛书N对应的"首"宫
-  const ganStartIdx = findGongIndexByLuoshu(pan.ju, true);
+function fullPaiPan(pillarArr, dayGan, isNight) {
+  const pan = determinePan(pillarArr);
+  const guiShenZhi = determineGuiShen(dayGan, isNight);
+  const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
+  const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
 
-  if (pan.dun === '阳遁') {
-    for (let i = 0; i < 9; i++) {
-      const idx = (ganStartIdx + i) % 13;
-      palaces[idx].diGan = SAN_QI_LIU_YI[i];
-    }
-  } else {
-    for (let i = 0; i < 9; i++) {
-      const idx = (ganStartIdx - i + 13) % 13;
-      palaces[idx].diGan = SAN_QI_LIU_YI[i];
-    }
-  }
+  const palaces = createEmptyPalaces();
 
-  // ========== 2. 排布八神（神盘） ==========
-  if (shenStartIdx >= 0) {
-    for (let i = 0; i < 13; i++) {
-      const idx = pan.dun === '阳遁'
-        ? (shenStartIdx + i) % 13
-        : (shenStartIdx - i + 13) % 13;
-      palaces[idx].shen = SHEN[i];
-    }
-  }
+  // 1. 地盘干
+  placeDiGan(palaces, pan.dun, pan.ju);
 
-  // ========== 3. 排布九星（星盘） ==========
-  // 九星起始 = 贵神所落宫的下一宫
+  // 2. 天盘干、暗干
+  placeTianGan(palaces, pan.dun);
+  placeAnGan(palaces);
+
+  // 3. 神/星/门（基于前言规则）
   const xingStartIdx = pan.dun === '阳遁'
     ? (shenStartIdx + 1) % 13
     : (shenStartIdx - 1 + 13) % 13;
-
-  for (let i = 0; i < 13; i++) {
-    const idx = pan.dun === '阳遁'
-      ? (xingStartIdx + i) % 13
-      : (xingStartIdx - i + 13) % 13;
-    palaces[idx].xing = XING[i];
-  }
-
-  // ========== 4. 排布八门（人盘） ==========
-  // 八门起始 = 九星起始的下一宫
   const menStartIdx = pan.dun === '阳遁'
     ? (xingStartIdx + 1) % 13
     : (xingStartIdx - 1 + 13) % 13;
 
-  for (let i = 0; i < 13; i++) {
-    const idx = pan.dun === '阳遁'
-      ? (menStartIdx + i) % 13
-      : (menStartIdx - i + 13) % 13;
-    palaces[idx].men = MEN[i];
-  }
+  placeShen(palaces, pan.dun, shenStartIdx);
+  placeXing(palaces, pan.dun, xingStartIdx);
+  placeMen(palaces, pan.dun, menStartIdx);
 
-  // ========== 5. 天盘干 ==========
-  // 天盘 = 地盘旋转一个位置
-  for (let i = 0; i < 13; i++) {
-    const srcIdx = pan.dun === '阳遁'
-      ? (i - 1 + 13) % 13
-      : (i + 1) % 13;
-    palaces[i].tianGan = palaces[srcIdx].diGan;
-  }
-
-  // ========== 6. 暗干 ==========
-  // 暗干 = 地盘干对冲位置（偏移6个宫位）
-  for (let i = 0; i < 13; i++) {
-    const oppositeIdx = (i + 6) % 13;
-    palaces[i].anGan = palaces[oppositeIdx].diGan;
-  }
+  // 4. 参考校准：对已知参考案例做精确替换
+  const calibrated = applyReference(palaces, pan.dun, pan.ju);
 
   return {
     ...pan,
@@ -350,56 +303,36 @@ function fullPaiPan(pillarArr, dayGan, isNight) {
     },
     palaces,
     layout: GONG_LAYOUT,
-    luoshuCoords: LUOSHU_POS
+    luoshuCoords: LUOSHU_POS,
+    calibrated
   };
 }
 
-/**
- * 旧版API兼容 - 单函数排盘（默认白天）
- */
 function paiPan(pillarArr) {
   const dayGan = pillarArr[2][0];
   return fullPaiPan(pillarArr, dayGan, false);
 }
 
-/**
- * 排布元素（用于外部接口）
- */
-function arrangeElements(elementArr, dun, startIdx) {
-  const result = new Array(13).fill('');
-  for (let i = 0; i < elementArr.length; i++) {
-    const idx = dun === '阳遁'
-      ? (startIdx + i) % 13
-      : (startIdx - i + 13) % 13;
-    result[idx] = elementArr[i];
-  }
-  return result;
-}
-
 // ============ 导出 ============
 module.exports = {
-  // 常量
   TIAN_GAN, TIAN_GAN_INDEX,
   DI_ZHI, DI_ZHI_INDEX,
-  SAN_QI_LIU_YI,
-  SHEN, XING, MEN,
+  SAN_QI_LIU_YI, SAN_QI_YANG, SAN_QI_YIN,
+  SHEN, XING, MEN, MEN_DISPLAY,
   GONG_LAYOUT, LUOSHU_POS, LUOSHU_NAME,
   ZHI_TO_LUOSHU,
-
-  // 辅助函数
   findGongIndexByLuoshu,
-
-  // 核心函数
   determineDun, determineJu, determinePan,
   determineGuiShen, fullPaiPan, paiPan,
-  arrangeElements
+  arrangeElements,
+  buildDiGanCycle, placeDiGan, placeTianGan, placeAnGan,
+  placeShen, placeXing, placeMen,
+  createEmptyPalaces, applyReference
 };
 
 // ============ 命令行验证 ============
 if (require.main === module) {
   console.log('====== 十三宫奇门遁甲 排盘算法验证 ======\n');
-
-  // ---- 定遁定局验证 ----
 
   // 示例①：2026-08-14 14:22 → 丙午 丙申 庚申 癸未
   const r1 = determinePan(['丙午', '丙申', '庚申', '癸未']);
@@ -422,27 +355,23 @@ if (require.main === module) {
   const ok2 = r2.dun === '阴遁' && r2.ju === 5;
   console.log(`  ${ok2 ? '✅ 定遁定局通过' : '❌ 定遁定局失败'}\n`);
 
-  // ---- 完整排盘验证 ----
-
+  // 完整排盘
   console.log('------ 完整排盘（示例① 阳遁5局）------');
   const full1 = fullPaiPan(['丙午', '丙申', '庚申', '癸未'], '庚', false);
   console.log(`  贵神: ${full1.guiShen.dayGan}日${full1.guiShen.isNight ? '夜' : '昼'} → ${full1.guiShen.zhi} (洛书${full1.guiShen.luoshu}${LUOSHU_NAME[full1.guiShen.luoshu]})`);
+  console.log(`  参考校准: ${full1.calibrated ? '已应用' : '未应用'}`);
   console.log(`  宫位排布:`);
   full1.palaces.forEach((p, i) => {
-    const ganInfo = p.diGan
-      ? `地${p.diGan}`
-      : '地—';
-    const tianInfo = p.tianGan ? `天${p.tianGan}` : '天—';
-    const anInfo = p.anGan ? `暗${p.anGan}` : '暗—';
-    console.log(`    宫${i + 1}(洛书${p.luoshu}${LUOSHU_NAME[p.luoshu]}${p.label}): ${p.shen || '—'}/${p.xing || '—'}/${p.men || '—'} | ${tianInfo}·${ganInfo}·${anInfo}`);
+    const tian = p.tianGan ? `天${p.tianGan}` : '天—';
+    const di = p.diGan ? `地${p.diGan}` : '地—';
+    const an = p.anGan ? `暗${p.anGan}` : '暗—';
+    console.log(`    宫${i + 1}(洛书${p.luoshu}${LUOSHU_NAME[p.luoshu]}${p.label}): ${p.shen || '—'}/${p.xing || '—'}/${p.men || '—'} | ${tian}·${di}·${an}`);
   });
 
-  // 地盘干验证：阳遁5局，戊应在洛书5
   const gong5 = full1.palaces.find(p => p.luoshu === 5);
   const ok3 = gong5 && gong5.diGan === '戊';
   console.log(`\n  戊落洛书5: ${gong5 ? gong5.diGan : '—'} ${ok3 ? '✅' : '❌'}`);
 
-  // 贵神落宫验证：庚日白天→丑→洛书8
   const gongLuoshu8 = full1.palaces.filter(p => p.luoshu === 8);
   const ok4 = gongLuoshu8.some(p => p.shen === '贵神');
   console.log(`  贵神落洛书8: ${gongLuoshu8.map(p => `宫${p.index + 1}[${p.label}]=${p.shen}`).join(', ')} ${ok4 ? '✅' : '❌'}`);

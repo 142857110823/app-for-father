@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1a1a1a">
-<title>十三宫奇门遁甲</title>
+<title>道家奇门遁甲</title>
 <style>
 :root{
   --bg:#f7f5f0;
@@ -130,44 +130,58 @@ a{color:inherit;text-decoration:none}
 .geju-tag.xiong{background:var(--red-soft);color:var(--red)}
 .geju-tag.ping{background:var(--orange-soft);color:var(--orange)}
 
-/* 传统排盘表格 - 4x4 中心合并 */
+/* 传统排盘表格 - 4x4 中心合并（参考 docx 方正风格） */
 .traditional-plate{padding:0 16px 20px}
-#plate-table{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed}
-#plate-table td{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 5px;vertical-align:top;position:relative;height:102px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;overflow:hidden;box-shadow:var(--shadow)}
-#plate-table td:active{transform:scale(.97)}
-#plate-table td.empty{background:transparent;border:none;box-shadow:none;cursor:default}
-#plate-table td.center{height:auto;border-color:var(--gold);background:linear-gradient(135deg,#fffdf5,#fff9e6);vertical-align:middle;text-align:center}
-#plate-table td.center .pc-shen{color:var(--gold)}
-#plate-table td.gui-shen{border:2px solid var(--gold);background:linear-gradient(135deg,#fffdf5,#fffbe6)}
+#plate-table{width:100%;border-collapse:collapse;border:1.5px solid var(--ink);table-layout:fixed;background:#fff}
+#plate-table td{background:#fff;border:1px solid var(--ink-2);padding:6px 4px;vertical-align:top;position:relative;height:96px;cursor:pointer}
+#plate-table td.empty{background:transparent;border:none;cursor:default}
+#plate-table td.center{height:auto;vertical-align:middle;text-align:center;background:#fff}
+#plate-table td.gui-shen{background:#fffdf5}
 
-.pc-shen{font-size:14px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:6px;letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;line-height:1.7;padding:0 2px}
-.pc-xing{font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-tian{font-weight:700;color:var(--ink);min-width:18px;text-align:right;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-men{font-weight:700;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-di{color:var(--ink-2);min-width:18px;text-align:right;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-an{position:absolute;bottom:4px;right:6px;font-size:12px;color:var(--sub);font-weight:500;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-an:empty{display:none}
-.pc-tag{position:absolute;font-size:9px;line-height:1;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-tag.head{top:4px;left:5px;color:var(--gold);font-weight:700}
-.pc-tag.gui{top:4px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;padding:1px 7px;border-radius:0 0 6px 6px;letter-spacing:1px}
-.pc-tag.luo{top:4px;right:5px;color:var(--sub);font-weight:500}
+.pc-shen{font-size:15px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:6px;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-shen:empty{display:none}
+.pc-body{display:flex;justify-content:space-between;align-items:flex-start;padding:0 4px}
+.pc-left{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.pc-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.pc-xing{font-size:14px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.6}
+.pc-men{font-size:14px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.6}
+.pc-tian,.pc-di,.pc-an{font-size:14px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.6;min-width:18px;text-align:right}
+.pc-di{color:var(--ink-2);font-weight:600}
+.pc-an{color:var(--sub);font-weight:500}
+.pc-center-shen{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:6px;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-center-row{display:flex;justify-content:center;align-items:center;gap:16px;font-size:14px;line-height:1.7;font-family:"STKaiti","KaiTi","楷体",serif}
 
 .men-大吉{color:var(--green)}
 .men-吉{color:#388e3c}
 .men-中{color:var(--orange)}
 .men-凶{color:var(--red)}
-.men-大凶{color:#fff;background:var(--red);border-radius:3px;padding:0 3px}
+.men-大凶{color:#fff;background:var(--red);padding:0 2px}
 
 @media (max-width:380px){
-  #plate-table td{height:92px;padding:6px 4px}
-  .pc-shen{font-size:13px;margin-bottom:4px}
-  .pc-row{font-size:12px;line-height:1.6}
-  .pc-an{font-size:11px}
-  .pc-tag{font-size:8px}
+  #plate-table td{height:86px;padding:5px 3px}
+  .pc-shen{font-size:14px;margin-bottom:4px}
+  .pc-xing,.pc-men,.pc-tian,.pc-di,.pc-an{font-size:13px}
+  .pc-center-row{font-size:13px;gap:12px}
 }
 
 .analysis-hint{text-align:center;color:var(--sub);font-size:11px;padding:6px 16px 16px;font-family:"STKaiti","KaiTi","楷体",serif}
+
+/* AI 智能体 */
+.ai-fab{position:fixed;right:16px;bottom:calc(16px + var(--safe-bottom));width:56px;height:56px;border-radius:50%;z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .15s,box-shadow .15s;background:transparent}
+.ai-fab:active{transform:scale(.92)}
+.ai-fab svg{width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.ai-chat-panel{position:fixed;right:12px;bottom:calc(80px + var(--safe-bottom));width:min(360px,calc(100vw - 24px));height:460px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:10001;display:flex;flex-direction:column;overflow:hidden;transition:opacity .2s,transform .2s;opacity:1;transform:translateY(0)}
+.ai-chat-panel.hidden{opacity:0;pointer-events:none;transform:translateY(20px)}
+.ai-chat-header{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
+.ai-chat-header button{background:transparent;border:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:0 4px}
+.ai-chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.ai-msg{max-width:86%;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.6;word-break:break-word;white-space:pre-wrap}
+.ai-msg.user{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
+.ai-msg.ai{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink)}
+.ai-chat-input-area{display:flex;gap:8px;padding:10px 12px;background:#fff;border-top:1px solid var(--line)}
+.ai-chat-input-area textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:14px;font-family:inherit;outline:none;line-height:1.4;max-height:90px}
+.ai-chat-input-area button{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:0 16px;font-size:14px;cursor:pointer;font-family:"STKaiti","KaiTi","楷体",serif}
+.ai-chat-input-area button:disabled{opacity:.5}
 
 /* 弹窗 */
 .modal-mask{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -258,7 +272,7 @@ a{color:inherit;text-decoration:none}
 
 <div id="page-home" class="page">
   <div class="brand-bar">
-    <div class="brand-mark">十三宫奇门遁甲</div>
+    <div class="brand-mark">道家奇门遁甲</div>
     <div class="brand-line">阴盘排盘 · 阳顺阴逆</div>
   </div>
 
@@ -582,14 +596,14 @@ function renderResult() {
   document.getElementById('r-sub').textContent = `${curData.pan.pan} · ${curData.pan.dun} · ${curData.pan.ju}局`;
 
   const infoGrid = document.getElementById('info-grid');
+  const solarText = `${input.year}年${input.month}月${input.day}日`;
+  const hourText = `${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}`;
   infoGrid.innerHTML = `
-    <div class="ig-item full"><div class="ig-lbl">盘遁局</div><div class="ig-val">${curData.pan.pan}-${curData.pan.dun}-${curData.pan.ju}局</div></div>
     ${input.name ? `<div class="ig-item"><div class="ig-lbl">姓名</div><div class="ig-val">${input.name}</div></div>` : ''}
     ${input.gender ? `<div class="ig-item"><div class="ig-lbl">性别</div><div class="ig-val">${input.gender}</div></div>` : ''}
-    <div class="ig-item"><div class="ig-lbl">公历</div><div class="ig-val">${timeText}</div></div>
-    <div class="ig-item"><div class="ig-lbl">时辰</div><div class="ig-val">${zhiFromHour(input.hour)}时</div></div>
+    <div class="ig-item"><div class="ig-lbl">公历</div><div class="ig-val">${solarText}</div></div>
+    <div class="ig-item"><div class="ig-lbl">时辰</div><div class="ig-val">${hourText}</div></div>
     ${input.location ? `<div class="ig-item full"><div class="ig-lbl">出生地点</div><div class="ig-val">${input.location}</div></div>` : ''}
-    <div class="ig-item"><div class="ig-lbl">真太阳时</div><div class="ig-val">${input.trueSolar ? '已启用' : '未启用'}</div></div>
   `;
 
   const p = curData.pillars;
@@ -607,8 +621,6 @@ function renderResult() {
     </div>`;
   }).join('');
 
-  const pan = curData.pan;
-  const guiShen = curData.guiShen;
   const dayGZ = p.day;
   const kw = getKongWang(dayGZ);
   const yearZhi = p.zhi.year;
@@ -616,13 +628,10 @@ function renderResult() {
   const valorPalace = curData.palaces.find(pal => pal.shen === '贵神');
 
   document.getElementById('dun-info-bar').innerHTML = `
-    <div class="dun-chip dc-accent"><span class="dc-label">盘</span><span class="dc-value">${pan.pan}</span></div>
-    <div class="dun-chip ${pan.dun === '阳遁' ? 'dc-yang' : 'dc-yin'}"><span class="dc-label">遁</span><span class="dc-value">${pan.dun}</span></div>
-    <div class="dun-chip dc-gold"><span class="dc-label">局</span><span class="dc-value">${pan.ju}局</span></div>
-    <div class="dun-chip"><span class="dc-label">贵神</span><span class="dc-value">${guiShen.zhi}</span></div>
     <div class="dun-chip"><span class="dc-label">空亡</span><span class="dc-value">${kw ? kw.join('、') : '—'}</span></div>
     <div class="dun-chip"><span class="dc-label">驿马</span><span class="dc-value">${ym || '—'}</span></div>
     <div class="dun-chip"><span class="dc-label">值符</span><span class="dc-value">${valorPalace ? valorPalace.diGan : '—'}</span></div>
+    <div class="dun-chip"><span class="dc-label">值使</span><span class="dc-value">${valorPalace ? valorPalace.men : '—'}</span></div>
   `;
 
   renderAnalysis();
@@ -635,9 +644,9 @@ function renderTraditionalPlate() {
   const palaces = curData.palaces;
 
   const LAYOUT = [
-    [{idx:0,pos:4,label:'首'},{idx:1,pos:9,label:'尾'},{idx:2,pos:2,label:'首'},{idx:3,pos:4,label:'尾'}],
+    [{idx:0,pos:4,label:'首'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'首'},{idx:3,pos:4,label:'尾'}],
     [{idx:6,pos:3,label:''},{idx:4,pos:5,label:'',center:true},{idx:5,pos:7,label:''}],
-    [{idx:8,pos:8,label:'尾'},{idx:4,pos:5,label:'',center:true},{idx:7,pos:6,label:'尾'}],
+    [{idx:8,pos:8,label:'尾'},{idx:7,pos:6,label:'尾'}],
     [{idx:11,pos:6,label:'首'},{idx:9,pos:8,label:'首'},{idx:10,pos:1,label:''},{idx:12,pos:2,label:'尾'}]
   ];
 
@@ -650,27 +659,29 @@ function renderTraditionalPlate() {
     const isGuiShen = palace.shen === '贵神';
     const menKw = KNOWLEDGE?.men?.[palace.men];
     const menCls = menKw?.class || '';
-    const headText = cell.label === '首' ? '首' : (cell.label === '尾' ? '尾' : '');
 
     if (cell.center) {
-      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" rowspan="2" onclick="showPalaceDetail(${cell.idx})">
-        ${headText ? `<div class="pc-tag head">${headText}</div>` : ''}
-        ${isGuiShen ? '<div class="pc-tag gui">贵</div>' : ''}
-        <div class="pc-tag luo">洛${palace.luoshu}</div>
-        <div class="pc-shen">${palace.shen}</div>
-        <div class="pc-row" style="justify-content:center"><span class="pc-xing">${palace.xing || '—'}</span></div>
-        <div class="pc-row" style="justify-content:center"><span class="pc-men men-${menCls}">${palace.men || '—'}</span></div>
+      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">
+        <div class="pc-center-shen">${palace.shen}</div>
+        <div class="pc-center-row"><span class="pc-xing">${palace.xing || '—'}</span><span class="pc-tian">${palace.tianGan || ''}</span></div>
+        <div class="pc-center-row"><span class="pc-men men-${menCls}">${palace.men || '—'}</span><span class="pc-di">${palace.diGan || ''}</span></div>
+        <div class="pc-center-row"><span></span><span class="pc-an">${palace.anGan || ''}</span></div>
       </td>`;
     }
 
     return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">
-      ${headText ? `<div class="pc-tag head">${headText}</div>` : ''}
-      ${isGuiShen ? '<div class="pc-tag gui">贵</div>' : ''}
-      <div class="pc-tag luo">洛${palace.luoshu}</div>
       <div class="pc-shen">${palace.shen}</div>
-      <div class="pc-row"><span class="pc-xing">${palace.xing || '—'}</span><span class="pc-tian">${palace.tianGan || ''}</span></div>
-      <div class="pc-row"><span class="pc-men men-${menCls}">${palace.men || '—'}</span><span class="pc-di">${palace.diGan || ''}</span></div>
-      <div class="pc-an">${palace.anGan || ''}</div>
+      <div class="pc-body">
+        <div class="pc-left">
+          <span class="pc-xing">${palace.xing || '—'}</span>
+          <span class="pc-men men-${menCls}">${palace.men || '—'}</span>
+        </div>
+        <div class="pc-right">
+          <span class="pc-tian">${palace.tianGan || ''}</span>
+          <span class="pc-di">${palace.diGan || ''}</span>
+          <span class="pc-an">${palace.anGan || ''}</span>
+        </div>
+      </div>
     </td>`;
   };
 
@@ -990,8 +1001,7 @@ async function exportPDF() {
   try {
     const input = curData.input;
     const p = curData.pillars;
-    const pan = curData.pan;
-    const guiShen = curData.guiShen;
+    const valorPalace = curData.palaces.find(pal => pal.shen === '贵神');
     const kw = getKongWang(p.day);
     const ym = getYiMa(p.zhi.year);
 
@@ -1000,12 +1010,13 @@ async function exportPDF() {
     if (input.name) baseInfoRows.push(`<div class="label">姓名</div><div class="value">${input.name}</div>`);
     if (input.gender) baseInfoRows.push(`<div class="label">性别</div><div class="value">${input.gender}</div>`);
     if (input.location) baseInfoRows.push(`<div class="label">出生地</div><div class="value">${input.location}</div>`);
-    baseInfoRows.push(`<div class="label">真太阳时</div><div class="value">${input.trueSolar ? '已开启' : '未开启'}</div>`);
+    baseInfoRows.push(`<div class="label">公历</div><div class="value">${input.year}年${input.month}月${input.day}日</div>`);
+    baseInfoRows.push(`<div class="label">时辰</div><div class="value">${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}</div>`);
 
     const LAYOUT = [
-      [{idx:0,pos:4,label:'首'},{idx:1,pos:9,label:'尾'},{idx:2,pos:2,label:'首'},{idx:3,pos:4,label:'尾'}],
+      [{idx:0,pos:4,label:'首'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'首'},{idx:3,pos:4,label:'尾'}],
       [{idx:6,pos:3,label:''},{idx:4,pos:5,label:'',center:true},{idx:5,pos:7,label:''}],
-      [{idx:8,pos:8,label:'尾'},{idx:4,pos:5,label:'',center:true},{idx:7,pos:6,label:'尾'}],
+      [{idx:8,pos:8,label:'尾'},{idx:7,pos:6,label:'尾'}],
       [{idx:11,pos:6,label:'首'},{idx:9,pos:8,label:'首'},{idx:10,pos:1,label:''},{idx:12,pos:2,label:'尾'}]
     ];
 
@@ -1025,30 +1036,31 @@ async function exportPDF() {
         const isGuiShen = palace.shen === '贵神';
         const menKw = KNOWLEDGE?.men?.[palace.men];
         const menCls = menKw?.class || '';
-        const headText = cell.label === '首' ? '首' : (cell.label === '尾' ? '尾' : '');
 
         if (cell.center) {
-          plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" rowspan="2">
+          plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2">
             <div class="cell-inner" style="text-align:center">
-              ${headText ? `<span class="head-mark">${headText}</span>` : ''}
-              ${isGuiShen ? '<span class="gui-mark">贵</span>' : ''}
-              <span class="luo-mark">洛${palace.luoshu}</span>
               <div class="shen-name">${palace.shen}</div>
-              <div class="xing-name">${palace.xing || '—'}</div>
-              <div class="men-name men-${menCls}">${palace.men || '—'}</div>
+              <div class="gan-line"><span class="xing-name">${palace.xing || '—'}</span><span class="tg">${palace.tianGan || ''}</span></div>
+              <div class="gan-line"><span class="men-${menCls}">${palace.men || '—'}</span><span class="dg">${palace.diGan || ''}</span></div>
+              ${palace.anGan ? `<div class="gan-line"><span></span><span class="dg">${palace.anGan}</span></div>` : ''}
             </div>
           </td>`;
         } else {
           plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}">
             <div class="cell-inner">
-              ${headText ? `<span class="head-mark">${headText}</span>` : ''}
-              ${isGuiShen ? '<span class="gui-mark">贵</span>' : ''}
-              <span class="luo-mark">洛${palace.luoshu}</span>
               <div class="shen-name">${palace.shen}</div>
-              <div class="gan-line"><span class="tg">${palace.tianGan || ''}</span></div>
-              <div class="xing-name">${palace.xing || '—'}</div>
-              <div class="gan-line"><span class="men-${menCls}">${palace.men || '—'}</span><span class="dg">${palace.diGan || ''}</span></div>
-              ${palace.anGan ? `<div class="an-mark">暗${palace.anGan}</div>` : ''}
+              <div class="cell-row">
+                <div class="cell-col left">
+                  <div class="xing-name">${palace.xing || '—'}</div>
+                  <div class="men-name men-${menCls}">${palace.men || '—'}</div>
+                </div>
+                <div class="cell-col right">
+                  <div class="tg">${palace.tianGan || ''}</div>
+                  <div class="dg">${palace.diGan || ''}</div>
+                  ${palace.anGan ? `<div class="dg">${palace.anGan}</div>` : ''}
+                </div>
+              </div>
             </div>
           </td>`;
         }
@@ -1060,7 +1072,7 @@ async function exportPDF() {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>十三宫奇门遁甲排盘</title>
+<title>道家奇门遁甲排盘</title>
 <style>
   * { box-sizing: border-box; }
   body { font-family: "KaiTi","STKaiti","楷体","SimSun",serif; max-width: 600px; margin: 10px auto; padding: 20px; color: #1c1a17; background: #f7f5f0; }
@@ -1076,21 +1088,21 @@ async function exportPDF() {
   .pillar .gz { font-size: 20px; font-weight: bold; margin-top: 3px; }
   .pillar .gz .gan { color: #b8860b; }
   .pillar .gz .zhi { color: #1c1a17; }
-  .plate { width: 100%; border-collapse: separate; border-spacing: 4px; margin: 10px 0; }
-  .plate td { border: 1px solid #d0d5dd; padding: 6px 4px; vertical-align: top; height: 70px; font-size: 11px; background: #fffdf8; border-radius: 6px; position: relative; }
+  .plate { width: 100%; border-collapse: collapse; border: 1.5px solid #1c1a17; margin: 10px 0; }
+  .plate td { border: 1px solid #4a4743; padding: 5px 4px; vertical-align: top; height: 64px; font-size: 11px; background: #fff; position: relative; }
   .plate td.empty { background: transparent; border: none; }
-  .plate td.gui-shen { background: #fff8e6; border: 2px solid #b8860b; }
+  .plate td.gui-shen { background: #fffdf5; }
   .plate .cell-inner { position: relative; height: 100%; }
-  .plate .shen-name { color: #b8860b; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 2px; }
-  .plate .xing-name { color: #1c1a17; font-weight: 600; font-size: 12px; text-align: center; }
-  .plate .men-name { font-weight: bold; font-size: 14px; text-align: center; margin: 1px 0; }
-  .plate .gan-line { font-size: 11px; color: #666; display: flex; justify-content: space-between; padding: 0 4px; }
-  .plate .gan-line .tg { font-weight: bold; color: #1c1a17; }
-  .plate .gan-line .dg { color: #666; }
-  .plate .head-mark { position: absolute; top: 0; left: 2px; color: #b8860b; font-weight: 700; font-size: 10px; }
-  .plate .gui-mark { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #b8860b; color: #fff; padding: 0 5px; border-radius: 0 0 4px 4px; font-size: 10px; }
-  .plate .luo-mark { position: absolute; top: 0; right: 2px; color: #888; font-size: 10px; }
-  .plate .an-mark { position: absolute; bottom: 0; right: 2px; color: #999; font-size: 10px; }
+  .plate .shen-name { color: #b8860b; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 3px; }
+  .plate .cell-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 3px; }
+  .plate .cell-col { display: flex; flex-direction: column; gap: 1px; }
+  .plate .cell-col.left { align-items: flex-start; }
+  .plate .cell-col.right { align-items: flex-end; }
+  .plate .xing-name { color: #1c1a17; font-weight: 600; font-size: 12px; line-height: 1.6; }
+  .plate .men-name { font-weight: bold; font-size: 13px; line-height: 1.6; }
+  .plate .tg { font-weight: bold; color: #1c1a17; font-size: 12px; line-height: 1.6; }
+  .plate .dg { color: #4a4743; font-size: 12px; line-height: 1.6; }
+  .plate .gan-line { font-size: 12px; color: #4a4743; display: flex; justify-content: space-between; padding: 0 4px; line-height: 1.6; }
   .men-大吉 { color: #2e7d32; }
   .men-吉 { color: #388e3c; }
   .men-中 { color: #d17a00; }
@@ -1105,8 +1117,8 @@ async function exportPDF() {
 </head>
 <body>
   <div class="no-print"><button onclick="window.print()">点击打印 / 保存为PDF</button></div>
-  <h1>十三宫奇门遁甲排盘</h1>
-  <div class="subtitle">${input.year}年${input.month}月${input.day}日 ${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}</div>
+  <h1>道家奇门遁甲排盘</h1>
+  <div class="subtitle">${input.year}年${input.month}月${input.day}日</div>
 
   <h2>基础信息</h2>
   <div class="info-grid">${baseInfoRows.join('')}</div>
@@ -1121,12 +1133,10 @@ async function exportPDF() {
 
   <h2>遁局信息</h2>
   <div class="info-grid">
-    <div class="label">盘</div><div class="value">${pan.pan}</div>
-    <div class="label">遁</div><div class="value">${pan.dun}</div>
-    <div class="label">局</div><div class="value">${pan.ju}局</div>
-    <div class="label">贵神</div><div class="value">${guiShen.dayGan}日${guiShen.isNight ? '夜' : '昼'} · ${guiShen.zhi}</div>
     <div class="label">空亡</div><div class="value">${kw ? kw.join('、') : '—'}</div>
     <div class="label">驿马</div><div class="value">${ym || '—'}</div>
+    <div class="label">值符</div><div class="value">${valorPalace ? valorPalace.diGan : '—'}</div>
+    <div class="label">值使</div><div class="value">${valorPalace ? valorPalace.men : '—'}</div>
   </div>
 
   <h2>排盘分析</h2>
@@ -1135,7 +1145,7 @@ async function exportPDF() {
   <h2>排盘图表</h2>
   <table class="plate">${plateRows}</table>
 
-  <div class="footer">十三宫奇门遁甲排盘 · 自动生成<br>${new Date().toLocaleString('zh-CN')}</div>
+  <div class="footer">道家奇门遁甲排盘 · 自动生成<br>${new Date().toLocaleString('zh-CN')}</div>
 </body>
 </html>`;
 
@@ -1165,7 +1175,7 @@ function clearHistory() {
 }
 
 function showAbout() {
-  alert('十三宫奇门遁甲排盘 APP\n\n版本: 2.0.0\n\n基于前言.docx 排盘算法\n支持阴盘体系，阳遁/阴遁全要素排布');
+  alert('道家奇门遁甲排盘 APP\n\n版本: 2.0.0\n\n基于前言.docx 排盘算法\n支持阴盘体系，阳遁/阴遁全要素排布');
 }
 
 function showToast(msg) {
@@ -1175,8 +1185,118 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 1500);
 }
 
+// AI 智能体
+(function initAIAgent() {
+  const fab = document.getElementById('ai-fab');
+  const panel = document.getElementById('ai-chat-panel');
+  const close = document.getElementById('ai-chat-close');
+  const messages = document.getElementById('ai-chat-messages');
+  const input = document.getElementById('ai-chat-input');
+  const send = document.getElementById('ai-chat-send');
+  if (!fab || !panel || !messages || !input || !send) return;
+
+  function togglePanel(show) {
+    panel.classList.toggle('hidden', !show);
+    if (show && messages.children.length === 0) {
+      addMessage('ai', '您好，我是道家奇门遁甲 AI 助手。已读取当前排盘结果，您可以问我关于此盘的解读、用神、吉凶等问题。');
+    }
+  }
+
+  function addMessage(role, text) {
+    const div = document.createElement('div');
+    div.className = `ai-msg ${role}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function getPlateContext() {
+    if (!window.curData) return null;
+    const { pan, pillars, palaces, input } = window.curData;
+    return {
+      pan,
+      pillars,
+      input: input ? { name: input.name, gender: input.gender, year: input.year, month: input.month, day: input.day, hour: input.hour, minute: input.minute, location: input.location } : null,
+      palaces: palaces.map(p => ({
+        luoshu: p.luoshu,
+        shen: p.shen,
+        xing: p.xing,
+        men: p.men,
+        tianGan: p.tianGan,
+        diGan: p.diGan,
+        anGan: p.anGan
+      }))
+    };
+  }
+
+  async function doSend() {
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage('user', text);
+    input.value = '';
+    send.disabled = true;
+    input.disabled = true;
+
+    const context = getPlateContext();
+    const systemContent = context
+      ? '你是一位精通道家奇门遁甲的 AI 助手。请基于以下当前排盘信息回答问题，保持简洁、专业、符合传统术数语境。当前排盘：' + JSON.stringify(context)
+      : '你是一位精通道家奇门遁甲的 AI 助手。当前尚未生成排盘，请引导用户先进行排盘。';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'system', content: systemContent }, { role: 'user', content: text }] })
+      });
+      const json = await res.json();
+      if (json.ok && json.data && json.data.choices && json.data.choices[0] && json.data.choices[0].message) {
+        addMessage('ai', json.data.choices[0].message.content);
+      } else {
+        addMessage('ai', 'AI 响应异常：' + (json.error || '未知错误'));
+      }
+    } catch (e) {
+      addMessage('ai', '请求失败：' + e.message);
+    } finally {
+      send.disabled = false;
+      input.disabled = false;
+      input.focus();
+    }
+  }
+
+  fab.addEventListener('click', () => togglePanel(panel.classList.contains('hidden')));
+  close.addEventListener('click', () => togglePanel(false));
+  send.addEventListener('click', doSend);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doSend(); }
+  });
+})();
+
 initSelects();
 showPage('home');
 </script>
+
+<!-- AI 智能体 -->
+<div id="ai-fab" class="ai-fab" title="AI 智能体">
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="32" r="30" fill="#1a1a1a" stroke="#b8860b" stroke-width="1.5"/>
+    <path d="M32 2 A30 30 0 0 1 32 62 A15 15 0 0 1 32 32 A15 15 0 0 0 32 2" fill="#f7f5f0"/>
+    <path d="M32 2 A30 30 0 0 0 32 62 A15 15 0 0 0 32 32 A15 15 0 0 1 32 2" fill="#1a1a1a"/>
+    <circle cx="32" cy="17" r="5" fill="#1a1a1a"/>
+    <circle cx="32" cy="47" r="5" fill="#f7f5f0"/>
+  </svg>
+</div>
+
+<div id="ai-chat-panel" class="ai-chat-panel hidden">
+  <div class="ai-chat-header">
+    <span>AI 智能体</span>
+    <button id="ai-chat-close" aria-label="关闭">×</button>
+  </div>
+  <div id="ai-chat-messages" class="ai-chat-messages"></div>
+  <div class="ai-chat-input-area">
+    <textarea id="ai-chat-input" rows="1" placeholder="请输入问题，AI 已读取当前排盘..."></textarea>
+    <button id="ai-chat-send">发送</button>
+  </div>
+</div>
+
 </body>
 </html>

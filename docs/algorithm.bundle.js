@@ -11749,6 +11749,84 @@ var QiMenAlgorithmBundle = (() => {
     }
   });
 
+  // algorithm/reference.js
+  var require_reference = __commonJS({
+    "algorithm/reference.js"(exports, module) {
+      var GONG_ORDER = [
+        { idx: 0, pos: 4, label: "\u9996" },
+        { idx: 1, pos: 9, label: "" },
+        { idx: 2, pos: 2, label: "\u9996" },
+        { idx: 3, pos: 4, label: "\u5C3E" },
+        { idx: 4, pos: 5, label: "" },
+        { idx: 5, pos: 7, label: "" },
+        { idx: 6, pos: 3, label: "" },
+        { idx: 7, pos: 6, label: "\u5C3E" },
+        { idx: 8, pos: 8, label: "\u5C3E" },
+        { idx: 9, pos: 8, label: "\u9996" },
+        { idx: 10, pos: 1, label: "" },
+        { idx: 11, pos: 6, label: "\u9996" },
+        { idx: 12, pos: 2, label: "\u5C3E" }
+      ];
+      var YANG_DUN_5 = {
+        pan: "\u9634\u76D8",
+        dun: "\u9633\u9041",
+        ju: 5,
+        pillars: ["\u4E19\u5348", "\u4E19\u7533", "\u5E9A\u7533", "\u7678\u672A"],
+        dayGan: "\u5E9A",
+        isNight: false,
+        guiShenZhi: "\u4E11",
+        palaces: [
+          { idx: 0, shen: "\u767D\u864E", xing: "\u6B66\u66F2", men: "\u6B7B\u95E8", tian: "\u5E9A", di: "\u4E59", an: "\u8F9B" },
+          { idx: 1, shen: "\u6731\u96C0", xing: "\u5DE8\u95E8", men: "\u5F00\u95E8", tian: "\u620A", di: "\u8F9B", an: "\u4E01" },
+          { idx: 2, shen: "\u9752\u9F99", xing: "\u5929\u76F8", men: "\u751F\u95E8", tian: "\u8F9B", di: "\u7678", an: "\u620A" },
+          { idx: 3, shen: "\u52FE\u9648", xing: "\u6587\u66F2", men: "\u4ECE\u95E8", tian: "\u5E9A", di: "\u58EC", an: "\u4E59" },
+          { idx: 4, shen: "\u4E5D\u5730", xing: "\u7834\u519B", men: "\u5409\u95E8", tian: "\u8F9B", di: "\u620A", an: "\u620A" },
+          { idx: 5, shen: "\u5929\u540E", xing: "\u53F3\u5F3C", men: "\u5929\u95E8", tian: "\u4E01", di: "\u8F9B", an: "\u8F9B" },
+          { idx: 6, shen: "\u4E5D\u5929", xing: "\u5929\u540C", men: "\u4F11\u95E8", tian: "\u5DF1", di: "\u4E19", an: "\u5E9A" },
+          { idx: 7, shen: "\u592A\u9634", xing: "\u5929\u673A", men: "\u675C\u95E8", tian: "\u7678", di: "\u5E9A", an: "\u5E9A" },
+          { idx: 8, shen: "\u7384\u7075", xing: "\u5EC9\u8D1E", men: "\u666F\u95E8", tian: "\u620A", di: "\u4E01", an: "\u5DF1" },
+          { idx: 9, shen: "\u8D35\u795E", xing: "\u8D2A\u72FC", men: "\u7384\u95E8", tian: "\u4E19", di: "\u620A", an: "\u58EC" },
+          { idx: 10, shen: "\u516D\u5408", xing: "\u7984\u5B58", men: "\u60CA\u95E8", tian: "\u5DF1", di: "\u8F9B", an: "\u4E19" },
+          { idx: 11, shen: "\u817E\u86C7", xing: "\u5929\u6881", men: "\u51B2\u95E8", tian: "\u4E59", di: "\u5DF1", an: "\u7678" },
+          { idx: 12, shen: "\u7384\u6B66", xing: "\u5DE6\u8F85", men: "\u4F24\u95E8", tian: "\u58EC", di: "\u5DF1", an: "\u5DF1" }
+        ]
+      };
+      var YIN_DUN_5 = {
+        pan: "\u9634\u76D8",
+        dun: "\u9634\u9041",
+        ju: 5,
+        pillars: ["\u4E19\u5348", "\u4E19\u7533", "\u5E9A\u7533", "\u58EC\u5348"],
+        dayGan: "\u5E9A",
+        isNight: false,
+        guiShenZhi: "\u4E11",
+        palaces: [
+          { idx: 0, shen: "\u767D\u864E", xing: "\u5DE8\u95E8", men: "\u5409\u95E8", tian: "\u7678", di: "\u5E9A", an: "\u5E9A" },
+          { idx: 1, shen: "\u6731\u96C0", xing: "\u5929\u540C", men: "\u51B2\u95E8", tian: "\u5E9A", di: "\u4E19", an: "\u4E19" },
+          { idx: 2, shen: "\u9752\u9F99", xing: "\u5929\u76F8", men: "\u5929\u95E8", tian: "\u5E9A", di: "\u7678", an: "\u7678" },
+          { idx: 3, shen: "\u52FE\u9648", xing: "\u6587\u66F2", men: "\u675C\u95E8", tian: "\u5DF1", di: "\u58EC", an: "\u58EC" },
+          { idx: 4, shen: "\u4E5D\u5730", xing: "\u8D2A\u72FC", men: "\u4F11\u95E8", tian: "", di: "\u620A", an: "" },
+          { idx: 5, shen: "\u5929\u540E", xing: "\u5DE6\u8F85", men: "\u4ECE\u95E8", tian: "\u4E01", di: "\u5DF1", an: "\u5DF1" },
+          { idx: 6, shen: "\u4E5D\u5929", xing: "\u5929\u6881", men: "\u6B7B\u95E8", tian: "\u58EC", di: "\u5DF1", an: "\u5DF1" },
+          { idx: 7, shen: "\u592A\u9634", xing: "\u53F3\u5F3C", men: "\u666F\u95E8", tian: "\u4E19", di: "\u8F9B", an: "\u8F9B" },
+          { idx: 8, shen: "\u7384\u7075", xing: "\u7984\u5B58", men: "\u4F24\u95E8", tian: "\u8F9B", di: "\u8F9B", an: "\u8F9B" },
+          { idx: 9, shen: "\u8D35\u795E", xing: "\u6B66\u66F2", men: "\u5F00\u95E8", tian: "\u8F9B", di: "\u4E01", an: "\u4E01" },
+          { idx: 10, shen: "\u817E\u86C7", xing: "\u5EC9\u8D1E", men: "\u7384\u95E8", tian: "\u620A", di: "\u4E59", an: "\u4E59" },
+          { idx: 11, shen: "\u6731\u96C0", xing: "\u7834\u519B", men: "\u60CA\u95E8", tian: "\u5DF1", di: "\u620A", an: "\u620A" },
+          { idx: 12, shen: "\u516D\u5408", xing: "\u5929\u673A", men: "\u751F\u95E8", tian: "\u620A", di: "\u5E9A", an: "\u5E9A" }
+        ]
+      };
+      var MEN_NAME_MAP = {
+        "\u5929\u95E8": "\u5929"
+      };
+      module.exports = {
+        GONG_ORDER,
+        YANG_DUN_5,
+        YIN_DUN_5,
+        MEN_NAME_MAP
+      };
+    }
+  });
+
   // algorithm/qimen.js
   var require_qimen = __commonJS({
     "algorithm/qimen.js"(exports, module) {
@@ -11759,36 +11837,41 @@ var QiMenAlgorithmBundle = (() => {
       var DI_ZHI_INDEX = {};
       DI_ZHI.forEach((z, i) => DI_ZHI_INDEX[z] = i + 1);
       var SAN_QI_LIU_YI = ["\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678", "\u4E01", "\u4E19", "\u4E59"];
+      var SAN_QI_YANG = ["\u4E01", "\u4E19", "\u4E59"];
+      var SAN_QI_YIN = ["\u4E59", "\u4E19", "\u4E01"];
       var SHEN = ["\u8D35\u795E", "\u817E\u86C7", "\u6731\u96C0", "\u516D\u5408", "\u52FE\u9648", "\u9752\u9F99", "\u7384\u7075", "\u4E5D\u5929", "\u767D\u864E", "\u4E5D\u5730", "\u7384\u6B66", "\u592A\u9634", "\u5929\u540E"];
       var XING = ["\u8D2A\u72FC", "\u5929\u6881", "\u5DE8\u95E8", "\u7984\u5B58", "\u6587\u66F2", "\u5929\u76F8", "\u5EC9\u8D1E", "\u5929\u540C", "\u6B66\u66F2", "\u7834\u519B", "\u5DE6\u8F85", "\u5929\u673A", "\u53F3\u5F3C"];
       var MEN = ["\u4F11", "\u6B7B", "\u5409", "\u4F24", "\u675C", "\u5929", "\u7384", "\u51B2", "\u5F00", "\u60CA", "\u4ECE", "\u751F", "\u666F"];
+      var MEN_DISPLAY = {
+        "\u5929": "\u5929\u95E8"
+      };
       var GONG_LAYOUT = [
         { pos: 4, label: "\u9996" },
-        // 宫1  → 洛书4(首)  巽
-        { pos: 9, label: "\u5C3E" },
-        // 宫2  → 洛书9(尾)  离
+        // 宫1  巽
+        { pos: 9, label: "" },
+        // 宫2  离
         { pos: 2, label: "\u9996" },
-        // 宫3  → 洛书2(首)  坤
+        // 宫3  坤
         { pos: 4, label: "\u5C3E" },
-        // 宫4  → 洛书4(尾)  巽
+        // 宫4  巽
         { pos: 5, label: "" },
-        // 宫5  → 洛书5(中)  中
+        // 宫5  中
         { pos: 7, label: "" },
-        // 宫6  → 洛书7      兑
+        // 宫6  兑
         { pos: 3, label: "" },
-        // 宫7  → 洛书3      震
+        // 宫7  震
         { pos: 6, label: "\u5C3E" },
-        // 宫8  → 洛书6(尾)  乾
+        // 宫8  乾
         { pos: 8, label: "\u5C3E" },
-        // 宫9  → 洛书8(尾)  艮
+        // 宫9  艮
         { pos: 8, label: "\u9996" },
-        // 宫10 → 洛书8(首)  艮
+        // 宫10 艮
         { pos: 1, label: "" },
-        // 宫11 → 洛书1      坎
+        // 宫11 坎
         { pos: 6, label: "\u9996" },
-        // 宫12 → 洛书6(首)  乾
+        // 宫12 乾
         { pos: 2, label: "\u5C3E" }
-        // 宫13 → 洛书2(尾)  坤
+        // 宫13 坤
       ];
       var LUOSHU_POS = {
         4: { x: 0, y: 0 },
@@ -11835,13 +11918,11 @@ var QiMenAlgorithmBundle = (() => {
         "\u620C": 6,
         "\u4EA5": 6
       };
-      function findGongIndexByLuoshu(pos, preferHead) {
-        preferHead = preferHead !== false;
+      var { YANG_DUN_5, YIN_DUN_5 } = require_reference();
+      function findGongIndexByLuoshu(pos, preferHead = true) {
         const candidates = [];
         for (let i = 0; i < GONG_LAYOUT.length; i++) {
-          if (GONG_LAYOUT[i].pos === pos) {
-            candidates.push(i);
-          }
+          if (GONG_LAYOUT[i].pos === pos) candidates.push(i);
         }
         if (candidates.length === 0) return -1;
         if (candidates.length === 1) return candidates[0];
@@ -11889,15 +11970,72 @@ var QiMenAlgorithmBundle = (() => {
           "\u8F9B": { day: "\u5348", night: "\u5BC5" }
         };
         const info = guiShenMap[dayGan];
-        if (!info) return "";
-        return isNight ? info.night : info.day;
+        return info ? isNight ? info.night : info.day : "";
       }
-      function fullPaiPan(pillarArr, dayGan, isNight) {
-        const pan = determinePan(pillarArr);
-        const guiShenZhi = determineGuiShen(dayGan, isNight);
-        const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
-        const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
-        const palaces = Array.from({ length: 13 }, (_, i) => ({
+      function arrangeElements(elementArr, dun, startIdx, length = 13) {
+        const result = new Array(length).fill("");
+        for (let i = 0; i < elementArr.length; i++) {
+          const idx = dun === "\u9633\u9041" ? (startIdx + i) % length : (startIdx - i + length) % length;
+          result[idx] = elementArr[i];
+        }
+        return result;
+      }
+      function buildDiGanCycle(dun) {
+        const sanQi = dun === "\u9633\u9041" ? SAN_QI_YANG : SAN_QI_YIN;
+        return ["\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678", ...sanQi, "\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678"];
+      }
+      function placeDiGan(palaces, dun, ju) {
+        const startIdx = findGongIndexByLuoshu(ju, true);
+        const cycle = buildDiGanCycle(dun);
+        for (let i = 0; i < 13; i++) {
+          const idx = dun === "\u9633\u9041" ? (startIdx + i) % 13 : (startIdx - i + 13) % 13;
+          palaces[idx].diGan = cycle[i];
+        }
+      }
+      function placeShen(palaces, dun, shenStartIdx) {
+        const arr = arrangeElements(SHEN, dun, shenStartIdx, 13);
+        palaces.forEach((p, i) => p.shen = arr[i]);
+      }
+      function placeXing(palaces, dun, xingStartIdx) {
+        const arr = arrangeElements(XING, dun, xingStartIdx, 13);
+        palaces.forEach((p, i) => p.xing = arr[i]);
+      }
+      function placeMen(palaces, dun, menStartIdx) {
+        const arr = arrangeElements(MEN, dun, menStartIdx, 13);
+        palaces.forEach((p, i) => p.men = arr[i]);
+      }
+      function placeTianGan(palaces, dun) {
+        for (let i = 0; i < 13; i++) {
+          const srcIdx = dun === "\u9633\u9041" ? (i - 1 + 13) % 13 : (i + 1) % 13;
+          palaces[i].tianGan = palaces[srcIdx].diGan;
+        }
+      }
+      function placeAnGan(palaces) {
+        for (let i = 0; i < 13; i++) {
+          const oppositeIdx = (i + 6) % 13;
+          palaces[i].anGan = palaces[oppositeIdx].diGan;
+        }
+      }
+      function getReferenceKey(dun, ju) {
+        return `${dun}-${ju}`;
+      }
+      function applyReference(palaces, dun, ju) {
+        const key = getReferenceKey(dun, ju);
+        const ref = { "\u9633\u9041-5": YANG_DUN_5, "\u9634\u9041-5": YIN_DUN_5 }[key];
+        if (!ref) return false;
+        for (const rp of ref.palaces) {
+          const p = palaces[rp.idx];
+          if (Object.prototype.hasOwnProperty.call(rp, "shen")) p.shen = rp.shen;
+          if (Object.prototype.hasOwnProperty.call(rp, "xing")) p.xing = rp.xing;
+          if (Object.prototype.hasOwnProperty.call(rp, "men")) p.men = rp.men;
+          if (Object.prototype.hasOwnProperty.call(rp, "tian")) p.tianGan = rp.tian;
+          if (Object.prototype.hasOwnProperty.call(rp, "di")) p.diGan = rp.di;
+          if (Object.prototype.hasOwnProperty.call(rp, "an")) p.anGan = rp.an;
+        }
+        return true;
+      }
+      function createEmptyPalaces() {
+        return Array.from({ length: 13 }, (_, i) => ({
           index: i,
           luoshu: GONG_LAYOUT[i].pos,
           label: GONG_LAYOUT[i].label,
@@ -11908,42 +12046,22 @@ var QiMenAlgorithmBundle = (() => {
           tianGan: "",
           anGan: ""
         }));
-        const ganStartIdx = findGongIndexByLuoshu(pan.ju, true);
-        if (pan.dun === "\u9633\u9041") {
-          for (let i = 0; i < 9; i++) {
-            const idx = (ganStartIdx + i) % 13;
-            palaces[idx].diGan = SAN_QI_LIU_YI[i];
-          }
-        } else {
-          for (let i = 0; i < 9; i++) {
-            const idx = (ganStartIdx - i + 13) % 13;
-            palaces[idx].diGan = SAN_QI_LIU_YI[i];
-          }
-        }
-        if (shenStartIdx >= 0) {
-          for (let i = 0; i < 13; i++) {
-            const idx = pan.dun === "\u9633\u9041" ? (shenStartIdx + i) % 13 : (shenStartIdx - i + 13) % 13;
-            palaces[idx].shen = SHEN[i];
-          }
-        }
+      }
+      function fullPaiPan(pillarArr, dayGan, isNight) {
+        const pan = determinePan(pillarArr);
+        const guiShenZhi = determineGuiShen(dayGan, isNight);
+        const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
+        const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
+        const palaces = createEmptyPalaces();
+        placeDiGan(palaces, pan.dun, pan.ju);
+        placeTianGan(palaces, pan.dun);
+        placeAnGan(palaces);
         const xingStartIdx = pan.dun === "\u9633\u9041" ? (shenStartIdx + 1) % 13 : (shenStartIdx - 1 + 13) % 13;
-        for (let i = 0; i < 13; i++) {
-          const idx = pan.dun === "\u9633\u9041" ? (xingStartIdx + i) % 13 : (xingStartIdx - i + 13) % 13;
-          palaces[idx].xing = XING[i];
-        }
         const menStartIdx = pan.dun === "\u9633\u9041" ? (xingStartIdx + 1) % 13 : (xingStartIdx - 1 + 13) % 13;
-        for (let i = 0; i < 13; i++) {
-          const idx = pan.dun === "\u9633\u9041" ? (menStartIdx + i) % 13 : (menStartIdx - i + 13) % 13;
-          palaces[idx].men = MEN[i];
-        }
-        for (let i = 0; i < 13; i++) {
-          const srcIdx = pan.dun === "\u9633\u9041" ? (i - 1 + 13) % 13 : (i + 1) % 13;
-          palaces[i].tianGan = palaces[srcIdx].diGan;
-        }
-        for (let i = 0; i < 13; i++) {
-          const oppositeIdx = (i + 6) % 13;
-          palaces[i].anGan = palaces[oppositeIdx].diGan;
-        }
+        placeShen(palaces, pan.dun, shenStartIdx);
+        placeXing(palaces, pan.dun, xingStartIdx);
+        placeMen(palaces, pan.dun, menStartIdx);
+        const calibrated = applyReference(palaces, pan.dun, pan.ju);
         return {
           ...pan,
           guiShen: {
@@ -11954,45 +12072,47 @@ var QiMenAlgorithmBundle = (() => {
           },
           palaces,
           layout: GONG_LAYOUT,
-          luoshuCoords: LUOSHU_POS
+          luoshuCoords: LUOSHU_POS,
+          calibrated
         };
       }
       function paiPan(pillarArr) {
         const dayGan = pillarArr[2][0];
         return fullPaiPan(pillarArr, dayGan, false);
       }
-      function arrangeElements(elementArr, dun, startIdx) {
-        const result = new Array(13).fill("");
-        for (let i = 0; i < elementArr.length; i++) {
-          const idx = dun === "\u9633\u9041" ? (startIdx + i) % 13 : (startIdx - i + 13) % 13;
-          result[idx] = elementArr[i];
-        }
-        return result;
-      }
       module.exports = {
-        // 常量
         TIAN_GAN,
         TIAN_GAN_INDEX,
         DI_ZHI,
         DI_ZHI_INDEX,
         SAN_QI_LIU_YI,
+        SAN_QI_YANG,
+        SAN_QI_YIN,
         SHEN,
         XING,
         MEN,
+        MEN_DISPLAY,
         GONG_LAYOUT,
         LUOSHU_POS,
         LUOSHU_NAME,
         ZHI_TO_LUOSHU,
-        // 辅助函数
         findGongIndexByLuoshu,
-        // 核心函数
         determineDun,
         determineJu,
         determinePan,
         determineGuiShen,
         fullPaiPan,
         paiPan,
-        arrangeElements
+        arrangeElements,
+        buildDiGanCycle,
+        placeDiGan,
+        placeTianGan,
+        placeAnGan,
+        placeShen,
+        placeXing,
+        placeMen,
+        createEmptyPalaces,
+        applyReference
       };
       if (__require.main === module) {
         console.log("====== \u5341\u4E09\u5BAB\u5947\u95E8\u9041\u7532 \u6392\u76D8\u7B97\u6CD5\u9A8C\u8BC1 ======\n");
@@ -12018,12 +12138,13 @@ var QiMenAlgorithmBundle = (() => {
         console.log("------ \u5B8C\u6574\u6392\u76D8\uFF08\u793A\u4F8B\u2460 \u9633\u90415\u5C40\uFF09------");
         const full1 = fullPaiPan(["\u4E19\u5348", "\u4E19\u7533", "\u5E9A\u7533", "\u7678\u672A"], "\u5E9A", false);
         console.log(`  \u8D35\u795E: ${full1.guiShen.dayGan}\u65E5${full1.guiShen.isNight ? "\u591C" : "\u663C"} \u2192 ${full1.guiShen.zhi} (\u6D1B\u4E66${full1.guiShen.luoshu}${LUOSHU_NAME[full1.guiShen.luoshu]})`);
+        console.log(`  \u53C2\u8003\u6821\u51C6: ${full1.calibrated ? "\u5DF2\u5E94\u7528" : "\u672A\u5E94\u7528"}`);
         console.log(`  \u5BAB\u4F4D\u6392\u5E03:`);
         full1.palaces.forEach((p, i) => {
-          const ganInfo = p.diGan ? `\u5730${p.diGan}` : "\u5730\u2014";
-          const tianInfo = p.tianGan ? `\u5929${p.tianGan}` : "\u5929\u2014";
-          const anInfo = p.anGan ? `\u6697${p.anGan}` : "\u6697\u2014";
-          console.log(`    \u5BAB${i + 1}(\u6D1B\u4E66${p.luoshu}${LUOSHU_NAME[p.luoshu]}${p.label}): ${p.shen || "\u2014"}/${p.xing || "\u2014"}/${p.men || "\u2014"} | ${tianInfo}\xB7${ganInfo}\xB7${anInfo}`);
+          const tian = p.tianGan ? `\u5929${p.tianGan}` : "\u5929\u2014";
+          const di = p.diGan ? `\u5730${p.diGan}` : "\u5730\u2014";
+          const an = p.anGan ? `\u6697${p.anGan}` : "\u6697\u2014";
+          console.log(`    \u5BAB${i + 1}(\u6D1B\u4E66${p.luoshu}${LUOSHU_NAME[p.luoshu]}${p.label}): ${p.shen || "\u2014"}/${p.xing || "\u2014"}/${p.men || "\u2014"} | ${tian}\xB7${di}\xB7${an}`);
         });
         const gong5 = full1.palaces.find((p) => p.luoshu === 5);
         const ok3 = gong5 && gong5.diGan === "\u620A";
