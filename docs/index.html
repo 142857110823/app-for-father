@@ -167,10 +167,10 @@ a{color:inherit;text-decoration:none}
 .analysis-hint{text-align:center;color:var(--sub);font-size:11px;padding:6px 16px 16px;font-family:"STKaiti","KaiTi","楷体",serif}
 
 /* AI 智能体 */
-.ai-fab{position:fixed;right:16px;bottom:calc(16px + var(--safe-bottom));width:56px;height:56px;border-radius:50%;z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .15s,box-shadow .15s;background:transparent}
+.ai-fab{position:fixed;right:16px;bottom:calc(76px + var(--safe-bottom));width:56px;height:56px;border-radius:50%;z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .15s,box-shadow .15s;background:transparent}
 .ai-fab:active{transform:scale(.92)}
 .ai-fab svg{width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
-.ai-chat-panel{position:fixed;right:12px;bottom:calc(80px + var(--safe-bottom));width:min(360px,calc(100vw - 24px));height:460px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:10001;display:flex;flex-direction:column;overflow:hidden;transition:opacity .2s,transform .2s;opacity:1;transform:translateY(0)}
+.ai-chat-panel{position:fixed;right:12px;bottom:calc(140px + var(--safe-bottom));width:min(360px,calc(100vw - 24px));height:420px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:10001;display:flex;flex-direction:column;overflow:hidden;transition:opacity .2s,transform .2s;opacity:1;transform:translateY(0)}
 .ai-chat-panel.hidden{opacity:0;pointer-events:none;transform:translateY(20px)}
 .ai-chat-header{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
 .ai-chat-header button{background:transparent;border:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:0 4px}
@@ -299,16 +299,6 @@ a{color:inherit;text-decoration:none}
   <div class="card input-card">
     <div class="card-title">地点与校正</div>
     <div class="field"><label>出生地点</label><input type="text" id="location" placeholder="如：北京市朝阳区" maxlength="30"></div>
-    <div class="switch-row">
-      <div>
-        <div class="switch-label">真太阳时</div>
-        <div class="switch-desc">依据地点自动校准</div>
-      </div>
-      <label class="switch">
-        <input type="checkbox" id="true-solar">
-        <span class="slider"></span>
-      </label>
-    </div>
     <div class="switch-row">
       <div>
         <div class="switch-label">排盘类型</div>
@@ -554,7 +544,6 @@ async function paipan() {
   const nameV = document.getElementById('name').value.trim();
   const genderV = document.getElementById('gender').value;
   const locationV = document.getElementById('location').value.trim();
-  const trueSolarV = document.getElementById('true-solar').checked;
   const panTypeV = getSelectedPanType();
 
   showToast('排盘计算中...');
@@ -571,7 +560,6 @@ async function paipan() {
     curData.input.name = nameV;
     curData.input.gender = genderV;
     curData.input.location = locationV;
-    curData.input.trueSolar = trueSolarV;
     curData.input.panType = panTypeV;
     curData.pan.pan = panTypeV;
     renderResult();
@@ -952,7 +940,6 @@ function loadHistoryDirect(id) {
           curData.input.name = rec.input.name || '';
           curData.input.gender = rec.input.gender || '';
           curData.input.location = rec.input.location || '';
-          curData.input.trueSolar = rec.input.trueSolar || false;
           curData.input.panType = rec.input.panType || '阴盘';
           curData.pan.pan = curData.input.panType;
           renderResult();
