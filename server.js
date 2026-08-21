@@ -1,11 +1,18 @@
-// 十三宫奇门遁甲 - 本地预览服务器
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { fullPaiPan } = require('./algorithm/pillars');
+const { init } = require('./backend/db');
+const authRouter = require('./backend/routes/auth');
+const userRouter = require('./backend/routes/user');
+const historyRouter = require('./backend/routes/history');
+const aiRouter = require('./backend/routes/ai');
+const paymentRouter = require('./backend/routes/payment');
+const notificationRouter = require('./backend/routes/notification');
+const adminRouter = require('./backend/routes/admin');
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // 读取 AI API 密钥
 let AI_API_KEY = process.env.AI_API_KEY || '';
@@ -20,6 +27,8 @@ try {
 } catch (e) {
   console.warn('未能读取 API密钥.txt，将使用环境变量或默认值');
 }
+process.env.AI_API_KEY = AI_API_KEY;
+process.env.AI_BASE_URL = AI_BASE_URL;
 
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -27,11 +36,20 @@ app.use((req, res, next) => {
   res.setHeader('Expires', '0');
   next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '2mb' }));
 
-// 排盘 API
+// 后端 API 路由
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/history', historyRouter);
+app.use('/api/ai', aiRouter);
+app.use('/api/payment', paymentRouter);
+app.use('/api/notification', notificationRouter);
+app.use('/api/admin', adminRouter);
+
+// 排盘 API（兼容旧版，无需登录）
 app.get('/api/paipan', (req, res) => {
   try {
     const y = parseInt(req.query.y);
@@ -49,7 +67,7 @@ app.get('/api/paipan', (req, res) => {
   }
 });
 
-// AI 对话代理 API
+// AI 对话代理 API（兼容旧版，无需登录）
 app.post('/api/chat', async (req, res) => {
   try {
     if (!AI_API_KEY) {
@@ -83,6 +101,17 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`道家奇门遁甲预览服务: http://localhost:${PORT}`);
+// 健康检查
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, time: new Date().toISOString() });
+});
+
+// 启动：先初始化数据库
+init().then(() => {
+  app.listen(PORT, () => {
+    console.log(`道家奇门遁甲服务: http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('服务启动失败:', err);
+  process.exit(1);
 });

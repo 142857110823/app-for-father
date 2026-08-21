@@ -40,29 +40,40 @@ const MEN_DISPLAY = {
 
 /**
  * 十三宫由洛书九宫衍生，4×4 网格、中宫合并，共 13 个宫位。
- * 方位采用奇门标准视角：上南下北、左东右西。
+ * 以前言.docx 4×4 表格为唯一标准：
+ *
+ *   4[尾] |  9  | 2[尾] | 2[首]
+ *   4[首] |  5  |   5   |  7
+ *     3   |  5  |   5   | 6[尾]
+ *   8[尾] |8[首]|   1   | 6[首]
  *
  * 索引 → 洛书位置：
- *   0:4首  1:9  2:2首  3:4尾
- *   6:3    4:5  5:7
- *   8:8尾  4:5  7:6尾
- *   11:6首 9:8首 10:1  12:2尾
+ *   0:4尾  1:9    2:2尾  3:2首
+ *   11:4首 12:5   12:5   4:7
+ *   10:3   12:5   12:5   5:6尾
+ *   9:8尾  8:8首  7:1    6:6首
  */
 const GONG_LAYOUT = [
-  { pos: 4, label: '首' },  // 宫1  巽
-  { pos: 9, label: ''   },  // 宫2  离
-  { pos: 2, label: '首' },  // 宫3  坤
-  { pos: 4, label: '尾' },  // 宫4  巽
-  { pos: 5, label: ''   },  // 宫5  中
-  { pos: 7, label: ''   },  // 宫6  兑
-  { pos: 3, label: ''   },  // 宫7  震
-  { pos: 6, label: '尾' },  // 宫8  乾
-  { pos: 8, label: '尾' },  // 宫9  艮
-  { pos: 8, label: '首' },  // 宫10 艮
-  { pos: 1, label: ''   },  // 宫11 坎
-  { pos: 6, label: '首' },  // 宫12 乾
-  { pos: 2, label: '尾' }   // 宫13 坤
+  { pos: 4, label: '尾' },  // idx0  巽
+  { pos: 9, label: ''   },  // idx1  离
+  { pos: 2, label: '尾' },  // idx2  坤
+  { pos: 2, label: '首' },  // idx3  坤
+  { pos: 7, label: ''   },  // idx4  兑
+  { pos: 6, label: '尾' },  // idx5  乾
+  { pos: 6, label: '首' },  // idx6  乾
+  { pos: 1, label: ''   },  // idx7  坎
+  { pos: 8, label: '首' },  // idx8  艮
+  { pos: 8, label: '尾' },  // idx9  艮
+  { pos: 3, label: ''   },  // idx10 震
+  { pos: 4, label: '首' },  // idx11 巽
+  { pos: 5, label: ''   }   // idx12 中
 ];
+
+/** 阳遁排布顺序：按正序遍历的宫位索引 */
+const FORWARD_ORDER = [2, 10, 11, 0, 12, 6, 5, 4, 8, 9, 1, 7, 3];
+
+/** 阴遁排布顺序：按逆序遍历的宫位索引 */
+const REVERSE_ORDER = [12, 11, 0, 10, 3, 2, 7, 1, 8, 9, 4, 6, 5];
 
 /** 洛书位置对应的九宫坐标（用于 UI 渲染） */
 const LUOSHU_POS = {
@@ -118,8 +129,7 @@ function determineDun(ganSum) {
 
 function determineJu(dun, ganSum, zhiSum) {
   const sum = dun === '阳遁' ? ganSum : zhiSum;
-  const remainder = sum % 9;
-  return remainder === 0 ? 9 : remainder;
+  return sum % 9; // 余数 0 为 0 局（等价于 10 局），1-8 直接为局数
 }
 
 function determinePan(pillarArr) {
@@ -158,15 +168,21 @@ function determineGuiShen(dayGan, isNight) {
   return info ? (isNight ? info.night : info.day) : '';
 }
 
-// ============ 通用旋转排列 ============
+// ============ 通用旋转排列（基于正序/逆序路径） ============
+
+/** 获取指定阴阳遁下从 startIdx 开始的 13 个宫位索引 */
+function getPlacementOrder(dun, startIdx) {
+  const order = dun === '阳遁' ? FORWARD_ORDER : REVERSE_ORDER;
+  const pos = order.indexOf(startIdx);
+  if (pos === -1) return order.slice(); // 防御性回退
+  return order.slice(pos).concat(order.slice(0, pos));
+}
 
 function arrangeElements(elementArr, dun, startIdx, length = 13) {
   const result = new Array(length).fill('');
-  for (let i = 0; i < elementArr.length; i++) {
-    const idx = dun === '阳遁'
-      ? (startIdx + i) % length
-      : (startIdx - i + length) % length;
-    result[idx] = elementArr[i];
+  const order = getPlacementOrder(dun, startIdx);
+  for (let i = 0; i < elementArr.length && i < length; i++) {
+    result[order[i]] = elementArr[i];
   }
   return result;
 }
@@ -178,15 +194,22 @@ function buildDiGanCycle(dun) {
   return ['戊', '己', '庚', '辛', '壬', '癸', ...sanQi, '戊', '己', '庚', '辛', '壬', '癸'];
 }
 
+/** 根据局数找到起局宫位索引；偶数局取[首]，0局等价于10局（按8[首]起，待验证） */
+function findJuStartIndex(ju) {
+  if (ju === 0) {
+    // 0 局等价于 10 局（癸），按 8[首] 起局（文档未明确，属合理推断）
+    return findGongIndexByLuoshu(8, true);
+  }
+  const preferHead = ju % 2 === 0; // 2/4/6/8 取首
+  return findGongIndexByLuoshu(ju, preferHead);
+}
+
 function placeDiGan(palaces, dun, ju) {
-  // 第N局 → 戊落洛书N对应的"首"宫
-  const startIdx = findGongIndexByLuoshu(ju, true);
+  const startIdx = findJuStartIndex(ju);
   const cycle = buildDiGanCycle(dun);
+  const order = getPlacementOrder(dun, startIdx);
   for (let i = 0; i < 13; i++) {
-    const idx = dun === '阳遁'
-      ? (startIdx + i) % 13
-      : (startIdx - i + 13) % 13;
-    palaces[idx].diGan = cycle[i];
+    palaces[order[i]].diGan = cycle[i];
   }
 }
 
