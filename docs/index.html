@@ -167,9 +167,9 @@ a{color:inherit;text-decoration:none}
 .analysis-hint{text-align:center;color:var(--sub);font-size:11px;padding:6px 16px 16px;font-family:"STKaiti","KaiTi","楷体",serif}
 
 /* AI 智能体 */
-.ai-fab{position:fixed;right:16px;bottom:calc(76px + var(--safe-bottom));width:56px;height:56px;border-radius:50%;z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .15s,box-shadow .15s;background:transparent}
+.ai-fab{position:fixed;right:16px;bottom:calc(84px + var(--safe-bottom));width:64px;height:64px;border-radius:50%;z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .15s,box-shadow .15s;background:#f7f5f0;border:2px solid #1a1a1a;overflow:hidden;-webkit-tap-highlight-color:transparent}
 .ai-fab:active{transform:scale(.92)}
-.ai-fab svg{width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.ai-fab svg{width:100%;height:100%;pointer-events:none}
 .ai-chat-panel{position:fixed;right:12px;bottom:calc(140px + var(--safe-bottom));width:min(360px,calc(100vw - 24px));height:420px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:10001;display:flex;flex-direction:column;overflow:hidden;transition:opacity .2s,transform .2s;opacity:1;transform:translateY(0)}
 .ai-chat-panel.hidden{opacity:0;pointer-events:none;transform:translateY(20px)}
 .ai-chat-header{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
@@ -421,6 +421,28 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- AI 智能体 -->
+<div id="ai-fab" class="ai-fab" title="AI 智能体" role="button" aria-label="打开 AI 对话">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="50" r="48" fill="#f7f5f0" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M50,2 A24,24 0 0,1 50,50 A24,24 0 0,0 50,98 A48,48 0 0,1 50,2" fill="#1a1a1a"/>
+    <circle cx="50" cy="26" r="9" fill="#f7f5f0"/>
+    <circle cx="50" cy="74" r="9" fill="#1a1a1a"/>
+  </svg>
+</div>
+
+<div id="ai-chat-panel" class="ai-chat-panel hidden">
+  <div class="ai-chat-header">
+    <span>AI 智能体</span>
+    <button id="ai-chat-close" aria-label="关闭">×</button>
+  </div>
+  <div id="ai-chat-messages" class="ai-chat-messages"></div>
+  <div class="ai-chat-input-area">
+    <textarea id="ai-chat-input" rows="1" placeholder="请输入问题，AI 已读取当前排盘..."></textarea>
+    <button id="ai-chat-send">发送</button>
+  </div>
+</div>
 
 <script src="knowledge.js"></script>
 <script src="algorithm.bundle.js"></script>
@@ -1173,14 +1195,18 @@ function showToast(msg) {
 }
 
 // AI 智能体
-(function initAIAgent() {
+function initAIAgent() {
   const fab = document.getElementById('ai-fab');
   const panel = document.getElementById('ai-chat-panel');
   const close = document.getElementById('ai-chat-close');
   const messages = document.getElementById('ai-chat-messages');
   const input = document.getElementById('ai-chat-input');
   const send = document.getElementById('ai-chat-send');
-  if (!fab || !panel || !messages || !input || !send) return;
+  if (!fab || !panel || !messages || !input || !send) {
+    console.warn('[AI] 初始化失败：未找到必要元素');
+    return;
+  }
+  console.log('[AI] 初始化完成');
 
   function togglePanel(show) {
     panel.classList.toggle('hidden', !show);
@@ -1250,40 +1276,32 @@ function showToast(msg) {
     }
   }
 
-  fab.addEventListener('click', () => togglePanel(panel.classList.contains('hidden')));
-  close.addEventListener('click', () => togglePanel(false));
+  function onFabClick(e) {
+    if (e && e.type === 'touchend') e.preventDefault();
+    const isHidden = panel.classList.contains('hidden');
+    console.log('[AI] 按钮点击，当前隐藏：', isHidden);
+    togglePanel(isHidden);
+  }
+
+  fab.addEventListener('click', onFabClick);
+  fab.addEventListener('touchend', onFabClick, { passive: false });
+  if (close) {
+    close.addEventListener('click', () => togglePanel(false));
+    close.addEventListener('touchend', (e) => { e.preventDefault(); togglePanel(false); }, { passive: false });
+  }
   send.addEventListener('click', doSend);
+  send.addEventListener('touchend', (e) => { e.preventDefault(); doSend(); }, { passive: false });
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doSend(); }
   });
-})();
+}
 
+console.log('[APP] script start');
+initAIAgent();
+console.log('[APP] initAIAgent called');
 initSelects();
 showPage('home');
 </script>
-
-<!-- AI 智能体 -->
-<div id="ai-fab" class="ai-fab" title="AI 智能体">
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="32" cy="32" r="30" fill="#1a1a1a" stroke="#b8860b" stroke-width="1.5"/>
-    <path d="M32 2 A30 30 0 0 1 32 62 A15 15 0 0 1 32 32 A15 15 0 0 0 32 2" fill="#f7f5f0"/>
-    <path d="M32 2 A30 30 0 0 0 32 62 A15 15 0 0 0 32 32 A15 15 0 0 1 32 2" fill="#1a1a1a"/>
-    <circle cx="32" cy="17" r="5" fill="#1a1a1a"/>
-    <circle cx="32" cy="47" r="5" fill="#f7f5f0"/>
-  </svg>
-</div>
-
-<div id="ai-chat-panel" class="ai-chat-panel hidden">
-  <div class="ai-chat-header">
-    <span>AI 智能体</span>
-    <button id="ai-chat-close" aria-label="关闭">×</button>
-  </div>
-  <div id="ai-chat-messages" class="ai-chat-messages"></div>
-  <div class="ai-chat-input-area">
-    <textarea id="ai-chat-input" rows="1" placeholder="请输入问题，AI 已读取当前排盘..."></textarea>
-    <button id="ai-chat-send">发送</button>
-  </div>
-</div>
 
 </body>
 </html>
