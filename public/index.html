@@ -305,38 +305,56 @@ a{color:inherit;text-decoration:none}
 .geju-tag.xiong{background:var(--red-soft);color:var(--red)}
 .geju-tag.ping{background:var(--orange-soft);color:var(--orange)}
 
-/* 传统排盘表格 - 4x4 中心合并（参考 docx 方正风格） */
+/* 传统排盘表格 - 4x4 中心合并（严格三列竖排） */
+/* 三分区标准：左=神/星/门 竖排  |  中=灵/天/人/地 竖排  |  右=天罡/日排 竖排(金色右对齐) */
 .traditional-plate{padding:0 16px 20px}
 #plate-table{width:100%;border-collapse:collapse;border:1.5px solid var(--ink);table-layout:fixed;background:var(--plate-bg)}
-#plate-table td{background:var(--plate-cell);border:1px solid var(--ink-2);padding:6px 4px;vertical-align:top;position:relative;height:96px;cursor:pointer}
+#plate-table td{background:var(--plate-cell);border:1px solid var(--ink-2);padding:4px 5px;vertical-align:top;position:relative;height:96px;cursor:pointer;box-sizing:border-box}
 #plate-table td.empty{background:transparent;border:none;cursor:default}
-#plate-table td.center{height:auto;vertical-align:middle;text-align:center;background:var(--plate-cell)}
-#plate-table td.gui-shen{background:var(--gold-soft)}
+#plate-table td.center{height:auto;vertical-align:middle;background:var(--plate-cell)}
+/* 贵神宫浅黄底色 */
+#plate-table td.gui-shen{background:linear-gradient(180deg,#fff8e1 0%,#fef3d0 100%)}
 
-.pc-shen{font-size:15px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:6px;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-shen:empty{display:none}
-.pc-body{display:flex;justify-content:space-between;align-items:flex-start;padding:0 4px}
-.pc-left{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
-.pc-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
-.pc-xing{font-size:14px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.6}
-.pc-men{font-size:14px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.6}
-.pc-tian,.pc-di,.pc-an{font-size:14px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.6;min-width:18px;text-align:right}
-.pc-di{color:var(--ink-2);font-weight:600}
-.pc-an{color:var(--sub);font-weight:500}
-.pc-center-shen{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:6px;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-center-row{display:flex;justify-content:center;align-items:center;gap:16px;font-size:14px;line-height:1.7;font-family:"STKaiti","KaiTi","楷体",serif}
+/* === 三列竖排布局 === */
+.palace-tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;width:100%;height:100%;box-sizing:border-box}
+.palace-col{display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:1px;min-width:0;height:100%}
+.palace-col.col-left{align-items:flex-start;text-align:left}
+.palace-col.col-mid{align-items:center;text-align:center}
+.palace-col.col-right{align-items:flex-end;text-align:right}
 
-.men-大吉{color:var(--green)}
-.men-吉{color:#388e3c}
-.men-中{color:var(--orange)}
-.men-凶{color:var(--red)}
-.men-大凶{color:#fff;background:var(--red);padding:0 2px}
+/* --- 左列：神 / 星 / 门 竖排 --- */
+.pc-shen{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif;white-space:nowrap;line-height:1.3}
+.pc-xing{font-size:13px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;white-space:nowrap;line-height:1.3}
+.pc-men{font-size:14px;font-weight:700;font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.3;white-space:nowrap}
+.pc-men.m-吉,.pc-men.m-生,.pc-men.m-开,.pc-men.m-玄,.pc-men.m-天,.pc-men.m-从,.pc-men.m-休,.pc-men.m-景{color:#2e7d32}
+.pc-men.m-大凶,.pc-men.m-死,.pc-men.m-伤,.pc-men.m-冲,.pc-men.m-惊{color:#c62828}
+.pc-men.m-杜,.pc-men.m-大吉,.pc-men.m-凶,.pc-men.m-中{color:var(--ink)}
+
+/* --- 中列：灵盘 / 天盘 / 人盘 / 地盘 竖排 --- */
+.pc-ling{font-size:13px;font-weight:700;color:#6b4e00;font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.3}
+.pc-tian{font-size:13px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.3}
+.pc-ren{font-size:13px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.3}
+.pc-di{font-size:13px;font-weight:700;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.3}
+
+/* --- 右列：天罡 / 日排局 竖排 金色右对齐 --- */
+.pc-tg{font-size:10px;font-weight:700;color:#b8860b;background:rgba(184,134,11,.12);border:1px solid rgba(184,134,11,.3);border-radius:4px;padding:1px 5px;white-space:nowrap;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.3}
+.pc-rp{font-size:10px;font-weight:700;color:#8b6914;white-space:nowrap;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.3}
+
+/* 中宫放大字体（跨 2×2） */
+#plate-table td.center .pc-shen{font-size:17px;letter-spacing:2px}
+#plate-table td.center .pc-xing,#plate-table td.center .pc-men{font-size:15px}
+#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:15px}
+#plate-table td.center .pc-tg{font-size:12px}
+#plate-table td.center .pc-rp{font-size:12px}
+#plate-table td.center .palace-tri{gap:8px}
 
 @media (max-width:380px){
-  #plate-table td{height:86px;padding:5px 3px}
-  .pc-shen{font-size:14px;margin-bottom:4px}
-  .pc-xing,.pc-men,.pc-tian,.pc-di,.pc-an{font-size:13px}
-  .pc-center-row{font-size:13px;gap:12px}
+  #plate-table td{height:86px;padding:3px}
+  .pc-shen{font-size:13px;letter-spacing:0}
+  .pc-xing,.pc-men{font-size:12px}
+  .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:12px}
+  #plate-table td.center .pc-shen{font-size:15px}
+  #plate-table td.center .pc-xing,#plate-table td.center .pc-men,#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:13px}
 }
 
 .analysis-hint{text-align:center;color:var(--sub);font-size:11px;padding:6px 16px 16px;font-family:"STKaiti","KaiTi","楷体",serif}
@@ -1559,59 +1577,42 @@ function renderTraditionalPlate() {
     const palace = palaceByIndex(cell.idx);
     if (!palace) return '<td class="empty"></td>';
     const isGuiShen = palace.shen === '贵神';
-    const menKw = KNOWLEDGE?.men?.[palace.men];
-    const menCls = menKw?.class || '';
+    // 中列：灵盘 / 天盘 / 人盘 / 地盘 竖排
     const ling = palace.lingGan || '';
-    const tg = palace.tianGan || '';
-    const ren = palace.diGan || '';
-    const dg = palace.diGan || '';
-    const an = palace.anGan || '';
-    const tg2 = palace.tiangang || '';
-    const rp = palace.riPaiJu || '';
+    const tg   = palace.tianGan || '';
+    const ren  = palace.renPan || palace.diGan || '';
+    const dg   = palace.diGanDisplay || palace.diGan || '';
+    // 右列：天罡 / 日排局 竖排 金色右对齐
+    const tg2  = palace.tiangang || '';
+    const rp   = palace.riPaiJu || '';
 
-    if (cell.center) {
-      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">
-        <div class="pc-tri">
-          <div class="pc-col pc-left">
-            <div class="pc-shen">${palace.shen}</div>
-            <div class="pc-xing">${palace.xing || '—'}</div>
-            <div class="pc-men men-${menCls}">${palace.men || '—'}</div>
-          </div>
-          <div class="pc-col pc-mid">
-            <div class="pc-ling">${ling}</div>
-            <div class="pc-tian">${tg}</div>
-            <div class="pc-ren">${ren}</div>
-            <div class="pc-di">${dg}</div>
-            <div class="pc-an">${an}</div>
-          </div>
-          <div class="pc-col pc-right">
-            <div class="pc-tiangang">${tg2}</div>
-            <div class="pc-ripai">${rp}</div>
-          </div>
-        </div>
-      </td>`;
-    }
-
-    return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">
-      <div class="pc-tri">
-        <div class="pc-col pc-left">
+    // 严格三列竖排布局（文档标准）：
+    // 左列(上→下)：神 / 星 / 门
+    // 中列(上→下)：灵盘 / 天盘 / 人盘 / 地盘
+    // 右列(上→下)：天罡 / 日排局 (金色右对齐)
+    const buildInner = () => `
+      <div class="palace-tri">
+        <div class="palace-col col-left">
           <div class="pc-shen">${palace.shen}</div>
           <div class="pc-xing">${palace.xing || '—'}</div>
-          <div class="pc-men men-${menCls}">${palace.men || '—'}</div>
+          <div class="pc-men m-${palace.men || '中'}">${palace.men || '—'}</div>
         </div>
-        <div class="pc-col pc-mid">
-          <div class="pc-ling">${ling}</div>
-          <div class="pc-tian">${tg}</div>
-          <div class="pc-ren">${ren}</div>
-          <div class="pc-di">${dg}</div>
-          <div class="pc-an">${an}</div>
+        <div class="palace-col col-mid">
+          ${ling ? `<div class="pc-ling">${ling}</div>` : '<div class="pc-ling">&nbsp;</div>'}
+          ${tg   ? `<div class="pc-tian">${tg}</div>`   : '<div class="pc-tian">&nbsp;</div>'}
+          ${ren  ? `<div class="pc-ren">${ren}</div>`   : '<div class="pc-ren">&nbsp;</div>'}
+          ${dg   ? `<div class="pc-di">${dg}</div>`     : '<div class="pc-di">&nbsp;</div>'}
         </div>
-        <div class="pc-col pc-right">
-          <div class="pc-tiangang">${tg2}</div>
-          <div class="pc-ripai">${rp}</div>
+        <div class="palace-col col-right">
+          ${tg2 ? `<div class="pc-tg">${tg2}</div>` : '<div class="pc-tg">&nbsp;</div>'}
+          ${rp  ? `<div class="pc-rp">${rp}</div>`  : '<div class="pc-rp">&nbsp;</div>'}
         </div>
-      </div>
-    </td>`;
+      </div>`;
+
+    if (cell.center) {
+      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
+    }
+    return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
   };
 
   let html = '';
@@ -2065,36 +2066,35 @@ function buildPaipanHTML(data, opts) {
       const palace = (data.palaces || [])[cell.idx];
       if (!palace) { plateRows += '<td class="empty"></td>'; continue; }
       const isGuiShen = palace.shen === '贵神';
-      const menKw = (typeof KNOWLEDGE !== 'undefined') ? (KNOWLEDGE?.men?.[palace.men]) : null;
-      const menCls = menKw?.class || '';
+      // PDF字段对齐渲染端顺序
       const ling = palace.lingGan || '';
-      const tg = palace.tianGan || '';
-      const ren = palace.diGan || '';
-      const dg = palace.diGan || '';
-      const an = palace.anGan || '';
-      const tg2 = palace.tiangang || '';
-      const rp = palace.riPaiJu || '';
+      const tg   = palace.tianGan || '';
+      const ren  = palace.renPan || palace.diGan || '';
+      const dg   = palace.diGanDisplay || palace.diGan || '';
+      const tg2  = palace.tiangang || '';
+      const rp   = palace.riPaiJu || '';
 
-      plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" ${cell.center ? 'colspan="2" rowspan="2"' : ''}>
+      // 排版严格三列竖排：左(神/星/门) / 中(灵/天/人/地) / 右(天罡/日排)
+      const inner = `
         <div class="exp-tri">
-          <div class="exp-col exp-left">
-            <div class="exp-shen">${palace.shen}</div>
-            <div class="exp-xing">${palace.xing || '—'}</div>
-            <div class="exp-men men-${menCls}">${palace.men || '—'}</div>
+          <div class="exp-col ecl">
+            <div class="es-shen">${palace.shen}</div>
+            <div class="es-xing">${palace.xing || '—'}</div>
+            <div><span class="es-men m-${palace.men || '中'}">${palace.men || '—'}</span></div>
           </div>
-          <div class="exp-col exp-mid">
-            <div class="exp-ling">${ling}</div>
-            <div class="exp-tian">${tg}</div>
-            <div class="exp-ren">${ren}</div>
-            <div class="exp-di">${dg}</div>
-            <div class="exp-an">${an}</div>
+          <div class="exp-col ecm">
+            ${ling ? `<div class="em-ling">${ling}</div>` : '<div class="em-ling">&nbsp;</div>'}
+            ${tg   ? `<div class="em-tian">${tg}</div>`   : '<div class="em-tian">&nbsp;</div>'}
+            ${ren  ? `<div class="em-ren">${ren}</div>`   : '<div class="em-ren">&nbsp;</div>'}
+            ${dg   ? `<div class="em-di">${dg}</div>`     : '<div class="em-di">&nbsp;</div>'}
           </div>
-          <div class="exp-col exp-right">
-            <div class="exp-tiangang">${tg2}</div>
-            <div class="exp-ripai">${rp}</div>
+          <div class="exp-col ecr">
+            ${tg2 ? `<div class="er-tiangang">${tg2}</div>` : '<div class="er-tiangang">&nbsp;</div>'}
+            ${rp  ? `<div class="er-ripai">${rp}</div>`    : '<div class="er-ripai">&nbsp;</div>'}
           </div>
-        </div>
-      </td>`;
+        </div>`;
+
+      plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" ${cell.center ? 'colspan="2" rowspan="2"' : ''}>${inner}</td>`;
     }
     plateRows += '</tr>';
   }
@@ -2144,41 +2144,37 @@ const EXPORT_STYLE = `
   .pillar .gz { font-size: 20px; font-weight: bold; margin-top: 3px; }
   .pillar .gz .gan { color: #b8860b; }
   .pillar .gz .zhi { color: #1c1a17; }
-  .plate { width: 100%; border-collapse: collapse; border: 1.5px solid #1c1a17; margin: 10px 0; }
-  .plate td { border: 1px solid #4a4743; padding: 5px 4px; vertical-align: top; height: 64px; font-size: 11px; background: #fff; position: relative; }
+  .plate { width: 100%; border-collapse: collapse; border: 1.5px solid #1c1a17; margin: 10px 0; table-layout: fixed; }
+  .plate td { border: 1px solid #4a4743; padding: 4px 5px; vertical-align: top; height: 64px; font-size: 11px; background: #fff; position: relative; box-sizing: border-box; }
   .plate td.empty { background: transparent; border: none; }
-  .plate td.gui-shen { background: #fffdf5; }
-  .plate .cell-inner { position: relative; height: 100%; }
-  .plate .shen-name { color: #b8860b; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 3px; }
-  .plate .cell-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 3px; }
-  .plate .cell-col { display: flex; flex-direction: column; gap: 1px; }
-  .plate .cell-col.left { align-items: flex-start; }
-  .plate .cell-col.right { align-items: flex-end; }
-  .plate .xing-name { color: #1c1a17; font-weight: 600; font-size: 12px; line-height: 1.6; }
-  .plate .men-name { font-weight: bold; font-size: 13px; line-height: 1.6; }
-  .plate .tg { font-weight: bold; color: #1c1a17; font-size: 12px; line-height: 1.6; }
-  .plate .dg { color: #4a4743; font-size: 12px; line-height: 1.6; }
-  .plate .gan-line { font-size: 12px; color: #4a4743; display: flex; justify-content: space-between; padding: 0 4px; line-height: 1.6; }
-  .plate .exp-tri { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; width: 100%; height: 100%; }
-  .plate .exp-col { display: flex; flex-direction: column; justify-content: space-between; gap: 1px; min-width: 0; }
-  .plate .exp-col.exp-left { align-items: flex-start; }
-  .plate .exp-col.exp-mid { align-items: flex-end; text-align: right; }
-  .plate .exp-col.exp-right { align-items: flex-end; text-align: right; }
-  .plate .exp-shen { color: #b8860b; font-weight: bold; font-size: 12px; letter-spacing: 1px; font-family: "KaiTi","STKaiti","楷体",serif; }
-  .plate .exp-xing { color: #1c1a17; font-weight: 600; font-size: 11px; line-height: 1.5; font-family: "KaiTi","STKaiti","楷体",serif; }
-  .plate .exp-men { font-weight: bold; font-size: 11px; line-height: 1.5; font-family: "KaiTi","STKaiti","楷体",serif; }
-  .plate .exp-ling { font-size: 11px; font-weight: 700; color: #6b4e00; font-family: "KaiTi","STKaiti","楷体",serif; }
-  .plate .exp-tian { font-size: 11px; font-weight: bold; color: #1c1a17; line-height: 1.5; }
-  .plate .exp-ren { font-size: 11px; font-weight: 700; color: #4a4743; line-height: 1.5; }
-  .plate .exp-di { font-size: 11px; color: #4a4743; line-height: 1.5; }
-  .plate .exp-an { font-size: 10px; color: #8c877e; line-height: 1.5; }
-  .plate .exp-tiangang { font-size: 10px; font-weight: 700; color: #b8860b; background: #fff8e6; border-radius: 3px; padding: 1px 3px; font-family: "KaiTi","STKaiti","楷体",serif; }
-  .plate .exp-ripai { font-size: 9px; color: #8c877e; margin-top: 1px; }
-  .men-大吉 { color: #2e7d32; }
-  .men-吉 { color: #388e3c; }
-  .men-中 { color: #d17a00; }
-  .men-凶 { color: #c62828; }
-  .men-大凶 { color: #fff; background: #c62828; border-radius: 3px; padding: 0 3px; }
+  .plate td.center { height: auto; vertical-align: middle; }
+  .plate td.gui-shen { background: linear-gradient(180deg,#fff8e1 0%,#fef3d0 100%); }
+  /* PDF 三列竖排布局（与渲染端三分区一致） */
+  .plate .exp-tri { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; width: 100%; height: 100%; box-sizing: border-box; }
+  .plate .exp-col { display: flex; flex-direction: column; justify-content: space-between; align-items: stretch; gap: 1px; min-width: 0; height: 100%; }
+  .plate .exp-col.ecl { align-items: flex-start; text-align: left; }
+  .plate .exp-col.ecm { align-items: center; text-align: center; }
+  .plate .exp-col.ecr { align-items: flex-end; text-align: right; }
+  /* 左列：神/星/门 */
+  .plate .es-shen { color: #b8860b; font-weight: bold; font-size: 12px; letter-spacing: 1px; font-family: "KaiTi","STKaiti","楷体",serif; white-space: nowrap; line-height: 1.3; }
+  .plate .es-xing { color: #1c1a17; font-weight: 600; font-size: 11px; font-family: "KaiTi","STKaiti","楷体",serif; line-height: 1.3; white-space: nowrap; }
+  .plate .es-men { font-weight: bold; font-size: 12px; line-height: 1.3; font-family: "KaiTi","STKaiti","楷体",serif; white-space: nowrap; }
+  .plate .es-men.m-吉,.plate .es-men.m-生,.plate .es-men.m-开 { color: #2e7d32; }
+  .plate .es-men.m-大凶,.plate .es-men.m-死,.plate .es-men.m-伤,.plate .es-men.m-冲,.plate .es-men.m-惊 { color: #c62828; }
+  .plate .es-men.m-休,.plate .es-men.m-杜,.plate .es-men.m-景,.plate .es-men.m-玄,.plate .es-men.m-天,.plate .es-men.m-从,.plate .es-men.m-大吉,.plate .es-men.m-凶,.plate .es-men.m-中 { color: #1c1a17; }
+  /* 中列：灵/天/人/地 */
+  .plate .em-ling { font-size: 11px; font-weight: 700; color: #6b4e00; font-family: "KaiTi","STKaiti","楷体",serif; line-height: 1.3; }
+  .plate .em-tian { font-size: 11px; font-weight: 700; color: #1c1a17; font-family: "KaiTi","STKaiti","楷体",serif; line-height: 1.3; }
+  .plate .em-ren  { font-size: 11px; font-weight: 700; color: #1c1a17; font-family: "KaiTi","STKaiti","楷体",serif; line-height: 1.3; }
+  .plate .em-di   { font-size: 11px; font-weight: 700; color: #4a4743; font-family: "KaiTi","STKaiti","楷体",serif; line-height: 1.3; }
+  /* 右列：天罡/日排 金色右对齐 */
+  .plate .er-tiangang { font-size: 9px; font-weight: 700; color: #b8860b; background: rgba(184,134,11,.12); border: 1px solid rgba(184,134,11,.25); border-radius: 3px; padding: 1px 4px; white-space: nowrap; font-family: "KaiTi","STKaiti","楷体",serif; text-align: right; line-height: 1.3; }
+  .plate .er-ripai { font-size: 9px; font-weight: 700; color: #8b6914; white-space: nowrap; text-align: right; line-height: 1.3; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .plate td.center .es-shen { font-size: 14px; letter-spacing: 2px; }
+  .plate td.center .es-xing { font-size: 12px; }
+  .plate td.center .es-men { font-size: 13px; }
+  .plate td.center .em-ling, .plate td.center .em-tian, .plate td.center .em-ren, .plate td.center .em-di { font-size: 12px; }
+  .plate td.center .exp-tri { gap: 5px; }
   .footer { text-align: center; font-size: 11px; color: #999; margin-top: 20px; }
   .no-print { text-align: center; margin: 15px; }
   .no-print button { padding: 8px 20px; font-size: 14px; cursor: pointer; background: #1c1a17; color: #fff; border: none; border-radius: 6px; font-family: "KaiTi","STKaiti","楷体",serif; }

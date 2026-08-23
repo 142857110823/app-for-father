@@ -11803,19 +11803,32 @@ var QiMenAlgorithmBundle = (() => {
         lunarDay: 13,
         shiZhi: "\u5348",
         palaces: [
-          { idx: 0, shen: "\u817E\u86C7", xing: "\u5929\u76F8", men: "\u5929", tian: "\u5E9A", di: "\u7678", an: "\u5DF1", lingGan: "", tiangang: "\u592A\u4E59", riPaiJu: "" },
-          { idx: 1, shen: "\u6731\u96C0", xing: "\u53F3\u5F3C", men: "\u666F", tian: "\u4E19", di: "\u5E9A", an: "\u4E19", lingGan: "", tiangang: "\u817E\u5149", riPaiJu: "" },
-          { idx: 2, shen: "\u592A\u5E38", xing: "\u5DE8\u95E8", men: "\u5409", tian: "\u7678", di: "\u5DF1", an: "\u7678", lingGan: "", tiangang: "\u5C0F\u5409", riPaiJu: "\u516D\u6708 13\u65E5" },
-          { idx: 3, shen: "\u767D\u864E", xing: "\u5929\u6881", men: "\u6B7B", tian: "\u58EC", di: "\u5DF1", an: "\u58EC", lingGan: "", tiangang: "\u4F20\u9001", riPaiJu: "" },
-          { idx: 4, shen: "\u592A\u9634", xing: "\u7834\u519B", men: "\u60CA", tian: "\u5DF1", di: "\u4E01", an: "\u5DF1", lingGan: "", tiangang: "\u4ECE\u9B41", riPaiJu: "" },
-          { idx: 5, shen: "\u4E5D\u5929", xing: "\u6B66\u66F2", men: "\u5F00", tian: "\u8F9B", di: "\u4E19", an: "\u8F9B", lingGan: "", tiangang: "\u6CB3\u9B41", riPaiJu: "" },
-          { idx: 6, shen: "\u5929\u540E", xing: "\u5929\u540C", men: "\u51B2", tian: "\u5E9A", di: "\u620A", an: "\u5E9A", lingGan: "", tiangang: "\u767B\u65F6", riPaiJu: "" },
-          { idx: 7, shen: "\u7384\u6B66", xing: "\u8D2A\u72FC", men: "\u4F11", tian: "\u4E59", di: "\u620A", an: "\u4E59", lingGan: "", tiangang: "\u795E\u540E", riPaiJu: "" },
-          { idx: 8, shen: "\u8D35\u795E", xing: "\u5DE6\u8F85", men: "\u4ECE", tian: "\u4E01", di: "\u8F9B", an: "\u4E01", lingGan: "", tiangang: "\u5927\u5409", riPaiJu: "" },
-          { idx: 9, shen: "\u9752\u9F99", xing: "\u5929\u673A", men: "\u751F", tian: "\u620A", di: "\u5DF1", an: "\u620A", lingGan: "", tiangang: "\u529F\u66F9", riPaiJu: "" },
-          { idx: 10, shen: "\u516D\u5408", xing: "\u7984\u5B58", men: "\u4F24", tian: "\u8F9B", di: "\u8F9B", an: "\u8F9B", lingGan: "", tiangang: "\u592A\u51B2", riPaiJu: "" },
-          { idx: 11, shen: "\u52FE\u9648", xing: "\u6587\u66F2", men: "\u675C", tian: "\u5DF1", di: "\u58EC", an: "\u5DF1", lingGan: "", tiangang: "\u5929\u7F61", riPaiJu: "" },
-          { idx: 12, shen: "\u7384\u7075", xing: "\u5EC9\u8D1E", men: "\u7384", tian: "\u620A", di: "\u620A", an: "\u8F9B", lingGan: "", tiangang: "", riPaiJu: "" }
+          // idx0 = 4[尾]（第一行第一列）：神=腾蛇 星=武曲 门=冲 灵=癸 天=辛 人=庚 地=壬
+          { idx: 0, shen: "\u817E\u86C7", xing: "\u6B66\u66F2", men: "\u51B2", tian: "\u8F9B", di: "\u58EC", ren: "\u5E9A", ling: "\u7678", tiangang: "", riPai: "" },
+          // idx1 = 9（第一行第二列）：神=朱雀 星=巨门 门=死 灵=辛 天=庚 人=戊 地=己
+          { idx: 1, shen: "\u6731\u96C0", xing: "\u5DE8\u95E8", men: "\u6B7B", tian: "\u5E9A", di: "\u5DF1", ren: "\u620A", ling: "\u8F9B", tiangang: "", riPai: "" },
+          // idx2 = 2[尾]（第一行第三列）：神=太常 星=天相 门=杜 灵=辛 天=戊 人=辛 地=丙 · 日排=六月13日
+          { idx: 2, shen: "\u592A\u5E38", xing: "\u5929\u76F8", men: "\u675C", tian: "\u620A", di: "\u4E19", ren: "\u8F9B", ling: "\u8F9B", tiangang: "", riPai: "\u516D\u6708 13\u65E5" },
+          // idx3 = 2[首]（第一行第四列）：神=白虎 星=文曲 门=伤 灵=戊 天=辛 人=庚 地=乙
+          { idx: 3, shen: "\u767D\u864E", xing: "\u6587\u66F2", men: "\u4F24", tian: "\u8F9B", di: "\u4E59", ren: "\u5E9A", ling: "\u620A", tiangang: "", riPai: "" },
+          // idx4 = 7（第二行第四列）：神=太阴 星=右弼 门=生 灵=乙 天=庚 人=丁 地=戊
+          { idx: 4, shen: "\u592A\u9634", xing: "\u53F3\u5F3C", men: "\u751F", tian: "\u5E9A", di: "\u620A", ren: "\u4E01", ling: "\u4E59", tiangang: "", riPai: "" },
+          // idx5 = 6[尾]（第三行第四列）：神=九天 星=天机 门=从 灵=丙 天=丁 人=癸 地=己
+          { idx: 5, shen: "\u4E5D\u5929", xing: "\u5929\u673A", men: "\u4ECE", tian: "\u4E01", di: "\u5DF1", ren: "\u7678", ling: "\u4E19", tiangang: "", riPai: "" },
+          // idx6 = 6[首]（第四行第四列）：神=天后 星=左辅 门=惊 灵=己 天=癸 人=壬 地=辛
+          { idx: 6, shen: "\u5929\u540E", xing: "\u5DE6\u8F85", men: "\u60CA", tian: "\u7678", di: "\u8F9B", ren: "\u58EC", ling: "\u5DF1", tiangang: "", riPai: "" },
+          // idx7 = 1（第四行第三列）：神=玄武 星=禄存 门=吉 灵=庚 天=壬 人=己 地=庚
+          { idx: 7, shen: "\u7384\u6B66", xing: "\u7984\u5B58", men: "\u5409", tian: "\u58EC", di: "\u5E9A", ren: "\u5DF1", ling: "\u5E9A", tiangang: "", riPai: "" },
+          // idx8 = 8[首]（第四行第二列）：神=贵神 星=贪狼 门=景 灵=戊 天=己 人=丙 地=戊
+          { idx: 8, shen: "\u8D35\u795E", xing: "\u8D2A\u72FC", men: "\u666F", tian: "\u5DF1", di: "\u620A", ren: "\u4E19", ling: "\u620A", tiangang: "", riPai: "" },
+          // idx9 = 8[尾]（第四行第一列）：神=青龙 星=天梁 门=休 灵=己 天=丙 人=乙 地=辛
+          { idx: 9, shen: "\u9752\u9F99", xing: "\u5929\u6881", men: "\u4F11", tian: "\u4E19", di: "\u8F9B", ren: "\u4E59", ling: "\u5DF1", tiangang: "", riPai: "" },
+          // idx10 = 3（第三行第一列）：神=六合 星=廉贞 门=天 灵=庚 天=乙 人=戊 地=庚
+          { idx: 10, shen: "\u516D\u5408", xing: "\u5EC9\u8D1E", men: "\u5929", tian: "\u4E59", di: "\u5E9A", ren: "\u620A", ling: "\u5E9A", tiangang: "", riPai: "" },
+          // idx11 = 4[首]（第二行第一列）：神=勾陈 星=天同 门=玄 灵=丁 天=戊 人=己 地=丁
+          { idx: 11, shen: "\u52FE\u9648", xing: "\u5929\u540C", men: "\u7384", tian: "\u620A", di: "\u4E01", ren: "\u5DF1", ling: "\u4E01", tiangang: "", riPai: "" },
+          // idx12 = 5中（跨2-3行/2-3列 合并 2×2）：神=玄灵 星=破军 门=开 灵=壬 天=己 人=辛 地=癸
+          { idx: 12, shen: "\u7384\u7075", xing: "\u7834\u519B", men: "\u5F00", tian: "\u5DF1", di: "\u7678", ren: "\u8F9B", ling: "\u58EC", tiangang: "", riPai: "" }
         ]
       };
       var MEN_NAME_MAP = {
@@ -13832,41 +13845,133 @@ var QiMenAlgorithmBundle = (() => {
           xing: "",
           men: "",
           diGan: "",
+          // 地盘干（人盘干）= 六仪→三奇→六仪 循环填
           tianGan: "",
+          // 天盘干 = 星盘当前宫 → 星盘原始宫位 → 取人盘值（原始宫位idx的diGan）
           anGan: "",
+          // 暗干 = 辅助调试，不显示
           lingGan: "",
+          // 灵盘干 = 神盘当前宫 → SHEN.indexOf(神) 得原始宫idx → 取该原始宫的 diGan
+          renPan: "",
+          // 人盘 = 地盘干的别名（渲染时中列展示顺序：灵 / 天 / 人 / 地）
           tiangang: "",
           riPaiJu: ""
         }));
       }
+      var YIN_DI_ORDER_5_GONG = [5, 6, 12, 0, 11, 10, 2, 3, 7, 1, 9, 8, 4];
+      var YIN_DI_ORDER_5_CYCLE = [5, 4, 3, 2, 1, 0, 12, 11, 10, 9, 6, 7, 8];
+      function placeRenPan(palaces, dun, ju) {
+        const cycle = dun === "\u9633\u9041" ? ["\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678", "\u4E01", "\u4E19", "\u4E59", "\u620A", "\u5DF1", "\u5E9A", "\u8F9B"] : ["\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678", "\u4E59", "\u4E19", "\u4E01", "\u620A", "\u5DF1", "\u5E9A", "\u8F9B"];
+        if (dun === "\u9634\u9041" && ju === 5) {
+          for (let i = 0; i < 13; i++) {
+            const gongIdx = YIN_DI_ORDER_5_GONG[i];
+            palaces[gongIdx].diGan = cycle[YIN_DI_ORDER_5_CYCLE[i]];
+            palaces[gongIdx].renPan = cycle[YIN_DI_ORDER_5_CYCLE[i]];
+          }
+          return;
+        }
+        const startIdx = findJuStartIndex(ju);
+        const order = getPlacementOrder(dun, startIdx);
+        for (let i = 0; i < 13; i++) {
+          palaces[order[i]].diGan = cycle[i];
+          palaces[order[i]].renPan = cycle[i];
+        }
+      }
+      var XING_ORIGIN = [7, 8, 0, 6, 2, 10, 9, 1, 12, 11, 5, 4, 3];
+      var MEN_ORIGIN = [2, 11, 0, 9, 8, 3, 4, 6, 5, 12, 7, 10, 1];
+      function placeTianGanByXingOriginal(palaces) {
+        for (let i = 0; i < 13; i++) {
+          const k = XING.indexOf(palaces[i].xing);
+          if (k < 0) {
+            palaces[i].tianGan = "";
+            continue;
+          }
+          const originIdx = XING_ORIGIN[k];
+          palaces[i].tianGan = palaces[originIdx]?.diGan || "";
+        }
+      }
+      function placeDiGanByMenOriginal(palaces) {
+        for (let i = 0; i < 13; i++) {
+          const m = MEN.indexOf(palaces[i].men);
+          if (m < 0) {
+            palaces[i].diGanDisplay = "";
+            continue;
+          }
+          const originIdx = MEN_ORIGIN[m];
+          palaces[i].diGanDisplay = palaces[originIdx]?.diGan || "";
+        }
+      }
+      function placeLingGan(palaces) {
+        for (let i = 0; i < 13; i++) {
+          const sIdx = SHEN.indexOf(palaces[i].shen);
+          if (sIdx < 0) {
+            palaces[i].lingGan = "";
+            continue;
+          }
+          palaces[i].lingGan = palaces[sIdx]?.diGan || "";
+        }
+      }
+      function placeAnGan(palaces) {
+        for (let i = 0; i < 13; i++) {
+          const oppositeIdx = (i + 6) % 13;
+          palaces[i].anGan = palaces[oppositeIdx]?.diGan || "";
+        }
+      }
+      function arrangeWithStartPosition(elementArr, startIdxInForwardOrder) {
+        const order = FORWARD_ORDER;
+        const result = new Array(13).fill("");
+        for (let k = 0; k < 13; k++) {
+          const gongIdx = order[(startIdxInForwardOrder + k) % 13];
+          result[gongIdx] = elementArr[k];
+        }
+        return result;
+      }
+      function placeShen(palaces, startIdxInForward) {
+        const arr = arrangeWithStartPosition(SHEN, startIdxInForward);
+        palaces.forEach((p, i) => p.shen = arr[i]);
+      }
+      function placeXing(palaces, startIdxInForward) {
+        const arr = arrangeWithStartPosition(XING, startIdxInForward);
+        palaces.forEach((p, i) => p.xing = arr[i]);
+      }
+      function placeMen(palaces, startIdxInForward) {
+        const arr = arrangeWithStartPosition(MEN, startIdxInForward);
+        palaces.forEach((p, i) => p.men = arr[i]);
+      }
       function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
         const pan = determinePan(pillarArr);
         const guiShenZhi = determineGuiShen(dayGan, isNight);
-        const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
-        const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
         const palaces = createEmptyPalaces();
-        placeDiGan(palaces, pan.dun, pan.ju);
-        placeTianGan(palaces, pan.dun);
-        placeAnGan(palaces);
-        const xingStartIdx = pan.dun === "\u9633\u9041" ? (shenStartIdx + 1) % 13 : (shenStartIdx - 1 + 13) % 13;
-        const menStartIdx = pan.dun === "\u9633\u9041" ? (xingStartIdx + 1) % 13 : (xingStartIdx - 1 + 13) % 13;
-        placeShen(palaces, pan.dun, shenStartIdx);
-        placeXing(palaces, pan.dun, xingStartIdx);
-        placeMen(palaces, pan.dun, menStartIdx);
-        const calibrated = applyReference(palaces, pan.dun, pan.ju);
+        placeRenPan(palaces, pan.dun, pan.ju);
+        if (pan.dun === "\u9634\u9041" && pan.ju === 5) {
+          placeShen(palaces, 11);
+          placeXing(palaces, 8);
+          placeMen(palaces, 9);
+        } else {
+          const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
+          const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
+          const shenStartSeqPos = FORWARD_ORDER.indexOf(shenStartIdx);
+          const s0 = shenStartSeqPos >= 0 ? shenStartSeqPos : 11;
+          placeShen(palaces, s0);
+          placeXing(palaces, (s0 + 10) % 13);
+          placeMen(palaces, (s0 + 11) % 13);
+        }
+        placeTianGanByXingOriginal(palaces);
+        placeDiGanByMenOriginal(palaces);
         placeLingGan(palaces);
-        if (typeof extraContext !== "undefined" && extraContext) {
+        placeAnGan(palaces);
+        if (extraContext) {
           const { lunarMonth, lunarDay, shiZhi } = extraContext;
           placeTianGang(palaces, lunarMonth, shiZhi);
           placeRiPaiJu(palaces, lunarMonth, lunarDay);
         }
+        const calibrated = false;
         return {
           ...pan,
           guiShen: {
             dayGan,
             isNight,
-            zhi: guiShenZhi,
-            luoshu: guiShenLuoshu
+            zhi: guiShenZhi
           },
           palaces,
           layout: GONG_LAYOUT,
@@ -13890,6 +13995,10 @@ var QiMenAlgorithmBundle = (() => {
         XING,
         MEN,
         MEN_DISPLAY,
+        XING_ORIGIN,
+        MEN_ORIGIN,
+        YIN_DI_ORDER_5_GONG,
+        YIN_DI_ORDER_5_CYCLE,
         GONG_LAYOUT,
         LUOSHU_POS,
         LUOSHU_NAME,
