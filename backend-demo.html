@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<title>后端功能演示 - 道家奇门遁甲</title>
+<style>
+:root{
+  --bg:#f7f5f0;
+  --card:#fffdf8;
+  --card-2:#faf7f0;
+  --ink:#1c1a17;
+  --ink-2:#4a4743;
+  --sub:#8c877e;
+  --line:#e3ddd2;
+  --gold:#b8860b;
+  --green:#2e7d32;
+  --red:#c62828;
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","KaiTi","STKaiti","楷体",serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;min-height:100vh}
+body{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+a{color:var(--gold);text-decoration:none}
+.brand{text-align:center;margin-bottom:20px}
+.brand h1{font-size:22px;letter-spacing:6px;font-family:"STKaiti","KaiTi","楷体",serif}
+.brand p{font-size:12px;color:var(--sub);margin-top:6px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;padding:16px;border:1px solid var(--line)}
+.card-title{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;font-family:"STKaiti","KaiTi","楷体",serif}
+.card-title::before{content:"";width:3px;height:14px;background:var(--ink);border-radius:2px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:12px;color:var(--sub);margin-bottom:4px}
+.field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;background:#fff}
+.btn{width:100%;padding:12px;background:var(--ink);color:#fff;border-radius:var(--radius-sm);font-size:15px;border:none;cursor:pointer;margin-top:6px;font-family:"STKaiti","KaiTi","楷体",serif}
+.btn:active{opacity:.85}
+.btn.secondary{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn-row{display:flex;gap:8px}
+.btn-row .btn{flex:1}
+.result{margin-top:12px;padding:12px;background:var(--card-2);border-radius:var(--radius-sm);font-size:12px;white-space:pre-wrap;word-break:break-all;max-height:240px;overflow:auto;border:1px solid var(--line)}
+.result.ok{border-color:var(--green);color:var(--green)}
+.result.err{border-color:var(--red);color:var(--red)}
+.token-box{font-size:11px;color:var(--sub);margin-top:8px;word-break:break-all}
+.status{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:12px;color:var(--sub)}
+.status span{padding:4px 10px;background:var(--card);border-radius:20px;border:1px solid var(--line)}
+.back{position:fixed;top:12px;left:12px;padding:8px 12px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:13px;z-index:10}
+</style>
+</head>
+<body>
+<a class="back" href="/">← 返回排盘</a>
+<div class="brand">
+  <h1>后端功能演示</h1>
+  <p>在此页面可直观验证【完善方向】中的全部后端接口</p>
+</div>
+
+<div class="status" id="status">
+  <span>未登录</span>
+</div>
+
+<div class="card">
+  <div class="card-title">1. 账号与认证</div>
+  <div class="field">
+    <label>手机号</label>
+    <input id="phone" value="13800138000" placeholder="13800138000">
+  </div>
+  <div class="field">
+    <label>密码</label>
+    <input id="password" value="123456" placeholder="不少于6位">
+  </div>
+  <div class="btn-row">
+    <button class="btn" onclick="call('POST','/api/auth/register',{phone:gv('phone'),password:gv('password')},'regRes')">注册</button>
+    <button class="btn secondary" onclick="call('POST','/api/auth/login',{phone:gv('phone'),password:gv('password')},'regRes')">登录</button>
+  </div>
+  <div class="btn-row">
+    <button class="btn secondary" onclick="call('POST','/api/auth/login-by-sms',{phone:gv('phone'),code:'123456'},'regRes')">短信登录</button>
+    <button class="btn secondary" onclick="call('POST','/api/auth/logout',{},'regRes')">登出</button>
+  </div>
+  <div class="token-box" id="tokenBox"></div>
+  <div class="result" id="regRes">点击上方按钮测试</div>
+</div>
+
+<div class="card">
+  <div class="card-title">2. 用户资料</div>
+  <div class="field">
+    <label>昵称</label>
+    <input id="nickname" value="测试用户">
+  </div>
+  <button class="btn" onclick="call('PUT','/api/user/profile',{nickname:gv('nickname')},'profileRes')">更新资料</button>
+  <button class="btn secondary" onclick="call('GET','/api/user/profile',null,'profileRes')">获取资料</button>
+  <div class="result" id="profileRes"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">3. 排盘历史</div>
+  <button class="btn" onclick="call('POST','/api/history',{title:'演示排盘',solar_date:'2026-08-14',pillars:'丙午 丙申 庚申 癸未',pan:'阴盘',dun:'阳遁',ju:5,result_json:{note:'demo'}},'historyRes')">保存一条历史</button>
+  <button class="btn secondary" onclick="call('GET','/api/history?page=1&size=5',null,'historyRes')">查看历史列表</button>
+  <div class="result" id="historyRes"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">4. 支付与会员</div>
+  <button class="btn" onclick="call('GET','/api/payment/plans',null,'planRes')">查看会员套餐</button>
+  <button class="btn secondary" onclick="call('GET','/api/payment/orders',null,'planRes')">我的订单</button>
+  <div class="result" id="planRes"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">5. AI 智能体</div>
+  <button class="btn" onclick="call('GET','/api/ai/quota',null,'aiRes')">查询额度</button>
+  <button class="btn secondary" onclick="call('GET','/api/ai/chats?page=1&size=5',null,'aiRes')">对话记录</button>
+  <div class="result" id="aiRes"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">6. 通知与运营</div>
+  <button class="btn" onclick="call('GET','/api/notification/announcements',null,'notiRes')">系统公告</button>
+  <button class="btn secondary" onclick="call('GET','/api/notification/messages',null,'notiRes')">我的消息</button>
+  <div class="result" id="notiRes"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">7. 服务健康</div>
+  <button class="btn" onclick="call('GET','/api/health',null,'healthRes')">健康检查</button>
+  <button class="btn secondary" onclick="call('GET','/api/paipan?y=2026&m=8&d=14&h=14&min=22',null,'healthRes')">排盘接口</button>
+  <div class="result" id="healthRes"></div>
+</div>
+
+<script>
+let token = localStorage.getItem('demo_token') || '';
+function gv(id){return document.getElementById(id).value}
+function setToken(t){token=t;localStorage.setItem('demo_token',t);document.getElementById('tokenBox').textContent=t?'当前 Token: '+t.slice(0,40)+'...':'';updateStatus(t?'已登录':'未登录')}
+function updateStatus(s){document.getElementById('status').innerHTML='<span>'+s+'</span>'}
+if(token){updateStatus('已登录（来自 localStorage）');document.getElementById('tokenBox').textContent='当前 Token: '+token.slice(0,40)+'...'}
+
+async function call(method,url,body,outId){
+  const el=document.getElementById(outId);
+  el.textContent='请求中...';el.className='result';
+  try{
+    const opt={method,headers:{'Content-Type':'application/json'}};
+    if(token)opt.headers.Authorization='Bearer '+token;
+    if(body)opt.body=JSON.stringify(body);
+    const r=await fetch(url,opt);
+    const data=await r.json();
+    el.textContent=JSON.stringify(data,null,2);
+    el.className='result '+(data.ok?'ok':'err');
+    if(data.ok && data.data && data.data.token)setToken(data.data.token);
+  }catch(e){
+    el.textContent='请求失败: '+e.message;
+    el.className='result err';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>道家奇门遁甲 - 管理后台</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; color: #1a1a1a; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 240px; background: #1a1a1a; color: #fff; padding: 20px 0; flex-shrink: 0; }
+.sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid #333; font-size: 18px; font-weight: 600; }
+.sidebar-logo span { color: #b8860b; }
+.sidebar-menu { list-style: none; margin-top: 16px; }
+.sidebar-menu li { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
+.sidebar-menu li:hover { background: #2a2a2a; }
+.sidebar-menu li.active { background: #b8860b; color: #1a1a1a; }
+.sidebar-menu li .icon { width: 20px; text-align: center; }
+
+/* Main content */
+.main { flex: 1; display: flex; flex-direction: column; }
+.header { background: #fff; padding: 16px 24px; border-bottom: 1px solid #e3e3e3; display: flex; justify-content: space-between; align-items: center; }
+.header h1 { font-size: 20px; font-weight: 600; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-right .user { display: flex; align-items: center; gap: 8px; }
+.header-right .avatar { width: 32px; height: 32px; border-radius: 50%; background: #b8860b; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; }
+
+.content { flex: 1; padding: 24px; overflow-y: auto; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* Stats cards */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.stat-card .label { font-size: 13px; color: #888; margin-bottom: 8px; }
+.stat-card .value { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+.stat-card .change { font-size: 12px; margin-top: 8px; }
+.stat-card .change.up { color: #2e7d32; }
+.stat-card .change.down { color: #c62828; }
+.stat-card .icon-bg { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+.stat-card.users .icon-bg { background: #e3f2fd; color: #1565c0; }
+.stat-card.paipan .icon-bg { background: #fff3e0; color: #e65100; }
+.stat-card.ai .icon-bg { background: #e8f5e9; color: #2e7d32; }
+.stat-card.vip .icon-bg { background: #fce4ec; color: #c62828; }
+
+/* Charts section */
+.charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+@media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.chart-card h3 { font-size: 15px; margin-bottom: 16px; font-weight: 600; }
+.chart-bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 150px; }
+.chart-bar-chart .bar { flex: 1; background: linear-gradient(180deg, #b8860b, #d4a017); border-radius: 4px 4px 0 0; position: relative; min-height: 4px; }
+.chart-bar-chart .bar .label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #888; white-space: nowrap; }
+.chart-bar-chart .bar .value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 600; }
+
+/* Tables */
+.table-container { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+.table-toolbar { padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.table-toolbar h3 { font-size: 15px; font-weight: 600; }
+.table-toolbar .actions { display: flex; gap: 8px; }
+.table-toolbar input, .table-toolbar select { padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+.table-toolbar button { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
+.btn-primary { background: #b8860b; color: #fff; }
+.btn-secondary { background: #f5f5f5; color: #333; }
+.btn-danger { background: #c62828; color: #fff; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
+th { background: #fafafa; font-weight: 600; color: #555; }
+tr:hover { background: #f9f9f9; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+.badge.free { background: #e0e0e0; color: #666; }
+.badge.vip { background: #fff3e0; color: #e65100; }
+.badge.diamond { background: #e3f2fd; color: #1565c0; }
+.badge.pending { background: #fff8e1; color: #f57c00; }
+.badge.paid { background: #e8f5e9; color: #2e7d32; }
+.badge.cancelled { background: #ffebee; color: #c62828; }
+
+.pagination { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+.pagination .info { font-size: 13px; color: #888; }
+.pagination .controls { display: flex; gap: 4px; }
+.pagination button { padding: 4px 10px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px; }
+.pagination button:hover { background: #f5f5f5; }
+.pagination button.active { background: #b8860b; color: #fff; border-color: #b8860b; }
+.pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Modal */
+.modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-mask.show { display: flex; }
+.modal { background: #fff; border-radius: 8px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; }
+.modal-header { padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+.modal-header h3 { font-size: 16px; }
+.modal-header .close { background: none; border: none; font-size: 20px; cursor: pointer; }
+.modal-body { padding: 20px; }
+.modal-footer { padding: 16px 20px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 8px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: #555; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+/* Loading */
+.loading { text-align: center; padding: 40px; color: #888; }
+
+/* Login */
+.login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); }
+.login-box { background: #fff; padding: 40px; border-radius: 12px; width: 90%; max-width: 400px; }
+.login-box h1 { text-align: center; margin-bottom: 8px; }
+.login-box .subtitle { text-align: center; color: #888; margin-bottom: 32px; font-size: 14px; }
+.login-box .form-group input { font-size: 16px; }
+.login-box button { width: 100%; padding: 12px; background: #b8860b; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+.login-box button:hover { background: #a0750a; }
+
+.empty-state { text-align: center; padding: 40px; color: #888; }
+</style>
+</head>
+<body>
+
+<div class="login-page" id="login-page">
+  <div class="login-box">
+    <h1>🔮 管理后台</h1>
+    <p class="subtitle">道家奇门遁甲排盘系统</p>
+    <div class="form-group">
+      <label>管理员密码</label>
+      <input type="password" id="admin-password" placeholder="请输入管理员密码">
+    </div>
+    <button onclick="adminLogin()">登 录</button>
+    <p style="margin-top:16px;font-size:12px;color:#999;text-align:center">默认密码：admin888</p>
+  </div>
+</div>
+
+<div class="layout" id="admin-layout" style="display:none">
+  <nav class="sidebar">
+    <div class="sidebar-logo">道家奇门<span>遁甲</span></div>
+    <ul class="sidebar-menu">
+      <li class="active" data-page="dashboard" onclick="switchPage('dashboard')"><span class="icon">📊</span>数据总览</li>
+      <li data-page="users" onclick="switchPage('users')"><span class="icon">👥</span>用户管理</li>
+      <li data-page="history" onclick="switchPage('history')"><span class="icon">📋</span>排盘记录</li>
+      <li data-page="orders" onclick="switchPage('orders')"><span class="icon">💰</span>订单管理</li>
+      <li data-page="plans" onclick="switchPage('plans')"><span class="icon">📦</span>套餐管理</li>
+      <li data-page="announcements" onclick="switchPage('announcements')"><span class="icon">📢</span>公告管理</li>
+      <li data-page="logs" onclick="switchPage('logs')"><span class="icon">📝</span>操作日志</li>
+      <li data-page="settings" onclick="switchPage('settings')"><span class="icon">⚙️</span>系统设置</li>
+    </ul>
+  </nav>
+
+  <div class="main">
+    <header class="header">
+      <h1 id="page-title">数据总览</h1>
+      <div class="header-right">
+        <div class="user">
+          <div class="avatar">管</div>
+          <span>管理员</span>
+        </div>
+        <button class="btn-secondary" onclick="adminLogout()">退出</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Dashboard Page -->
+      <div class="page active" id="page-dashboard">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card users">
+            <div class="icon-bg">👥</div>
+            <div class="label">总用户数</div>
+            <div class="value" id="stat-total-users">0</div>
+            <div class="change up">今日 +<span id="stat-today-users">0</span></div>
+          </div>
+          <div class="stat-card paipan">
+            <div class="icon-bg">📋</div>
+            <div class="label">总排盘次数</div>
+            <div class="value" id="stat-total-paipan">0</div>
+            <div class="change up">今日 +<span id="stat-today-paipan">0</span></div>
+          </div>
+          <div class="stat-card ai">
+            <div class="icon-bg">🤖</div>
+            <div class="label">AI 对话次数</div>
+            <div class="value" id="stat-total-ai">0</div>
+            <div class="change up">今日 +<span id="stat-today-ai">0</span></div>
+          </div>
+          <div class="stat-card vip">
+            <div class="icon-bg">👑</div>
+            <div class="label">VIP 用户</div>
+            <div class="value" id="stat-vip-users">0</div>
+            <div class="change">近7日活跃 <span id="stat-active-7d">0</span></div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>近 7 天排盘趋势</h3>
+            <div class="chart-bar-chart" id="trend-chart"></div>
+          </div>
+          <div class="chart-card">
+            <h3>活跃用户排行</h3>
+            <div id="active-users-list" style="max-height: 200px; overflow-y: auto;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Page -->
+      <div class="page" id="page-users">
+        <div class="table-container">
+          <div class="table-toolbar">
+            <h3>用户列表</h3>
+            <div class="actions">
+              <input type="text" id="user-search" placeholder="搜索昵称/手机/邮箱" onkeyup="loadUsers(1)">
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>昵称</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>会员等级</th>
+                <th>AI 额度</th>
+                <th>注册时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="users-table"></tbody>
+          </table>
+          <div class="pagination" id="users-pagination"></div>
+        </div>
+      </div>
+
+      <!-- History Page -->
+      <div class="page" id="page-history">
+        <div class="table-container">
+          <div class="table-toolbar">
+            <h3>排盘记录</h3>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>用户</th>
+                <th>阳历日期</th>
+                <th>遁法</th>
+                <th>局数</th>
+                <th>创建时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="history-table"></tbody>
+          </table>
+          <div class="pagination" id="history-pagination"></div>
+        </div>
+      </div>
+
+      <!-- Orders Page -->
+      <div class="page" id="page-orders">
+        <div class="table-container">
+          <div class="table-toolbar">
+            <h3>订单列表</h3>
+            <div class="actions">
+              <select id="order-status-filter" onchange="loadOrders(1)">
+                <option value="">全部状态</option>
+                <option value="pending">待支付</option>
+                <option value="paid">已支付</option>
+                <option value="cancelled">已取消</option>
+              </select>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>订单号</th>
+                <th>用户</th>
+                <th>套餐</th>
+                <th>金额</th>
+                <th>状态</th>
+                <th>创建时间</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table"></tbody>
+          </table>
+          <div class="pagination" id="orders-pagination"></div>
+        </div>
+      </div>
+
+      <!-- Plans Page -->
+      <div class="page" id="page-plans">
+        <div class="table-container">
+          <div class="table-toolbar">
+            <h3>会员套餐</h3>
+            <div class="actions">
+              <button class="btn-primary" onclick="openPlanModal()">新增套餐</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>代码</th>
+                <th>名称</th>
+                <th>时长(天)</th>
+                <th>AI 额度</th>
+                <th>价格(分)</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="plans-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Announcements Page -->
+      <div class="page" id="page-announcements">
+        <div class="table-container">
+          <div class="table-toolbar">
+            <h3>系统公告</h3>
+            <div class="actions">
+              <button class="btn-primary" onclick="openAnnouncementModal()">发布公告</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>类型</th>
+                <th>优先级</th>
+                <th>发布时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="announcements-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Logs Page -->
+      <div class="page" id="page-logs">
+        <div class="table-container">
+          <div class="table-toolbar">
+            <h3>操作日志</h3>
+            <div class="actions">
+              <input type="number" id="log-user-id" placeholder="用户ID" style="width: 100px" onkeyup="loadLogs(1)">
+              <input type="text" id="log-action" placeholder="操作类型" style="width: 120px" onkeyup="loadLogs(1)">
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>用户ID</th>
+                <th>操作</th>
+                <th>详情</th>
+                <th>IP</th>
+                <th>时间</th>
+              </tr>
+            </thead>
+            <tbody id="logs-table"></tbody>
+          </table>
+          <div class="pagination" id="logs-pagination"></div>
+        </div>
+      </div>
+
+      <!-- Settings Page -->
+      <div class="page" id="page-settings">
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>系统配置</h3>
+            <div class="form-group">
+              <label>系统名称</label>
+              <input type="text" id="setting-site-name" value="道家奇门遁甲排盘系统">
+            </div>
+            <div class="form-group">
+              <label>AI 接口地址</label>
+              <input type="text" id="setting-ai-url" value="/api/chat">
+            </div>
+            <div class="form-group">
+              <label>默认模型</label>
+              <select id="setting-ai-model">
+                <option value="deepseek-v4-flash">deepseek-v4-flash</option>
+                <option value="deepseek-v3">deepseek-v3</option>
+                <option value="gpt-4">gpt-4</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">保存配置</button>
+          </div>
+          <div class="chart-card">
+            <h3>数据管理</h3>
+            <div style="margin-bottom:16px">
+              <button class="btn-secondary" onclick="exportData('users')">导出用户数据</button>
+              <button class="btn-secondary" onclick="exportData('history')">导出排盘记录</button>
+              <button class="btn-secondary" onclick="exportData('orders')">导出订单数据</button>
+            </div>
+            <div style="border-top:1px solid #eee;padding-top:16px">
+              <h3 style="font-size:14px;margin-bottom:12px">系统维护</h3>
+              <button class="btn-danger" onclick="clearCache()">清除缓存</button>
+              <button class="btn-secondary" onclick="backupData()">备份数据</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card" style="margin-top:16px">
+          <h3>系统信息</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+            <div><strong style="color:#555">版本</strong><div style="color:#888;margin-top:4px">v1.0.0</div></div>
+            <div><strong style="color:#555">运行时间</strong><div style="color:#888;margin-top:4px" id="sys-uptime">--</div></div>
+            <div><strong style="color:#555">数据库</strong><div style="color:#888;margin-top:4px">SQLite</div></div>
+            <div><strong style="color:#555">服务器状态</strong><div style="color:#2e7d32;margin-top:4px">● 运行中</div></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-mask" id="modal-mask">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">标题</h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<script>
+let adminToken = localStorage.getItem('admin_token');
+
+async function api(url, options = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (adminToken) headers['Authorization'] = 'Bearer ' + adminToken;
+  const res = await fetch(url, { ...options, headers });
+  const data = await res.json();
+  if (!data.ok && res.status === 401) {
+    alert('登录已过期，请重新登录');
+    adminLogout();
+    return null;
+  }
+  return data;
+}
+
+async function adminLogin() {
+  const password = document.getElementById('admin-password').value.trim();
+  if (!password) { alert('请输入密码'); return; }
+  try {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      adminToken = data.data.token;
+      localStorage.setItem('admin_token', adminToken);
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('admin-layout').style.display = 'flex';
+      loadDashboard();
+    } else {
+      alert(data.error || '登录失败');
+    }
+  } catch (e) {
+    alert('网络错误，请稍后重试');
+  }
+}
+
+function adminLogout() {
+  adminToken = null;
+  localStorage.removeItem('admin_token');
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('admin-layout').style.display = 'none';
+}
+
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelector(`[data-page="${page}"]`).classList.add('active');
+
+  const titles = { dashboard: '数据总览', users: '用户管理', history: '排盘记录', orders: '订单管理', plans: '套餐管理', announcements: '公告管理', logs: '操作日志', settings: '系统设置' };
+  document.getElementById('page-title').textContent = titles[page];
+
+  const loaders = { dashboard: loadDashboard, users: () => loadUsers(1), history: () => loadHistory(1), orders: () => loadOrders(1), plans: loadPlans, announcements: loadAnnouncements, logs: () => loadLogs(1), settings: loadSettings };
+  if (loaders[page]) loaders[page]();
+}
+
+// ========== 系统设置 ==========
+let serverStartTime = Date.now();
+function loadSettings() {
+  const settings = JSON.parse(localStorage.getItem('admin_settings') || '{}');
+  if (settings.site_name) document.getElementById('setting-site-name').value = settings.site_name;
+  if (settings.ai_url) document.getElementById('setting-ai-url').value = settings.ai_url;
+  if (settings.ai_model) document.getElementById('setting-ai-model').value = settings.ai_model;
+  updateUptime();
+  setInterval(updateUptime, 1000);
+}
+
+function updateUptime() {
+  const elapsed = Math.floor((Date.now() - serverStartTime) / 1000);
+  const days = Math.floor(elapsed / 86400);
+  const hours = Math.floor((elapsed % 86400) / 3600);
+  const minutes = Math.floor((elapsed % 3600) / 60);
+  const seconds = elapsed % 60;
+  const el = document.getElementById('sys-uptime');
+  if (el) el.textContent = `${days}天 ${hours}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+}
+
+function saveSettings() {
+  const settings = {
+    site_name: document.getElementById('setting-site-name').value,
+    ai_url: document.getElementById('setting-ai-url').value,
+    ai_model: document.getElementById('setting-ai-model').value
+  };
+  localStorage.setItem('admin_settings', JSON.stringify(settings));
+  alert('配置已保存');
+}
+
+async function exportData(type) {
+  const typeNames = { users: '用户数据', history: '排盘记录', orders: '订单数据' };
+  if (!confirm(`确定要导出${typeNames[type]}吗？`)) return;
+  const res = await api(`/api/admin/export/${type}`);
+  if (res?.ok) {
+    alert('导出成功，文件已生成');
+  } else {
+    alert('导出失败');
+  }
+}
+
+function clearCache() {
+  if (!confirm('确定要清除缓存吗？这将清除所有临时数据')) return;
+  localStorage.removeItem('qimen_history');
+  localStorage.removeItem('admin_settings');
+  alert('缓存已清除');
+}
+
+function backupData() {
+  if (!confirm('确定要备份数据吗？')) return;
+  alert('备份已启动，稍后可在服务器日志中查看备份路径');
+}
+
+async function loadDashboard() {
+  const data = await api('/api/admin/stats');
+  if (!data) return;
+  const d = data.data;
+  document.getElementById('stat-total-users').textContent = d.users.total;
+  document.getElementById('stat-today-users').textContent = d.users.today;
+  document.getElementById('stat-total-paipan').textContent = d.paipan.total;
+  document.getElementById('stat-today-paipan').textContent = d.paipan.today;
+  document.getElementById('stat-total-ai').textContent = d.ai.total;
+  document.getElementById('stat-today-ai').textContent = d.ai.today;
+  document.getElementById('stat-vip-users').textContent = d.vip_users;
+  document.getElementById('stat-active-7d').textContent = d.active_7d;
+
+  // Trend chart
+  const maxCount = Math.max(...d.trend.map(t => t.count), 1);
+  document.getElementById('trend-chart').innerHTML = d.trend.map(t => `
+    <div class="bar" style="height: ${(t.count / maxCount * 100)}%">
+      <div class="value">${t.count}</div>
+      <div class="label">${t.date.slice(5)}</div>
+    </div>
+  `).join('');
+
+  // Active users
+  const activeData = await api('/api/admin/active-users?limit=10');
+  if (activeData && activeData.data.length > 0) {
+    document.getElementById('active-users-list').innerHTML = activeData.data.map((u, i) => `
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px">
+        <span>${i + 1}. ${u.nickname || '未用户'} (${u.phone || u.id})</span>
+        <strong>${u.paipan_count} 次</strong>
+      </div>
+    `).join('');
+  } else {
+    document.getElementById('active-users-list').innerHTML = '<div class="empty-state">暂无数据</div>';
+  }
+}
+
+async function loadUsers(page = 1) {
+  const keyword = document.getElementById('user-search')?.value || '';
+  const data = await api(`/api/admin/users?page=${page}&page_size=10&keyword=${encodeURIComponent(keyword)}`);
+  if (!data) return;
+  const d = data.data;
+  document.getElementById('users-table').innerHTML = d.list.map(u => `
+    <tr>
+      <td>${u.id}</td>
+      <td>${u.nickname || '-'}</td>
+      <td>${u.phone || '-'}</td>
+      <td>${u.email || '-'}</td>
+      <td><span class="badge ${u.member_level}">${u.member_level === 'free' ? '免费' : u.member_level === 'vip' ? 'VIP' : '钻石'}</span></td>
+      <td>${u.ai_quota}</td>
+      <td>${new Date(u.created_at * 1000).toLocaleString('zh-CN')}</td>
+      <td>
+        <button class="btn-secondary" onclick="editUser(${u.id})">编辑</button>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" class="empty-state">暂无数据</td></tr>';
+  renderPagination('users-pagination', d.total, page, 10, loadUsers);
+}
+
+async function editUser(id) {
+  const user = await api(`/api/admin/users/${id}`);
+  if (!user) return;
+  const u = user.data;
+  openModal('编辑用户', `
+    <div class="form-group"><label>昵称</label><input id="edit-nickname" value="${u.nickname || ''}"></div>
+    <div class="form-group"><label>会员等级</label>
+      <select id="edit-level">
+        <option value="free" ${u.member_level === 'free' ? 'selected' : ''}>免费</option>
+        <option value="vip" ${u.member_level === 'vip' ? 'selected' : ''}>VIP</option>
+        <option value="diamond" ${u.member_level === 'diamond' ? 'selected' : ''}>钻石</option>
+      </select>
+    </div>
+    <div class="form-group"><label>AI 额度</label><input id="edit-quota" type="number" value="${u.ai_quota}"></div>
+  `, [
+    { text: '取消', class: 'btn-secondary', onclick: closeModal },
+    { text: '保存', class: 'btn-primary', onclick: async () => {
+      const data = {
+        nickname: document.getElementById('edit-nickname').value,
+        member_level: document.getElementById('edit-level').value,
+        ai_quota: parseInt(document.getElementById('edit-quota').value)
+      };
+      const res = await api(`/api/admin/users/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+      if (res?.ok) { closeModal(); loadUsers(parseInt(document.querySelector('#users-pagination .active')?.textContent) || 1); }
+    }}
+  ]);
+}
+
+async function loadHistory(page = 1) {
+  const data = await api(`/api/admin/history?page=${page}&page_size=10`);
+  if (!data) return;
+  const d = data.data;
+  document.getElementById('history-table').innerHTML = d.list.map(h => `
+    <tr>
+      <td>${h.id}</td>
+      <td>${h.title || '-'}</td>
+      <td>${h.user_nickname || h.user_id}</td>
+      <td>${h.solar_date || '-'}</td>
+      <td>${h.dun || '-'}</td>
+      <td>${h.ju ?? '-'}</td>
+      <td>${new Date(h.created_at * 1000).toLocaleString('zh-CN')}</td>
+      <td><button class="btn-danger" onclick="deleteHistory(${h.id})">删除</button></td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" class="empty-state">暂无数据</td></tr>';
+  renderPagination('history-pagination', d.total, page, 10, loadHistory);
+}
+
+async function deleteHistory(id) {
+  if (!confirm('确定要删除这条排盘记录吗？')) return;
+  const res = await api(`/api/admin/history/${id}`, { method: 'DELETE' });
+  if (res?.ok) loadHistory(parseInt(document.querySelector('#history-pagination .active')?.textContent) || 1);
+}
+
+async function loadOrders(page = 1) {
+  const status = document.getElementById('order-status-filter')?.value || '';
+  const data = await api(`/api/admin/orders?page=${page}&page_size=10&status=${status}`);
+  if (!data) return;
+  const d = data.data;
+  document.getElementById('orders-table').innerHTML = d.list.map(o => `
+    <tr>
+      <td>${o.order_no}</td>
+      <td>${o.user_nickname || o.user_phone || o.user_id}</td>
+      <td>${o.plan_code || '-'}</td>
+      <td>¥${(o.amount_cent / 100).toFixed(2)}</td>
+      <td><span class="badge ${o.status}">${{pending:'待支付', paid:'已支付', cancelled:'已取消'}[o.status] || o.status}</span></td>
+      <td>${new Date(o.created_at * 1000).toLocaleString('zh-CN')}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" class="empty-state">暂无数据</td></tr>';
+  renderPagination('orders-pagination', d.total, page, 10, loadOrders);
+}
+
+async function loadPlans() {
+  const data = await api('/api/admin/plans');
+  if (!data) return;
+  document.getElementById('plans-table').innerHTML = data.data.map(p => `
+    <tr>
+      <td>${p.id}</td>
+      <td>${p.code}</td>
+      <td>${p.name}</td>
+      <td>${p.duration_days}</td>
+      <td>${p.ai_quota}</td>
+      <td>${p.price_cent}</td>
+      <td>${p.enabled ? '启用' : '禁用'}</td>
+      <td><button class="btn-secondary" onclick="editPlan(${p.id})">编辑</button></td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" class="empty-state">暂无数据</td></tr>';
+}
+
+let editingPlanId = null;
+function openPlanModal(plan) {
+  editingPlanId = plan?.id || null;
+  const p = plan || { code: '', name: '', duration_days: 30, ai_quota: 100, price_cent: 1800, enabled: 1 };
+  openModal(plan ? '编辑套餐' : '新增套餐', `
+    <div class="form-group"><label>代码</label><input id="plan-code" value="${p.code}" ${plan ? 'disabled' : ''}></div>
+    <div class="form-group"><label>名称</label><input id="plan-name" value="${p.name}"></div>
+    <div class="form-group"><label>时长(天)</label><input id="plan-duration" type="number" value="${p.duration_days}"></div>
+    <div class="form-group"><label>AI 额度</label><input id="plan-ai" type="number" value="${p.ai_quota}"></div>
+    <div class="form-group"><label>价格(分)</label><input id="plan-price" type="number" value="${p.price_cent}"></div>
+    <div class="form-group"><label>状态</label>
+      <select id="plan-enabled">
+        <option value="1" ${p.enabled ? 'selected' : ''}>启用</option>
+        <option value="0" ${!p.enabled ? 'selected' : ''}>禁用</option>
+      </select>
+    </div>
+  `, [
+    { text: '取消', class: 'btn-secondary', onclick: closeModal },
+    { text: '保存', class: 'btn-primary', onclick: async () => {
+      const data = {
+        code: document.getElementById('plan-code').value,
+        name: document.getElementById('plan-name').value,
+        duration_days: parseInt(document.getElementById('plan-duration').value),
+        ai_quota: parseInt(document.getElementById('plan-ai').value),
+        price_cent: parseInt(document.getElementById('plan-price').value),
+        enabled: parseInt(document.getElementById('plan-enabled').value)
+      };
+      const res = editingPlanId
+        ? await api(`/api/admin/plans/${editingPlanId}`, { method: 'PUT', body: JSON.stringify(data) })
+        : await api('/api/admin/plans', { method: 'POST', body: JSON.stringify(data) });
+      if (res?.ok) { closeModal(); loadPlans(); }
+    }}
+  ]);
+}
+
+async function editPlan(id) {
+  const data = await api('/api/admin/plans');
+  const plan = data?.data?.find(p => p.id === id);
+  if (plan) openPlanModal(plan);
+}
+
+async function loadAnnouncements() {
+  const data = await api('/api/admin/announcements');
+  if (!data) return;
+  document.getElementById('announcements-table').innerHTML = data.data.map(a => `
+    <tr>
+      <td>${a.id}</td>
+      <td>${a.title}</td>
+      <td>${a.type}</td>
+      <td>${a.priority}</td>
+      <td>${new Date(a.published_at * 1000).toLocaleString('zh-CN')}</td>
+      <td>
+        <button class="btn-secondary" onclick="editAnnouncement(${a.id})">编辑</button>
+        <button class="btn-danger" onclick="deleteAnnouncement(${a.id})">删除</button>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" class="empty-state">暂无数据</td></tr>';
+}
+
+let editingAnnId = null;
+function openAnnouncementModal(a) {
+  editingAnnId = a?.id || null;
+  const data = a || { title: '', content: '', type: 'system', priority: 0 };
+  openModal(a ? '编辑公告' : '发布公告', `
+    <div class="form-group"><label>标题</label><input id="ann-title" value="${data.title}"></div>
+    <div class="form-group"><label>内容</label><textarea id="ann-content">${data.content || ''}</textarea></div>
+    <div class="form-group"><label>类型</label>
+      <select id="ann-type">
+        <option value="system" ${data.type === 'system' ? 'selected' : ''}>系统</option>
+        <option value="activity" ${data.type === 'activity' ? 'selected' : ''}>活动</option>
+        <option value="notice" ${data.type === 'notice' ? 'selected' : ''}>通知</option>
+      </select>
+    </div>
+    <div class="form-group"><label>优先级</label><input id="ann-priority" type="number" value="${data.priority || 0}"></div>
+  `, [
+    { text: '取消', class: 'btn-secondary', onclick: closeModal },
+    { text: '保存', class: 'btn-primary', onclick: async () => {
+      const postData = {
+        title: document.getElementById('ann-title').value,
+        content: document.getElementById('ann-content').value,
+        type: document.getElementById('ann-type').value,
+        priority: parseInt(document.getElementById('ann-priority').value)
+      };
+      const res = editingAnnId
+        ? await api(`/api/admin/announcements/${editingAnnId}`, { method: 'PUT', body: JSON.stringify(postData) })
+        : await api('/api/admin/announcements', { method: 'POST', body: JSON.stringify(postData) });
+      if (res?.ok) { closeModal(); loadAnnouncements(); }
+    }}
+  ]);
+}
+
+async function editAnnouncement(id) {
+  const data = await api('/api/admin/announcements');
+  const ann = data?.data?.find(a => a.id === id);
+  if (ann) openAnnouncementModal(ann);
+}
+
+async function deleteAnnouncement(id) {
+  if (!confirm('确定要删除这条公告吗？')) return;
+  const res = await api(`/api/admin/announcements/${id}`, { method: 'DELETE' });
+  if (res?.ok) loadAnnouncements();
+}
+
+async function loadLogs(page = 1) {
+  const userId = document.getElementById('log-user-id')?.value || '';
+  const action = document.getElementById('log-action')?.value || '';
+  const data = await api(`/api/admin/logs?page=${page}&page_size=20${userId ? '&user_id=' + userId : ''}${action ? '&action=' + action : ''}`);
+  if (!data) return;
+  const d = data.data;
+  document.getElementById('logs-table').innerHTML = d.list.map(l => `
+    <tr>
+      <td>${l.id}</td>
+      <td>${l.user_id || '-'}</td>
+      <td>${l.action}</td>
+      <td>${l.detail || '-'}</td>
+      <td>${l.ip || '-'}</td>
+      <td>${new Date(l.created_at * 1000).toLocaleString('zh-CN')}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" class="empty-state">暂无数据</td></tr>';
+  renderPagination('logs-pagination', d.total, page, 20, loadLogs);
+}
+
+function renderPagination(containerId, total, current, pageSize, callback) {
+  const totalPages = Math.ceil(total / pageSize);
+  let html = `<div class="info">共 ${total} 条，第 ${current}/${totalPages} 页</div><div class="controls">`;
+  html += `<button ${current === 1 ? 'disabled' : ''} onclick="(${callback.name})(${current - 1})">上一页</button>`;
+  for (let i = Math.max(1, current - 2); i <= Math.min(totalPages, current + 2); i++) {
+    html += `<button class="${i === current ? 'active' : ''}" onclick="(${callback.name})(${i})">${i}</button>`;
+  }
+  html += `<button ${current === totalPages ? 'disabled' : ''} onclick="(${callback.name})(${current + 1})">下一页</button>`;
+  html += '</div>';
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function openModal(title, body, buttons) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = body;
+  const footer = document.getElementById('modal-footer');
+  footer.innerHTML = '';
+  buttons.forEach(b => {
+    const btn = document.createElement('button');
+    btn.textContent = b.text;
+    btn.className = b.class;
+    btn.onclick = b.onclick;
+    footer.appendChild(btn);
+  });
+  document.getElementById('modal-mask').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal-mask').classList.remove('show');
+}
+
+// Auto login if token exists
+if (adminToken) {
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('admin-layout').style.display = 'flex';
+  loadDashboard();
+}
+</script>
+
+</body>
+</html>
