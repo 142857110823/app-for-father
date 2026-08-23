@@ -22,8 +22,8 @@ const SAN_QI_YANG = ['丁', '丙', '乙'];
 /** 阴遁三奇顺序 */
 const SAN_QI_YIN = ['乙', '丙', '丁'];
 
-/** 十三神默认顺序 */
-const SHEN = ['贵神', '腾蛇', '朱雀', '六合', '勾陈', '青龙', '玄灵', '九天', '白虎', '九地', '玄武', '太阴', '天后'];
+/** 十三神默认顺序（2(1)(1)文档 TABLE 16 标准） */
+const SHEN = ['玄武', '白虎', '太常', '六合', '勾陈', '腾蛇', '玄灵', '天后', '九天', '太阴', '贵神', '青龙', '朱雀'];
 
 /** 十三星默认顺序 */
 const XING = ['贪狼', '天梁', '巨门', '禄存', '文曲', '天相', '廉贞', '天同', '武曲', '破军', '左辅', '天机', '右弼'];
@@ -248,6 +248,70 @@ function placeAnGan(palaces) {
   }
 }
 
+// ============ 灵盘 ============
+function placeLingGan(palaces) {
+  for (let i = 0; i < 13; i++) {
+    const shenName = palaces[i].shen;
+    const originalIdx = SHEN.indexOf(shenName);
+    if (originalIdx === -1) { palaces[i].lingGan = ''; continue; }
+    const diGanAtOriginal = palaces[originalIdx]?.diGan || '';
+    palaces[i].lingGan = diGanAtOriginal;
+  }
+}
+
+// ============ 天罡系统 ============
+function placeTianGang(palaces, lunarMonth, shiZhi) {
+  const K = globalThis.KNOWLEDGE || (typeof require !== 'undefined' ? require('./knowledge.js') : {}) || {};
+  const TABLE = K.TIANGANG_TABLE;
+  const ORIG = K.TIANGANG_ORIGINAL;
+  const ELEMS = K.TIANGANG_ELEMENTS;
+  if (!TABLE || !ORIG || !ELEMS) {
+    palaces.forEach(p => p.tiangang = '');
+    return;
+  }
+  const col = ((lunarMonth - 1) % 12 + 12) % 12;
+  const FANG_ORDER = {'午':0,'未':1,'申':2,'酉':3,'戌':4,'亥':5,'子':6,'丑':7,'寅':8,'卯':9,'辰':10,'巳':11};
+  const SHI_TO_FANG_ROW = {
+    '寅':0,'卯':1,'辰':2,'巳':3,
+    '午':4,'未':5,'申':6,'酉':7,
+    '戌':8,'亥':9,'子':10,'丑':11
+  };
+  const row = SHI_TO_FANG_ROW[shiZhi];
+  if (row === undefined) { palaces.forEach(p => p.tiangang = ''); return; }
+  const directionZhi = TABLE[row][col];
+  const ZHI_TO_IDX = K.ZODIAC_GONG_INDEX || {};
+  const startIdx = ZHI_TO_IDX[directionZhi];
+  if (startIdx === undefined) { palaces.forEach(p => p.tiangang = ''); return; }
+  const PERIPHERY_ORDER = [0,1,2,3,4,5,6,7,8,9,10,11];
+  const startPos = PERIPHERY_ORDER.indexOf(startIdx);
+  if (startPos === -1) { palaces.forEach(p => p.tiangang = ''); return; }
+  palaces.forEach(p => p.tiangang = '');
+  for (let i = 0; i < 12; i++) {
+    const gongIdx = PERIPHERY_ORDER[(startPos + i) % 12];
+    palaces[gongIdx].tiangang = ELEMS[i];
+  }
+}
+
+// ============ 日排局 ============
+function placeRiPaiJu(palaces, lunarMonth, dayOfMonth) {
+  const K = globalThis.KNOWLEDGE || (typeof require !== 'undefined' ? require('./knowledge.js') : {}) || {};
+  const MONTHS = K.RI_PAIJU_MONTH_CONFIG;
+  const MONTH_LABEL = K.RI_PAIJU_MONTH_LABEL;
+  if (!MONTHS) { palaces.forEach(p => p.riPaiJu = ''); return; }
+  palaces.forEach(p => p.riPaiJu = '');
+  // 日排局匹配规则：日期号（1-31）分散在 12 个月份配置表的日期簇中
+  // 不依据当前农历月份匹配，而是按日期号全局匹配到对应月份配置的宫位
+  // 例如：22号属于十月簇 → 卯宫 idx10；13号属于六月簇 → 未宫 idx2
+  if (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31) return;
+  for (const mc of MONTHS) {
+    if (mc.dates.includes(dayOfMonth)) {
+      const label = `${MONTH_LABEL ? MONTH_LABEL[mc.month] : mc.month+'月'} ${dayOfMonth}日`;
+      palaces[mc.gongIdx].riPaiJu = label;
+      return;
+    }
+  }
+}
+
 // ============ 参考校准 ============
 
 function getReferenceKey(dun, ju) {
@@ -282,11 +346,14 @@ function createEmptyPalaces() {
     men: '',
     diGan: '',
     tianGan: '',
-    anGan: ''
+    anGan: '',
+    lingGan: '',
+    tiangang: '',
+    riPaiJu: ''
   }));
 }
 
-function fullPaiPan(pillarArr, dayGan, isNight) {
+function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
   const pan = determinePan(pillarArr);
   const guiShenZhi = determineGuiShen(dayGan, isNight);
   const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
@@ -315,6 +382,16 @@ function fullPaiPan(pillarArr, dayGan, isNight) {
 
   // 4. 参考校准：对已知参考案例做精确替换
   const calibrated = applyReference(palaces, pan.dun, pan.ju);
+
+  // 5. 灵盘（神原始宫位→地盘）
+  placeLingGan(palaces);
+
+  // 6. 天罡 + 日排局：需要 农历月日 + 时支
+  if (typeof extraContext !== 'undefined' && extraContext) {
+    const { lunarMonth, lunarDay, shiZhi } = extraContext;
+    placeTianGang(palaces, lunarMonth, shiZhi);
+    placeRiPaiJu(palaces, lunarMonth, lunarDay);
+  }
 
   return {
     ...pan,

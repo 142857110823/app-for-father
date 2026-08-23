@@ -1460,6 +1460,63 @@ function matchGeJu(tiangan, digan) {
   return matched;
 }
 
+// ============ 天罡系统知识 ============
+const TIANGANG_ELEMENTS = ['天罡', '太乙', '腾光', '小吉', '传送', '从魁', '河魁', '登时', '神后', '大吉', '功曹', '太冲'];
+
+const ZODIAC_GONG_INDEX = {
+  '巳': 0, '午': 1, '未': 2, '申': 3,
+  '辰': 11, '酉': 4,
+  '卯': 10, '戌': 5,
+  '寅': 9, '丑': 8, '子': 7, '亥': 6
+};
+
+const ZODIAC_TO_ZHI = {
+  '猪': '亥', '鼠': '子', '牛': '丑', '虎': '寅', '兔': '卯', '龙': '辰',
+  '蛇': '巳', '马': '午', '羊': '未', '猴': '申', '鸡': '酉', '狗': '戌'
+};
+
+const TIANGANG_ORIGINAL = {
+  '太乙': 0, '腾光': 1, '小吉': 2, '传送': 3,
+  '天罡': 11, '从魁': 4,
+  '太冲': 10, '河魁': 5,
+  '功曹': 9, '大吉': 8, '神后': 7, '登时': 6
+};
+
+const TIANGANG_TABLE = [
+  ['午','巳','辰','卯','寅','丑','子','亥','戌','酉','申','未'],
+  ['未','午','巳','辰','卯','寅','丑','子','亥','戌','酉','申'],
+  ['申','未','午','巳','辰','卯','寅','丑','子','亥','戌','酉'],
+  ['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'],
+  ['戌','酉','申','未','午','巳','辰','卯','寅','丑','子','亥'],
+  ['亥','戌','酉','申','未','午','巳','辰','卯','寅','丑','子'],
+  ['子','亥','戌','酉','申','未','午','巳','辰','卯','寅','丑'],
+  ['丑','子','亥','戌','酉','申','未','午','巳','辰','卯','寅'],
+  ['寅','丑','子','亥','戌','酉','申','未','午','巳','辰','卯'],
+  ['卯','寅','丑','子','亥','戌','酉','申','未','午','巳','辰'],
+  ['辰','卯','寅','丑','子','亥','戌','酉','申','未','午','巳'],
+  ['巳','辰','卯','寅','丑','子','亥','戌','酉','申','未','午']
+];
+const SHI_ZHI_TO_ROW = {'子':0,'丑':1,'寅':2,'卯':3,'辰':4,'巳':5,'午':6,'未':7,'申':8,'酉':9,'戌':10,'亥':11};
+const FANG_ZHI_TO_ROW = SHI_ZHI_TO_ROW;
+
+// ============ 日排局知识 ============
+const RI_PAIJU_MONTH_CONFIG = [
+  { month: 1,  gongIdx: 7,  dates: [1,2,3,29,30,31] },
+  { month: 2,  gongIdx: 6,  dates: [4,5] },
+  { month: 3,  gongIdx: 5,  dates: [6,7] },
+  { month: 4,  gongIdx: 4,  dates: [8,9,10] },
+  { month: 5,  gongIdx: 3,  dates: [11,12] },
+  { month: 6,  gongIdx: 2,  dates: [13,14] },
+  { month: 7,  gongIdx: 1,  dates: [15,16,17] },
+  { month: 8,  gongIdx: 0,  dates: [18,19] },
+  { month: 9,  gongIdx: 11, dates: [20,21] },
+  { month: 10, gongIdx: 10, dates: [22,23,24] },
+  { month: 11, gongIdx: 9,  dates: [25,26] },
+  { month: 12, gongIdx: 8,  dates: [27,28] }
+];
+
+const RI_PAIJU_MONTH_LABEL = ['','正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
 // ============ 导出 ============
 const knowledgeModule = {
   KNOWLEDGE,
@@ -1471,7 +1528,10 @@ const knowledgeModule = {
   getShenSha,
   analyzePalace,
   getGeJu,
-  matchGeJu
+  matchGeJu,
+  TIANGANG_ELEMENTS, ZODIAC_GONG_INDEX, TIANGANG_ORIGINAL,
+  TIANGANG_TABLE, SHI_ZHI_TO_ROW, FANG_ZHI_TO_ROW,
+  RI_PAIJU_MONTH_CONFIG, RI_PAIJU_MONTH_LABEL, ZODIAC_TO_ZHI
 };
 
 if (typeof module !== 'undefined' && module.exports) {
@@ -1488,4 +1548,9 @@ if (typeof window !== 'undefined') {
   window.analyzePalace = analyzePalace;
   window.getGeJu = getGeJu;
   window.matchGeJu = matchGeJu;
+  Object.assign(window.KNOWLEDGE, {
+    TIANGANG_ELEMENTS, ZODIAC_GONG_INDEX, TIANGANG_ORIGINAL,
+    TIANGANG_TABLE, SHI_ZHI_TO_ROW, FANG_ZHI_TO_ROW,
+    RI_PAIJU_MONTH_CONFIG, RI_PAIJU_MONTH_LABEL, ZODIAC_TO_ZHI
+  });
 }

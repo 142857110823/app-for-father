@@ -37,6 +37,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// 管理后台路由
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '2mb' }));
 

@@ -57,10 +57,15 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
   const pillarArr = [pillars.year, pillars.month, pillars.day, pillars.time];
   const dayGan = pillars.gan.day;
   const night = isNightHour(hour);
-  
-  // 调用 qimen.js 的核心排盘函数
-  const result = corePaiPan(pillarArr, dayGan, night);
-  
+
+  const solar = Solar.fromYmdHms(year, month, day, hour, minute || 0, 0);
+  const lunar = solar.getLunar();
+  const lunarMonth = lunar.getMonth();
+  const lunarDay = lunar.getDay();
+  const shiZhi = pillars.zhi.time;
+
+  const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi });
+
   return {
     input: { year, month, day, hour, minute },
     pillars,
@@ -75,7 +80,12 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     guiShen: result.guiShen,
     palaces: result.palaces,
     layout: result.layout,
-    luoshuCoords: result.luoshuCoords
+    luoshuCoords: result.luoshuCoords,
+    calibrated: result.calibrated,
+    lunarMonth,
+    lunarDay,
+    shiZhi,
+    extraContext: { lunarMonth, lunarDay, shiZhi }
   };
 }
 

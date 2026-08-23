@@ -1,5 +1,5 @@
 // 参考文档解析数据
-// 来源：排盘-【阴盘-阳遁-5局】.docx、排盘-【阴盘-阴遁-5局】.docx
+// 来源：排盘-【阴盘-阳遁-5局】.docx、排盘-【阴盘-阴遁-5局】 2(1)(1).docx
 // 用途：作为算法校准与单元测试的 Ground Truth
 
 // 十三宫空间索引定义（与 algorithm/qimen.js 中的 GONG_LAYOUT 保持一致）
@@ -21,7 +21,7 @@ const GONG_ORDER = [
 ];
 
 // 阴盘-阳遁-5局（2026-08-14 14:22 丙午 丙申 庚申 癸未）
-// 单元格格式：神 / 星 / 门 / 天盘干 / 地盘干 / 暗干
+// 单元格格式：神 / 星 / 门 / 天盘干 / 地盘干 / 暗干 / 灵盘干 / 天罡 / 日排局
 const YANG_DUN_5 = {
   pan: '阴盘',
   dun: '阳遁',
@@ -31,25 +31,25 @@ const YANG_DUN_5 = {
   isNight: false,
   guiShenZhi: '丑',
   palaces: [
-    { idx: 0,  shen: '白虎', xing: '武曲', men: '死门', tian: '庚', di: '乙', an: '辛' },
-    { idx: 1,  shen: '朱雀', xing: '巨门', men: '开门', tian: '戊', di: '辛', an: '丁' },
-    { idx: 2,  shen: '青龙', xing: '天相', men: '生门', tian: '辛', di: '癸', an: '戊' },
-    { idx: 3,  shen: '勾陈', xing: '文曲', men: '从门', tian: '庚', di: '壬', an: '乙' },
-    { idx: 4,  shen: '天后', xing: '右弼', men: '天门', tian: '丁', di: '辛', an: '辛' },
-    { idx: 5,  shen: '太阴', xing: '天机', men: '杜门', tian: '癸', di: '庚', an: '庚' },
-    { idx: 6,  shen: '玄武', xing: '左辅', men: '伤门', tian: '壬', di: '己', an: '己' },
-    { idx: 7,  shen: '六合', xing: '禄存', men: '惊门', tian: '己', di: '辛', an: '丙' },
-    { idx: 8,  shen: '贵神', xing: '贪狼', men: '玄门', tian: '丙', di: '戊', an: '壬' },
-    { idx: 9,  shen: '腾蛇', xing: '天梁', men: '冲门', tian: '乙', di: '己', an: '癸' },
-    { idx: 10, shen: '玄灵', xing: '廉贞', men: '景门', tian: '戊', di: '丁', an: '己' },
-    { idx: 11, shen: '九天', xing: '天同', men: '休门', tian: '己', di: '丙', an: '庚' },
-    { idx: 12, shen: '九地', xing: '破军', men: '吉门', tian: '辛', di: '戊', an: '戊' }
+    { idx: 0,  shen: '白虎', xing: '武曲', men: '死', tian: '庚', di: '乙', an: '辛', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 1,  shen: '朱雀', xing: '巨门', men: '开', tian: '戊', di: '辛', an: '丁', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 2,  shen: '青龙', xing: '天相', men: '生', tian: '辛', di: '癸', an: '戊', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 3,  shen: '勾陈', xing: '文曲', men: '从', tian: '庚', di: '壬', an: '乙', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 4,  shen: '天后', xing: '右弼', men: '天', tian: '丁', di: '辛', an: '辛', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 5,  shen: '太阴', xing: '天机', men: '杜', tian: '癸', di: '庚', an: '庚', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 6,  shen: '玄武', xing: '左辅', men: '伤', tian: '壬', di: '己', an: '己', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 7,  shen: '六合', xing: '禄存', men: '惊', tian: '己', di: '辛', an: '丙', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 8,  shen: '贵神', xing: '贪狼', men: '玄', tian: '丙', di: '戊', an: '壬', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 9,  shen: '腾蛇', xing: '天梁', men: '冲', tian: '乙', di: '己', an: '癸', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 10, shen: '玄灵', xing: '廉贞', men: '景', tian: '戊', di: '丁', an: '己', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 11, shen: '九天', xing: '天同', men: '休', tian: '己', di: '丙', an: '庚', lingGan: '', tiangang: '', riPaiJu: '' },
+    { idx: 12, shen: '太常', xing: '破军', men: '吉', tian: '辛', di: '戊', an: '戊', lingGan: '', tiangang: '', riPaiJu: '' }
   ]
 };
 
 // 阴盘-阴遁-5局（2026-08-14 12:22 丙午 丙申 庚申 壬午）
-// 单元格格式：神 / 星 / 门 / 天盘干 / 地盘干 / 暗干
-// 注：docx 最终表格未列出中宫天盘干与暗干，此处按“旋转一位 / 对冲 6 位”规则补齐。
+// 农历七月十三 午时 (lunarMonth=7, lunarDay=13, shiZhi='午')
+// 神盘(TABLE 16) 星盘(TABLE 9) 门盘(TABLE 2/5) 天干(TABLE 0) 按 2(1)(1) 文档校准
 const YIN_DUN_5 = {
   pan: '阴盘',
   dun: '阴遁',
@@ -58,20 +58,23 @@ const YIN_DUN_5 = {
   dayGan: '庚',
   isNight: false,
   guiShenZhi: '丑',
+  lunarMonth: 7,
+  lunarDay: 13,
+  shiZhi: '午',
   palaces: [
-    { idx: 0,  shen: '九天', xing: '巨门', men: '吉门', tian: '癸', di: '癸', an: '庚' },
-    { idx: 1,  shen: '天后', xing: '天同', men: '冲门', tian: '庚', di: '庚', an: '丙' },
-    { idx: 2,  shen: '玄武', xing: '天相', men: '天门', tian: '庚', di: '己', an: '癸' },
-    { idx: 3,  shen: '九地', xing: '文曲', men: '杜门', tian: '己', di: '己', an: '壬' },
-    { idx: 4,  shen: '勾陈', xing: '左辅', men: '从门', tian: '丁', di: '丁', an: '己' },
-    { idx: 5,  shen: '太阴', xing: '右弼', men: '景门', tian: '丙', di: '丙', an: '辛' },
-    { idx: 6,  shen: '朱雀', xing: '天机', men: '生门', tian: '戊', di: '戊', an: '庚' },
-    { idx: 7,  shen: '太阴', xing: '廉贞', men: '玄门', tian: '戊', di: '戊', an: '乙' },
-    { idx: 8,  shen: '贵神', xing: '武曲', men: '开门', tian: '辛', di: '辛', an: '丁' },
-    { idx: 9,  shen: '腾蛇', xing: '破军', men: '惊门', tian: '己', di: '己', an: '戊' },
-    { idx: 10, shen: '白虎', xing: '禄存', men: '伤门', tian: '辛', di: '辛', an: '辛' },
-    { idx: 11, shen: '玄灵', xing: '天梁', men: '死门', tian: '壬', di: '壬', an: '己' },
-    { idx: 12, shen: '青龙', xing: '贪狼', men: '休门', tian: '庚', di: '戊', an: '辛' }
+    { idx: 0,  shen: '腾蛇', xing: '天相', men: '天', tian: '庚', di: '癸', an: '己', lingGan: '', tiangang: '太乙', riPaiJu: '' },
+    { idx: 1,  shen: '朱雀', xing: '右弼', men: '景', tian: '丙', di: '庚', an: '丙', lingGan: '', tiangang: '腾光', riPaiJu: '' },
+    { idx: 2,  shen: '太常', xing: '巨门', men: '吉', tian: '癸', di: '己', an: '癸', lingGan: '', tiangang: '小吉', riPaiJu: '六月 13日' },
+    { idx: 3,  shen: '白虎', xing: '天梁', men: '死', tian: '壬', di: '己', an: '壬', lingGan: '', tiangang: '传送', riPaiJu: '' },
+    { idx: 4,  shen: '太阴', xing: '破军', men: '惊', tian: '己', di: '丁', an: '己', lingGan: '', tiangang: '从魁', riPaiJu: '' },
+    { idx: 5,  shen: '九天', xing: '武曲', men: '开', tian: '辛', di: '丙', an: '辛', lingGan: '', tiangang: '河魁', riPaiJu: '' },
+    { idx: 6,  shen: '天后', xing: '天同', men: '冲', tian: '庚', di: '戊', an: '庚', lingGan: '', tiangang: '登时', riPaiJu: '' },
+    { idx: 7,  shen: '玄武', xing: '贪狼', men: '休', tian: '乙', di: '戊', an: '乙', lingGan: '', tiangang: '神后', riPaiJu: '' },
+    { idx: 8,  shen: '贵神', xing: '左辅', men: '从', tian: '丁', di: '辛', an: '丁', lingGan: '', tiangang: '大吉', riPaiJu: '' },
+    { idx: 9,  shen: '青龙', xing: '天机', men: '生', tian: '戊', di: '己', an: '戊', lingGan: '', tiangang: '功曹', riPaiJu: '' },
+    { idx: 10, shen: '六合', xing: '禄存', men: '伤', tian: '辛', di: '辛', an: '辛', lingGan: '', tiangang: '太冲', riPaiJu: '' },
+    { idx: 11, shen: '勾陈', xing: '文曲', men: '杜', tian: '己', di: '壬', an: '己', lingGan: '', tiangang: '天罡', riPaiJu: '' },
+    { idx: 12, shen: '玄灵', xing: '廉贞', men: '玄', tian: '戊', di: '戊', an: '辛', lingGan: '', tiangang: '', riPaiJu: '' }
   ]
 };
 

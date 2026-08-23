@@ -196,6 +196,10 @@ async function init() {
     `, [p.code, p.name, p.duration_days, p.ai_quota, p.price_cent]);
   }
 
+  const safeAlter = async (sql) => { try { await run(sql); } catch(e){} };
+  await safeAlter(`ALTER TABLE users ADD COLUMN email_verified INTEGER DEFAULT 0`);
+  await safeAlter(`ALTER TABLE users ADD COLUMN status INTEGER DEFAULT 1`);
+
   console.log('数据库表初始化完成');
 }
 

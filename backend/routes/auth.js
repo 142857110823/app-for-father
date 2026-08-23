@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { get, run } = require('../db');
-const { JWT_SECRET } = require('../middleware');
+const { JWT_SECRET, authDb } = require('../middleware');
 
 const router = express.Router();
 const SALT_ROUNDS = 10;
@@ -162,5 +162,102 @@ function publicUser(user) {
     last_login_at: user.last_login_at
   };
 }
+
+router.get('/me', authDb, async (req, res) => {
+  try {
+    const user = await get('SELECT * FROM users WHERE id = ?', [req.userId]);
+    if (!user) return res.status(404).json({ ok:false, error:'用户不存在' });
+    res.json({ ok:true, data: publicUser(user) });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/update-profile', authDb, async (req, res) => {
+  try {
+    const { nickname, avatar, gender, birth_year, birth_month, birth_day, birth_hour, birth_minute, birth_place, current_place } = req.body || {};
+    const fields = [], params = [];
+    const push = (f, v) => { if (v !== undefined) { fields.push(`${f} = ?`); params.push(v); } };
+    push('nickname', nickname); push('avatar', avatar); push('gender', gender);
+    push('birth_year', birth_year); push('birth_month', birth_month); push('birth_day', birth_day);
+    push('birth_hour', birth_hour); push('birth_minute', birth_minute);
+    push('birth_place', birth_place); push('current_place', current_place);
+    if (fields.length === 0) return res.status(400).json({ ok:false, error:'无更新字段' });
+    params.push(req.userId);
+    await run(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`, params);
+    const user = await get('SELECT * FROM users WHERE id = ?', [req.userId]);
+    res.json({ ok:true, data: publicUser(user) });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/email-code', async (req, res) => {
+  try {
+    const { email } = req.body || {};
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ ok:false, error:'邮箱格式错误' });
+    }
+    const code = '654321';
+    res.json({ ok:true, message:'验证码已发送（测试用）', code });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/bind-phone', authDb, async (req, res) => {
+  try {
+    const { phone, code } = req.body || {};
+    if (!phone || !/^1\d{10}$/.test(phone)) return res.status(400).json({ ok:false, error:'手机号格式错误' });
+    if (code !== '123456') return res.status(400).json({ ok:false, error:'验证码错误' });
+    const exists = await get('SELECT id FROM users WHERE phone = ? AND id != ?', [phone, req.userId]);
+    if (exists) return res.status(409).json({ ok:false, error:'手机号已被其他账号绑定' });
+    await run('UPDATE users SET phone = ? WHERE id = ?', [phone, req.userId]);
+    res.json({ ok:true, message:'手机号绑定成功' });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/bind-email', authDb, async (req, res) => {
+  try {
+    const { email, code } = req.body || {};
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ ok:false, error:'邮箱格式错误' });
+    if (code !== '654321') return res.status(400).json({ ok:false, error:'验证码错误' });
+    const exists = await get('SELECT id FROM users WHERE email = ? AND id != ?', [email, req.userId]);
+    if (exists) return res.status(409).json({ ok:false, error:'邮箱已被其他账号绑定' });
+    await run('UPDATE users SET email = ?, email_verified = 1 WHERE id = ?', [email, req.userId]);
+    res.json({ ok:true, message:'邮箱绑定成功' });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/bind-third', authDb, async (req, res) => {
+  try {
+    const { type, openid } = req.body || {};
+    if (!['wx','qq'].includes(type) || !openid) return res.status(400).json({ ok:false, error:'参数错误' });
+    const field = type === 'wx' ? 'wx_openid' : 'qq_openid';
+    const exists = await get(`SELECT id FROM users WHERE ${field} = ? AND id != ?`, [openid, req.userId]);
+    if (exists) return res.status(409).json({ ok:false, error:'该账号已绑定其他用户' });
+    await run(`UPDATE users SET ${field} = ? WHERE id = ?`, [openid, req.userId]);
+    res.json({ ok:true, message:'绑定成功' });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/unbind', authDb, async (req, res) => {
+  try {
+    const { type } = req.body || {};
+    const map = { phone:'phone', email:'email', wx:'wx_openid', qq:'qq_openid' };
+    const field = map[type];
+    if (!field) return res.status(400).json({ ok:false, error:'解绑类型错误' });
+    const u = await get('SELECT phone, email, wx_openid, qq_openid, password_hash FROM users WHERE id = ?', [req.userId]);
+    const bindings = (u.phone?1:0)+(u.email?1:0)+(u.wx_openid?1:0)+(u.qq_openid?1:0)+(u.password_hash?1:0);
+    if (bindings <= 1) return res.status(400).json({ ok:false, error:'至少保留一种登录方式' });
+    await run(`UPDATE users SET ${field} = NULL${field==='email'?', email_verified = 0':''} WHERE id = ?`, [req.userId]);
+    res.json({ ok:true, message:'解绑成功' });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
+
+router.post('/deactivate', authDb, async (req, res) => {
+  try {
+    const { confirm } = req.body || {};
+    if (confirm !== '我已确认注销账号且不可恢复') return res.status(400).json({ ok:false, error:'请确认注销声明' });
+    const deletedNick = '已注销用户' + Date.now();
+    await run(`UPDATE users SET status = 0, nickname = ?, phone = NULL, email = NULL, wx_openid = NULL, qq_openid = NULL, password_hash = NULL, avatar = NULL, gender = 0, birth_year = NULL, birth_month = NULL, birth_day = NULL, birth_hour = NULL, birth_minute = NULL, birth_place = NULL WHERE id = ?`, [deletedNick, req.userId]);
+    await run('UPDATE tokens SET revoked = 1 WHERE user_id = ?', [req.userId]);
+    res.json({ ok:true, message:'账号已注销' });
+  } catch (e) { res.status(500).json({ ok:false, error: e.message }); }
+});
 
 module.exports = router;
