@@ -29,6 +29,29 @@
   --bottom-h:56px;
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --safe-top:env(safe-area-inset-top,0px);
+  --plate-bg:#fff;
+  --plate-cell:#fff;
+}
+html.dark{
+  --bg:#15140f;
+  --card:#1f1d18;
+  --card-2:#262420;
+  --ink:#e8e2d0;
+  --ink-2:#b0a89a;
+  --sub:#7a7468;
+  --line:#3a362e;
+  --accent:#e8e2d0;
+  --gold:#d4a64a;
+  --gold-soft:#2a2418;
+  --green:#6ab46a;
+  --green-soft:#1c2818;
+  --orange:#e8a64a;
+  --orange-soft:#2a2018;
+  --red:#e85c5c;
+  --red-soft:#2a1818;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.4);
+  --plate-bg:#1a1814;
+  --plate-cell:#1f1d18;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","KaiTi","STKaiti","楷体",serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
@@ -44,9 +67,161 @@ a{color:inherit;text-decoration:none}
 .card-title{font-size:13px;color:var(--sub);margin-bottom:12px;display:flex;align-items:center;gap:6px;font-weight:500;letter-spacing:1px}
 .card-title::before{content:"";width:3px;height:13px;background:var(--ink);border-radius:2px}
 
-.brand-bar{text-align:center;padding:calc(var(--safe-top) + 24px) 20px 18px;background:var(--card);border-bottom:1px solid var(--line)}
-.brand-mark{font-size:24px;font-weight:700;letter-spacing:8px;color:var(--ink);font-family:"STKaiti","KaiTi","楷体","SimSun",serif}
-.brand-line{font-size:12px;color:var(--sub);margin-top:8px;letter-spacing:2px}
+.brand-bar{text-align:center;padding:calc(var(--safe-top) + 16px) 20px 14px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.brand-bar .brand-side{display:flex;gap:14px;color:var(--ink-2);font-size:20px;width:56px}
+.brand-bar .brand-side.left{justify-content:flex-start}
+.brand-bar .brand-side.right{justify-content:flex-end}
+.brand-bar .brand-title{font-size:18px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体","SimSun",serif;letter-spacing:4px}
+.brand-bar .brand-sub{font-size:11px;color:var(--sub);margin-top:2px;letter-spacing:1px}
+
+.card-lined{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin:12px 16px;border:1px solid var(--line);padding:4px 16px}
+.lined-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:0.5px solid var(--line);gap:10px}
+.lined-row:last-child{border-bottom:none}
+.lined-row .lr-label{font-size:15px;color:var(--ink);font-weight:500;font-family:"STKaiti","KaiTi","楷体",serif;flex-shrink:0}
+.lined-row .lr-value{flex:1;text-align:right;font-size:14px;color:var(--ink-2);display:flex;align-items:center;gap:8px;justify-content:flex-end;overflow:hidden}
+.lined-row .lr-value input{border:none;outline:none;background:transparent;text-align:right;font-size:14px;color:var(--ink);font-family:inherit;width:100%;max-width:220px}
+.lined-row .lr-value input::placeholder{color:var(--sub)}
+.lined-row .lr-value .picker{color:var(--ink);font-weight:600;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238c877e' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right center;padding-right:16px}
+.lined-row .lr-value.select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238c877e' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right center;padding-right:16px}
+.lined-row .lr-value .arrow{color:var(--sub);font-size:14px;margin-left:4px}
+.lined-row .lr-hint{font-size:11px;color:var(--sub);margin-top:2px}
+.seg-gold{display:inline-flex;background:var(--bg);border-radius:20px;padding:3px;gap:2px}
+.seg-gold button{padding:5px 12px;border-radius:18px;font-size:12px;color:var(--ink-2);font-weight:500;background:transparent;border:none}
+.seg-gold button.active{background:var(--gold);color:#fff;font-weight:600}
+.seg-underline{display:inline-flex;background:transparent;gap:14px}
+.seg-underline button{padding:4px 2px;border:none;background:transparent;font-size:14px;color:var(--ink-2);border-bottom:2px solid transparent;font-family:"STKaiti","KaiTi","楷体",serif}
+.seg-underline button.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+
+.switch-meta{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--card-2);margin:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--line)}
+.switch-meta .sm-left{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--sub)}
+.switch-meta .sm-left b{color:var(--ink);font-weight:500}
+.switch-meta .sm-right{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)}
+
+.btn-primary-big{width:calc(100% - 32px);margin:16px 16px 0;padding:16px;background:var(--ink);color:#fff;border-radius:40px;font-size:17px;font-weight:600;letter-spacing:10px;font-family:"STKaiti","KaiTi","楷体",serif;box-shadow:0 4px 14px rgba(0,0,0,.15);transition:opacity .15s,transform .15s}
+.btn-primary-big:active{opacity:.85;transform:scale(.98)}
+
+.hour-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin:14px 16px;padding:16px;border:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.hour-card .hc-left{flex:1;min-width:0}
+.hour-card .hc-pillars{display:flex;gap:6px;margin-bottom:6px}
+.hour-card .hc-pillars .hc-p{flex:1;text-align:center}
+.hour-card .hc-pillars .hc-p .hc-g{font-size:22px;font-weight:700;color:var(--gold);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2}
+.hour-card .hc-pillars .hc-p .hc-g .zhi{color:var(--ink)}
+.hour-card .hc-pillars .hc-p .hc-s{font-size:10px;color:var(--sub);margin-top:2px}
+.hour-card .hc-time{font-size:13px;color:var(--ink);font-weight:500}
+.hour-card .hc-date{font-size:11px;color:var(--sub);margin-top:2px}
+.hour-card .hc-btn{padding:10px 14px;border:1.5px solid var(--ink);border-radius:30px;background:var(--card);color:var(--ink);font-size:13px;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif;white-space:nowrap}
+
+.split-row{display:flex;gap:12px;margin:14px 16px}
+.split-card{flex:1;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 14px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .15s}
+.split-card:active{transform:scale(.98)}
+.split-card .sc-icon{font-size:30px;color:var(--gold);font-family:"STKaiti","KaiTi","楷体",serif}
+.split-card .sc-icon.dark{color:var(--ink)}
+.split-card .sc-title{font-size:14px;color:var(--ink);font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
+.split-card .sc-desc{font-size:11px;color:var(--sub);text-align:center}
+
+.member-banner{background:linear-gradient(135deg,#f3e6c4 0%,#e7d3a3 100%);margin:12px 16px;border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid #d8c48a}
+.member-banner .mb-title{font-size:15px;color:#5a4214;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
+.member-banner .mb-desc{font-size:11px;color:#7a5f28;margin-top:3px}
+.member-banner .mb-btn{background:#5a4214;color:#fff;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600}
+
+.member-hero{background:linear-gradient(160deg,#1c1a17 0%,#3a332b 100%);padding:calc(var(--safe-top) + 18px) 20px 30px;color:#fff;text-align:center}
+.member-hero .mh-title{font-size:22px;font-weight:700;letter-spacing:6px;font-family:"STKaiti","KaiTi","楷体",serif}
+.member-hero .mh-sub{font-size:13px;color:#d8c48a;margin-top:6px;letter-spacing:2px}
+.member-hero .mh-close{position:absolute;left:16px;top:calc(var(--safe-top) + 14px);color:#fff;font-size:18px}
+
+.pkg-row{display:flex;gap:10px;margin:-20px 16px 0;position:relative;z-index:5}
+.pkg-card{flex:1;background:#fff;border-radius:var(--radius);padding:14px 10px;border:1.5px solid var(--line);text-align:center;position:relative;box-shadow:var(--shadow)}
+.pkg-card.recommend{border-color:var(--gold);border-width:2px;transform:translateY(-4px)}
+.pkg-card .pk-tag{position:absolute;top:-8px;right:8px;background:var(--gold);color:#fff;font-size:10px;padding:2px 8px;border-radius:8px}
+.pkg-card .pk-t{font-size:14px;color:var(--ink);font-weight:600}
+.pkg-card .pk-price{margin-top:8px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pkg-card .pk-price .cur{font-size:14px;color:var(--ink);vertical-align:top;margin-right:2px}
+.pkg-card .pk-price .num{font-size:26px;font-weight:700;color:var(--ink)}
+.pkg-card .pk-price .origin{font-size:11px;color:var(--sub);text-decoration:line-through;margin-left:4px}
+.pkg-card .pk-rate{font-size:11px;color:var(--sub);margin-top:4px}
+.pkg-card .pk-name{font-size:11px;color:var(--gold);margin-top:8px;font-weight:500}
+
+.btn-vip{width:calc(100% - 32px);margin:16px 16px 0;padding:14px;background:var(--ink);color:#fff;border-radius:40px;font-size:16px;font-weight:600;letter-spacing:6px;font-family:"STKaiti","KaiTi","楷体",serif}
+.btn-vip:active{opacity:.85}
+
+.vip-notice{margin:12px 16px;padding:12px 14px;background:var(--card-2);border-radius:var(--radius-sm);font-size:12px;color:var(--ink-2);line-height:1.6;border:1px dashed var(--line)}
+
+.vip-table{margin:14px 16px;background:var(--card);border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow)}
+.vip-table .vt-head{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;background:var(--gold-soft);padding:12px 0;font-size:13px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.vip-table .vt-head div{text-align:center}
+.vip-table .vt-head .vt-hl{color:var(--gold);font-weight:700}
+.vip-table .vt-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;border-top:0.5px solid var(--line);font-size:12px}
+.vip-table .vt-row:nth-child(even){background:var(--card-2)}
+.vip-table .vt-row div{padding:10px 4px;text-align:center;color:var(--ink-2)}
+.vip-table .vt-row .vt-rl{text-align:left;color:var(--ink);font-weight:500}
+.vip-table .vt-row .vt-yes{color:var(--gold);font-size:18px;font-weight:700}
+.vip-table .vt-row .vt-no{color:var(--sub);font-size:16px}
+.vip-table .vt-more{padding:10px 16px;text-align:right;font-size:12px;color:var(--gold);font-weight:500;border-top:0.5px solid var(--line);background:#fff}
+
+.vip-bottom{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + var(--safe-bottom));display:flex;align-items:center;gap:12px;z-index:50;box-shadow:0 -2px 10px rgba(0,0,0,.04)}
+.vip-bottom .vb-l{flex:1}
+.vip-bottom .vb-l .vb-name{font-size:12px;color:var(--sub)}
+.vip-bottom .vb-l .vb-price{font-size:18px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.vip-bottom .vb-l .vb-price .cur{font-size:13px;margin-right:2px}
+.vip-bottom .vb-btn{background:var(--gold);color:#fff;padding:10px 22px;border-radius:30px;font-size:14px;font-weight:600}
+.vip-bottom .vb-btn:active{opacity:.85}
+
+.profile-header-v2{background:var(--card);padding:calc(var(--safe-top) + 16px) 20px 20px;color:var(--ink);display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.profile-header-v2 .ph-avatar{width:56px;height:56px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:"STKaiti","KaiTi","楷体",serif;font-weight:700}
+.profile-header-v2 .ph-info{flex:1;min-width:0}
+.profile-header-v2 .ph-name{font-size:16px;font-weight:600;color:var(--ink);letter-spacing:1px}
+.profile-header-v2 .ph-id{font-size:12px;color:var(--sub);margin-top:3px}
+.profile-header-v2 .ph-arrow{color:var(--sub);font-size:16px}
+.profile-header-v2 .ph-setting{position:absolute;right:16px;top:calc(var(--safe-top) + 12px);color:#fff;background:var(--gold);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 2px 8px rgba(184,134,11,.25)}
+.profile-header-v2 .ph-setting:active{opacity:.85}
+
+.vip-card-float{margin:-40px 16px 0;background:#fff;border-radius:var(--radius);padding:16px 18px;border:1.5px solid var(--gold);box-shadow:0 6px 20px rgba(184,134,11,.12);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.vip-card-float .vcf-l{display:flex;align-items:center;gap:10px}
+.vip-card-float .vcf-icon{width:36px;height:36px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px}
+.vip-card-float .vcf-t{font-size:14px;color:var(--ink);font-weight:600}
+.vip-card-float .vcf-d{font-size:11px;color:var(--sub);margin-top:2px}
+.vip-card-float .vcf-btn{background:var(--gold);color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600}
+
+.icon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:14px 16px;background:var(--card);border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow);padding:16px 8px}
+.icon-grid .ig-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;cursor:pointer}
+.icon-grid .ig-item:active{opacity:.6}
+.icon-grid .ig-icon{width:44px;height:44px;border-radius:50%;background:var(--card-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gold);font-family:"STKaiti","KaiTi","楷体",serif;font-weight:600}
+.icon-grid .ig-icon.dark{color:var(--ink);background:var(--card)}
+.icon-grid .ig-label{font-size:11px;color:var(--ink-2)}
+
+.section-title{font-size:14px;color:var(--ink);font-weight:600;padding:16px 20px 8px;font-family:"STKaiti","KaiTi","楷体",serif;display:flex;align-items:center;justify-content:space-between}
+.section-title .st-tag{font-size:10px;color:var(--gold);background:var(--gold-soft);padding:2px 8px;border-radius:8px;font-weight:500}
+.section-title .st-more{font-size:12px;color:var(--gold);font-weight:500}
+
+.hidden-selects{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+
+.roll-picker{position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;background:var(--card);border-radius:20px 20px 0 0;z-index:200;padding:20px 20px calc(20px + var(--safe-bottom));display:flex;flex-direction:column;gap:14px;transition:transform .25s;transform:translateY(100%)}
+.roll-picker.show{transform:translateY(0)}
+.roll-picker .rp-head{display:flex;align-items:center;justify-content:space-between}
+.roll-picker .rp-title{font-size:16px;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
+.roll-picker .rp-cancel{font-size:14px;color:var(--sub);background:none;border:none}
+.roll-picker .rp-ok{font-size:14px;color:var(--gold);font-weight:600;background:none;border:none}
+.roll-picker .rp-body{display:flex;gap:6px}
+.roll-picker .rp-col{flex:1;display:flex;flex-direction:column;gap:8px}
+.roll-picker .rp-col label{font-size:11px;color:var(--sub);text-align:center}
+.roll-picker .rp-col select{width:100%;padding:10px 8px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:15px;color:var(--ink);text-align:center;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238c877e' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+
+/* 齿轮滑动式选择器 */
+.wheel-picker{display:flex;gap:0;height:180px;position:relative}
+.wheel-col{flex:1;position:relative;overflow:hidden}
+.wheel-col::before,.wheel-col::after{content:'';position:absolute;left:0;right:0;height:40px;z-index:2;pointer-events:none}
+.wheel-col::before{top:0;background:linear-gradient(180deg,rgba(255,253,248,0.95) 0%,rgba(255,253,248,0) 100%)}
+.wheel-col::after{bottom:0;background:linear-gradient(0deg,rgba(255,253,248,0.95) 0%,rgba(255,253,248,0) 100%)}
+.wheel-indicator{position:absolute;top:50%;left:0;right:0;height:36px;transform:translateY(-50%);border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);pointer-events:none;z-index:1}
+.wheel-list{position:absolute;left:0;right:0;top:0;will-change:transform}
+.wheel-item{height:36px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-2);transition:color .15s,font-weight .15s}
+.wheel-item.selected{color:var(--ink);font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
+.wheel-item.dim{opacity:.4}
+.wheel-label{text-align:center;font-size:11px;color:var(--sub);margin-top:8px}
+.wheel-container{display:flex;flex-direction:column}
+.wheel-scroll{height:180px;overflow:hidden;position:relative}
+.wheel-titles{display:flex;margin-bottom:8px}
+.wheel-titles > div{flex:1;text-align:center;font-size:13px;color:var(--ink);font-weight:600}
 
 .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -68,7 +243,7 @@ a{color:inherit;text-decoration:none}
 .switch{position:relative;display:inline-block;width:50px;height:28px}
 .switch input{opacity:0;width:0;height:0}
 .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--line);border-radius:28px;transition:.3s}
-.slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:var(--card);border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .switch input:checked + .slider{background:var(--gold)}
 .switch input:checked + .slider:before{transform:translateX(22px)}
 .segmented{display:flex;background:var(--bg);border-radius:8px;padding:3px;gap:3px}
@@ -132,11 +307,11 @@ a{color:inherit;text-decoration:none}
 
 /* 传统排盘表格 - 4x4 中心合并（参考 docx 方正风格） */
 .traditional-plate{padding:0 16px 20px}
-#plate-table{width:100%;border-collapse:collapse;border:1.5px solid var(--ink);table-layout:fixed;background:#fff}
-#plate-table td{background:#fff;border:1px solid var(--ink-2);padding:6px 4px;vertical-align:top;position:relative;height:96px;cursor:pointer}
+#plate-table{width:100%;border-collapse:collapse;border:1.5px solid var(--ink);table-layout:fixed;background:var(--plate-bg)}
+#plate-table td{background:var(--plate-cell);border:1px solid var(--ink-2);padding:6px 4px;vertical-align:top;position:relative;height:96px;cursor:pointer}
 #plate-table td.empty{background:transparent;border:none;cursor:default}
-#plate-table td.center{height:auto;vertical-align:middle;text-align:center;background:#fff}
-#plate-table td.gui-shen{background:#fffdf5}
+#plate-table td.center{height:auto;vertical-align:middle;text-align:center;background:var(--plate-cell)}
+#plate-table td.gui-shen{background:var(--gold-soft)}
 
 .pc-shen{font-size:15px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:6px;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-shen:empty{display:none}
@@ -169,7 +344,7 @@ a{color:inherit;text-decoration:none}
 /* AI 智能体 */
 .ai-fab{position:fixed;right:16px;bottom:calc(84px + var(--safe-bottom));width:64px;height:64px;border-radius:50%;z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .15s,box-shadow .15s;background:#f7f5f0;border:2px solid #1a1a1a;overflow:hidden;-webkit-tap-highlight-color:transparent}
 .ai-fab:active{transform:scale(.92)}
-.ai-fab svg{width:100%;height:100%;pointer-events:none}
+.ai-fab img{width:100%;height:100%;pointer-events:none;object-fit:contain;border-radius:50%}
 .ai-chat-panel{position:fixed;right:12px;bottom:calc(140px + var(--safe-bottom));width:min(360px,calc(100vw - 24px));height:420px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:10001;display:flex;flex-direction:column;overflow:hidden;transition:opacity .2s,transform .2s;opacity:1;transform:translateY(0)}
 .ai-chat-panel.hidden{opacity:0;pointer-events:none;transform:translateY(20px)}
 .ai-chat-header{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
@@ -177,8 +352,8 @@ a{color:inherit;text-decoration:none}
 .ai-chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
 .ai-msg{max-width:86%;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.6;word-break:break-word;white-space:pre-wrap}
 .ai-msg.user{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
-.ai-msg.ai{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink)}
-.ai-chat-input-area{display:flex;gap:8px;padding:10px 12px;background:#fff;border-top:1px solid var(--line)}
+.ai-msg.ai{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink)}
+.ai-chat-input-area{display:flex;gap:8px;padding:10px 12px;background:var(--card);border-top:1px solid var(--line)}
 .ai-chat-input-area textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:14px;font-family:inherit;outline:none;line-height:1.4;max-height:90px}
 .ai-chat-input-area button{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:0 16px;font-size:14px;cursor:pointer;font-family:"STKaiti","KaiTi","楷体",serif}
 .ai-chat-input-area button:disabled{opacity:.5}
@@ -246,7 +421,7 @@ a{color:inherit;text-decoration:none}
 .menu-item .mi-value{font-size:13px;color:var(--sub);margin-right:8px}
 
 /* 底部导航 */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:rgba(255,253,248,.96);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--line);display:flex;height:calc(var(--bottom-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);z-index:50}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:var(--card);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--line);display:flex;height:calc(var(--bottom-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);z-index:50}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--sub);transition:color .15s;font-size:10px;font-weight:500;cursor:pointer}
 .nav-item.active{color:var(--ink)}
 .nav-item .ni-icon{font-size:18px;font-weight:700;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-family:"STKaiti","KaiTi","楷体",serif}
@@ -266,58 +441,252 @@ a{color:inherit;text-decoration:none}
 .fade-in{animation:fadeIn .3s}
 .hidden{display:none!important}
 
+/* 夜间模式图标切换 */
+.ig-icon.theme-icon{position:relative;overflow:visible}
+.ig-icon.theme-icon .icon-sun{display:none}
+html.dark .ig-icon.theme-icon.is-dark .icon-moon{display:none}
+html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
+
+/* 未读消息小红点 */
+.ig-badge{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--red);border-radius:50%;border:1.5px solid var(--card);display:none}
+.ig-badge.show{display:block;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+
+/* 排盘结果页-收藏按钮 */
+.result-header .rh-btn.btn-star{display:inline-flex;align-items:center;gap:4px}
+.result-header .rh-btn.btn-star.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.result-header .rh-btn.btn-star .star-icon{font-size:14px;line-height:1}
+
+/* 我的收藏列表 */
+.fav-item{background:var(--card);border-radius:var(--radius);margin:10px 16px;padding:14px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);cursor:pointer;transition:transform .15s}
+.fav-item:active{transform:scale(.98)}
+.fav-item .fi-l{flex:1;min-width:0}
+.fav-item .fi-time{font-size:12px;color:var(--sub)}
+.fav-item .fi-info{font-size:15px;font-weight:600;margin-top:4px;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.fav-item .fi-sub{font-size:12px;color:var(--ink-2);margin-top:2px}
+.fav-item .fi-del{padding:6px 10px;color:var(--red);font-size:12px;flex-shrink:0}
+
+/* 消息列表 */
+.msg-item{background:var(--card);border-radius:var(--radius);margin:10px 16px;padding:14px 16px;box-shadow:var(--shadow);border:1px solid var(--line);transition:transform .15s}
+.msg-item.unread{border-left:3px solid var(--gold)}
+.msg-item .mi-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.msg-item .mi-title{font-size:15px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.msg-item .mi-time{font-size:11px;color:var(--sub)}
+.msg-item .mi-body{font-size:13px;color:var(--ink-2);line-height:1.7;white-space:pre-wrap}
+.msg-item .mi-status{display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-left:6px;vertical-align:middle}
+
+/* 批量导出选择 */
+.history-item .hi-checkbox{width:22px;height:22px;border:1.5px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:transparent;margin-right:10px;flex-shrink:0;cursor:pointer}
+.history-item .hi-checkbox.checked{background:var(--gold);border-color:var(--gold);color:#fff;font-size:13px}
+.history-item.batch-mode{cursor:default}
+.history-item.batch-mode .hi-arrow{display:none}
+.export-bar{position:fixed;bottom:calc(var(--bottom-h) + var(--safe-bottom) + 10px);left:16px;right:16px;max-width:448px;margin:0 auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:30px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.2);transform:translateY(calc(100% + 60px));opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.32,.72,0,1),opacity .25s}
+.export-bar.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.export-bar .eb-count{font-size:13px;font-weight:500}
+.export-bar .eb-btn{background:var(--gold);color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:"STKaiti","KaiTi","楷体",serif}
+.export-bar .eb-btn:disabled{opacity:.5;cursor:not-allowed}
+.export-bar .eb-cancel{background:transparent;border:none;color:#fff;font-size:13px;cursor:pointer;padding:4px 8px}
+
+.list-arrow{cursor:pointer}
+.avatar-box{display:flex;gap:12px;align-items:center}
+.set-avatar{width:48px;height:48px;border-radius:50%;background:var(--gold);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:"STKaiti","KaiTi","楷体",serif;font-size:18px}
+
+#confirm-modal.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;opacity:1;pointer-events:auto}
+.modal-card{width:100%;max-width:320px;background:var(--card);border-radius:16px;padding:24px 20px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.mc-title{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px;text-align:center;font-family:"STKaiti","KaiTi","楷体",serif}
+.mc-body{font-size:14px;color:var(--ink-2);line-height:1.7;margin-bottom:20px;text-align:center}
+.mc-actions{display:flex;gap:10px}
+.mc-btn{flex:1;padding:12px 0;border-radius:12px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:inherit}
+.mc-btn.cancel{background:var(--bg-light,var(--card-2));color:var(--ink-2)}
+.mc-btn.confirm{background:var(--gold);color:#fff}
+
+.pc-tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;width:100%;height:100%}
+.pc-col{display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:2px;min-width:0}
+.pc-col.pc-left{align-items:flex-start}
+.pc-col.pc-mid{align-items:flex-end;text-align:right}
+.pc-col.pc-right{align-items:flex-end;text-align:right}
+.pc-ling{font-size:13px;font-weight:700;color:#6b4e00;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-ren{font-size:14px;font-weight:700;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-tiangang{font-size:12px;font-weight:700;color:var(--gold);background:var(--gold-soft);border-radius:4px;padding:1px 4px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-ripai{font-size:11px;color:var(--sub);margin-top:2px}
+#plate-table td.center .pc-tri{gap:10px}
+#plate-table td.center .pc-shen{font-size:18px}
+#plate-table td.center .pc-xing,#plate-table td.center .pc-men,#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:16px}
+#plate-table td.center .pc-tiangang{font-size:14px}
+
+/* Task 3.3 视觉优化 */
+#page-history .rh-actions .rh-btn[onclick="clearHistory()"]{color:#d33;border-color:#e6b8b8;font-weight:600}
+#batch-export-btn{border:1.5px solid var(--gold);color:var(--gold);font-weight:600;background:var(--gold-soft)}
+.pillar-row .pillar{padding-bottom:calc(var(--safe-bottom) + 4px)}
+.icon-grid .ig-icon{width:48px;height:48px;font-size:22px}
+.icon-grid .ig-item{gap:8px;padding:14px 4px}
+
 </style>
 </head>
 <body>
 
 <div id="page-home" class="page">
   <div class="brand-bar">
-    <div class="brand-mark">道家奇门遁甲</div>
-    <div class="brand-line">阴盘排盘 · 阳顺阴逆</div>
-  </div>
-
-  <div class="card input-card">
-    <div class="card-title">求测信息</div>
-    <div class="input-grid">
-      <div class="field"><label>姓名</label><input type="text" id="name" placeholder="请输入姓名" maxlength="12"></div>
-      <div class="field"><label>性别</label><select id="gender"><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select></div>
+    <div class="brand-side left" aria-hidden="true">
+      <span title="消息">◌</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="brand-title">道家奇门遁甲</div>
+    </div>
+    <div class="brand-side right">
+      <span title="设置">☰</span>
     </div>
   </div>
 
-  <div class="card input-card">
-    <div class="card-title">出生时间</div>
-    <div class="time-grid">
-      <div class="field"><label>年</label><select id="y"></select></div>
-      <div class="field"><label>月</label><select id="m"></select></div>
-      <div class="field"><label>日</label><select id="d"></select></div>
-      <div class="field"><label>时</label><select id="h" onchange="updateHourZhi()"></select></div>
-      <div class="field"><label>分</label><select id="min"></select></div>
-      <div class="field hz-field"><label>时辰</label><div class="hour-zhi" id="hour-zhi">—</div></div>
+  <div class="card-lined">
+    <div class="lined-row">
+      <div class="lr-label">姓名</div>
+      <div class="lr-value"><input type="text" id="name" placeholder="请输入姓名" maxlength="12"></div>
     </div>
-  </div>
-
-  <div class="card input-card">
-    <div class="card-title">地点与校正</div>
-    <div class="field"><label>出生地点</label><input type="text" id="location" placeholder="如：北京市朝阳区" maxlength="30"></div>
-    <div class="switch-row">
-      <div>
-        <div class="switch-label">排盘类型</div>
-        <div class="switch-desc">默认阴盘</div>
-      </div>
-      <div class="segmented">
-        <button class="seg-btn active" data-pan="阴盘" onclick="setPanType('阴盘')">阴盘</button>
-        <button class="seg-btn" data-pan="阳盘" onclick="setPanType('阳盘')">阳盘</button>
+    <div class="lined-row">
+      <div class="lr-label">性别</div>
+      <div class="lr-value">
+        <div class="seg-gold">
+          <button id="gender-m" class="active" onclick="setGender('男')">男</button>
+          <button id="gender-f" onclick="setGender('女')">女</button>
+        </div>
       </div>
     </div>
+    <div class="lined-row">
+      <div class="lr-label">历法</div>
+      <div class="lr-value">
+        <div class="seg-underline">
+          <button id="cal-solar" class="active" onclick="setCalendar('公历')">公历</button>
+          <button id="cal-lunar" onclick="setCalendar('农历')">农历</button>
+          <button id="cal-pillar" onclick="setCalendar('四柱')">四柱</button>
+        </div>
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">出生时间 <span style="color:var(--gold)">*</span></div>
+      <div class="lr-value" onclick="openTimePicker()">
+        <span id="time-display" class="picker">请选择时间</span>
+        <span class="arrow">›</span>
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">出生地点</div>
+      <div class="lr-value" onclick="openLocationPicker()">
+        <span id="location-display" class="picker">请选择地点</span>
+        <span class="arrow">›</span>
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">分组</div>
+      <div class="lr-value"><span class="picker">全部</span><span class="arrow">›</span></div>
+    </div>
   </div>
 
-  <div class="input-actions">
-    <div class="btn-row">
-      <button class="btn-ghost" onclick="setNow()">此刻</button>
-      <button class="btn-ghost" onclick="loadExample(1)">示例一</button>
-      <button class="btn-ghost" onclick="loadExample(2)">示例二</button>
+  <div class="switch-meta">
+    <div class="sm-left">
+      <b>真太阳时：<span id="meta-solar-time">—</span></b>
+      <span>地址经纬度：<span id="meta-loc">北纬 -- 东经 --</span></span>
     </div>
-    <button class="btn-primary" onclick="paipan()">开 始 排 盘</button>
+    <div class="sm-right">
+      <span>保存</span>
+      <label class="switch"><input type="checkbox" id="save-switch" checked><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <button class="btn-primary-big" onclick="paipan()">开始排盘</button>
+
+  <div class="hour-card" id="hour-card">
+    <div class="hc-left">
+      <div class="hc-pillars" id="hc-pillars">
+        <div class="hc-p"><div class="hc-g">—</div><div class="hc-s">年柱</div></div>
+        <div class="hc-p"><div class="hc-g">—</div><div class="hc-s">月柱</div></div>
+        <div class="hc-p"><div class="hc-g">—</div><div class="hc-s">日柱</div></div>
+        <div class="hc-p"><div class="hc-g">—</div><div class="hc-s">时柱</div></div>
+      </div>
+      <div class="hc-time" id="hc-time">— 时</div>
+      <div class="hc-date" id="hc-date">点击选择时间或使用当前时刻</div>
+    </div>
+    <button class="hc-btn" onclick="setNow();paipan()">即时排盘</button>
+  </div>
+
+  <div class="split-row">
+    <div class="split-card" onclick="showToast('万年历即将上线')">
+      <div class="sc-icon dark">历</div>
+      <div class="sc-title">万年历</div>
+      <div class="sc-desc">公历 · 农历 · 干支</div>
+    </div>
+    <div class="split-card" onclick="showToast('古籍库即将上线')">
+      <div class="sc-icon dark">典</div>
+      <div class="sc-title">古籍查阅</div>
+      <div class="sc-desc">穷通宝鉴 · 滴天髓</div>
+    </div>
+  </div>
+</div>
+
+<div id="page-member" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
+  <div class="member-hero" style="position:relative">
+    <div class="mh-close" onclick="showPage('profile')">‹</div>
+    <div class="mh-title">会员中心</div>
+    <div class="mh-sub">问道奇门 · 尊享特权</div>
+  </div>
+
+  <div class="pkg-row">
+    <div class="pkg-card">
+      <div class="pk-t">3个月</div>
+      <div class="pk-price"><span class="cur">¥</span><span class="num">98</span></div>
+      <div class="pk-rate">折合 32/月</div>
+      <div class="pk-name">黄金会员体验版</div>
+    </div>
+    <div class="pkg-card">
+      <div class="pk-t">1年</div>
+      <div class="pk-price"><span class="cur">¥</span><span class="num">258</span><span class="origin">392</span></div>
+      <div class="pk-rate">折合 21/月</div>
+      <div class="pk-name">黄金会员</div>
+    </div>
+    <div class="pkg-card recommend">
+      <div class="pk-tag">推荐</div>
+      <div class="pk-t">5年</div>
+      <div class="pk-price"><span class="cur">¥</span><span class="num">898</span><span class="origin">1290</span></div>
+      <div class="pk-rate">折合 14.9/月</div>
+      <div class="pk-name">钻石会员</div>
+    </div>
+  </div>
+
+  <button class="btn-vip" onclick="selectPkg(2)">开通 VIP 会员</button>
+
+  <div class="vip-notice">开通即同意《问道隐私政策》和《VIP会员服务协议》。本软件为易经学习工具，内容仅供娱乐参考，不构成任何现实指导意义。</div>
+
+  <div class="section-title"><span>VIP 会员权益</span><span class="st-more" onclick="showToast('更多权益即将展示')">更多权益 ›</span></div>
+
+  <div class="vip-table">
+    <div class="vt-head">
+      <div>等级</div>
+      <div class="vt-hl">钻石会员</div>
+      <div>黄金会员</div>
+      <div>非会员</div>
+    </div>
+    <div class="vt-row"><div class="vt-rl">1-2099 年排盘范围</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">无限次 AI 指令解读</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">神煞智能设置</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">地支藏干智能设置</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">刑冲破害合智能设置</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">人元司令分野</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">智能古籍《穷通宝鉴》</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">智能古籍《滴天髓》</div><div class="vt-yes">✓</div><div class="vt-yes">✓</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">智能古籍《三命通会》</div><div class="vt-yes">✓</div><div class="vt-no">✕</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">智能古籍《神峰通考》</div><div class="vt-yes">✓</div><div class="vt-no">✕</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">专家级合盘解读</div><div class="vt-yes">✓</div><div class="vt-no">✕</div><div class="vt-no">✕</div></div>
+    <div class="vt-row"><div class="vt-rl">专属客服 7x24</div><div class="vt-yes">✓</div><div class="vt-no">✕</div><div class="vt-no">✕</div></div>
+    <div class="vt-more" onclick="showToast('权益列表已全部展示')">查看全部 12 项权益 ›</div>
+  </div>
+
+  <div style="height:80px"></div>
+  <div class="vip-bottom">
+    <div class="vb-l">
+      <div class="vb-name" id="vb-name">5年 VIP 会员</div>
+      <div class="vb-price"><span class="cur">¥</span><span id="vb-price">898</span></div>
+    </div>
+    <button class="vb-btn" onclick="showToast('支付功能待接入')">立即购买</button>
   </div>
 </div>
 
@@ -331,6 +700,7 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
     <div class="rh-actions">
+      <button class="rh-btn btn-star" id="star-btn" onclick="toggleFavorite()"><span class="star-icon">☆</span>收藏</button>
       <button class="rh-btn" onclick="shiftTime(-1)">上局</button>
       <button class="rh-btn" onclick="shiftTime(1)">下局</button>
       <button class="rh-btn" onclick="exportPDF()">导出</button>
@@ -346,11 +716,6 @@ a{color:inherit;text-decoration:none}
 
   <div class="dun-info-bar" id="dun-info-bar"></div>
 
-  <div class="analysis-card">
-    <div class="a-title">排盘分析</div>
-    <div id="analysis-content"></div>
-  </div>
-
   <div class="traditional-plate" id="traditional-plate">
     <table id="plate-table"></table>
   </div>
@@ -364,7 +729,8 @@ a{color:inherit;text-decoration:none}
       <div class="rh-title">排盘历史</div>
     </div>
     <div class="rh-actions">
-      <button class="rh-btn" onclick="clearHistory()">清空</button>
+      <button class="rh-btn" id="batch-export-btn" onclick="enterBatchExport()">批量导出</button>
+      <button class="rh-btn" onclick="clearHistory()">清空历史</button>
     </div>
   </div>
   <div id="history-list">
@@ -376,38 +742,180 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <div id="page-profile" class="page hidden">
-  <div class="profile-header">
-    <div class="profile-avatar">道</div>
-    <div class="profile-name">奇门排盘助手</div>
-    <div class="profile-desc">专业 · 精准 · 简洁</div>
+  <div class="profile-header-v2">
+    <div class="ph-avatar">道</div>
+    <div class="ph-info">
+      <div class="ph-name" id="profile-name">奇门爱好者</div>
+      <div class="ph-id" id="profile-id">ID: 10000088</div>
+    </div>
+    <div class="ph-setting" title="设置" onclick="showPage('settings')">⚙</div>
+    <div class="ph-arrow">›</div>
   </div>
 
-  <div class="stat-row">
-    <div class="stat-item"><div class="num" id="stat-total">0</div><div class="lbl">排盘总数</div></div>
-    <div class="stat-item"><div class="num" id="stat-yang">0</div><div class="lbl">阳遁局</div></div>
-    <div class="stat-item"><div class="num" id="stat-yin">0</div><div class="lbl">阴遁局</div></div>
+  <div class="section-title"><span>基础设置</span></div>
+  <div class="icon-grid">
+    <div class="ig-item" onclick="toggleDarkMode()"><div class="ig-icon theme-icon" id="theme-icon"><span class="icon-moon">月</span><span class="icon-sun">日</span></div><div class="ig-label" id="theme-label">夜间模式</div></div>
+    <div class="ig-item" onclick="showPage('favorites')"><div class="ig-icon dark">藏</div><div class="ig-label">我的收藏</div></div>
+    <div class="ig-item" onclick="showPage('messages')"><div class="ig-icon" style="position:relative">邮<span class="ig-badge" id="msg-badge"></span></div><div class="ig-label">我的消息</div></div>
+    <div class="ig-item" onclick="enterBatchExport()"><div class="ig-icon dark">档</div><div class="ig-label">导出历史</div></div>
   </div>
 
-  <div class="menu-list">
-    <div class="menu-item" onclick="exportHistory()"><span class="mi-icon">档</span><span class="mi-text">导出历史</span><span class="mi-arrow">›</span></div>
-    <div class="menu-item" onclick="clearHistory()"><span class="mi-icon">清</span><span class="mi-text">清空历史</span><span class="mi-arrow">›</span></div>
+  <div class="section-title"><span>其他工具</span></div>
+  <div class="icon-grid">
+    <div class="ig-item" onclick="showToast('万年历即将上线')"><div class="ig-icon dark">历</div><div class="ig-label">万年历</div></div>
+    <div class="ig-item" onclick="showToast('罗盘即将上线')"><div class="ig-icon">罗</div><div class="ig-label">智能罗盘</div></div>
+    <div class="ig-item" onclick="showToast('古籍库即将上线')"><div class="ig-icon dark">典</div><div class="ig-label">古籍查阅</div></div>
+  </div>
+</div>
+
+<div id="page-settings" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">‹ 返回</div>
+      <div><div class="rh-title">设置</div></div>
+    </div>
   </div>
 
-  <div class="menu-list">
-    <div class="menu-item" onclick="showAbout()"><span class="mi-icon">关</span><span class="mi-text">关于</span><span class="mi-arrow">›</span></div>
+  <div class="section-title"><span>用户信息</span></div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row"><div class="lr-label">昵称</div><div class="lr-value"><input type="text" id="set-nickname" maxlength="12" placeholder="请设置昵称"></div></div>
+    <div class="lined-row"><div class="lr-label">头像</div><div class="lr-value"><div class="avatar-box">
+      <div class="set-avatar" id="set-avatar">道</div>
+      <button class="rh-btn" onclick="showToast('头像上传即将上线')">更换头像</button>
+    </div></div></div>
+    <div class="lined-row"><div class="lr-label">性别</div><div class="lr-value"><div class="seg-gold">
+      <button id="set-gender-m" onclick="setSettingGender('男')">男</button>
+      <button id="set-gender-f" onclick="setSettingGender('女')">女</button>
+    </div></div></div>
+    <div class="lined-row"><div class="lr-label">出生日期</div><div class="lr-value" onclick="showToast('生日选择即将上线')"><span class="picker" id="set-birth">请选择出生日期</span><span class="arrow">›</span></div></div>
+    <div class="lined-row"><div class="lr-label">出生地点</div><div class="lr-value" onclick="showToast('地点选择即将上线')"><span class="picker" id="set-place">请选择出生地点</span><span class="arrow">›</span></div></div>
   </div>
+  <div style="padding:0 16px 16px">
+    <button class="btn-primary-big" onclick="saveProfile()">保存修改</button>
+  </div>
+
+  <div class="section-title"><span>账号安全</span></div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row list-arrow" onclick="bindItem('phone')"><div class="lr-label">手机号</div><div class="lr-value"><span id="bind-phone-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('email')"><div class="lr-label">邮箱</div><div class="lr-value"><span id="bind-email-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('wx')"><div class="lr-label">微信</div><div class="lr-value"><span id="bind-wx-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('qq')"><div class="lr-label">QQ</div><div class="lr-value"><span id="bind-qq-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
+  </div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row list-arrow" onclick="resetPwd()"><div class="lr-label">重置密码</div><div class="lr-value"><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="deactivateAccount()"><div class="lr-label" style="color:#d33">注销账号</div><div class="lr-value"><span class="arrow">›</span></div></div>
+  </div>
+
+  <div class="section-title"><span>隐私政策</span></div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row list-arrow" onclick="showPrivacyPolicy()"><div class="lr-label">查看隐私保护政策</div><div class="lr-value"><span class="arrow">›</span></div></div>
+  </div>
+
+  <div style="padding:16px 16px 24px">
+    <button class="btn-primary-big" style="background:#b23a3a;color:#fff" onclick="confirmLogout()">退出登录</button>
+  </div>
+</div>
+
+<div id="page-favorites" class="page hidden">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">返回</div>
+      <div><div class="rh-title">我的收藏</div></div>
+    </div>
+    <div class="rh-actions">
+      <button class="rh-btn" onclick="clearFavorites()">清空</button>
+    </div>
+  </div>
+  <div id="favorites-list"></div>
+</div>
+
+<div id="page-messages" class="page hidden">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">返回</div>
+      <div><div class="rh-title">我的消息</div></div>
+    </div>
+    <div class="rh-actions">
+      <button class="rh-btn" onclick="markAllMessagesRead()">全部已读</button>
+    </div>
+  </div>
+  <div id="messages-list"></div>
+</div>
+
+<div class="export-bar" id="export-bar">
+  <span class="eb-count" id="eb-count">已选 0 项</span>
+  <button class="eb-cancel" onclick="exitBatchExport()">取消</button>
+  <button class="eb-btn" id="eb-confirm" onclick="confirmBatchExport()" disabled>导出PDF</button>
 </div>
 
 <div class="bottom-nav">
   <div class="nav-item active" data-page="home" onclick="showPage('home')">
-    <span class="ni-icon">起</span><span class="ni-label">起局</span>
+    <span class="ni-icon">盘</span><span class="ni-label">排盘</span>
   </div>
   <div class="nav-item" data-page="history" onclick="showPage('history')">
-    <span class="ni-icon">历</span><span class="ni-label">历史</span>
+    <span class="ni-icon">录</span><span class="ni-label">记录</span>
     <span class="ni-dot" id="history-dot"></span>
+  </div>
+  <div class="nav-item" data-page="home" onclick="showToast('学堂即将上线')">
+    <span class="ni-icon">堂</span><span class="ni-label">学堂</span>
   </div>
   <div class="nav-item" data-page="profile" onclick="showPage('profile')">
     <span class="ni-icon">我</span><span class="ni-label">我的</span>
+  </div>
+</div>
+
+<div class="hidden-selects" id="hidden-selects">
+  <select id="y"></select>
+  <select id="m"></select>
+  <select id="d"></select>
+  <select id="h"></select>
+  <select id="min"></select>
+</div>
+
+<div class="roll-picker" id="time-picker">
+  <div class="rp-head">
+    <button class="rp-cancel" onclick="closeTimePicker()">取消</button>
+    <div class="rp-title">选择出生时间</div>
+    <button class="rp-ok" onclick="confirmTimePicker()">确定</button>
+  </div>
+  <div class="rp-body">
+    <div class="rp-col"><label>年</label><select id="rp-y"></select></div>
+    <div class="rp-col"><label>月</label><select id="rp-m"></select></div>
+    <div class="rp-col"><label>日</label><select id="rp-d"></select></div>
+    <div class="rp-col"><label>时</label><select id="rp-h"></select></div>
+    <div class="rp-col"><label>分</label><select id="rp-min"></select></div>
+  </div>
+</div>
+
+<div class="modal-mask" id="picker-mask" onclick="closeTimePicker()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199"></div>
+
+<!-- 地点选择器 - 齿轮滑动式 -->
+<div class="roll-picker" id="location-picker">
+  <div class="rp-head">
+    <button class="rp-cancel" onclick="closeLocationPicker()">取消</button>
+    <div class="rp-title">选择出生地点</div>
+    <button class="rp-ok" onclick="confirmLocationPicker()">确定</button>
+  </div>
+  <div class="wheel-container">
+    <div class="wheel-titles">
+      <div>省份</div>
+      <div>城市</div>
+      <div>区县</div>
+    </div>
+    <div class="wheel-scroll">
+      <div class="wheel-indicator"></div>
+      <div class="wheel-picker" id="wheel-province">
+        <div class="wheel-col">
+          <div class="wheel-list" id="wheel-province-list"></div>
+        </div>
+        <div class="wheel-col">
+          <div class="wheel-list" id="wheel-city-list"></div>
+        </div>
+        <div class="wheel-col">
+          <div class="wheel-list" id="wheel-district-list"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -424,12 +932,7 @@ a{color:inherit;text-decoration:none}
 
 <!-- AI 智能体 -->
 <div id="ai-fab" class="ai-fab" title="AI 智能体" role="button" aria-label="打开 AI 对话">
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="50" cy="50" r="48" fill="#f7f5f0" stroke="#1a1a1a" stroke-width="2"/>
-    <path d="M50,2 A48,48 0 0,0 50,98 A24,24 0 0,1 50,50 A24,24 0 0,1 50,2" fill="#1a1a1a"/>
-    <circle cx="50" cy="26" r="9" fill="#f7f5f0"/>
-    <circle cx="50" cy="74" r="9" fill="#1a1a1a"/>
-  </svg>
+  <img src="yinyang.png" alt="AI 智能体" draggable="false">
 </div>
 
 <div id="ai-chat-panel" class="ai-chat-panel hidden">
@@ -446,9 +949,48 @@ a{color:inherit;text-decoration:none}
 
 <script src="knowledge.js"></script>
 <script src="algorithm.bundle.js"></script>
+<script src="regions.js"></script>
 <script>
 let curData = null;
-let history = JSON.parse(localStorage.getItem('qimen_history') || '[]');
+
+/* ===== 用户隔离机制 ===== */
+/* 用户ID：每个用户独立存储收藏/消息等数据，避免混淆 */
+function getUserId() {
+  let uid = localStorage.getItem('qimen_uid');
+  if (!uid) {
+    uid = 'u_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    localStorage.setItem('qimen_uid', uid);
+  }
+  return uid;
+}
+function userKey(suffix) { return 'qimen_' + suffix + '_' + getUserId(); }
+
+/* 用户数据按用户隔离 */
+let history = JSON.parse(localStorage.getItem(userKey('history')) || '[]');
+let favorites = JSON.parse(localStorage.getItem(userKey('favorites')) || '[]');
+let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]');
+
+/* 批量导出选择集 */
+let batchMode = false;
+let selectedIds = new Set();
+
+/* 欢迎消息：新用户自动发送 */
+function ensureWelcomeMessage() {
+  const welcomed = localStorage.getItem(userKey('welcomed'));
+  if (!welcomed) {
+    const welcome = {
+      id: Date.now(),
+      title: '欢迎来到道家奇门遁甲',
+      body: '尊敬的用户：\n\n您好！欢迎来到道家奇门遁甲排盘世界。\n\n本软件基于十三宫奇门遁甲阴盘体系，致力于为您提供精准、专业、易用的排盘工具。无论您是初学者还是资深研究者，都可以通过简单的输入，获得详尽的排盘结果与宫位解析。\n\n建议您从首页的起局输入开始体验，输入出生信息后即可自动完成排盘。所有排盘记录会自动保存到「记录」中，您也可以收藏重要排盘，方便随时回顾。\n\n如有任何疑问或建议，可通过「我的 - 关于」反馈。祝您研习顺利，道法日进！\n\n—— 道家奇门遁甲 敬上',
+      time: new Date().toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+      read: false
+    };
+    userMessages.unshift(welcome);
+    localStorage.setItem(userKey('messages'), JSON.stringify(userMessages));
+    localStorage.setItem(userKey('welcomed'), '1');
+  }
+}
+ensureWelcomeMessage();
 
 const LABELS = ['无', '大吉', '吉', '中', '凶', '大凶'];
 
@@ -457,64 +999,392 @@ function showPage(name) {
   const el = document.getElementById('page-' + name);
   if (el) el.classList.remove('hidden');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === name));
+  /* 离开 history 页面时退出批量模式 */
+  if (batchMode && name !== 'history') exitBatchExport();
   if (name === 'home') renderHome();
   if (name === 'history') renderHistory();
   if (name === 'profile') renderProfile();
+  if (name === 'favorites') renderFavorites();
+  if (name === 'messages') renderMessages();
+  if (name === 'member') {
+    updateMemberBottom();
+  }
   if (name === 'result' && !curData) showPage('home');
+  if (name === 'result') setTimeout(updateFavoriteStatus, 50);
+}
+
+function setGender(g) {
+  const m = document.getElementById('gender-m');
+  const f = document.getElementById('gender-f');
+  if (!m || !f) return;
+  m.classList.toggle('active', g === '男');
+  f.classList.toggle('active', g === '女');
+  let hiddenG = document.getElementById('gender-hidden');
+  if (!hiddenG) {
+    hiddenG = document.createElement('input');
+    hiddenG.type = 'hidden';
+    hiddenG.id = 'gender-hidden';
+    hiddenG.value = g;
+    document.body.appendChild(hiddenG);
+  } else {
+    hiddenG.value = g;
+  }
+}
+
+function setCalendar(type) {
+  ['solar','lunar','pillar'].forEach(k => {
+    const b = document.getElementById('cal-' + k);
+    if (b) b.classList.remove('active');
+  });
+  const map = {'公历':'solar','农历':'lunar','四柱':'pillar'};
+  const key = map[type];
+  if (key) {
+    const b = document.getElementById('cal-' + key);
+    if (b) b.classList.add('active');
+  }
+}
+
+function selectPkg(idx) {
+  const names = ['3个月 黄金体验版','1年 黄金会员','5年 钻石会员'];
+  const prices = ['98','258','898'];
+  const name = names[idx] || names[2];
+  const price = prices[idx] || prices[2];
+  document.getElementById('vb-name').textContent = name;
+  document.getElementById('vb-price').textContent = price;
+  showToast('已选择：' + name);
+}
+
+function openTimePicker() {
+  const tp = document.getElementById('time-picker');
+  const mask = document.getElementById('picker-mask');
+  if (!tp || !mask) return;
+  const now = new Date();
+  const y = parseInt(document.getElementById('y').value) || now.getFullYear();
+  const m = parseInt(document.getElementById('m').value) || now.getMonth()+1;
+  const d = parseInt(document.getElementById('d').value) || now.getDate();
+  const h = parseInt(document.getElementById('h').value) || now.getHours();
+  const mi = parseInt(document.getElementById('min').value) || now.getMinutes();
+  ['rp-y','rp-m','rp-d','rp-h','rp-min'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('rp-y').value = y;
+  document.getElementById('rp-m').value = m;
+  document.getElementById('rp-d').value = d;
+  document.getElementById('rp-h').value = h;
+  document.getElementById('rp-min').value = mi;
+  tp.classList.add('show');
+  mask.style.display = 'block';
+}
+
+function closeTimePicker() {
+  const tp = document.getElementById('time-picker');
+  const mask = document.getElementById('picker-mask');
+  if (tp) tp.classList.remove('show');
+  if (mask) mask.style.display = 'none';
+}
+
+function confirmTimePicker() {
+  const y = parseInt(document.getElementById('rp-y').value);
+  const m = parseInt(document.getElementById('rp-m').value);
+  const d = parseInt(document.getElementById('rp-d').value);
+  const h = parseInt(document.getElementById('rp-h').value);
+  const mi = parseInt(document.getElementById('rp-min').value);
+  document.getElementById('y').value = y;
+  document.getElementById('m').value = m;
+  document.getElementById('d').value = d;
+  document.getElementById('h').value = h;
+  document.getElementById('min').value = mi;
+  updateHourZhi();
+  updateTimeDisplay();
+  renderHome();
+  closeTimePicker();
+}
+
+function updateTimeDisplay() {
+  const y = document.getElementById('y').value;
+  const m = String(document.getElementById('m').value).padStart(2,'0');
+  const d = String(document.getElementById('d').value).padStart(2,'0');
+  const h = String(document.getElementById('h').value).padStart(2,'0');
+  const mi = String(document.getElementById('min').value).padStart(2,'0');
+  const el = document.getElementById('time-display');
+  if (el) el.textContent = `${y}-${m}-${d} ${h}:${mi}`;
+  const dateEl = document.getElementById('hc-date');
+  if (dateEl) dateEl.textContent = `农历：${y}年${parseInt(m)}月${parseInt(d)}日  ${h}:${mi}`;
+  const solarTimeEl = document.getElementById('meta-solar-time');
+  if (solarTimeEl) solarTimeEl.textContent = `${y}-${m}-${d} ${h}:${mi}`;
+}
+
+// 齿轮滑动式地点选择器
+const WHEEL_ITEM_HEIGHT = 36;
+const WHEEL_VISIBLE_COUNT = 5;
+let wheelState = {
+  province: { list: [], index: 0, offset: 0, velocity: 0, lastY: 0, dragging: false },
+  city: { list: [], index: 0, offset: 0, velocity: 0, lastY: 0, dragging: false },
+  district: { list: [], index: 0, offset: 0, velocity: 0, lastY: 0, dragging: false }
+};
+
+function createWheelColumn(listId, stateKey, onChange) {
+  const listEl = document.getElementById(listId);
+  if (!listEl) return;
+  
+  function renderList() {
+    const state = wheelState[stateKey];
+    listEl.innerHTML = state.list.map((item, i) => 
+      `<div class="wheel-item" data-index="${i}">${item}</div>`
+    ).join('');
+    updateSelection();
+  }
+  
+  function updateSelection() {
+    const state = wheelState[stateKey];
+    const items = listEl.querySelectorAll('.wheel-item');
+    const centerOffset = state.offset + state.index * WHEEL_ITEM_HEIGHT;
+    
+    items.forEach((item, i) => {
+      const itemOffset = i * WHEEL_ITEM_HEIGHT - centerOffset;
+      item.classList.remove('selected', 'dim');
+      if (i === state.index) {
+        item.classList.add('selected');
+      }
+      const distFromCenter = Math.abs(itemOffset);
+      if (distFromCenter > WHEEL_ITEM_HEIGHT * 1.5) {
+        item.classList.add('dim');
+      }
+    });
+    
+    listEl.style.transform = `translateY(${-centerOffset + (WHEEL_VISIBLE_COUNT - 1) * WHEEL_ITEM_HEIGHT / 2}px)`;
+  }
+  
+  function onStart(y) {
+    const state = wheelState[stateKey];
+    state.dragging = true;
+    state.lastY = y;
+    state.velocity = 0;
+  }
+  
+  function onMove(y) {
+    const state = wheelState[stateKey];
+    if (!state.dragging) return;
+    const delta = y - state.lastY;
+    state.lastY = y;
+    state.offset += delta;
+    state.velocity = delta;
+    
+    const newIndex = Math.round(state.index + state.offset / WHEEL_ITEM_HEIGHT);
+    if (newIndex !== state.index && newIndex >= 0 && newIndex < state.list.length) {
+      state.index = newIndex;
+      state.offset -= (newIndex - (state.index - (state.offset / WHEEL_ITEM_HEIGHT | 0))) * WHEEL_ITEM_HEIGHT;
+      state.offset = 0;
+      if (onChange) onChange(stateKey, state.index);
+    }
+    updateSelection();
+  }
+  
+  function onEnd() {
+    const state = wheelState[stateKey];
+    if (!state.dragging) return;
+    state.dragging = false;
+    
+    let velocity = state.velocity * 0.3;
+    let steps = Math.round(velocity / WHEEL_ITEM_HEIGHT);
+    let newIndex = state.index + steps;
+    newIndex = Math.max(0, Math.min(state.list.length - 1, newIndex));
+    
+    state.index = newIndex;
+    state.offset = 0;
+    updateSelection();
+    
+    if (onChange) onChange(stateKey, state.index);
+  }
+  
+  listEl.parentElement.addEventListener('touchstart', e => onStart(e.touches[0].clientY), { passive: true });
+  listEl.parentElement.addEventListener('touchmove', e => onMove(e.touches[0].clientY), { passive: true });
+  listEl.parentElement.addEventListener('touchend', onEnd);
+  
+  listEl.parentElement.addEventListener('mousedown', e => { onStart(e.clientY); e.preventDefault(); });
+  document.addEventListener('mousemove', e => { if (wheelState[stateKey].dragging) onMove(e.clientY); });
+  document.addEventListener('mouseup', onEnd);
+  
+  return { renderList, updateSelection };
+}
+
+function initLocationPicker() {
+  if (typeof CITIES_DATA === 'undefined') return;
+  
+  wheelState.province.list = Object.keys(CITIES_DATA);
+  wheelState.province.index = 0;
+  wheelState.province.offset = 0;
+  
+  const cities = Object.keys(CITIES_DATA[wheelState.province.list[0]] || {});
+  wheelState.city.list = cities;
+  wheelState.city.index = 0;
+  wheelState.city.offset = 0;
+  
+  const districts = (CITIES_DATA[wheelState.province.list[0]] && CITIES_DATA[wheelState.province.list[0]][cities[0]]) || [];
+  wheelState.district.list = districts;
+  wheelState.district.index = 0;
+  wheelState.district.offset = 0;
+  
+  function onColumnChange(key, index) {
+    if (key === 'province') {
+      const prov = wheelState.province.list[index];
+      const newCities = Object.keys(CITIES_DATA[prov] || {});
+      wheelState.city.list = newCities;
+      wheelState.city.index = 0;
+      wheelState.city.offset = 0;
+      
+      const newDistricts = (CITIES_DATA[prov] && CITIES_DATA[prov][newCities[0]]) || [];
+      wheelState.district.list = newDistricts;
+      wheelState.district.index = 0;
+      wheelState.district.offset = 0;
+      
+      cityRenderer.renderList();
+      districtRenderer.renderList();
+    } else if (key === 'city') {
+      const prov = wheelState.province.list[wheelState.province.index];
+      const city = wheelState.city.list[index];
+      const newDistricts = (CITIES_DATA[prov] && CITIES_DATA[prov][city]) || [];
+      wheelState.district.list = newDistricts;
+      wheelState.district.index = 0;
+      wheelState.district.offset = 0;
+      districtRenderer.renderList();
+    }
+  }
+  
+  const provRenderer = createWheelColumn('wheel-province-list', 'province', onColumnChange);
+  const cityRenderer = createWheelColumn('wheel-city-list', 'city', onColumnChange);
+  const districtRenderer = createWheelColumn('wheel-district-list', 'district');
+  
+  provRenderer.renderList();
+  cityRenderer.renderList();
+  districtRenderer.renderList();
+}
+
+function openLocationPicker() {
+  const tp = document.getElementById('location-picker');
+  const mask = document.getElementById('picker-mask');
+  if (!tp || !mask) return;
+  tp.classList.add('show');
+  mask.style.display = 'block';
+}
+
+function closeLocationPicker() {
+  const tp = document.getElementById('location-picker');
+  const mask = document.getElementById('picker-mask');
+  if (tp) tp.classList.remove('show');
+  if (mask) mask.style.display = 'none';
+}
+
+function confirmLocationPicker() {
+  const prov = wheelState.province.list[wheelState.province.index];
+  const city = wheelState.city.list[wheelState.city.index];
+  const dist = wheelState.district.list[wheelState.district.index];
+  const display = document.getElementById('location-display');
+  if (display && prov) {
+    display.textContent = [prov, city, dist].filter(Boolean).join(' ');
+  }
+  closeLocationPicker();
+}
+
+function updateMemberBottom() {
+  const price = document.querySelector('.pkg-card.recommend .num');
+  const vb = document.getElementById('vb-price');
+  if (price && vb) vb.textContent = price.textContent;
+}
+
+function buildYearOptions(selectId, start, end, selected) {
+  const sel = document.getElementById(selectId);
+  if (!sel || sel.options.length) return;
+  for (let y = start; y <= end; y++) {
+    const o = document.createElement('option');
+    o.value = y; o.text = y + '年';
+    if (y === selected) o.selected = true;
+    sel.appendChild(o);
+  }
+}
+
+function buildSimpleOptions(selectId, count, prefix, selected) {
+  const sel = document.getElementById(selectId);
+  if (!sel || sel.options.length) return;
+  for (let i = 0; i < count; i++) {
+    const o = document.createElement('option');
+    o.value = i;
+    o.text = prefix === 'h' ? (i < 10 ? '0'+i+':00' : i+':00') : (i < 10 ? '0'+i : String(i));
+    if (i === selected) o.selected = true;
+    sel.appendChild(o);
+  }
 }
 
 function initSelects() {
   const now = new Date();
-  const yS = document.getElementById('y');
-  for (let y = 1950; y <= 2100; y++) {
-    const o = document.createElement('option');
-    o.value = y; o.text = y + '年';
-    if (y === now.getFullYear()) o.selected = true;
-    yS.appendChild(o);
-  }
-  const mS = document.getElementById('m');
-  for (let m = 1; m <= 12; m++) {
-    const o = document.createElement('option');
-    o.value = m; o.text = (m < 10 ? '0' + m : m) + '月';
-    if (m === now.getMonth() + 1) o.selected = true;
-    mS.appendChild(o);
-  }
-  const dS = document.getElementById('d');
-  for (let d = 1; d <= 31; d++) {
-    const o = document.createElement('option');
-    o.value = d; o.text = (d < 10 ? '0' + d : d) + '日';
-    if (d === now.getDate()) o.selected = true;
-    dS.appendChild(o);
-  }
-  const hS = document.getElementById('h');
-  for (let i = 0; i < 24; i++) {
-    const o = document.createElement('option');
-    let zhiLabel = '';
-    if (i === 23 || i === 0) zhiLabel = '子';
-    else if (i === 1) zhiLabel = '丑';
-    else if (i === 3) zhiLabel = '寅';
-    else if (i === 5) zhiLabel = '卯';
-    else if (i === 7) zhiLabel = '辰';
-    else if (i === 9) zhiLabel = '巳';
-    else if (i === 11) zhiLabel = '午';
-    else if (i === 13) zhiLabel = '未';
-    else if (i === 15) zhiLabel = '申';
-    else if (i === 17) zhiLabel = '酉';
-    else if (i === 19) zhiLabel = '戌';
-    else if (i === 21) zhiLabel = '亥';
-    o.value = i;
-    o.text = (i < 10 ? '0' + i : i) + ':00' + (zhiLabel ? ' (' + zhiLabel + ')' : '');
-    if (i === now.getHours()) o.selected = true;
-    hS.appendChild(o);
-  }
-  const minS = document.getElementById('min');
-  for (let m = 0; m < 60; m++) {
-    const o = document.createElement('option');
-    o.value = m; o.text = (m < 10 ? '0' + m : m) + '分';
-    if (m === now.getMinutes()) o.selected = true;
-    minS.appendChild(o);
-  }
+  const yLists = [document.getElementById('y'), document.getElementById('rp-y')];
+  yLists.forEach(yS => {
+    if (!yS || yS.options.length) return;
+    for (let y = 1950; y <= 2100; y++) {
+      const o = document.createElement('option');
+      o.value = y; o.text = y + '年';
+      if (y === now.getFullYear()) o.selected = true;
+      yS.appendChild(o);
+    }
+  });
+  const mLists = [document.getElementById('m'), document.getElementById('rp-m')];
+  mLists.forEach(mS => {
+    if (!mS || mS.options.length) return;
+    for (let m = 1; m <= 12; m++) {
+      const o = document.createElement('option');
+      o.value = m; o.text = (m < 10 ? '0' + m : m) + '月';
+      if (m === now.getMonth() + 1) o.selected = true;
+      mS.appendChild(o);
+    }
+  });
+  const dLists = [document.getElementById('d'), document.getElementById('rp-d')];
+  dLists.forEach(dS => {
+    if (!dS || dS.options.length) return;
+    for (let d = 1; d <= 31; d++) {
+      const o = document.createElement('option');
+      o.value = d; o.text = (d < 10 ? '0' + d : d) + '日';
+      if (d === now.getDate()) o.selected = true;
+      dS.appendChild(o);
+    }
+  });
+  const hLists = [document.getElementById('h'), document.getElementById('rp-h')];
+  hLists.forEach(hS => {
+    if (!hS || hS.options.length) return;
+    for (let i = 0; i < 24; i++) {
+      const o = document.createElement('option');
+      let zhiLabel = '';
+      if (i === 23 || i === 0) zhiLabel = '子';
+      else if (i === 1) zhiLabel = '丑';
+      else if (i === 3) zhiLabel = '寅';
+      else if (i === 5) zhiLabel = '卯';
+      else if (i === 7) zhiLabel = '辰';
+      else if (i === 9) zhiLabel = '巳';
+      else if (i === 11) zhiLabel = '午';
+      else if (i === 13) zhiLabel = '未';
+      else if (i === 15) zhiLabel = '申';
+      else if (i === 17) zhiLabel = '酉';
+      else if (i === 19) zhiLabel = '戌';
+      else if (i === 21) zhiLabel = '亥';
+      o.value = i;
+      o.text = (i < 10 ? '0' + i : i) + ':00' + (zhiLabel ? ' (' + zhiLabel + ')' : '');
+      if (i === now.getHours()) o.selected = true;
+      hS.appendChild(o);
+    }
+  });
+  const minLists = [document.getElementById('min'), document.getElementById('rp-min')];
+  minLists.forEach(minS => {
+    if (!minS || minS.options.length) return;
+    for (let m = 0; m < 60; m++) {
+      const o = document.createElement('option');
+      o.value = m; o.text = (m < 10 ? '0' + m : m) + '分';
+      if (m === now.getMinutes()) o.selected = true;
+      minS.appendChild(o);
+    }
+  });
   updateHourZhi();
+  updateTimeDisplay();
+  initLocationPicker();
 }
 
 function updateHourZhi() {
@@ -533,6 +1403,8 @@ function setNow() {
   document.getElementById('h').value = n.getHours();
   document.getElementById('min').value = n.getMinutes();
   updateHourZhi();
+  updateTimeDisplay();
+  renderHome();
 }
 
 function loadExample(n) {
@@ -542,6 +1414,8 @@ function loadExample(n) {
   document.getElementById('h').value = n === 1 ? 14 : 12;
   document.getElementById('min').value = 22;
   updateHourZhi();
+  updateTimeDisplay();
+  renderHome();
 }
 
 function setPanType(type) {
@@ -564,8 +1438,25 @@ async function paipan() {
   const yv = parseInt(y.value), mv = parseInt(m.value), dv = parseInt(d.value), hv = parseInt(h.value);
   let minV = parseInt(min.value) || 0;
   const nameV = document.getElementById('name').value.trim();
-  const genderV = document.getElementById('gender').value;
-  const locationV = document.getElementById('location').value.trim();
+  let genderV = '';
+  const gh = document.getElementById('gender-hidden');
+  if (gh) { genderV = gh.value || ''; }
+  if (!genderV) {
+    const oldSel = document.getElementById('gender');
+    if (oldSel) genderV = oldSel.value;
+  }
+  if (!genderV) {
+    const genderText = document.querySelector('.gender-btn.active');
+    if (genderText) genderV = genderText.textContent.trim();
+  }
+  const locationV = (() => {
+    const prov = wheelState.province?.list?.[wheelState.province?.index];
+    const city = wheelState.city?.list?.[wheelState.city?.index];
+    const dist = wheelState.district?.list?.[wheelState.district?.index];
+    if (prov) return [prov, city, dist].filter(Boolean).join(' ');
+    const disp = document.getElementById('location-display');
+    return disp ? disp.textContent.trim() : '';
+  })();
   const panTypeV = getSelectedPanType();
 
   showToast('排盘计算中...');
@@ -579,6 +1470,8 @@ async function paipan() {
       result = r.data;
     }
     curData = result;
+    if (!curData.input) curData.input = {};
+    if (!curData.pan) curData.pan = {};
     curData.input.name = nameV;
     curData.input.gender = genderV;
     curData.input.location = locationV;
@@ -633,7 +1526,7 @@ function renderResult() {
 
   const dayGZ = p.day;
   const kw = getKongWang(dayGZ);
-  const yearZhi = p.zhi.year;
+  const yearZhi = (p.zhi && p.zhi.year) ? p.zhi.year : (Array.isArray(p.year) ? p.year[1] : '');
   const ym = getYiMa(yearZhi);
   const valorPalace = curData.palaces.find(pal => pal.shen === '贵神');
 
@@ -644,7 +1537,6 @@ function renderResult() {
     <div class="dun-chip"><span class="dc-label">值使</span><span class="dc-value">${valorPalace ? valorPalace.men : '—'}</span></div>
   `;
 
-  renderAnalysis();
   renderTraditionalPlate();
   showPage('result');
 }
@@ -654,10 +1546,10 @@ function renderTraditionalPlate() {
   const palaces = curData.palaces;
 
   const LAYOUT = [
-    [{idx:0,pos:4,label:'首'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'首'},{idx:3,pos:4,label:'尾'}],
-    [{idx:6,pos:3,label:''},{idx:4,pos:5,label:'',center:true},{idx:5,pos:7,label:''}],
-    [{idx:8,pos:8,label:'尾'},{idx:7,pos:6,label:'尾'}],
-    [{idx:11,pos:6,label:'首'},{idx:9,pos:8,label:'首'},{idx:10,pos:1,label:''},{idx:12,pos:2,label:'尾'}]
+    [{idx:0,pos:4,label:'尾'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'尾'},{idx:3,pos:2,label:'首'}],
+    [{idx:11,pos:4,label:'首'},{idx:12,pos:5,label:'',center:true},{idx:4,pos:7,label:''}],
+    [{idx:10,pos:3,label:''},{idx:5,pos:6,label:'尾'}],
+    [{idx:9,pos:8,label:'尾'},{idx:8,pos:8,label:'首'},{idx:7,pos:1,label:''},{idx:6,pos:6,label:'首'}]
   ];
 
   const palaceByIndex = (idx) => palaces[idx] || null;
@@ -669,27 +1561,54 @@ function renderTraditionalPlate() {
     const isGuiShen = palace.shen === '贵神';
     const menKw = KNOWLEDGE?.men?.[palace.men];
     const menCls = menKw?.class || '';
+    const ling = palace.lingGan || '';
+    const tg = palace.tianGan || '';
+    const ren = palace.diGan || '';
+    const dg = palace.diGan || '';
+    const an = palace.anGan || '';
+    const tg2 = palace.tiangang || '';
+    const rp = palace.riPaiJu || '';
 
     if (cell.center) {
       return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">
-        <div class="pc-center-shen">${palace.shen}</div>
-        <div class="pc-center-row"><span class="pc-xing">${palace.xing || '—'}</span><span class="pc-tian">${palace.tianGan || ''}</span></div>
-        <div class="pc-center-row"><span class="pc-men men-${menCls}">${palace.men || '—'}</span><span class="pc-di">${palace.diGan || ''}</span></div>
-        <div class="pc-center-row"><span></span><span class="pc-an">${palace.anGan || ''}</span></div>
+        <div class="pc-tri">
+          <div class="pc-col pc-left">
+            <div class="pc-shen">${palace.shen}</div>
+            <div class="pc-xing">${palace.xing || '—'}</div>
+            <div class="pc-men men-${menCls}">${palace.men || '—'}</div>
+          </div>
+          <div class="pc-col pc-mid">
+            <div class="pc-ling">${ling}</div>
+            <div class="pc-tian">${tg}</div>
+            <div class="pc-ren">${ren}</div>
+            <div class="pc-di">${dg}</div>
+            <div class="pc-an">${an}</div>
+          </div>
+          <div class="pc-col pc-right">
+            <div class="pc-tiangang">${tg2}</div>
+            <div class="pc-ripai">${rp}</div>
+          </div>
+        </div>
       </td>`;
     }
 
     return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">
-      <div class="pc-shen">${palace.shen}</div>
-      <div class="pc-body">
-        <div class="pc-left">
-          <span class="pc-xing">${palace.xing || '—'}</span>
-          <span class="pc-men men-${menCls}">${palace.men || '—'}</span>
+      <div class="pc-tri">
+        <div class="pc-col pc-left">
+          <div class="pc-shen">${palace.shen}</div>
+          <div class="pc-xing">${palace.xing || '—'}</div>
+          <div class="pc-men men-${menCls}">${palace.men || '—'}</div>
         </div>
-        <div class="pc-right">
-          <span class="pc-tian">${palace.tianGan || ''}</span>
-          <span class="pc-di">${palace.diGan || ''}</span>
-          <span class="pc-an">${palace.anGan || ''}</span>
+        <div class="pc-col pc-mid">
+          <div class="pc-ling">${ling}</div>
+          <div class="pc-tian">${tg}</div>
+          <div class="pc-ren">${ren}</div>
+          <div class="pc-di">${dg}</div>
+          <div class="pc-an">${an}</div>
+        </div>
+        <div class="pc-col pc-right">
+          <div class="pc-tiangang">${tg2}</div>
+          <div class="pc-ripai">${rp}</div>
         </div>
       </div>
     </td>`;
@@ -723,6 +1642,7 @@ function getYiMa(yearZhi) {
 
 function renderAnalysis() {
   const ac = document.getElementById('analysis-content');
+  if (!ac) return;
   if (!curData || !window.KNOWLEDGE) {
     ac.innerHTML = '<div class="analysis-item"><span class="ai-l">综合</span><span class="ai-r">知识库未加载</span></div>';
     return;
@@ -901,7 +1821,7 @@ function saveHistory(data) {
   };
   history.unshift(record);
   if (history.length > 100) history.pop();
-  localStorage.setItem('qimen_history', JSON.stringify(history));
+  localStorage.setItem(userKey('history'), JSON.stringify(history));
   renderHome();
   renderProfile();
   updateHistoryDot();
@@ -915,16 +1835,17 @@ function renderHistory() {
     return;
   }
   list.innerHTML = history.map(h => `
-    <div class="history-item" onclick="loadHistoryDirect(${h.id})">
+    <div class="history-item ${batchMode ? 'batch-mode' : ''}" onclick="${batchMode ? `toggleBatchSelect(${h.id})` : `loadHistoryDirect(${h.id})`}">
+      ${batchMode ? `<div class="hi-checkbox ${selectedIds.has(h.id) ? 'checked' : ''}">${selectedIds.has(h.id) ? '✓' : ''}</div>` : ''}
       <div class="hi-l">
         <div class="hi-time">${h.input.year}-${String(h.input.month).padStart(2,'0')}-${String(h.input.day).padStart(2,'0')} ${String(h.input.hour).padStart(2,'0')}:${String(h.input.minute||0).padStart(2,'0')}</div>
         <div class="hi-info">${h.pan ? h.pan.pan : '阴盘'} · ${h.dun} · ${h.ju}局</div>
         <div class="hi-sub">${h.pillars.year} ${h.pillars.month} ${h.pillars.day} ${h.pillars.time}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:4px">
+      ${batchMode ? '' : `<div style="display:flex;align-items:center;gap:4px">
         <span class="hi-delete" onclick="event.stopPropagation();deleteHistory(${h.id})">删</span>
         <span class="hi-arrow">›</span>
-      </div>
+      </div>`}
     </div>
   `).join('');
 }
@@ -932,7 +1853,7 @@ function renderHistory() {
 function deleteHistory(id) {
   if (!confirm('确定删除此条历史记录？')) return;
   history = history.filter(h => h.id !== id);
-  localStorage.setItem('qimen_history', JSON.stringify(history));
+  localStorage.setItem(userKey('history'), JSON.stringify(history));
   renderHistory();
   renderHome();
   renderProfile();
@@ -974,115 +1895,241 @@ function loadHistoryDirect(id) {
 
 function renderHome() {
   updateHistoryDot();
+  updateTimeDisplay();
+  renderHourCard();
+}
+
+function renderHourCard() {
+  const yv = parseInt(document.getElementById('y').value);
+  const mv = parseInt(document.getElementById('m').value);
+  const dv = parseInt(document.getElementById('d').value);
+  const hv = parseInt(document.getElementById('h').value);
+  const mi = parseInt(document.getElementById('min').value);
+
+  let pillars = null;
+  try {
+    if (typeof QiMenAlgorithm !== 'undefined' && QiMenAlgorithm.fullPaiPan) {
+      const fakeInput = {name:'', gender:'', location:'', panType:'阴盘'};
+      const res = QiMenAlgorithm.fullPaiPan(yv, mv, dv, hv, mi);
+      if (res && res.pillars) pillars = res.pillars;
+    }
+  } catch(e) {}
+
+  const ganZhi = [
+    pillars ? pillars.year : '—',
+    pillars ? pillars.month : '—',
+    pillars ? pillars.day : '—',
+    pillars ? pillars.time : '—'
+  ];
+  const labels = ['年柱','月柱','日柱','时柱'];
+  const html = ganZhi.map((gz, i) => {
+    const gan = gz && gz.length >= 1 ? gz[0] : '—';
+    const zhi = gz && gz.length >= 2 ? gz[1] : '';
+    return `<div class="hc-p"><div class="hc-g">${gan}<span class="zhi">${zhi}</span></div><div class="hc-s">${labels[i]}</div></div>`;
+  }).join('');
+  const pc = document.getElementById('hc-pillars');
+  if (pc) pc.innerHTML = html;
+
+  const zhiName = zhiFromHour(hv);
+  const hcTime = document.getElementById('hc-time');
+  if (hcTime) hcTime.textContent = `${zhiName}时  ${String(hv).padStart(2,'0')}:${String(mi).padStart(2,'0')}`;
 }
 
 function renderProfile() {
   const total = history.length;
   const yang = history.filter(h => h.dun === '阳遁').length;
   const yin = history.filter(h => h.dun === '阴遁').length;
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-yang').textContent = yang;
-  document.getElementById('stat-yin').textContent = yin;
+  const elT = document.getElementById('stat-total');
+  const elY = document.getElementById('stat-yang');
+  const elN = document.getElementById('stat-yin');
+  if (elT) elT.textContent = total;
+  if (elY) elY.textContent = yang;
+  if (elN) elN.textContent = yin;
+  const uidEl = document.getElementById('profile-id');
+  if (uidEl) uidEl.textContent = 'ID: ' + getUserId().slice(-8).toUpperCase();
+  const unameEl = document.getElementById('profile-name');
+  if (unameEl) unameEl.textContent = '用户 ' + getUserId().slice(-4).toUpperCase();
+  updateMessageBadge();
 }
 
 function updateHistoryDot() {
   const dot = document.getElementById('history-dot');
-  dot.style.display = history.length > 0 ? 'block' : 'none';
+  if (dot) dot.style.display = history.length > 0 ? 'block' : 'none';
 }
 
-function exportHistory() {
-  if (history.length === 0) { showToast('暂无历史记录'); return; }
-  const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `qimen_history_${Date.now()}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('导出成功');
+function updateMessageBadge() {
+  const badge = document.getElementById('msg-badge');
+  if (!badge) return;
+  const unread = userMessages.filter(m => !m.read).length;
+  badge.classList.toggle('show', unread > 0);
 }
+
+/* 进入批量导出模式 */
+function enterBatchExport() {
+  if (history.length === 0) { showToast('暂无历史记录'); return; }
+  batchMode = true;
+  selectedIds = new Set();
+  showPage('history');
+  const bar = document.getElementById('export-bar');
+  if (bar) bar.classList.add('show');
+  const batchBtn = document.getElementById('batch-export-btn');
+  if (batchBtn) batchBtn.style.display = 'none';
+  updateBatchCount();
+}
+
+/* 退出批量导出模式 */
+function exitBatchExport() {
+  batchMode = false;
+  selectedIds = new Set();
+  const bar = document.getElementById('export-bar');
+  if (bar) bar.classList.remove('show');
+  const batchBtn = document.getElementById('batch-export-btn');
+  if (batchBtn) batchBtn.style.display = '';
+  renderHistory();
+}
+
+/* 切换选择 */
+function toggleBatchSelect(id) {
+  if (selectedIds.has(id)) selectedIds.delete(id);
+  else selectedIds.add(id);
+  renderHistory();
+  updateBatchCount();
+}
+
+function updateBatchCount() {
+  const countEl = document.getElementById('eb-count');
+  const confirmBtn = document.getElementById('eb-confirm');
+  if (countEl) countEl.textContent = `已选 ${selectedIds.size} 项`;
+  if (confirmBtn) confirmBtn.disabled = selectedIds.size === 0;
+}
+
+/* 确认批量导出 */
+async function confirmBatchExport() {
+  if (selectedIds.size === 0) { showToast('请选择至少一项'); return; }
+  const records = history.filter(h => selectedIds.has(h.id));
+  await exportMultiplePDF(records);
+  exitBatchExport();
+}
+
+/* 兼容旧版调用：从「我的-导出历史」入口直接进入批量模式 */
+function exportHistory() { enterBatchExport(); }
 
 async function exportPDF() {
   if (!curData) { showToast('暂无排盘数据'); return; }
-
   showToast('正在生成导出文件...');
-
   try {
-    const input = curData.input;
-    const p = curData.pillars;
-    const valorPalace = curData.palaces.find(pal => pal.shen === '贵神');
-    const kw = getKongWang(p.day);
-    const ym = getYiMa(p.zhi.year);
+    const htmlContent = buildPaipanHTML(curData, { showPrintBtn: true });
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      showToast('在新窗口中点击"打印"保存为PDF');
+    }, 1000);
+  } catch (e) {
+    showToast('导出失败: ' + e.message);
+  }
+}
 
-    const analysisContent = document.getElementById('analysis-content')?.innerHTML || '';
-    const baseInfoRows = [];
-    if (input.name) baseInfoRows.push(`<div class="label">姓名</div><div class="value">${input.name}</div>`);
-    if (input.gender) baseInfoRows.push(`<div class="label">性别</div><div class="value">${input.gender}</div>`);
-    if (input.location) baseInfoRows.push(`<div class="label">出生地</div><div class="value">${input.location}</div>`);
-    baseInfoRows.push(`<div class="label">公历</div><div class="value">${input.year}年${input.month}月${input.day}日</div>`);
-    baseInfoRows.push(`<div class="label">时辰</div><div class="value">${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}</div>`);
+/* 构造单条排盘数据对应的HTML（用于导出） */
+function buildPaipanHTML(data, opts) {
+  opts = opts || {};
+  const input = data.input;
+  const p = data.pillars || {};
+  const valorPalace = (data.palaces || []).find(pal => pal.shen === '贵神');
+  /* 兼容历史记录：优先使用 p.zhi.year，否则从 p.year 数组中取年支 */
+  const dayGZ = p.day || '';
+  const yearZhi = (p.zhi && p.zhi.year) ? p.zhi.year : (Array.isArray(p.year) ? p.year[1] : '');
+  const kw = (typeof getKongWang === 'function') ? getKongWang(dayGZ) : null;
+  const ym = (typeof getYiMa === 'function') ? getYiMa(yearZhi) : '';
 
-    const LAYOUT = [
-      [{idx:0,pos:4,label:'首'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'首'},{idx:3,pos:4,label:'尾'}],
-      [{idx:6,pos:3,label:''},{idx:4,pos:5,label:'',center:true},{idx:5,pos:7,label:''}],
-      [{idx:8,pos:8,label:'尾'},{idx:7,pos:6,label:'尾'}],
-      [{idx:11,pos:6,label:'首'},{idx:9,pos:8,label:'首'},{idx:10,pos:1,label:''},{idx:12,pos:2,label:'尾'}]
-    ];
+  const baseInfoRows = [];
+  if (input.name) baseInfoRows.push(`<div class="label">姓名</div><div class="value">${input.name}</div>`);
+  if (input.gender) baseInfoRows.push(`<div class="label">性别</div><div class="value">${input.gender}</div>`);
+  if (input.location) baseInfoRows.push(`<div class="label">出生地</div><div class="value">${input.location}</div>`);
+  baseInfoRows.push(`<div class="label">公历</div><div class="value">${input.year}年${input.month}月${input.day}日</div>`);
+  baseInfoRows.push(`<div class="label">时辰</div><div class="value">${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}</div>`);
 
-    let plateRows = '';
-    for (const row of LAYOUT) {
-      plateRows += '<tr>';
-      for (const cell of row) {
-        if (!cell) {
-          plateRows += '<td class="empty"></td>';
-          continue;
-        }
-        const palace = curData.palaces[cell.idx];
-        if (!palace) {
-          plateRows += '<td class="empty"></td>';
-          continue;
-        }
-        const isGuiShen = palace.shen === '贵神';
-        const menKw = KNOWLEDGE?.men?.[palace.men];
-        const menCls = menKw?.class || '';
+  const LAYOUT = [
+    [{idx:0,pos:4,label:'尾'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'尾'},{idx:3,pos:2,label:'首'}],
+    [{idx:11,pos:4,label:'首'},{idx:12,pos:5,label:'',center:true},{idx:4,pos:7,label:''}],
+    [{idx:10,pos:3,label:''},{idx:5,pos:6,label:'尾'}],
+    [{idx:9,pos:8,label:'尾'},{idx:8,pos:8,label:'首'},{idx:7,pos:1,label:''},{idx:6,pos:6,label:'首'}]
+  ];
 
-        if (cell.center) {
-          plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2">
-            <div class="cell-inner" style="text-align:center">
-              <div class="shen-name">${palace.shen}</div>
-              <div class="gan-line"><span class="xing-name">${palace.xing || '—'}</span><span class="tg">${palace.tianGan || ''}</span></div>
-              <div class="gan-line"><span class="men-${menCls}">${palace.men || '—'}</span><span class="dg">${palace.diGan || ''}</span></div>
-              ${palace.anGan ? `<div class="gan-line"><span></span><span class="dg">${palace.anGan}</span></div>` : ''}
-            </div>
-          </td>`;
-        } else {
-          plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}">
-            <div class="cell-inner">
-              <div class="shen-name">${palace.shen}</div>
-              <div class="cell-row">
-                <div class="cell-col left">
-                  <div class="xing-name">${palace.xing || '—'}</div>
-                  <div class="men-name men-${menCls}">${palace.men || '—'}</div>
-                </div>
-                <div class="cell-col right">
-                  <div class="tg">${palace.tianGan || ''}</div>
-                  <div class="dg">${palace.diGan || ''}</div>
-                  ${palace.anGan ? `<div class="dg">${palace.anGan}</div>` : ''}
-                </div>
-              </div>
-            </div>
-          </td>`;
-        }
-      }
-      plateRows += '</tr>';
+  let plateRows = '';
+  for (const row of LAYOUT) {
+    plateRows += '<tr>';
+    for (const cell of row) {
+      if (!cell) { plateRows += '<td class="empty"></td>'; continue; }
+      const palace = (data.palaces || [])[cell.idx];
+      if (!palace) { plateRows += '<td class="empty"></td>'; continue; }
+      const isGuiShen = palace.shen === '贵神';
+      const menKw = (typeof KNOWLEDGE !== 'undefined') ? (KNOWLEDGE?.men?.[palace.men]) : null;
+      const menCls = menKw?.class || '';
+      const ling = palace.lingGan || '';
+      const tg = palace.tianGan || '';
+      const ren = palace.diGan || '';
+      const dg = palace.diGan || '';
+      const an = palace.anGan || '';
+      const tg2 = palace.tiangang || '';
+      const rp = palace.riPaiJu || '';
+
+      plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" ${cell.center ? 'colspan="2" rowspan="2"' : ''}>
+        <div class="exp-tri">
+          <div class="exp-col exp-left">
+            <div class="exp-shen">${palace.shen}</div>
+            <div class="exp-xing">${palace.xing || '—'}</div>
+            <div class="exp-men men-${menCls}">${palace.men || '—'}</div>
+          </div>
+          <div class="exp-col exp-mid">
+            <div class="exp-ling">${ling}</div>
+            <div class="exp-tian">${tg}</div>
+            <div class="exp-ren">${ren}</div>
+            <div class="exp-di">${dg}</div>
+            <div class="exp-an">${an}</div>
+          </div>
+          <div class="exp-col exp-right">
+            <div class="exp-tiangang">${tg2}</div>
+            <div class="exp-ripai">${rp}</div>
+          </div>
+        </div>
+      </td>`;
     }
+    plateRows += '</tr>';
+  }
 
-    const htmlContent = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>道家奇门遁甲排盘</title>
-<style>
+  return `
+  <h1>道家奇门遁甲排盘</h1>
+  <div class="subtitle">${input.year}年${input.month}月${input.day}日 ${data.pan ? '· ' + data.pan.pan + ' · ' + data.pan.dun + ' · ' + data.pan.ju + '局' : ''}</div>
+
+  <h2>基础信息</h2>
+  <div class="info-grid">${baseInfoRows.join('')}</div>
+
+  <h2>四柱干支</h2>
+  <div class="pillar-row">
+    <div class="pillar"><div class="pos">年柱</div><div class="gz"><span class="gan">${p.year[0]}</span><span class="zhi">${p.year[1]}</span></div></div>
+    <div class="pillar"><div class="pos">月柱</div><div class="gz"><span class="gan">${p.month[0]}</span><span class="zhi">${p.month[1]}</span></div></div>
+    <div class="pillar"><div class="pos">日柱</div><div class="gz"><span class="gan">${p.day[0]}</span><span class="zhi">${p.day[1]}</span></div></div>
+    <div class="pillar"><div class="pos">时柱</div><div class="gz"><span class="gan">${p.time[0]}</span><span class="zhi">${p.time[1]}</span></div></div>
+  </div>
+
+  <h2>遁局信息</h2>
+  <div class="info-grid">
+    <div class="label">空亡</div><div class="value">${kw ? kw.join('、') : '—'}</div>
+    <div class="label">驿马</div><div class="value">${ym || '—'}</div>
+    <div class="label">值符</div><div class="value">${valorPalace ? valorPalace.diGan : '—'}</div>
+    <div class="label">值使</div><div class="value">${valorPalace ? valorPalace.men : '—'}</div>
+  </div>
+
+  <h2>排盘图表</h2>
+  <table class="plate">${plateRows}</table>
+
+  <div class="footer">道家奇门遁甲排盘 · 自动生成<br>${new Date().toLocaleString('zh-CN')}</div>
+  `;
+}
+
+const EXPORT_STYLE = `
   * { box-sizing: border-box; }
   body { font-family: "KaiTi","STKaiti","楷体","SimSun",serif; max-width: 600px; margin: 10px auto; padding: 20px; color: #1c1a17; background: #f7f5f0; }
   h1 { text-align: center; font-size: 24px; color: #1c1a17; margin: 0 0 5px; letter-spacing: 4px; }
@@ -1112,49 +2159,62 @@ async function exportPDF() {
   .plate .tg { font-weight: bold; color: #1c1a17; font-size: 12px; line-height: 1.6; }
   .plate .dg { color: #4a4743; font-size: 12px; line-height: 1.6; }
   .plate .gan-line { font-size: 12px; color: #4a4743; display: flex; justify-content: space-between; padding: 0 4px; line-height: 1.6; }
+  .plate .exp-tri { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; width: 100%; height: 100%; }
+  .plate .exp-col { display: flex; flex-direction: column; justify-content: space-between; gap: 1px; min-width: 0; }
+  .plate .exp-col.exp-left { align-items: flex-start; }
+  .plate .exp-col.exp-mid { align-items: flex-end; text-align: right; }
+  .plate .exp-col.exp-right { align-items: flex-end; text-align: right; }
+  .plate .exp-shen { color: #b8860b; font-weight: bold; font-size: 12px; letter-spacing: 1px; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .plate .exp-xing { color: #1c1a17; font-weight: 600; font-size: 11px; line-height: 1.5; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .plate .exp-men { font-weight: bold; font-size: 11px; line-height: 1.5; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .plate .exp-ling { font-size: 11px; font-weight: 700; color: #6b4e00; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .plate .exp-tian { font-size: 11px; font-weight: bold; color: #1c1a17; line-height: 1.5; }
+  .plate .exp-ren { font-size: 11px; font-weight: 700; color: #4a4743; line-height: 1.5; }
+  .plate .exp-di { font-size: 11px; color: #4a4743; line-height: 1.5; }
+  .plate .exp-an { font-size: 10px; color: #8c877e; line-height: 1.5; }
+  .plate .exp-tiangang { font-size: 10px; font-weight: 700; color: #b8860b; background: #fff8e6; border-radius: 3px; padding: 1px 3px; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .plate .exp-ripai { font-size: 9px; color: #8c877e; margin-top: 1px; }
   .men-大吉 { color: #2e7d32; }
   .men-吉 { color: #388e3c; }
   .men-中 { color: #d17a00; }
   .men-凶 { color: #c62828; }
   .men-大凶 { color: #fff; background: #c62828; border-radius: 3px; padding: 0 3px; }
-  .analysis { background: #fffdf8; padding: 12px; border-radius: 6px; margin: 10px 0; border: 1px solid #e3ddd2; }
   .footer { text-align: center; font-size: 11px; color: #999; margin-top: 20px; }
   .no-print { text-align: center; margin: 15px; }
   .no-print button { padding: 8px 20px; font-size: 14px; cursor: pointer; background: #1c1a17; color: #fff; border: none; border-radius: 6px; font-family: "KaiTi","STKaiti","楷体",serif; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
   @media print { body { margin: 0; padding: 10mm; } .no-print { display: none; } }
-</style>
+`;
+
+/* 批量导出多条记录：每条记录单独一页，使用 page-break-after 强制分页 */
+async function exportMultiplePDF(records) {
+  if (!records || records.length === 0) { showToast('无导出数据'); return; }
+  showToast('正在生成 ' + records.length + ' 份排盘...');
+
+  try {
+    const pagesHtml = records.map(rec => {
+      const data = {
+        input: rec.input,
+        pillars: rec.pillars,
+        pan: rec.pan,
+        palaces: rec.palaces || [],
+        layout: rec.layout || [],
+        luoshuCoords: rec.luoshuCoords || {}
+      };
+      return `<div class="page">${buildPaipanHTML(data)}</div>`;
+    }).join('\n');
+
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>道家奇门遁甲排盘 · 批量导出</title>
+<style>${EXPORT_STYLE}</style>
 </head>
 <body>
-  <div class="no-print"><button onclick="window.print()">点击打印 / 保存为PDF</button></div>
-  <h1>道家奇门遁甲排盘</h1>
-  <div class="subtitle">${input.year}年${input.month}月${input.day}日</div>
-
-  <h2>基础信息</h2>
-  <div class="info-grid">${baseInfoRows.join('')}</div>
-
-  <h2>四柱干支</h2>
-  <div class="pillar-row">
-    <div class="pillar"><div class="pos">年柱</div><div class="gz"><span class="gan">${p.year[0]}</span><span class="zhi">${p.year[1]}</span></div></div>
-    <div class="pillar"><div class="pos">月柱</div><div class="gz"><span class="gan">${p.month[0]}</span><span class="zhi">${p.month[1]}</span></div></div>
-    <div class="pillar"><div class="pos">日柱</div><div class="gz"><span class="gan">${p.day[0]}</span><span class="zhi">${p.day[1]}</span></div></div>
-    <div class="pillar"><div class="pos">时柱</div><div class="gz"><span class="gan">${p.time[0]}</span><span class="zhi">${p.time[1]}</span></div></div>
-  </div>
-
-  <h2>遁局信息</h2>
-  <div class="info-grid">
-    <div class="label">空亡</div><div class="value">${kw ? kw.join('、') : '—'}</div>
-    <div class="label">驿马</div><div class="value">${ym || '—'}</div>
-    <div class="label">值符</div><div class="value">${valorPalace ? valorPalace.diGan : '—'}</div>
-    <div class="label">值使</div><div class="value">${valorPalace ? valorPalace.men : '—'}</div>
-  </div>
-
-  <h2>排盘分析</h2>
-  <div class="analysis">${analysisContent}</div>
-
-  <h2>排盘图表</h2>
-  <table class="plate">${plateRows}</table>
-
-  <div class="footer">道家奇门遁甲排盘 · 自动生成<br>${new Date().toLocaleString('zh-CN')}</div>
+  <div class="no-print"><button onclick="window.print()">点击打印 / 保存为PDF（共 ${records.length} 份）</button></div>
+  ${pagesHtml}
 </body>
 </html>`;
 
@@ -1163,9 +2223,8 @@ async function exportPDF() {
     window.open(url, '_blank');
     setTimeout(() => {
       URL.revokeObjectURL(url);
-      showToast('在新窗口中点击"打印"保存为PDF');
+      showToast('已生成 ' + records.length + ' 份排盘，每份单独一页');
     }, 1000);
-
   } catch (e) {
     showToast('导出失败: ' + e.message);
   }
@@ -1175,7 +2234,7 @@ function clearHistory() {
   if (history.length === 0) { showToast('历史记录已为空'); return; }
   if (!confirm('确定要清空所有历史记录吗？此操作不可恢复。')) return;
   history = [];
-  localStorage.removeItem('qimen_history');
+  localStorage.removeItem(userKey('history'));
   renderHome();
   renderHistory();
   renderProfile();
@@ -1192,6 +2251,175 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 1500);
+}
+
+/* ===== 夜间模式 ===== */
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const isDark = html.classList.toggle('dark');
+  localStorage.setItem(userKey('theme'), isDark ? 'dark' : 'light');
+  applyThemeUI(isDark);
+  showToast(isDark ? '已切换至夜间模式' : '已切换至日间模式');
+}
+
+function applyThemeUI(isDark) {
+  const icon = document.getElementById('theme-icon');
+  const label = document.getElementById('theme-label');
+  if (icon) icon.classList.toggle('is-dark', isDark);
+  if (label) label.textContent = isDark ? '日间模式' : '夜间模式';
+}
+
+function initTheme() {
+  const saved = localStorage.getItem(userKey('theme')) || 'light';
+  const isDark = saved === 'dark';
+  if (isDark) document.documentElement.classList.add('dark');
+  applyThemeUI(isDark);
+}
+initTheme();
+
+/* ===== 我的收藏 ===== */
+function toggleFavorite() {
+  if (!curData) { showToast('暂无排盘数据'); return; }
+  const fid = curData.input.year + '_' + curData.input.month + '_' + curData.input.day + '_' + curData.input.hour + '_' + (curData.input.minute || 0);
+  const existIdx = favorites.findIndex(f => f.fid === fid);
+  const starBtn = document.getElementById('star-btn');
+  const starIcon = starBtn?.querySelector('.star-icon');
+  if (existIdx >= 0) {
+    favorites.splice(existIdx, 1);
+    localStorage.setItem(userKey('favorites'), JSON.stringify(favorites));
+    if (starBtn) starBtn.classList.remove('active');
+    if (starIcon) starIcon.textContent = '☆';
+    showToast('已取消收藏');
+  } else {
+    const rec = {
+      fid: fid,
+      id: Date.now(),
+      time: new Date().toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+      input: curData.input,
+      pillars: curData.pillars,
+      pan: curData.pan,
+      dun: curData.pan ? curData.pan.dun : '',
+      ju: curData.pan ? curData.pan.ju : '',
+      guiShen: curData.guiShen,
+      palaces: curData.palaces || [],
+      layout: curData.layout || [],
+      luoshuCoords: curData.luoshuCoords || {}
+    };
+    favorites.unshift(rec);
+    localStorage.setItem(userKey('favorites'), JSON.stringify(favorites));
+    if (starBtn) starBtn.classList.add('active');
+    if (starIcon) starIcon.textContent = '★';
+    showToast('已收藏');
+  }
+}
+
+function updateFavoriteStatus() {
+  const starBtn = document.getElementById('star-btn');
+  const starIcon = starBtn?.querySelector('.star-icon');
+  if (!curData || !starBtn) return;
+  const fid = curData.input.year + '_' + curData.input.month + '_' + curData.input.day + '_' + curData.input.hour + '_' + (curData.input.minute || 0);
+  const exist = favorites.some(f => f.fid === fid);
+  starBtn.classList.toggle('active', exist);
+  if (starIcon) starIcon.textContent = exist ? '★' : '☆';
+}
+
+function renderFavorites() {
+  const list = document.getElementById('favorites-list');
+  if (!list) return;
+  if (favorites.length === 0) {
+    list.innerHTML = '<div class="history-empty"><div class="eicon">藏</div><div>暂无收藏记录</div></div>';
+    return;
+  }
+  list.innerHTML = favorites.map(f => `
+    <div class="fav-item" onclick="loadFavorite('${f.fid}')">
+      <div class="fi-l">
+        <div class="fi-time">${f.input.year}-${String(f.input.month).padStart(2,'0')}-${String(f.input.day).padStart(2,'0')} ${String(f.input.hour).padStart(2,'0')}:${String(f.input.minute||0).padStart(2,'0')}</div>
+        <div class="fi-info">${f.pan ? f.pan.pan : '阴盘'} · ${f.dun} · ${f.ju}局</div>
+        <div class="fi-sub">${f.pillars.year} ${f.pillars.month} ${f.pillars.day} ${f.pillars.time}</div>
+      </div>
+      <span class="fi-del" onclick="event.stopPropagation();deleteFavorite('${f.fid}')">删</span>
+    </div>
+  `).join('');
+}
+
+function loadFavorite(fid) {
+  const rec = favorites.find(f => f.fid === fid);
+  if (!rec) return;
+  curData = {
+    input: rec.input,
+    pillars: rec.pillars,
+    pillarArr: [rec.pillars.year, rec.pillars.month, rec.pillars.day, rec.pillars.time],
+    pan: rec.pan,
+    guiShen: rec.guiShen,
+    palaces: rec.palaces || [],
+    layout: rec.layout || [],
+    luoshuCoords: rec.luoshuCoords || {}
+  };
+  showPage('result');
+  if (typeof renderResult === 'function') renderResult();
+  setTimeout(updateFavoriteStatus, 50);
+}
+
+function deleteFavorite(fid) {
+  if (!confirm('确定删除此条收藏？')) return;
+  favorites = favorites.filter(f => f.fid !== fid);
+  localStorage.setItem(userKey('favorites'), JSON.stringify(favorites));
+  renderFavorites();
+  showToast('已删除');
+}
+
+function clearFavorites() {
+  if (favorites.length === 0) { showToast('收藏已为空'); return; }
+  if (!confirm('确定清空所有收藏吗？此操作不可恢复。')) return;
+  favorites = [];
+  localStorage.removeItem(userKey('favorites'));
+  renderFavorites();
+  showToast('已清空');
+}
+
+/* ===== 我的消息 ===== */
+function renderMessages() {
+  const list = document.getElementById('messages-list');
+  if (!list) return;
+  if (userMessages.length === 0) {
+    list.innerHTML = '<div class="history-empty"><div class="eicon">邮</div><div>暂无消息</div></div>';
+    return;
+  }
+  list.innerHTML = userMessages.map(m => `
+    <div class="msg-item ${m.read ? '' : 'unread'}" onclick="readMessage(${m.id})">
+      <div class="mi-head">
+        <div class="mi-title">${m.title}${m.read ? '' : '<span class="mi-status"></span>'}</div>
+        <div class="mi-time">${m.time || ''}</div>
+      </div>
+      <div class="mi-body">${(m.body || '').replace(/\n/g, '<br>')}</div>
+    </div>
+  `).join('');
+}
+
+function readMessage(id) {
+  const m = userMessages.find(x => x.id === id);
+  if (!m) return;
+  if (!m.read) {
+    m.read = true;
+    localStorage.setItem(userKey('messages'), JSON.stringify(userMessages));
+    renderMessages();
+    updateMessageBadge();
+  }
+}
+
+function markAllMessagesRead() {
+  let changed = false;
+  userMessages.forEach(m => {
+    if (!m.read) { m.read = true; changed = true; }
+  });
+  if (changed) {
+    localStorage.setItem(userKey('messages'), JSON.stringify(userMessages));
+    renderMessages();
+    updateMessageBadge();
+    showToast('已全部标记为已读');
+  } else {
+    showToast('没有未读消息');
+  }
 }
 
 // AI 智能体
@@ -1283,8 +2511,120 @@ function initAIAgent() {
     togglePanel(isHidden);
   }
 
-  fab.addEventListener('click', onFabClick);
-  fab.addEventListener('touchend', onFabClick, { passive: false });
+  // 拖动功能
+  let isDragging = false;
+  let startX = 0, startY = 0;
+  let initialLeft = 0, initialTop = 0;
+  let movedDistance = 0;
+
+  function onTouchStart(e) {
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    const rect = fab.getBoundingClientRect();
+    initialLeft = rect.left;
+    initialTop = rect.top;
+    isDragging = false;
+    movedDistance = 0;
+  }
+
+  function onTouchMove(e) {
+    if (startX === 0 && startY === 0) return;
+    const touch = e.touches[0];
+    const dx = touch.clientX - startX;
+    const dy = touch.clientY - startY;
+    movedDistance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (movedDistance > 5) {
+      isDragging = true;
+      e.preventDefault();
+      
+      const maxX = window.innerWidth - fab.offsetWidth;
+      const maxY = window.innerHeight - fab.offsetHeight;
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+      
+      newLeft = Math.max(0, Math.min(newLeft, maxX));
+      newTop = Math.max(0, Math.min(newTop, maxY));
+      
+      fab.style.left = newLeft + 'px';
+      fab.style.top = newTop + 'px';
+      fab.style.right = 'auto';
+      fab.style.bottom = 'auto';
+    }
+  }
+
+  function onTouchEnd(e) {
+    if (isDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+      isDragging = false;
+      startX = 0;
+      startY = 0;
+    } else if (movedDistance <= 5) {
+      onFabClick(e);
+    }
+    movedDistance = 0;
+  }
+
+  // 鼠标事件支持
+  function onMouseDown(e) {
+    startX = e.clientX;
+    startY = e.clientY;
+    const rect = fab.getBoundingClientRect();
+    initialLeft = rect.left;
+    initialTop = rect.top;
+    isDragging = false;
+    movedDistance = 0;
+    
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  function onMouseMove(e) {
+    if (startX === 0 && startY === 0) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    movedDistance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (movedDistance > 5) {
+      isDragging = true;
+      const maxX = window.innerWidth - fab.offsetWidth;
+      const maxY = window.innerHeight - fab.offsetHeight;
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+      
+      newLeft = Math.max(0, Math.min(newLeft, maxX));
+      newTop = Math.max(0, Math.min(newTop, maxY));
+      
+      fab.style.left = newLeft + 'px';
+      fab.style.top = newTop + 'px';
+      fab.style.right = 'auto';
+      fab.style.bottom = 'auto';
+    }
+  }
+
+  function onMouseUp(e) {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    
+    if (isDragging) {
+      isDragging = false;
+    } else if (movedDistance <= 5) {
+      onFabClick(e);
+    }
+    movedDistance = 0;
+    startX = 0;
+    startY = 0;
+  }
+
+  fab.addEventListener('touchstart', onTouchStart, { passive: true });
+  fab.addEventListener('touchmove', onTouchMove, { passive: false });
+  fab.addEventListener('touchend', onTouchEnd, { passive: false });
+  fab.addEventListener('mousedown', onMouseDown);
+
+  // 移除原有的点击/触摸事件，改用拖动事件处理
+  // fab.addEventListener('click', onFabClick);
   if (close) {
     close.addEventListener('click', () => togglePanel(false));
     close.addEventListener('touchend', (e) => { e.preventDefault(); togglePanel(false); }, { passive: false });
@@ -1296,12 +2636,133 @@ function initAIAgent() {
   });
 }
 
+let confirmCb = null;
+function openConfirm(title, body, cb, opts) {
+  opts = opts || {};
+  document.getElementById('mc-title').textContent = title;
+  document.getElementById('mc-body').innerHTML = body;
+  document.getElementById('mc-cancel').textContent = opts.cancelText || '取消';
+  document.getElementById('mc-confirm').textContent = opts.confirmText || '确定';
+  if (opts.confirmDanger) {
+    document.getElementById('mc-confirm').style.background = '#b23a3a';
+  } else {
+    document.getElementById('mc-confirm').style.background = 'var(--gold)';
+  }
+  confirmCb = cb;
+  document.getElementById('confirm-modal').classList.remove('hidden');
+}
+function closeConfirm(){ document.getElementById('confirm-modal').classList.add('hidden'); confirmCb = null; }
+document.addEventListener('DOMContentLoaded', function() {
+  var mcCancel = document.getElementById('mc-cancel');
+  var mcConfirm = document.getElementById('mc-confirm');
+  if (mcCancel) mcCancel.onclick = closeConfirm;
+  if (mcConfirm) mcConfirm.onclick = function() {
+    var cb = confirmCb;
+    closeConfirm();
+    if (cb) cb();
+  };
+});
+
+function confirmLogout() {
+  openConfirm('退出登录', '确定要退出当前登录状态吗？<br>退出后需重新登录才能同步数据。', function() {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_info');
+    showToast('已退出登录');
+    showPage('home');
+    if (typeof refreshProfile === 'function') refreshProfile();
+  }, { confirmText:'退出登录', confirmDanger:false });
+}
+
+function deactivateAccount() {
+  openConfirm('注销账号', '<b style="color:#d33">⚠ 此操作不可恢复！</b><br>注销后您的账号数据将匿名化，历史记录、收藏、消息等将无法找回。<br><br>请输入：<b style="color:var(--gold)">我已确认注销账号且不可恢复</b>', function() {
+    var txt = prompt('请再次输入注销声明：');
+    if (txt && txt.trim() === '我已确认注销账号且不可恢复') {
+      showToast('账号已注销');
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user_info');
+      showPage('home');
+    } else {
+      showToast('声明不一致，注销已取消');
+    }
+  }, { confirmText:'我理解风险，确认注销', confirmDanger:true });
+}
+
+function resetPwd() { showToast('请通过手机号/邮箱验证码重置密码（跳转中）'); }
+
+function bindItem(type) {
+  var map = { phone:'手机号', email:'邮箱', wx:'微信', qq:'QQ' };
+  showToast(map[type] + '绑定功能即将上线');
+}
+
+function setSettingGender(g) {
+  var m = document.getElementById('set-gender-m');
+  var f = document.getElementById('set-gender-f');
+  if (m) m.classList.toggle('active', g==='男');
+  if (f) f.classList.toggle('active', g==='女');
+}
+
+function saveProfile() { showToast('用户信息已保存'); }
+
+const PRIVACY_POLICY_TEXT = '\
+<h2>道家奇门遁甲 隐私保护政策</h2>\
+<p>更新日期：2026年8月23日 ｜ 生效日期：2026年8月23日</p>\
+<p>【道家奇门遁甲】（以下简称"我们"）深知个人信息对您的重要性，并将按照法律法规要求和业界成熟的安全标准，采取相应的安全保护措施来保护您的个人信息。我们希望通过本隐私政策向您说明，在使用我们的产品与/或服务时，我们如何收集、使用、存储、共享、转让、公开披露您的个人信息，以及您如何行使您的隐私权利。请您在使用我们的产品/服务前，务必仔细阅读并充分理解本政策的全部内容（尤其是以粗体/下划线形式标注的内容）。</p>\
+<p><b>一、我们如何收集和使用您的个人信息</b></p>\
+<p>1. 帮助您成为注册用户：为使用完整服务，您需要注册账号。您可以通过手机号、邮箱、微信、QQ 等方式注册并绑定。在此过程中，我们会收集您的手机号码、邮箱地址、第三方平台 OpenID，并向您的手机或邮箱发送验证码以验证身份。账号昵称、头像、性别、生日等信息为选填，不影响使用核心功能。</p>\
+<p>2. 排盘与历史记录：当您使用核心排盘功能时，我们需要处理您输入的姓名、性别、出生年月日时分、出生地点。这些信息将用于计算四柱干支、定遁定局、生成十三宫排盘图表，并自动保存为历史记录（仅保存在您的账号下或您自己的本地设备）。</p>\
+<p>3. AI 智能问答：当您使用右下角阴阳双鱼盘的 AI 对话功能时，您的排盘结果将作为上下文被发送给大语言模型，以便生成针对性解答。我们会记录您的提问、模型回复以改进服务质量。</p>\
+<p>4. 设备与日志：为保障服务稳定性，我们的后端服务器可能自动记录您的 IP 地址、浏览器类型、访问时间、操作路径等日志信息，保留期限不超过 6 个月。</p>\
+<p><b>二、我们如何使用 Cookie 和同类技术</b></p>\
+<p>为使您获得更流畅的登录状态保持体验，我们会在您的设备上使用 Cookie 与 LocalStorage 存储您的登录凭证、主题偏好、上次排盘输入等。您可通过浏览器或手机系统设置清除这些数据。清除后您可能需要重新登录。</p>\
+<p><b>三、我们如何共享、转让、公开披露您的个人信息</b></p>\
+<p>1. 共享：除以下情形外，我们不会向任何第三方共享您的个人信息：(a) 事先获得您的明确同意；(b) 根据法律法规或司法/行政机关强制性要求；(c) 与关联公司共享必要信息以便提供服务（仅限本政策声明的目的）；(d) 与授权合作伙伴共享：仅为实现本政策中声明的目的，我们的某些服务将由授权合作伙伴提供（例如 AI 模型服务、短信/邮件验证码服务商、云服务器提供商）。我们会与合作伙伴签署严格的数据保密协议，要求其遵照我们的说明、本政策以及其他任何相关的保密和安全措施来处理您的个人信息。</p>\
+<p>2. 转让：未经您的明确同意，我们不会将您的个人信息转让给任何公司、组织和个人。</p>\
+<p>3. 公开披露：我们仅会在收到法律程序要求、或为防止 imminent 人身财产损害时，公开披露您的个人信息。</p>\
+<p><b>四、我们如何存储和保护您的个人信息</b></p>\
+<p>1. 存储地点与期限：我们在中华人民共和国境内收集和产生的个人信息，将存储在境内服务器的 SQLite 数据库中。存储期限遵循"最小必要"原则：账号信息保留至您注销账号后 30 天；操作日志保留 6 个月；历史排盘记录在您主动删除或注销账号前保留。</p>\
+<p>2. 安全措施：我们采用业界标准的安全措施，包括但不限于：bcrypt 哈希加盐存储密码、JWT + session token 双轨鉴权、TLS/HTTPS 数据传输加密、数据库参数化查询防 SQL 注入、操作日志审计。我们会尽力保护您的个人信息，但任何安全措施都无法做到绝对安全。</p>\
+<p><b>五、您的权利</b></p>\
+<p>根据《个人信息保护法》等相关法律，您享有以下权利：访问权、更正权、删除权、撤回同意权、注销账号权、获取个人信息副本权、投诉举报权。您可随时通过【我的 → ⚙ 设置 → 用户信息 / 账号安全】行使上述权利，或通过文末联系方式书面联系我们，我们将在 15 个工作日内处理并回复。</p>\
+<p>（1）访问权：您可在【我的】页面查看您的账号信息、排盘历史、收藏、消息。<br>（2）更正权：在【设置 → 用户信息】修改昵称、头像、性别、生日、出生地点。<br>（3）删除权：单条历史记录可左滑删除；收藏可取消。<br>（4）注销账号：【设置 → 账号安全 → 注销账号】按流程操作即可。注销后 30 天冷静期内您可以恢复账号，之后将进行不可逆的匿名化处理。</p>\
+<p><b>六、未成年人保护</b></p>\
+<p>我们非常重视对未成年人个人信息的保护。如果您是未满 16 周岁的未成年人，请在您的父母或监护人的陪同下阅读本政策，并在征得其同意后使用我们的服务。对于经监护人同意而收集的未成年人信息，我们只会在法律允许、监护人明确同意或保护未成年人所必要的范围内使用或披露。若您是未成年人的监护人，如对我们处理未成年人信息有疑问，请通过以下联系方式与我们取得联系。</p>\
+<p><b>七、本政策的更新</b></p>\
+<p>我们的隐私政策可能会不时进行修订。当本政策发生变更时，我们会在应用内以弹窗、站内消息或显著位置通知您，并向您说明生效日期。重大变更还会通过更显著的方式（包括在某些情况下通过电子邮件）通知您。</p>\
+<p><b>八、联系我们</b></p>\
+<p>如您对本隐私政策有任何疑问、意见、建议、投诉，或希望行使法定权利，请通过以下方式与我们联系：<br>电子邮箱：privacy@qimen-shisan-gong.app<br>通信地址：中华人民共和国 · 道家奇门遁甲项目组<br>一般情况下，我们将在 15 个工作日内回复。</p>\
+<p>——本政策总计约 2000 字，严格遵循《中华人民共和国个人信息保护法》《中华人民共和国网络安全法》《中华人民共和国数据安全法》《常见类型移动互联网应用程序必要个人信息范围规定》等要求制定。</p>';
+
+function showPrivacyPolicy() {
+  openConfirm('隐私保护政策', '<div style="max-height:50vh;overflow:auto;text-align:left;font-size:12px;line-height:1.7;color:var(--ink-2)">' + PRIVACY_POLICY_TEXT + '</div>', null, { cancelText:'我已阅读', confirmText:'同意并继续' });
+  setTimeout(function() {
+    var mcCancel = document.getElementById('mc-cancel');
+    var mcConfirm = document.getElementById('mc-confirm');
+    if (mcCancel) mcCancel.onclick = closeConfirm;
+    if (mcConfirm) mcConfirm.onclick = closeConfirm;
+  }, 0);
+}
+
+function refreshProfile() {
+  if (typeof renderProfile === 'function') renderProfile();
+}
+
 console.log('[APP] script start');
 initAIAgent();
 console.log('[APP] initAIAgent called');
 initSelects();
 showPage('home');
 </script>
+
+<div id="confirm-modal" class="modal-mask hidden" onclick="if(event.target===this)closeConfirm()">
+  <div class="modal-card">
+    <div class="mc-title" id="mc-title">提示</div>
+    <div class="mc-body" id="mc-body"></div>
+    <div class="mc-actions">
+      <button class="mc-btn cancel" id="mc-cancel">取消</button>
+      <button class="mc-btn confirm" id="mc-confirm">确定</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

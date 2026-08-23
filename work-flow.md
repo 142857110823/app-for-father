@@ -272,6 +272,30 @@
 - 浏览器验证结果：即时排盘(阴盘·阳遁·3局) → 结果页 DOM 中排盘 table 每行显示 神/星/门/灵/天/人/地/暗，共 4 行 13 宫布局，"太常"出现在第 1 行第 3 格（新神顺序玄武白虎太常六合勾陈腾蛇玄灵天后九天太阴贵神青龙朱雀）
 **【相关文档】** algorithm/qimen.js、algorithm/pillars.js、algorithm/browser-entry.js、public/algorithm.bundle.js、work-flow.md、前言.docx、天罡.docx、排盘-【阴盘-阴遁-5局】 2(1)(1).docx
 
+### 2026-08-23 GitHub Pages 入口同步修复：public/* → 仓库根目录
+
+**【时间】** 2026-08-23
+**【事件】** 用户反馈「GitHub Pages 和 localhost 完全是两个不同的 app」：GitHub Pages 显示旧版「奇门排盘助手」（3 底部 Tab、无齿轮设置、无三分区、无悬浮双鱼），而 localhost:8125 显示完整新版「道家奇门遁甲」
+**【问题来源】** GitHub Pages 默认读取仓库根目录 index.html 作为站点入口（根目录存在 .nojekyll → Pages 配置为 master 分支根目录模式）；但之前所有前端更新（齿轮设置、三分区、UI清理、三Tab改四Tab、学堂Tab、夜间/收藏/消息/导出、万年历卡替换双人合盘等）仅写入 public/index.html，根目录 index.html 严重陈旧（缺 page-settings、pc-tri、底部 4-Tab 结构、悬浮阴阳双鱼 AI 按钮等），导致 GitHub Pages 显示历史版本
+**【执行方向】**
+1. 用 LS 列出仓库根目录文件，确认同时存在 `index.html`（根）与 `public/index.html`（新版）
+2. Grep 根 index.html 查关键标记：根 index.html 无 `page-settings`、无 `pc-tri`、无 `夜间模式/我的收藏/我的消息/导出历史` 四模块 → 确认为陈旧版本
+3. PowerShell `Copy-Item -Force` 将 public/{index.html,algorithm.bundle.js,knowledge.js,regions.js,yinyang.png,admin.html,backend-demo.html} 复制到根目录，覆盖旧 index.html 并补齐缺失资源
+4. 复制后验证：根 index.html L771=`<div id="page-settings" ...>`（齿轮设置页命中）、L503=`.pc-tri{display:grid...}`（三分区样式命中）
+5. `git add -A` 暂存 7 文件（含 index.html 修改 + 6 新资源）
+6. 提交：commit 信息明确写「同步 public/前端资源到仓库根目录，修复 GitHub Pages 显示旧版本」
+7. 推送：首次 push 因 GitHub HTTPS 链路偶发 300s 超时失败（fatal: unable to access ... Connection timed out after 300034ms）；诊断代理（无 git/env 代理，Test-NetConnection github.com:443 = True，Invoke-WebRequest github.com 只用 0.2s）→ 判定为偶发链路抖动；开启 GIT_CURL_VERBOSE=1 重试，第二次 5s 内完成，TCP→TLS重协商→Basic鉴权→POST git-receive-pack 200 OK
+8. 对齐验证：`git rev-parse HEAD` vs `git rev-parse origin/master` 均为 e061fd3b07eeaf37658cd4cf7c7dc2beff7d7763，完全一致
+9. 内容验证：WebFetch `https://142857110823.github.io/app-for-father/?v=1724403000`，标题为「道家奇门遁甲」（非旧「奇门排盘助手」）、含齿轮年月日时分选择器、阴盘/阳盘类型切换、示例一示例二快捷按钮、底部 4-Tab 含学堂，证明 Pages 已加载根目录新版 index.html
+**【执行边界】** 不修改 public/ 任何内容，仅以只读方式复制 public/ → 根目录；不改动后端/算法；不影响 Node server.js serve public/ 的本地访问行为（因此 localhost:8125 保持不变）
+**【执行结果】**
+- 根 index.html：现与 public/index.html 字节一致 → 含齿轮设置、三分区、4-Tab、悬浮双鱼盘、万年历卡替换双人合盘、export-bar 三重隐藏等全部新版特征
+- 根同步资源：algorithm.bundle.js 688.0kb、knowledge.js（含天罡/日排局表）、regions.js（省市区齿轮）、yinyang.png（AI 按钮）、admin.html/backend-demo.html
+- git push 第二次成功：`2573906..e061fd3 master -> master`，git rev-parse 本地/远端一致
+- GitHub Pages 已命中新版：WebFetch 结果标题为「道家奇门遁甲」，不再是旧版截图中的「奇门排盘助手」（用户按 Ctrl+Shift+R 强刷即可同步）
+- 本地/远程一致性：localhost:8125 与 Pages 入口 HTML 完全相同（Node server 用 public/，Pages 用根目录，两份内容现在字节级一致）
+**【相关文档】** index.html（根）、algorithm.bundle.js（根）、knowledge.js（根）、regions.js（根）、yinyang.png（根）、admin.html（根）、backend-demo.html（根）、public/index.html、public/algorithm.bundle.js、.nojekyll、work-flow.md
+
 ---
 
 ## 关键决策记录
