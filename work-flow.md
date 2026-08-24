@@ -734,4 +734,5 @@
 - 视觉审查：480×900 与 360×800 两个视口均无宫位内容重叠、截断或溢出；截图和机器审查结果保存在 `artifacts/visual-audit/`。
 - Android Release 构建成功；APK 为 `app-release-unsigned.apk`，3,637,288 字节，SHA-256 `7795F1A2AA7426679F99DEBB8FDF7C779C5820445117F091E587F2B314274925`。
 - 本地预览：`http://localhost:8090/?qa=visual-audit`，验证时间 2026-08-24 18:45–19:10。
+- GitHub Pages 线上实机复验：`https://142857110823.github.io/app-for-father/?qa=907f97d`，验证时间 2026-08-24 19:21（Asia/Shanghai），HTTP 200；实际输入 `2026-08-14 12:22` 后生成“阴盘 · 阴遁 · 5局”，中宫为 `太常/贪狼/休/癸/乙/乙/戊`，2首日期为 `1/2/3/29/30/31`，12 个天罡标签均为 `vertical-rl` 纵排，在线 DOM 几何审查结果为重叠 0、溢出 0，并已完成无遮挡目视检查。
 **【相关文档】** AGENTS.md、qimen.js、reference.js、test.js、index.html、public/index.html、docs/index.html、qimen-core.test.js、paipan-render.test.js、visual-audit.js、visual-audit.json、plate-480x900.png、plate-360x800.png、package.json、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx、天罡.docx
