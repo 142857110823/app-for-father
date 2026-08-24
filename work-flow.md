@@ -703,4 +703,7 @@
 - 两组实测中宫均为 2×2 合并单元格，`colspan=2`、`rowspan=2`。
 - Android Release 构建成功；输出为 `app-release-unsigned.apk`，3,637,188 字节。
 - 本地预览：`http://localhost:8090/?qa=center-ai-fix`，HTTP 200，验证时间 2026-08-24 18:01。
+- GitHub Pages 已部署代码提交 `bffc864`；线上中宫实测结果与本地一致。
+- 线上 AI 实测返回“请求失败：当前静态网页未连接 AI 后端服务”，未再出现 `Unexpected token '<'`。
+- GitHub Pages 预览：`https://142857110823.github.io/app-for-father/?qa=center-ai-bffc864`，HTTP 200，验证时间 2026-08-24 18:04。
 **【相关文档】** index.html、ai-client.js、public/index.html、public/ai-client.js、docs/index.html、docs/ai-client.js、tests/paipan-render.test.js、tests/ai-client.test.js、package.json、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx、天罡.docx
