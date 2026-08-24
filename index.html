@@ -385,11 +385,11 @@ a{color:inherit;text-decoration:none}
 #plate-table td.center .pc-tg{font-size:12px}
 #plate-table td.center .pc-rp{font-size:12px}
 #plate-table td.center{padding:0;text-align:center;vertical-align:middle;position:relative}
-#plate-table td.center .palace-col-right{width:30px}
-#plate-table td.center .palace-center{position:absolute;inset:0;display:flex;flex-direction:row;align-items:center;justify-content:center;padding:10px 14px;box-sizing:border-box}
-#plate-table td.center .palace-center .palace-col-left{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
-#plate-table td.center .palace-center .palace-col-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
-#plate-table td.center .palace-center .palace-col-right{flex:0 0 auto}
+#plate-table td.center .palace-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:stretch;justify-content:center;padding:8px;box-sizing:border-box}
+#plate-table td.center .pc-center-inner{display:flex;flex-direction:column;align-items:stretch;justify-content:center;height:100%;gap:4px}
+#plate-table td.center .pc-center-top{flex:1;display:flex;align-items:center;justify-content:center;text-align:center}
+#plate-table td.center .pc-center-bottom{display:flex;flex-direction:row;align-items:center;justify-content:space-between;flex:1}
+#plate-table td.center .pc-center-bl,#plate-table td.center .pc-center-br{flex:1;display:flex;align-items:center;justify-content:center;text-align:center}
 
 @media (max-width:380px){
   #plate-table td{height:92px;padding:4px 6px 3px}
@@ -397,9 +397,8 @@ a{color:inherit;text-decoration:none}
   .pc-xing,.pc-men{font-size:12px}
   .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:12px}
   .palace-col-right{width:30px}
-  #plate-table td.center .pc-shen{font-size:15px}
-  #plate-table td.center .pc-xing,#plate-table td.center .pc-men,#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:13px}
-  #plate-table td.center .palace-col-right{width:36px}
+  #plate-table td.center .pc-xing{font-size:15px}
+  #plate-table td.center .pc-men,#plate-table td.center .pc-ren{font-size:13px}
 }
 
 .analysis-hint{text-align:center;color:var(--sub);font-size:11px;padding:6px 16px 16px;font-family:"STKaiti","KaiTi","楷体",serif}
@@ -1975,14 +1974,12 @@ function renderTraditionalPlate() {
     const riPaiJu  = palace.riPaiJu || '';
 
     // 中宫特例：仅显示有值的要素（星/门/人盘），不显示空占位符
+    // 视觉布局：贪狼(星)顶部居中，休(门)与戊(人盘)左右并排
     if (isCenter) {
-      const leftItems = [];
-      if (xing) leftItems.push(`<div class="pc-row pc-row-left"><span class="pc-xing">${xing}</span></div>`);
-      if (men)  leftItems.push(`<div class="pc-row pc-row-left"><span class="pc-men m-${men}">${men}</span></div>`);
-      const midItems = [];
-      if (ren)  midItems.push(`<div class="pc-row pc-row-mid"><span class="pc-ren">${ren}</span></div>`);
-      const rightItems = [];
-      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})"><div class="palace-tri palace-center"><div class="palace-col-left">${leftItems.join('')}</div><div class="palace-col-mid">${midItems.join('')}</div><div class="palace-col-right">${rightItems.join('')}</div></div></td>`;
+      const topItem = xing ? `<div class="pc-center-top"><span class="pc-xing">${xing}</span></div>` : '';
+      const bottomLeft = men ? `<div class="pc-center-bl"><span class="pc-men m-${men}">${men}</span></div>` : '';
+      const bottomRight = ren ? `<div class="pc-center-br"><span class="pc-ren">${ren}</span></div>` : '';
+      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})"><div class="palace-tri palace-center"><div class="pc-center-inner">${topItem}<div class="pc-center-bottom">${bottomLeft}${bottomRight}</div></div></div></td>`;
     }
 
     // 严格按文档规范 三列竖排布局（9要素）：
@@ -2485,17 +2482,15 @@ function buildPaipanHTML(data, opts) {
       const tg2  = palace.tiangang || '';
       const rp   = palace.riPaiJu || '';
 
-      // 中宫PDF特例：仅显示有值的要素（星/门/人盘），不显示空占位符
+      // 中宫PDF特例：贪狼(星)顶部居中，休(门)与戊(人盘)左右并排
       if (isCenter) {
-        const leftItems = [];
-        if (palace.xing) leftItems.push(`<div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3"><span class="es-xing">${palace.xing}</span></div>`);
-        if (palace.men)  leftItems.push(`<div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3"><span class="es-men m-${palace.men}">${palace.men}</span></div>`);
-        const midItems = [];
-        if (ren)  midItems.push(`<div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3"><span class="em-ren">${ren}</span></div>`);
+        const topItem = palace.xing ? `<div style="text-align:center"><span class="es-xing">${palace.xing}</span></div>` : '';
+        const bottomLeft = palace.men ? `<div style="flex:1;text-align:center"><span class="es-men m-${palace.men}">${palace.men}</span></div>` : '';
+        const bottomRight = ren ? `<div style="flex:1;text-align:center"><span class="em-ren">${ren}</span></div>` : '';
         const centerInner = `
-          <div class="exp-tri" style="height:100%;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:4px;box-sizing:border-box">
-            <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px">${leftItems.join('')}</div>
-            <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px">${midItems.join('')}</div>
+          <div style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:stretch;box-sizing:border-box;padding:4px;gap:4px">
+            <div style="flex:1;display:flex;align-items:center;justify-content:center">${topItem}</div>
+            <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;flex:1">${bottomLeft}${bottomRight}</div>
           </div>`;
         plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2">${centerInner}</td>`;
         continue;
