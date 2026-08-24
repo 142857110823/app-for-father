@@ -585,5 +585,7 @@
 - 浏览器首次进入学堂后 8/8 本全部写入离线书库，《奇門遁甲統宗》阅读器成功打开并渲染 EPUB iframe。
 - Capacitor Android 同步成功，Gradle `assembleDebug` 构建成功，新 `app-debug.apk` 为 4,550,018 字节。
 - 完整算法测试仍因阳遁 5 局参考数据为空而整体返回失败；阴遁 5 局 13 宫 × 8 字段全部通过。
-- GitHub 获取远端状态时连接被重置；线上书库是否部署成功必须在本地提交推送后再次验证。
+- GitHub `master` 已推送至提交 `caa556a7fee00ab36475d2f7f8d40bddf40fb9bc`。
+- GitHub Raw 书库返回 200、81,310 字节，SHA-256 为 `C3C844C32F38F41EB42715AB9F8CCD8BBA2604844474562F06D0E10B3502147C`。
+- GitHub Pages `/books/` 在推送后即时检查仍为 404；运行时会自动回退到已验证可用的 GitHub Raw 地址，故首次下载不再受 Pages 发布延迟阻塞。
 **【相关文档】** 排盘-【阴盘-阴遁-5局】 2(1)(1).docx、school-library.js、school-app.js、index.html、paipan-render.test.js、school-library.test.js、其他功能——总规划.md、规划.md、work-flow.md
