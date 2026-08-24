@@ -49,4 +49,12 @@ for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html'
     assert.doesNotMatch(screen, /pc-center-top|pc-center-bottom|pc-center-bl|pc-center-br/);
     assert.doesNotMatch(exported, /中宫PDF特例|centerInner|bottomLeft|bottomRight/);
   });
+
+  test(`${relativePath} renders Tiangang labels vertically`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    assert.match(
+      html,
+      /\.pc-tg\{[^}]*writing-mode:vertical-rl[^}]*text-orientation:upright[^}]*\}/,
+    );
+  });
 }

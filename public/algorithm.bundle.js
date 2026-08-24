@@ -11809,8 +11809,8 @@ var QiMenAlgorithmBundle = (() => {
           { idx: 1, shen: "\u592A\u9634", xing: "\u5929\u540C", men: "\u51B2", tian: "\u5E9A", di: "\u5E9A", ren: "\u4E19", ling: "\u5DF1", tiangang: "\u767B\u65F6", riPai: "6/7/8" },
           // idx2 = 2[尾] Row1Col3: 天后+庚+天相+庚+天门+己+癸 | 天罡=神后 | 日排=4/5
           { idx: 2, shen: "\u5929\u540E", xing: "\u5929\u76F8", men: "\u5929", tian: "\u5E9A", di: "\u5DF1", ren: "\u7678", ling: "\u5E9A", tiangang: "\u795E\u540E", riPai: "4/5" },
-          // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/3 (实际lunarDay=2→替换2为1)
-          { idx: 3, shen: "\u7384\u7075", xing: "\u6587\u66F2", men: "\u675C", tian: "\u5DF1", di: "\u5DF1", ren: "\u58EC", ling: "\u620A", tiangang: "\u5927\u5409", riPai: "1/3" },
+          // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/2/3/29/30/31
+          { idx: 3, shen: "\u7384\u7075", xing: "\u6587\u66F2", men: "\u675C", tian: "\u5DF1", di: "\u5DF1", ren: "\u58EC", ling: "\u620A", tiangang: "\u5927\u5409", riPai: "1/2/3/29/30/31" },
           // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28
           { idx: 4, shen: "\u6731\u96C0", xing: "\u5DE6\u8F85", men: "\u4ECE", tian: "\u4E01", di: "\u4E01", ren: "\u5DF1", ling: "\u4E19", tiangang: "\u529F\u66F9", riPai: "27/28" },
           // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26
@@ -11827,8 +11827,8 @@ var QiMenAlgorithmBundle = (() => {
           { idx: 10, shen: "\u817E\u86C7", xing: "\u7984\u5B58", men: "\u4F24", tian: "\u8F9B", di: "\u8F9B", ren: "\u8F9B", ling: "\u5E9A", tiangang: "\u4F20\u9001", riPai: "13/14/15" },
           // idx11= 4[首] Row2Col1: 六合+辛+天梁+壬+死门+壬+己 | 天罡=从魁 | 日排=11/12
           { idx: 11, shen: "\u516D\u5408", xing: "\u5929\u6881", men: "\u6B7B", tian: "\u58EC", di: "\u58EC", ren: "\u5DF1", ling: "\u8F9B", tiangang: "\u4ECE\u9B41", riPai: "11/12" },
-          // idx12= 5中   跨2-3行/2-3列 合并 2×2: 贪狼+休门+戊（中宫仅星/门/人，无神/灵/天/地/天罡/日排）
-          { idx: 12, shen: "", xing: "\u8D2A\u72FC", men: "\u4F11", tian: "", di: "", ren: "\u620A", ling: "", tiangang: "", riPai: "" }
+          // idx12= 5中   跨2-3行/2-3列 合并 2×2: 太常+贪狼+休门 | 癸+乙+乙+戊
+          { idx: 12, shen: "\u592A\u5E38", xing: "\u8D2A\u72FC", men: "\u4F11", tian: "\u4E59", di: "\u4E59", ren: "\u620A", ling: "\u7678", tiangang: "", riPai: "" }
         ]
       };
       var MEN_NAME_MAP = {
@@ -12138,51 +12138,31 @@ var QiMenAlgorithmBundle = (() => {
           palaces[gongIdx].tiangang = ELEMS[i];
         }
       }
-      function placeRiPaiJu(palaces, lunarMonth, dayOfMonth, dayZhi) {
+      function placeRiPaiJu(palaces, paiJuMonth) {
         palaces.forEach((p) => p.riPaiJu = "");
-        if (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31) return;
-        const ZHI_TO_START_IDX = {
-          "\u5B50": 7,
-          "\u4E11": 8,
-          "\u5BC5": 9,
-          "\u536F": 10,
-          "\u8FB0": 11,
-          "\u5DF3": 0,
-          "\u5348": 1,
-          "\u672A": 2,
-          "\u7533": 3,
-          "\u9149": 4,
-          "\u620C": 5,
-          "\u4EA5": 6
+        if (!Number.isInteger(paiJuMonth) || paiJuMonth < 1 || paiJuMonth > 12) return;
+        const MONTH_TO_GONG_IDX = {
+          1: 7,
+          2: 6,
+          3: 5,
+          4: 4,
+          5: 3,
+          6: 2,
+          7: 1,
+          8: 0,
+          9: 11,
+          10: 10,
+          11: 9,
+          12: 8
         };
-        const startIdx = ZHI_TO_START_IDX[dayZhi];
-        if (startIdx === void 0) return;
-        const CLUSTER_SIZE = [3, 2, 3, 2, 2, 3, 2, 2, 3, 2, 2, 2];
-        const clusterByPos = [];
-        let currentDay = 1;
-        for (let pos = 0; pos < 12; pos++) {
-          const cluster = [];
-          for (let d = 0; d < CLUSTER_SIZE[pos]; d++) {
-            cluster.push(currentDay);
-            currentDay++;
-            if (currentDay > 31) currentDay = 1;
-          }
-          clusterByPos[pos] = cluster;
-        }
-        let currentClusterPos = -1;
-        for (let pos = 0; pos < 12; pos++) {
-          if (clusterByPos[pos].includes(dayOfMonth)) {
-            currentClusterPos = pos;
-            break;
-          }
-        }
-        for (let pos = 0; pos < 12; pos++) {
-          const idx = (startIdx - pos + 12) % 12;
-          let cluster = clusterByPos[pos];
-          if (pos === currentClusterPos) {
-            cluster = cluster.filter((d) => d !== dayOfMonth);
-          }
-          palaces[idx].riPaiJu = cluster.join("/");
+        palaces[MONTH_TO_GONG_IDX[paiJuMonth]].riPaiJu = "1/2/3/29/30/31";
+        let nextDay = 4;
+        for (let offset = 1; offset < 12; offset++) {
+          const month = (paiJuMonth - 1 + offset) % 12 + 1;
+          const count = [1, 4, 7, 10].includes(month) ? 3 : 2;
+          const dates = [];
+          for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
+          palaces[MONTH_TO_GONG_IDX[month]].riPaiJu = dates.join("/");
         }
       }
       function getReferenceKey(dun, ju) {
@@ -12244,15 +12224,11 @@ var QiMenAlgorithmBundle = (() => {
           palaces[order[i]].renPan = cycle[i];
         }
       }
-      var XING_ORIGIN = [12, 3, 2, 10, 11, 0, 9, 6, 5, 4, 8, 12, 1];
-      var MEN_ORIGIN = [12, 3, 2, 10, 11, 4, 12, 6, 5, 4, 8, 9, 1];
+      var XING_ORIGIN = [7, 3, 2, 10, 11, 0, 12, 6, 5, 4, 8, 9, 1];
+      var MEN_ORIGIN = [7, 3, 2, 10, 11, 4, 12, 6, 5, 4, 8, 9, 1];
       var SHEN_ORIGIN = [7, 3, 2, 5, 11, 0, 12, 6, 10, 4, 8, 9, 1];
       function placeTianGanByXingOriginal(palaces) {
         for (let i = 0; i < 13; i++) {
-          if (i === 12) {
-            palaces[i].tianGan = "";
-            continue;
-          }
           const xing = palaces[i].xing;
           const k = XING.indexOf(xing);
           if (k < 0) {
@@ -12265,11 +12241,6 @@ var QiMenAlgorithmBundle = (() => {
       }
       function placeDiGanByMenOriginal(palaces) {
         for (let i = 0; i < 13; i++) {
-          if (i === 12) {
-            palaces[i].diGan = "";
-            palaces[i].diGanDisplay = "";
-            continue;
-          }
           const men = palaces[i].men;
           const m = MEN.indexOf(men);
           if (m < 0) {
@@ -12285,10 +12256,6 @@ var QiMenAlgorithmBundle = (() => {
       }
       function placeLingGan(palaces) {
         for (let i = 0; i < 13; i++) {
-          if (i === 12) {
-            palaces[i].lingGan = "";
-            continue;
-          }
           const shen = palaces[i].shen;
           const s = SHEN.indexOf(shen);
           if (s < 0) {
@@ -12320,7 +12287,6 @@ var QiMenAlgorithmBundle = (() => {
       function placeShen(palaces, startIdxInOrder, order) {
         const arr = arrangeWithStartPosition(SHEN, startIdxInOrder, order);
         palaces.forEach((p, i) => p.shen = arr[i]);
-        palaces[12].shen = "";
       }
       function placeXing(palaces, startIdxInOrder, order) {
         const arr = arrangeWithStartPosition(XING, startIdxInOrder, order);
@@ -12363,10 +12329,10 @@ var QiMenAlgorithmBundle = (() => {
         placeLingGan(palaces);
         placeAnGan(palaces);
         if (extraContext) {
-          const { lunarMonth, lunarDay, shiZhi } = extraContext;
-          const dayZhi = pillarArr[2][1];
+          const { lunarMonth, shiZhi } = extraContext;
           placeTianGang(palaces, lunarMonth, shiZhi);
-          placeRiPaiJu(palaces, lunarMonth, lunarDay, dayZhi);
+          const paiJuMonth = pan.ju === 0 ? 10 : pan.ju;
+          placeRiPaiJu(palaces, paiJuMonth);
         }
         const calibrated = false;
         return {
@@ -12445,26 +12411,41 @@ var QiMenAlgorithmBundle = (() => {
         const ok2 = r2.dun === "\u9634\u9041" && r2.ju === 5;
         console.log(`  ${ok2 ? "\u2705 \u5B9A\u9041\u5B9A\u5C40\u901A\u8FC7" : "\u274C \u5B9A\u9041\u5B9A\u5C40\u5931\u8D25"}
 `);
-        console.log("------ \u5B8C\u6574\u6392\u76D8\uFF08\u793A\u4F8B\u2460 \u9633\u90415\u5C40\uFF09------");
-        const full1 = fullPaiPan(["\u4E19\u5348", "\u4E19\u7533", "\u5E9A\u7533", "\u7678\u672A"], "\u5E9A", false);
-        console.log(`  \u8D35\u795E: ${full1.guiShen.dayGan}\u65E5${full1.guiShen.isNight ? "\u591C" : "\u663C"} \u2192 ${full1.guiShen.zhi} (\u6D1B\u4E66${full1.guiShen.luoshu}${LUOSHU_NAME[full1.guiShen.luoshu]})`);
-        console.log(`  \u53C2\u8003\u6821\u51C6: ${full1.calibrated ? "\u5DF2\u5E94\u7528" : "\u672A\u5E94\u7528"}`);
+        console.log("------ \u5B8C\u6574\u6392\u76D8\uFF08\u793A\u4F8B\u2461 \u9634\u90415\u5C40\uFF09------");
+        const full2 = fullPaiPan(
+          ["\u4E19\u5348", "\u4E19\u7533", "\u5E9A\u7533", "\u58EC\u5348"],
+          "\u5E9A",
+          false,
+          { lunarMonth: 7, lunarDay: 2, shiZhi: "\u5348" }
+        );
+        console.log(`  \u8D35\u795E: ${full2.guiShen.dayGan}\u65E5${full2.guiShen.isNight ? "\u591C" : "\u663C"} \u2192 ${full2.guiShen.zhi}`);
         console.log(`  \u5BAB\u4F4D\u6392\u5E03:`);
-        full1.palaces.forEach((p, i) => {
+        full2.palaces.forEach((p, i) => {
           const tian = p.tianGan ? `\u5929${p.tianGan}` : "\u5929\u2014";
           const di = p.diGan ? `\u5730${p.diGan}` : "\u5730\u2014";
           const an = p.anGan ? `\u6697${p.anGan}` : "\u6697\u2014";
           console.log(`    \u5BAB${i + 1}(\u6D1B\u4E66${p.luoshu}${LUOSHU_NAME[p.luoshu]}${p.label}): ${p.shen || "\u2014"}/${p.xing || "\u2014"}/${p.men || "\u2014"} | ${tian}\xB7${di}\xB7${an}`);
         });
-        const gong5 = full1.palaces.find((p) => p.luoshu === 5);
-        const ok3 = gong5 && gong5.diGan === "\u620A";
+        const center = full2.palaces[12];
+        const centerActual = [
+          center.shen,
+          center.xing,
+          center.men,
+          center.lingGan,
+          center.tianGan,
+          center.diGan,
+          center.renPan
+        ].join("/");
+        const ok3 = centerActual === "\u592A\u5E38/\u8D2A\u72FC/\u4F11/\u7678/\u4E59/\u4E59/\u620A";
         console.log(`
-  \u620A\u843D\u6D1B\u4E665: ${gong5 ? gong5.diGan : "\u2014"} ${ok3 ? "\u2705" : "\u274C"}`);
-        const gongLuoshu8 = full1.palaces.filter((p) => p.luoshu === 8);
-        const ok4 = gongLuoshu8.some((p) => p.shen === "\u8D35\u795E");
-        console.log(`  \u8D35\u795E\u843D\u6D1B\u4E668: ${gongLuoshu8.map((p) => `\u5BAB${p.index + 1}[${p.label}]=${p.shen}`).join(", ")} ${ok4 ? "\u2705" : "\u274C"}`);
+  \u4E2D\u5BAB\u6807\u51C6: ${centerActual} ${ok3 ? "\u2705" : "\u274C"}`);
+        const primaryDates = full2.palaces[3].riPaiJu;
+        const ok4 = primaryDates === "1/2/3/29/30/31";
+        console.log(`  2\u9996\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
+        const allOk = ok1 && ok2 && ok3 && ok4;
         console.log(`
-====== ${ok1 && ok2 && ok3 && ok4 ? "\u5168\u90E8\u9A8C\u8BC1\u901A\u8FC7 \u2705" : "\u5B58\u5728\u5931\u8D25 \u274C"} ======`);
+====== ${allOk ? "\u5168\u90E8\u9A8C\u8BC1\u901A\u8FC7 \u2705" : "\u5B58\u5728\u5931\u8D25 \u274C"} ======`);
+        process.exit(allOk ? 0 : 1);
       }
     }
   });

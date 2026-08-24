@@ -5,7 +5,8 @@
   "main": "algorithm/qimen.js",
   "scripts": {
     "test": "node algorithm/qimen.js",
-    "test:school": "node --test tests/school-library.test.js tests/school-reader.test.js tests/school-integration.test.js tests/paipan-render.test.js tests/ai-client.test.js",
+    "test:school": "node --test tests/school-library.test.js tests/school-reader.test.js tests/school-integration.test.js tests/paipan-render.test.js tests/ai-client.test.js tests/qimen-core.test.js",
+    "test:visual": "node tests/visual-audit.js",
     "download:school": "node scripts/download-school-books.js",
     "build:browser": "esbuild algorithm/browser-entry.js --bundle --outfile=public/algorithm.bundle.js --format=iife --global-name=QiMenAlgorithmBundle",
     "build:android": "npm run build:browser && npx cap sync android && cd android && ./gradlew assembleRelease",

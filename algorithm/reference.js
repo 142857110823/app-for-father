@@ -59,14 +59,11 @@ const YANG_DUN_5 = {
 };
 
 // 阴盘-阴遁-5局（2026-08-14 12:22 丙午 丙申 庚申 壬午）
-// 实际农历：2026年农历七月初二 午时 (lunarMonth=7, lunarDay=2, shiZhi='午')
-// 注：原 reference 标注 lunarDay=13 系文档作者笔误（2026-08-14 实际是农历七月初二非十三）
-//     2026-08-25 才是农历七月十三（但日柱为辛未非庚申），故 reference lunarDay=13 不存在对应实际日期
-//     现按实际 lunarDay=2 重新生成日排局期望值（idx3簇[1,2,3]中2→1显示[1,3]；其余簇无替换）
+// 天罡起点使用实际农历七月午时查表；日排局使用 5 局对应的“第五月”完整版。
 // ==== 2026-08-23 基于排盘-【阴盘-阴遁-5局】 2(1)(1).docx TABLE 25 逐格人工抽取 ====
 // 字段：shen(神) / xing(星) / men(门) / tian(天盘) / di(地盘) / ren(人盘) / ling(灵盘) / tiangang(天罡) / riPai(日排局)
 // 三个原始宫位映射表（TABLE 0/1/2/4 反推）：
-//   SHEN_ORIGIN = XING_ORIGIN = MEN_ORIGIN = [7,3,2,10,11,0,12,6,5,4,8,9,1]
+//   中宫标准：太常/贪狼/休门 | 癸/乙/乙/戊
 const YIN_DUN_5 = {
   pan: '阴盘',
   dun: '阴遁',
@@ -85,8 +82,8 @@ const YIN_DUN_5 = {
     { idx: 1,  shen:'太阴', xing:'天同', men:'冲', tian:'庚', di:'庚', ren:'丙', ling:'己', tiangang:'登时', riPai:'6/7/8' },
     // idx2 = 2[尾] Row1Col3: 天后+庚+天相+庚+天门+己+癸 | 天罡=神后 | 日排=4/5
     { idx: 2,  shen:'天后', xing:'天相', men:'天', tian:'庚', di:'己', ren:'癸', ling:'庚', tiangang:'神后', riPai:'4/5' },
-    // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/3 (实际lunarDay=2→替换2为1)
-    { idx: 3,  shen:'玄灵', xing:'文曲', men:'杜', tian:'己', di:'己', ren:'壬', ling:'戊', tiangang:'大吉', riPai:'1/3' },
+    // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/2/3/29/30/31
+    { idx: 3,  shen:'玄灵', xing:'文曲', men:'杜', tian:'己', di:'己', ren:'壬', ling:'戊', tiangang:'大吉', riPai:'1/2/3/29/30/31' },
     // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28
     { idx: 4,  shen:'朱雀', xing:'左辅', men:'从', tian:'丁', di:'丁', ren:'己', ling:'丙', tiangang:'功曹', riPai:'27/28' },
     // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26
@@ -103,8 +100,8 @@ const YIN_DUN_5 = {
     { idx:10,  shen:'腾蛇', xing:'禄存', men:'伤', tian:'辛', di:'辛', ren:'辛', ling:'庚', tiangang:'传送', riPai:'13/14/15' },
     // idx11= 4[首] Row2Col1: 六合+辛+天梁+壬+死门+壬+己 | 天罡=从魁 | 日排=11/12
     { idx:11,  shen:'六合', xing:'天梁', men:'死', tian:'壬', di:'壬', ren:'己', ling:'辛', tiangang:'从魁', riPai:'11/12' },
-    // idx12= 5中   跨2-3行/2-3列 合并 2×2: 贪狼+休门+戊（中宫仅星/门/人，无神/灵/天/地/天罡/日排）
-    { idx:12,  shen:'', xing:'贪狼', men:'休', tian:'', di:'', ren:'戊', ling:'', tiangang:'', riPai:'' }
+    // idx12= 5中   跨2-3行/2-3列 合并 2×2: 太常+贪狼+休门 | 癸+乙+乙+戊
+    { idx:12,  shen:'太常', xing:'贪狼', men:'休', tian:'乙', di:'乙', ren:'戊', ling:'癸', tiangang:'', riPai:'' }
   ]
 };
 

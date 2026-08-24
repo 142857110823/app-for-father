@@ -320,67 +320,25 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
 }
 
 // ============ 日排局 ============
-// 2026-08-23 基于 reference.js 阴遁5局 riPai 值反推重写（13/13验证通过）
-// 规则反推（农历七月初二 庚申日 lunarMonth=7 lunarDay=2 dayZhi='申'）：
-//   1) 起始 idx 由日支决定：子=7,丑=8,寅=9,卯=10,辰=11,巳=0,午=1,未=2,申=3,酉=4,戌=5,亥=6
-//      (按 AGENTS §2.4(十一) 子宫 idx7 起始，逐月逆时针即 idx 递减1 mod 12)
-//   2) 按 idx 递减1 (mod 12) 顺序循环 12 个外围 idx，每簇天数遵循模式：
-//      [3,2,3,2,2,3,2,2,3,2,2,2] (总和=28，跨月29/30/31不显示)
-//   3) 日期从1开始递增，超过31回到1（跨月）
-//   4) 当前日所在 idx 特殊处理：删除当前日，保留簇内其他日期 → 例如簇[1,2,3]当前日2→显示[1,3]
-// 反推验证（lunarDay=2 dayZhi='申' startIdx=3）：
-//   idx3=1/3 (簇[1,2,3]删除2)  idx2=4/5  idx1=6/7/8  idx0=9/10  idx11=11/12
-//   idx10=13/14/15 (2不在该簇，无替换)  idx9=16/17  idx8=18/19  idx7=20/21/22
-//   idx6=23/24  idx5=25/26  idx4=27/28  ← 与 reference 13个宫位完全一致
-function placeRiPaiJu(palaces, lunarMonth, dayOfMonth, dayZhi) {
+// 天罡.docx：第 N 月排局的原始宫位承载 1/2/3/29/30/31，
+// 之后按月份顺序分配 4..28；1/4/7/10 月承载 3 日，其余月承载 2 日。
+function placeRiPaiJu(palaces, paiJuMonth) {
   palaces.forEach(p => p.riPaiJu = '');
-  if (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31) return;
+  if (!Number.isInteger(paiJuMonth) || paiJuMonth < 1 || paiJuMonth > 12) return;
 
-  // 日支 → 起始 idx（按 AGENTS §2.4(十一) 子=idx7，逐月逆时针）
-  const ZHI_TO_START_IDX = {
-    '子': 7, '丑': 8, '寅': 9, '卯': 10,
-    '辰': 11, '巳': 0, '午': 1, '未': 2,
-    '申': 3, '酉': 4, '戌': 5, '亥': 6
+  const MONTH_TO_GONG_IDX = {
+    1: 7, 2: 6, 3: 5, 4: 4, 5: 3, 6: 2,
+    7: 1, 8: 0, 9: 11, 10: 10, 11: 9, 12: 8
   };
-  const startIdx = ZHI_TO_START_IDX[dayZhi];
-  if (startIdx === undefined) return;
 
-  // 每簇天数模式（按 idx 递减1 顺序，pos 0..11）
-  const CLUSTER_SIZE = [3, 2, 3, 2, 2, 3, 2, 2, 3, 2, 2, 2];
-
-  // 从1开始递增填日期簇
-  const clusterByPos = [];
-  let currentDay = 1;
-  for (let pos = 0; pos < 12; pos++) {
-    const cluster = [];
-    for (let d = 0; d < CLUSTER_SIZE[pos]; d++) {
-      cluster.push(currentDay);
-      currentDay++;
-      if (currentDay > 31) currentDay = 1; // 跨月回到1日
-    }
-    clusterByPos[pos] = cluster;
-  }
-
-  // 找到当前日所在簇的 pos
-  let currentClusterPos = -1;
-  for (let pos = 0; pos < 12; pos++) {
-    if (clusterByPos[pos].includes(dayOfMonth)) {
-      currentClusterPos = pos;
-      break;
-    }
-  }
-
-  // 按 idx 递减1 (mod 12) 顺序填入 idx
-  for (let pos = 0; pos < 12; pos++) {
-    const idx = (startIdx - pos + 12) % 12;
-    let cluster = clusterByPos[pos];
-
-    // 当前日所在簇特殊处理：删除当前日，保留其他日期
-    if (pos === currentClusterPos) {
-      cluster = cluster.filter(d => d !== dayOfMonth);
-    }
-
-    palaces[idx].riPaiJu = cluster.join('/');
+  palaces[MONTH_TO_GONG_IDX[paiJuMonth]].riPaiJu = '1/2/3/29/30/31';
+  let nextDay = 4;
+  for (let offset = 1; offset < 12; offset++) {
+    const month = ((paiJuMonth - 1 + offset) % 12) + 1;
+    const count = [1, 4, 7, 10].includes(month) ? 3 : 2;
+    const dates = [];
+    for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
+    palaces[MONTH_TO_GONG_IDX[month]].riPaiJu = dates.join('/');
   }
 }
 
@@ -493,10 +451,10 @@ function placeRenPan(palaces, dun, ju) {
  *     idx9=破军 tian=己=renPan[4]   → XING_ORIGIN[9]=4
  *     idx10=禄存 tian=辛=renPan[10] → XING_ORIGIN[3]=10
  *     idx11=天梁 tian=壬=renPan[3]  → XING_ORIGIN[1]=3
- *     idx12=贪狼(中宫) tian=空      → XING_ORIGIN[0]=12 (中宫映射回自身，特例跳过)
- * 天盘公式：天盘[i] = renPan[ XING_ORIGIN[ XING.indexOf(星盘[i]) ] ]（中宫i=12置空）
+ *     贪狼原始宫位为 idx7，故中宫贪狼的天盘取 idx7 人盘乙。
+ * 天盘公式：天盘[i] = renPan[ XING_ORIGIN[ XING.indexOf(星盘[i]) ] ]
  */
-const XING_ORIGIN = [12, 3, 2, 10, 11, 0, 9, 6, 5, 4, 8, 12, 1];
+const XING_ORIGIN = [7, 3, 2, 10, 11, 0, 12, 6, 5, 4, 8, 9, 1];
 
 /**
  * 十三门「原始宫位固定映射表」（MEN默认索引0-12 → 对应原始宫位idx）
@@ -516,10 +474,10 @@ const XING_ORIGIN = [12, 3, 2, 10, 11, 0, 9, 6, 5, 4, 8, 12, 1];
  *     idx9=惊 di=己=renPan[4]   → MEN_ORIGIN[9]=4
  *     idx10=伤 di=辛=renPan[10] → MEN_ORIGIN[3]=10
  *     idx11=死 di=壬=renPan[3]  → MEN_ORIGIN[1]=3
- *     idx12=休(中宫) di=空     → MEN_ORIGIN[0]=12 (中宫映射回自身，特例跳过)
- * 地盘公式：地盘[i] = renPan[ MEN_ORIGIN[ MEN.indexOf(门盘[i]) ] ]（中宫i=12置空）
+ *     休门原始宫位为 idx7，故中宫休门的地盘取 idx7 人盘乙。
+ * 地盘公式：地盘[i] = renPan[ MEN_ORIGIN[ MEN.indexOf(门盘[i]) ] ]
  */
-const MEN_ORIGIN = [12, 3, 2, 10, 11, 4, 12, 6, 5, 4, 8, 9, 1];
+const MEN_ORIGIN = [7, 3, 2, 10, 11, 4, 12, 6, 5, 4, 8, 9, 1];
 
 /**
  * 十三神「原始宫位固定映射表」（SHEN默认索引0-12 → 对应原始宫位idx）
@@ -551,11 +509,10 @@ const SHEN_ORIGIN = [7, 3, 2, 5, 11, 0, 12, 6, 10, 4, 8, 9, 1];
  * 天盘干：按 reference.js 阴遁5局 tian 值反推重写
  *   originIdx = XING_ORIGIN[ XING.indexOf(星盘[i]) ]
  *   天盘[i] = palaces[originIdx].renPan  （星原始宫位 → 人盘值，与顺序正逆无关）
- *   中宫 idx12 特例：reference 中宫 tian=空（星原始宫位=中宫时映射回自身，置空）
+ *   中宫与外围宫使用相同映射规则。
  */
 function placeTianGanByXingOriginal(palaces) {
   for (let i = 0; i < 13; i++) {
-    if (i === 12) { palaces[i].tianGan = ''; continue; }  // 中宫特例
     const xing = palaces[i].xing;
     const k = XING.indexOf(xing);
     if (k < 0) { palaces[i].tianGan = ''; continue; }
@@ -568,16 +525,10 @@ function placeTianGanByXingOriginal(palaces) {
  * 地盘干：按 reference.js 阴遁5局 di 值反推重写
  *   originIdx = MEN_ORIGIN[ MEN.indexOf(门盘[i]) ]
  *   地盘[i] = palaces[originIdx].renPan  （门原始宫位 → 人盘值，与顺序正逆无关）
- *   中宫 idx12 特例：reference 中宫 di=空
  * 同时赋值 diGan（算法主字段）和 diGanDisplay（UI字段），两者必须字节级一致。
  */
 function placeDiGanByMenOriginal(palaces) {
   for (let i = 0; i < 13; i++) {
-    if (i === 12) {  // 中宫特例
-      palaces[i].diGan = '';
-      palaces[i].diGanDisplay = '';
-      continue;
-    }
     const men = palaces[i].men;
     const m = MEN.indexOf(men);
     if (m < 0) {
@@ -598,11 +549,10 @@ function placeDiGanByMenOriginal(palaces) {
  *   灵盘[i] = palaces[originIdx].renPan  （神原始宫位 → 人盘值）
  *   ※ 文字描述为"地盘干"，但 reference 实证应取"人盘值(renPan)"
  *   ※ 文档权威顺序：2(1)(1).docx表格 > 前言.docx规则 > AGENTS.md
- *   中宫 idx12 特例：reference 中宫 ling=空
+ *   中宫太常按原始宫位 idx2 取人盘癸。
  */
 function placeLingGan(palaces) {
   for (let i = 0; i < 13; i++) {
-    if (i === 12) { palaces[i].lingGan = ''; continue; }  // 中宫特例
     const shen = palaces[i].shen;
     const s = SHEN.indexOf(shen);
     if (s < 0) { palaces[i].lingGan = ''; continue; }
@@ -639,9 +589,6 @@ function arrangeWithStartPosition(elementArr, startIdxInOrder, order) {
 function placeShen(palaces, startIdxInOrder, order) {
   const arr = arrangeWithStartPosition(SHEN, startIdxInOrder, order);
   palaces.forEach((p, i) => p.shen = arr[i]);
-  // 中宫 idx12 不显示神（reference 实证：idx12.shen=''）
-  // 算法层：太常填入 idx12 后清空；灵盘 placeLingGan 中宫特例已置空，不影响外围计算
-  palaces[12].shen = '';
 }
 function placeXing(palaces, startIdxInOrder, order) {
   const arr = arrangeWithStartPosition(XING, startIdxInOrder, order);
@@ -701,12 +648,12 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
   placeLingGan(palaces);
   placeAnGan(palaces);
 
-  // ===== 4. 天罡 + 日排局：携带 农历月日 + 时支 + 日支 =====
+  // ===== 4. 天罡 + 日排局 =====
   if (extraContext) {
-    const { lunarMonth, lunarDay, shiZhi } = extraContext;
-    const dayZhi = pillarArr[2][1]; // 日柱的地支（如 庚申 → 申）
+    const { lunarMonth, shiZhi } = extraContext;
     placeTianGang(palaces, lunarMonth, shiZhi);
-    placeRiPaiJu(palaces, lunarMonth, lunarDay, dayZhi);
+    const paiJuMonth = pan.ju === 0 ? 10 : pan.ju;
+    placeRiPaiJu(palaces, paiJuMonth);
   }
 
   // ===== 5. 不再用 applyReference 覆盖结果；单元测试对 13 宫逐字段比对并报告 diff =====
@@ -775,26 +722,36 @@ if (require.main === module) {
   const ok2 = r2.dun === '阴遁' && r2.ju === 5;
   console.log(`  ${ok2 ? '✅ 定遁定局通过' : '❌ 定遁定局失败'}\n`);
 
-  // 完整排盘
-  console.log('------ 完整排盘（示例① 阳遁5局）------');
-  const full1 = fullPaiPan(['丙午', '丙申', '庚申', '癸未'], '庚', false);
-  console.log(`  贵神: ${full1.guiShen.dayGan}日${full1.guiShen.isNight ? '夜' : '昼'} → ${full1.guiShen.zhi} (洛书${full1.guiShen.luoshu}${LUOSHU_NAME[full1.guiShen.luoshu]})`);
-  console.log(`  参考校准: ${full1.calibrated ? '已应用' : '未应用'}`);
+  // 完整排盘：按阴遁5局权威案例检查中宫和日排局
+  console.log('------ 完整排盘（示例② 阴遁5局）------');
+  const full2 = fullPaiPan(
+    ['丙午', '丙申', '庚申', '壬午'],
+    '庚',
+    false,
+    { lunarMonth: 7, lunarDay: 2, shiZhi: '午' }
+  );
+  console.log(`  贵神: ${full2.guiShen.dayGan}日${full2.guiShen.isNight ? '夜' : '昼'} → ${full2.guiShen.zhi}`);
   console.log(`  宫位排布:`);
-  full1.palaces.forEach((p, i) => {
+  full2.palaces.forEach((p, i) => {
     const tian = p.tianGan ? `天${p.tianGan}` : '天—';
     const di = p.diGan ? `地${p.diGan}` : '地—';
     const an = p.anGan ? `暗${p.anGan}` : '暗—';
     console.log(`    宫${i + 1}(洛书${p.luoshu}${LUOSHU_NAME[p.luoshu]}${p.label}): ${p.shen || '—'}/${p.xing || '—'}/${p.men || '—'} | ${tian}·${di}·${an}`);
   });
 
-  const gong5 = full1.palaces.find(p => p.luoshu === 5);
-  const ok3 = gong5 && gong5.diGan === '戊';
-  console.log(`\n  戊落洛书5: ${gong5 ? gong5.diGan : '—'} ${ok3 ? '✅' : '❌'}`);
+  const center = full2.palaces[12];
+  const centerActual = [
+    center.shen, center.xing, center.men,
+    center.lingGan, center.tianGan, center.diGan, center.renPan
+  ].join('/');
+  const ok3 = centerActual === '太常/贪狼/休/癸/乙/乙/戊';
+  console.log(`\n  中宫标准: ${centerActual} ${ok3 ? '✅' : '❌'}`);
 
-  const gongLuoshu8 = full1.palaces.filter(p => p.luoshu === 8);
-  const ok4 = gongLuoshu8.some(p => p.shen === '贵神');
-  console.log(`  贵神落洛书8: ${gongLuoshu8.map(p => `宫${p.index + 1}[${p.label}]=${p.shen}`).join(', ')} ${ok4 ? '✅' : '❌'}`);
+  const primaryDates = full2.palaces[3].riPaiJu;
+  const ok4 = primaryDates === '1/2/3/29/30/31';
+  console.log(`  2首日排局: ${primaryDates} ${ok4 ? '✅' : '❌'}`);
 
-  console.log(`\n====== ${ok1 && ok2 && ok3 && ok4 ? '全部验证通过 ✅' : '存在失败 ❌'} ======`);
+  const allOk = ok1 && ok2 && ok3 && ok4;
+  console.log(`\n====== ${allOk ? '全部验证通过 ✅' : '存在失败 ❌'} ======`);
+  process.exit(allOk ? 0 : 1);
 }

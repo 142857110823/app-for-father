@@ -1,0 +1,164 @@
+{
+  "url": "http://localhost:8090/?qa=visual-audit",
+  "checkedAt": "2026-08-24T11:09:42.596Z",
+  "results": {
+    "480x900": {
+      "centerText": [
+        "太常",
+        "贪狼",
+        "休",
+        "癸",
+        "乙",
+        "乙",
+        "戊"
+      ],
+      "centerColspan": "2",
+      "centerRowspan": "2",
+      "dates": [
+        "9/10",
+        "6/7/8",
+        "4/5",
+        "1/2/3/29/30/31",
+        "11/12",
+        "27/28",
+        "13/14/15",
+        "25/26",
+        "16/17",
+        "18/19",
+        "20/21/22",
+        "23/24"
+      ],
+      "tiangang": [
+        {
+          "text": "河魁",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "登时",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "神后",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "大吉",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "从魁",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "功曹",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "传送",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "太冲",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "小吉",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "腾光",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "太乙",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "天罡",
+          "writingMode": "vertical-rl"
+        }
+      ],
+      "overlaps": [],
+      "overflow": []
+    },
+    "360x800": {
+      "centerText": [
+        "太常",
+        "贪狼",
+        "休",
+        "癸",
+        "乙",
+        "乙",
+        "戊"
+      ],
+      "centerColspan": "2",
+      "centerRowspan": "2",
+      "dates": [
+        "9/10",
+        "6/7/8",
+        "4/5",
+        "1/2/3/29/30/31",
+        "11/12",
+        "27/28",
+        "13/14/15",
+        "25/26",
+        "16/17",
+        "18/19",
+        "20/21/22",
+        "23/24"
+      ],
+      "tiangang": [
+        {
+          "text": "河魁",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "登时",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "神后",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "大吉",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "从魁",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "功曹",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "传送",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "太冲",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "小吉",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "腾光",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "太乙",
+          "writingMode": "vertical-rl"
+        },
+        {
+          "text": "天罡",
+          "writingMode": "vertical-rl"
+        }
+      ],
+      "overlaps": [],
+      "overflow": []
+    }
+  }
+}
