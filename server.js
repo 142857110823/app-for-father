@@ -12,7 +12,7 @@ const notificationRouter = require('./backend/routes/notification');
 const adminRouter = require('./backend/routes/admin');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8090;
 
 // 读取 AI API 密钥
 let AI_API_KEY = process.env.AI_API_KEY || '';

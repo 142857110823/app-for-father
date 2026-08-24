@@ -102,6 +102,30 @@ a{color:inherit;text-decoration:none}
 .btn-primary-big{width:calc(100% - 32px);margin:16px 16px 0;padding:16px;background:var(--ink);color:#fff;border-radius:40px;font-size:17px;font-weight:600;letter-spacing:10px;font-family:"STKaiti","KaiTi","楷体",serif;box-shadow:0 4px 14px rgba(0,0,0,.15);transition:opacity .15s,transform .15s}
 .btn-primary-big:active{opacity:.85;transform:scale(.98)}
 
+/* ===== 四柱八字/紫微/梅花/大六壬 共用 ===== */
+.mini-select{padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:14px;font-family:"STKaiti","KaiTi","楷体",serif;margin-right:4px;max-width:90px}
+.mini-input{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:14px;font-family:"STKaiti","KaiTi","楷体",serif;width:90px}
+.mh-tabs{display:flex !important;padding:4px}
+.mh-tabs button{flex:1;text-align:center;padding:8px;font-size:14px}
+.fr-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin:12px 0;padding:14px;border:1px solid var(--line)}
+.fr-title{font-size:14px;color:var(--gold);font-weight:600;margin-bottom:8px;font-family:"STKaiti","KaiTi","楷体",serif;border-left:3px solid var(--gold);padding-left:8px}
+.fr-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px;font-family:"STKaiti","KaiTi","楷体",serif}
+.fr-row:last-child{border-bottom:none}
+.fr-row .fr-label{color:var(--ink-2);flex-shrink:0;width:80px}
+.fr-row .fr-value{color:var(--ink);font-weight:500;text-align:right;flex:1}
+.fr-pillars{display:flex;gap:6px;margin:8px 0}
+.fr-pillar{flex:1;text-align:center;background:var(--bg);padding:8px 4px;border-radius:8px;border:1px solid var(--line)}
+.fr-pillar .fp-g{font-size:18px;font-weight:700;color:var(--gold);font-family:"STKaiti","KaiTi","楷体",serif}
+.fr-pillar .fp-z{font-size:14px;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;margin-top:2px}
+.fr-pillar .fp-s{font-size:11px;color:var(--ink-2);margin-top:4px}
+.fr-pillar .fp-c{font-size:11px;color:var(--ink-2);margin-top:2px;line-height:1.3}
+.fr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:8px 0}
+.fr-grid .fg-cell{background:var(--bg);padding:8px;border-radius:6px;border:1px solid var(--line);font-size:13px;font-family:"STKaiti","KaiTi","楷体",serif}
+.fr-grid .fg-cell .fg-h{color:var(--ink-2);font-size:11px;margin-bottom:2px}
+.fr-grid .fg-cell .fg-v{color:var(--ink);font-weight:500}
+.fr-meta{font-size:11px;color:var(--ink-2);margin-top:12px;padding:8px;background:var(--bg);border-radius:6px;font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.5}
+.fr-empty{text-align:center;padding:40px 16px;color:var(--ink-2);font-size:14px;font-family:"STKaiti","KaiTi","楷体",serif}
+
 .hour-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin:14px 16px;padding:16px;border:1px solid var(--line);display:flex;align-items:center;gap:14px}
 .hour-card .hc-left{flex:1;min-width:0}
 .hour-card .hc-pillars{display:flex;gap:6px;margin-bottom:6px}
@@ -354,12 +378,18 @@ a{color:inherit;text-decoration:none}
 
 /* 中宫放大字体（跨 2×2） */
 #plate-table td.center .pc-shen{font-size:17px;letter-spacing:2px}
-#plate-table td.center .pc-xing,#plate-table td.center .pc-men{font-size:15px}
-#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:15px;letter-spacing:1px}
+#plate-table td.center .pc-xing{font-size:18px;font-weight:700}
+#plate-table td.center .pc-men{font-size:17px}
+#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:17px;letter-spacing:1px}
+#plate-table td.center .pc-ren{font-size:18px;font-weight:700}
 #plate-table td.center .pc-tg{font-size:12px}
 #plate-table td.center .pc-rp{font-size:12px}
-#plate-table td.center{padding:10px 14px}
-#plate-table td.center .palace-col-right{width:44px}
+#plate-table td.center{padding:10px 14px;text-align:center;vertical-align:middle}
+#plate-table td.center .palace-col-right{width:30px}
+#plate-table td.center .palace-center{display:flex;flex-direction:row;align-items:center;justify-content:center;height:100%}
+#plate-table td.center .palace-center .palace-col-left{flex:1;display:flex;flex-direction:column;align-items:center}
+#plate-table td.center .palace-center .palace-col-mid{flex:1;display:flex;flex-direction:column;align-items:center}
+#plate-table td.center .palace-center .palace-col-right{flex:0 0 auto}
 
 @media (max-width:380px){
   #plate-table td{height:92px;padding:4px 6px 3px}
@@ -715,15 +745,15 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
   </div>
 
   <div class="split-row">
-    <div class="split-card" onclick="showToast('万年历即将上线')">
-      <div class="sc-icon dark">历</div>
-      <div class="sc-title">万年历</div>
-      <div class="sc-desc">公历 · 农历 · 干支</div>
+    <div class="split-card" onclick="showPage('bazi')">
+      <div class="sc-icon dark">八</div>
+      <div class="sc-title">四柱八字</div>
+      <div class="sc-desc">年月日时 · 藏干十神</div>
     </div>
-    <div class="split-card" onclick="showToast('古籍库即将上线')">
-      <div class="sc-icon dark">典</div>
-      <div class="sc-title">古籍查阅</div>
-      <div class="sc-desc">穷通宝鉴 · 滴天髓</div>
+    <div class="split-card" onclick="showPage('ziwei')">
+      <div class="sc-icon">紫</div>
+      <div class="sc-title">紫微斗数</div>
+      <div class="sc-desc">命身宫 · 十四主星</div>
     </div>
   </div>
 </div>
@@ -883,9 +913,10 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 
   <div class="section-title"><span>其他工具</span></div>
   <div class="icon-grid">
-    <div class="ig-item" onclick="showToast('万年历即将上线')"><div class="ig-icon dark">历</div><div class="ig-label">万年历</div></div>
-    <div class="ig-item" onclick="showToast('罗盘即将上线')"><div class="ig-icon">罗</div><div class="ig-label">智能罗盘</div></div>
-    <div class="ig-item" onclick="showToast('古籍库即将上线')"><div class="ig-icon dark">典</div><div class="ig-label">古籍查阅</div></div>
+    <div class="ig-item" onclick="showPage('bazi')"><div class="ig-icon dark">八</div><div class="ig-label">四柱八字</div></div>
+    <div class="ig-item" onclick="showPage('ziwei')"><div class="ig-icon">紫</div><div class="ig-label">紫微斗数</div></div>
+    <div class="ig-item" onclick="showPage('meihua')"><div class="ig-icon dark">梅</div><div class="ig-label">梅花易数</div></div>
+    <div class="ig-item" onclick="showPage('daliuren')"><div class="ig-icon">壬</div><div class="ig-label">大六壬</div></div>
   </div>
 </div>
 
@@ -1042,6 +1073,165 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
   <div id="messages-list"></div>
 </div>
 
+<!-- ===== 四柱八字 ===== -->
+<div id="page-bazi" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">‹ 返回</div>
+      <div><div class="rh-title">四柱八字</div></div>
+    </div>
+  </div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row">
+      <div class="lr-label">公历</div>
+      <div class="lr-value">
+        <select id="bazi-y" class="mini-select"></select> 年
+        <select id="bazi-m" class="mini-select"></select> 月
+        <select id="bazi-d" class="mini-select"></select> 日
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">时辰</div>
+      <div class="lr-value">
+        <select id="bazi-h" class="mini-select"></select> 时
+        <select id="bazi-mi" class="mini-select"></select> 分
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">性别</div>
+      <div class="lr-value">
+        <div class="seg-gold">
+          <button id="bazi-gender-m" class="active" onclick="setBaziGender('男')">男</button>
+          <button id="bazi-gender-f" onclick="setBaziGender('女')">女</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <button class="btn-primary-big" onclick="runBazi()">排八字</button>
+  </div>
+  <div id="bazi-result" style="padding:0 16px"></div>
+</div>
+
+<!-- ===== 紫微斗数 ===== -->
+<div id="page-ziwei" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">‹ 返回</div>
+      <div><div class="rh-title">紫微斗数</div></div>
+    </div>
+  </div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row">
+      <div class="lr-label">公历</div>
+      <div class="lr-value">
+        <select id="zw-y" class="mini-select"></select> 年
+        <select id="zw-m" class="mini-select"></select> 月
+        <select id="zw-d" class="mini-select"></select> 日
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">时辰</div>
+      <div class="lr-value">
+        <select id="zw-h" class="mini-select"></select> 时
+        <select id="zw-mi" class="mini-select"></select> 分
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">性别</div>
+      <div class="lr-value">
+        <div class="seg-gold">
+          <button id="zw-gender-m" class="active" onclick="setZwGender('男')">男</button>
+          <button id="zw-gender-f" onclick="setZwGender('女')">女</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <button class="btn-primary-big" onclick="runZiwei()">排紫微盘</button>
+  </div>
+  <div id="ziwei-result" style="padding:0 16px"></div>
+</div>
+
+<!-- ===== 梅花易数 ===== -->
+<div id="page-meihua" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">‹ 返回</div>
+      <div><div class="rh-title">梅花易数</div></div>
+    </div>
+  </div>
+  <div class="seg-gold mh-tabs" style="margin:0 16px 16px">
+    <button id="mh-tab-time" class="active" onclick="setMhTab('time')">时间起卦</button>
+    <button id="mh-tab-num" onclick="setMhTab('num')">数字起卦</button>
+  </div>
+  <div class="card-lined mh-time-card" style="margin:0 16px 16px">
+    <div class="lined-row">
+      <div class="lr-label">公历</div>
+      <div class="lr-value">
+        <select id="mh-y" class="mini-select"></select> 年
+        <select id="mh-m" class="mini-select"></select> 月
+        <select id="mh-d" class="mini-select"></select> 日
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">时辰</div>
+      <div class="lr-value">
+        <select id="mh-h" class="mini-select"></select> 时
+      </div>
+    </div>
+  </div>
+  <div class="card-lined mh-num-card hidden" style="margin:0 16px 16px">
+    <div class="lined-row">
+      <div class="lr-label">上卦数</div>
+      <div class="lr-value"><input type="number" id="mh-num1" class="mini-input" min="1" value="3"></div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">下卦数</div>
+      <div class="lr-value"><input type="number" id="mh-num2" class="mini-input" min="1" value="8"></div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">动爻数</div>
+      <div class="lr-value"><input type="number" id="mh-num3" class="mini-input" min="1" value="6"></div>
+    </div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <button class="btn-primary-big" onclick="runMeihua()">起卦</button>
+  </div>
+  <div id="meihua-result" style="padding:0 16px"></div>
+</div>
+
+<!-- ===== 大六壬 ===== -->
+<div id="page-daliuren" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
+  <div class="result-header">
+    <div class="rh-main">
+      <div class="back" onclick="showPage('profile')">‹ 返回</div>
+      <div><div class="rh-title">大六壬</div></div>
+    </div>
+  </div>
+  <div class="card-lined" style="margin:0 16px 16px">
+    <div class="lined-row">
+      <div class="lr-label">公历</div>
+      <div class="lr-value">
+        <select id="dl-y" class="mini-select"></select> 年
+        <select id="dl-m" class="mini-select"></select> 月
+        <select id="dl-d" class="mini-select"></select> 日
+      </div>
+    </div>
+    <div class="lined-row">
+      <div class="lr-label">时辰</div>
+      <div class="lr-value">
+        <select id="dl-h" class="mini-select"></select> 时
+        <select id="dl-mi" class="mini-select"></select> 分
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <button class="btn-primary-big" onclick="runDaliuren()">排壬盘</button>
+  </div>
+  <div id="daliuren-result" style="padding:0 16px"></div>
+</div>
+
 <div class="export-bar" id="export-bar">
   <span class="eb-count" id="eb-count">已选 0 项</span>
   <button class="eb-cancel" onclick="exitBatchExport()">取消</button>
@@ -1149,6 +1339,7 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 
 <script src="knowledge.js"></script>
 <script src="algorithm.bundle.js"></script>
+<script src="features.bundle.js"></script>
 <script src="regions.js"></script>
 <script src="vendor/jszip.min.js"></script>
 <script src="vendor/epub.min.js"></script>
@@ -1770,6 +1961,7 @@ function renderTraditionalPlate() {
     const palace = palaceByIndex(cell.idx);
     if (!palace) return '<td class="empty"></td>';
     const isGuiShen = palace.shen === '贵神';
+    const isCenter = !!cell.center;
     // 九要素字段（严格按文档规范）
     const shen = palace.shen || '';
     const xing = palace.xing || '';
@@ -1781,6 +1973,17 @@ function renderTraditionalPlate() {
     // 右浮动标签：天罡(右上) / 日排局(右下)
     const tiangang = palace.tiangang || '';
     const riPaiJu  = palace.riPaiJu || '';
+
+    // 中宫特例：仅显示有值的要素（星/门/人盘），不显示空占位符
+    if (isCenter) {
+      const leftItems = [];
+      if (xing) leftItems.push(`<div class="pc-row pc-row-left"><span class="pc-xing">${xing}</span></div>`);
+      if (men)  leftItems.push(`<div class="pc-row pc-row-left"><span class="pc-men m-${men}">${men}</span></div>`);
+      const midItems = [];
+      if (ren)  midItems.push(`<div class="pc-row pc-row-mid"><span class="pc-ren">${ren}</span></div>`);
+      const rightItems = [];
+      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})"><div class="palace-tri palace-center"><div class="palace-col-left">${leftItems.join('')}</div><div class="palace-col-mid">${midItems.join('')}</div><div class="palace-col-right">${rightItems.join('')}</div></div></td>`;
+    }
 
     // 严格按文档规范 三列竖排布局（9要素）：
     //   左列（竖排3项）: 神(金色) → 星(墨色) → 门(吉凶彩色)
@@ -1819,9 +2022,6 @@ function renderTraditionalPlate() {
         </div>
       </div>`;
 
-    if (cell.center) {
-      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
-    }
     return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
   };
 
@@ -2276,6 +2476,7 @@ function buildPaipanHTML(data, opts) {
       const palace = (data.palaces || [])[cell.idx];
       if (!palace) { plateRows += '<td class="empty"></td>'; continue; }
       const isGuiShen = palace.shen === '贵神';
+      const isCenter = !!cell.center;
       // PDF字段对齐渲染端顺序（严格按文档规范）
       const ling = palace.lingGan || '';
       const tg   = palace.tianGan || '';
@@ -2283,6 +2484,22 @@ function buildPaipanHTML(data, opts) {
       const ren  = palace.renPan || '';  // 人盘（基础地盘干）
       const tg2  = palace.tiangang || '';
       const rp   = palace.riPaiJu || '';
+
+      // 中宫PDF特例：仅显示有值的要素（星/门/人盘），不显示空占位符
+      if (isCenter) {
+        const leftItems = [];
+        if (palace.xing) leftItems.push(`<div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3"><span class="es-xing">${palace.xing}</span></div>`);
+        if (palace.men)  leftItems.push(`<div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3"><span class="es-men m-${palace.men}">${palace.men}</span></div>`);
+        const midItems = [];
+        if (ren)  midItems.push(`<div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3"><span class="em-ren">${ren}</span></div>`);
+        const centerInner = `
+          <div class="exp-tri" style="height:100%;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:4px;box-sizing:border-box">
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px">${leftItems.join('')}</div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px">${midItems.join('')}</div>
+          </div>`;
+        plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2">${centerInner}</td>`;
+        continue;
+      }
 
       // PDF 三列竖排布局（9要素，与渲染端一致）：
       //   左列（竖排3项）: 神 → 星 → 门
@@ -3384,7 +3601,321 @@ window.showPage = function(name) {
 initAIAgent();
 console.log('[APP] initAIAgent called');
 initSelects();
+initFeatureSelects();
 showPage('home');
+
+/* ========================================================
+ * 其他工具：四柱八字 / 紫微斗数 / 梅花易数 / 大六壬
+ * 算法来自 features.bundle.js → window.Features
+ * 纯函数调用 + UI 渲染；UI/持久化不写入算法核心
+ * ====================================================== */
+
+function initFeatureSelects() {
+  const now = new Date();
+  const curY = now.getFullYear();
+  // 4 个页面共用年份范围 1900-2100
+  const yearRange = [];
+  for (let y = 1900; y <= 2100; y++) yearRange.push(y);
+  const monthRange = [];
+  for (let m = 1; m <= 12; m++) monthRange.push(m);
+  const hourRange = [];
+  for (let h = 0; h < 24; h++) hourRange.push(h);
+  const minuteRange = [];
+  for (let mi = 0; mi < 60; mi++) minuteRange.push(mi);
+
+  const pageConfigs = [
+    { prefix: 'bazi', hasMinute: true },
+    { prefix: 'zw', hasMinute: true },
+    { prefix: 'mh', hasMinute: false },
+    { prefix: 'dl', hasMinute: true },
+  ];
+
+  for (const cfg of pageConfigs) {
+    const ys = document.getElementById(cfg.prefix + '-y');
+    const ms = document.getElementById(cfg.prefix + '-m');
+    const ds = document.getElementById(cfg.prefix + '-d');
+    const hs = document.getElementById(cfg.prefix + '-h');
+    if (ys) { ys.innerHTML = yearRange.map(y => `<option value="${y}">${y}</option>`).join(''); ys.value = curY; }
+    if (ms) { ms.innerHTML = monthRange.map(m => `<option value="${m}">${m}</option>`).join(''); ms.value = now.getMonth() + 1; }
+    if (ds) {
+      const fillDays = () => {
+        const y = +ys.value, m = +ms.value;
+        const last = new Date(y, m, 0).getDate();
+        const curD = Math.min(+ds.value || now.getDate(), last);
+        ds.innerHTML = '';
+        for (let d = 1; d <= last; d++) ds.innerHTML += `<option value="${d}">${d}</option>`;
+        ds.value = curD;
+      };
+      fillDays();
+      if (ys) ys.addEventListener('change', fillDays);
+      if (ms) ms.addEventListener('change', fillDays);
+    }
+    if (hs) { hs.innerHTML = hourRange.map(h => `<option value="${h}">${h}</option>`).join(''); hs.value = now.getHours(); }
+    if (cfg.hasMinute) {
+      const mis = document.getElementById(cfg.prefix + '-mi');
+      if (mis) { mis.innerHTML = minuteRange.map(mi => `<option value="${mi}">${mi}</option>`).join(''); mis.value = now.getMinutes(); }
+    }
+  }
+}
+
+/* ===== 性别切换 ===== */
+function setBaziGender(g) {
+  document.getElementById('bazi-gender-m').classList.toggle('active', g === '男');
+  document.getElementById('bazi-gender-f').classList.toggle('active', g === '女');
+  document.getElementById('bazi-y').dataset.gender = g;
+}
+function setZwGender(g) {
+  document.getElementById('zw-gender-m').classList.toggle('active', g === '男');
+  document.getElementById('zw-gender-f').classList.toggle('active', g === '女');
+  document.getElementById('zw-y').dataset.gender = g;
+}
+
+/* ===== 梅花易数 tab 切换 ===== */
+function setMhTab(tab) {
+  document.getElementById('mh-tab-time').classList.toggle('active', tab === 'time');
+  document.getElementById('mh-tab-num').classList.toggle('active', tab === 'num');
+  document.querySelector('.mh-time-card').classList.toggle('hidden', tab !== 'time');
+  document.querySelector('.mh-num-card').classList.toggle('hidden', tab !== 'num');
+}
+
+function getActiveGender(prefix) {
+  const m = document.getElementById(prefix + '-gender-m');
+  return m && m.classList.contains('active') ? '男' : '女';
+}
+
+/* ===== 四柱八字 ===== */
+function runBazi() {
+  const result = document.getElementById('bazi-result');
+  if (!window.Features || !Features.bazi) {
+    result.innerHTML = '<div class="fr-empty">算法包未加载</div>';
+    return;
+  }
+  const y = +document.getElementById('bazi-y').value;
+  const m = +document.getElementById('bazi-m').value;
+  const d = +document.getElementById('bazi-d').value;
+  const h = +document.getElementById('bazi-h').value;
+  const mi = +document.getElementById('bazi-mi').value;
+  const gender = getActiveGender('bazi');
+  try {
+    const r = Features.bazi.paiPan({ year: y, month: m, day: d, hour: h, minute: mi, gender });
+    result.innerHTML = renderBazi(r);
+  } catch (e) {
+    result.innerHTML = '<div class="fr-empty">排盘出错：' + (e.message || e) + '</div>';
+  }
+}
+
+function renderBazi(r) {
+  const labels = ['年柱', '月柱', '日柱', '时柱'];
+  const keys = ['year', 'month', 'day', 'time'];
+  const pillarsHtml = keys.map((k, i) => {
+    const gz = r.fourPillars.gan[k] + r.fourPillars.zhi[k];
+    const gan = r.fourPillars.gan[k];
+    const zhi = r.fourPillars.zhi[k];
+    const hidden = (r.hiddenStems && r.hiddenStems[k]) || [];
+    const tenGod = (r.tenGods && r.tenGods[k]) || '';
+    return `<div class="fr-pillar">
+      <div class="fp-g">${gan}</div>
+      <div class="fp-z">${zhi}</div>
+      <div class="fp-s">${labels[i]}</div>
+      <div class="fp-c">藏干: ${hidden.join('') || '—'}</div>
+      <div class="fp-c">十神: ${tenGod || '—'}</div>
+    </div>`;
+  }).join('');
+
+  // 五行统计
+  const wx = r.wuxing || {};
+  const wxHtml = Object.keys(wx).map(k => `<div class="fg-cell"><div class="fg-h">${k}</div><div class="fg-v">${wx[k]} 个</div></div>`).join('');
+
+  // 大运
+  const daYun = (r.daYun || []).slice(0, 8).map(dy => `<div class="fg-cell"><div class="fg-h">${dy.startAge}岁起</div><div class="fg-v">${dy.ganZhi || ''}</div></div>`).join('');
+
+  // 流年（前6）
+  const liuNian = (r.liuNian || []).slice(0, 6).map(ln => `<div class="fg-cell"><div class="fg-h">${ln.year}</div><div class="fg-v">${ln.ganZhi || ''}</div></div>`).join('');
+
+  return `
+    <div class="fr-card">
+      <div class="fr-title">四柱</div>
+      <div class="fr-pillars">${pillarsHtml}</div>
+    </div>
+    ${wxHtml ? `<div class="fr-card"><div class="fr-title">五行统计</div><div class="fr-grid">${wxHtml}</div></div>` : ''}
+    ${daYun ? `<div class="fr-card"><div class="fr-title">大运（前8步）</div><div class="fr-grid">${daYun}</div></div>` : ''}
+    ${liuNian ? `<div class="fr-card"><div class="fr-title">流年（前6年）</div><div class="fr-grid">${liuNian}</div></div>` : ''}
+    <div class="fr-meta">算法版本：${r.algorithmVersion || '—'}<br>规则集：${r.ruleset || '—'}<br>历法：${r.calendarVersion || '—'}<br>生成时间：${r.createdAt || '—'}</div>
+  `;
+}
+
+/* ===== 紫微斗数 ===== */
+function runZiwei() {
+  const result = document.getElementById('ziwei-result');
+  if (!window.Features || !Features.ziwei) {
+    result.innerHTML = '<div class="fr-empty">算法包未加载</div>';
+    return;
+  }
+  const y = +document.getElementById('zw-y').value;
+  const m = +document.getElementById('zw-m').value;
+  const d = +document.getElementById('zw-d').value;
+  const h = +document.getElementById('zw-h').value;
+  const mi = +document.getElementById('zw-mi').value;
+  const gender = getActiveGender('zw');
+  try {
+    const r = Features.ziwei.paiPan({ year: y, month: m, day: d, hour: h, minute: mi, gender });
+    result.innerHTML = renderZiwei(r);
+  } catch (e) {
+    result.innerHTML = '<div class="fr-empty">排盘出错：' + (e.message || e) + '</div>';
+  }
+}
+
+function renderZiwei(r) {
+  // 12宫职
+  const palacesHtml = (r.palaces || []).map(p => {
+    const stars = (p.majorStars || []).join(' ') || '—';
+    const trans = (p.transformations || []).map(t => t.star + '(' + t.type + ')').join(' ') || '';
+    return `<div class="fg-cell"><div class="fg-h">${p.earthlyBranch}·${p.role}</div><div class="fg-v">${stars}</div>${trans ? `<div style="font-size:11px;color:var(--gold);margin-top:2px">${trans}</div>` : ''}</div>`;
+  }).join('');
+
+  // 大限（前6）
+  const daXian = (r.decadal || []).slice(0, 6).map(dx => `<div class="fg-cell"><div class="fg-h">${dx.startAge}岁起</div><div class="fg-v">${dx.palace || ''}</div></div>`).join('');
+
+  // 流年（前6）
+  const liuNian = (r.yearly || []).slice(0, 6).map(ly => `<div class="fg-cell"><div class="fg-h">${ly.year}</div><div class="fg-v">${ly.palace || ''}</div></div>`).join('');
+
+  return `
+    <div class="fr-card">
+      <div class="fr-title">命身宫</div>
+      <div class="fr-row"><div class="fr-label">命宫</div><div class="fr-value">${r.soulPalace || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">身宫</div><div class="fr-value">${r.bodyPalace || '—'}（${r.bodyPalaceRole || '—'}）</div></div>
+      <div class="fr-row"><div class="fr-label">五行局</div><div class="fr-value">${r.fiveElementClass || '—'}（局数 ${r.fiveElementNumber || '—'}）</div></div>
+      <div class="fr-row"><div class="fr-label">命宫干支</div><div class="fr-value">${r.mingGongGanZhi || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">农历</div><div class="fr-value">${r.lunarDate.lunarMonth}月${r.lunarDate.lunarDay}日${r.lunarDate.isLeap ? '（闰）' : ''}</div></div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-title">十二宫职</div>
+      <div class="fr-grid">${palacesHtml}</div>
+    </div>
+    ${daXian ? `<div class="fr-card"><div class="fr-title">大限（前6步）</div><div class="fr-grid">${daXian}</div></div>` : ''}
+    ${liuNian ? `<div class="fr-card"><div class="fr-title">流年（前6年）</div><div class="fr-grid">${liuNian}</div></div>` : ''}
+    <div class="fr-meta">算法版本：${r.algorithmVersion || '—'}<br>规则集：${r.ruleset || '—'}<br>历法：${r.calendarVersion || '—'}<br>生成时间：${r.createdAt || '—'}</div>
+  `;
+}
+
+/* ===== 梅花易数 ===== */
+function runMeihua() {
+  const result = document.getElementById('meihua-result');
+  if (!window.Features || !Features.meihua) {
+    result.innerHTML = '<div class="fr-empty">算法包未加载</div>';
+    return;
+  }
+  const isTime = document.getElementById('mh-tab-time').classList.contains('active');
+  try {
+    let r;
+    if (isTime) {
+      const y = +document.getElementById('mh-y').value;
+      const m = +document.getElementById('mh-m').value;
+      const d = +document.getElementById('mh-d').value;
+      const h = +document.getElementById('mh-h').value;
+      r = Features.meihua.paiPan({ year: y, month: m, day: d, hour: h });
+    } else {
+      const n1 = +document.getElementById('mh-num1').value;
+      const n2 = +document.getElementById('mh-num2').value;
+      const n3 = +document.getElementById('mh-num3').value;
+      r = Features.meihua.paiPan({ numbers: [n1, n2, n3] });
+    }
+    result.innerHTML = renderMeihua(r);
+  } catch (e) {
+    result.innerHTML = '<div class="fr-empty">起卦出错：' + (e.message || e) + '</div>';
+  }
+}
+
+function renderMeihua(r) {
+  const benGua = r.benGua || {};
+  const huGua = r.huGua || {};
+  const bianGua = r.bianGua || {};
+  return `
+    <div class="fr-card">
+      <div class="fr-title">本卦</div>
+      <div class="fr-row"><div class="fr-label">卦名</div><div class="fr-value">${benGua.name || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">上卦</div><div class="fr-value">${benGua.upperGua || '—'}（${benGua.upperWuxing || '—'}）</div></div>
+      <div class="fr-row"><div class="fr-label">下卦</div><div class="fr-value">${benGua.lowerGua || '—'}（${benGua.lowerWuxing || '—'}）</div></div>
+      <div class="fr-row"><div class="fr-label">动爻</div><div class="fr-value">${r.yao ?? '—'} 爻</div></div>
+      <div class="fr-row"><div class="fr-label">体卦</div><div class="fr-value">${r.tiGua || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">用卦</div><div class="fr-value">${r.yongGua || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">体用关系</div><div class="fr-value">${r.tiYongRelation || '—'}</div></div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-title">互卦</div>
+      <div class="fr-row"><div class="fr-label">卦名</div><div class="fr-value">${huGua.name || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">上卦</div><div class="fr-value">${huGua.upperGua || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">下卦</div><div class="fr-value">${huGua.lowerGua || '—'}</div></div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-title">变卦</div>
+      <div class="fr-row"><div class="fr-label">卦名</div><div class="fr-value">${bianGua.name || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">上卦</div><div class="fr-value">${bianGua.upperGua || '—'}</div></div>
+      <div class="fr-row"><div class="fr-label">下卦</div><div class="fr-value">${bianGua.lowerGua || '—'}</div></div>
+    </div>
+    ${r.formula ? `<div class="fr-card"><div class="fr-title">算式</div><div class="fr-row"><div class="fr-value" style="text-align:left;font-size:13px;line-height:1.6">${r.formula.replace(/\n/g, '<br>')}</div></div></div>` : ''}
+    <div class="fr-meta">算法版本：${r.algorithmVersion || '—'}<br>规则集：${r.ruleset || '—'}<br>历法：${r.calendarVersion || '—'}<br>生成时间：${r.createdAt || '—'}</div>
+  `;
+}
+
+/* ===== 大六壬 ===== */
+function runDaliuren() {
+  const result = document.getElementById('daliuren-result');
+  if (!window.Features || !Features.daliuren) {
+    result.innerHTML = '<div class="fr-empty">算法包未加载</div>';
+    return;
+  }
+  const y = +document.getElementById('dl-y').value;
+  const m = +document.getElementById('dl-m').value;
+  const d = +document.getElementById('dl-d').value;
+  const h = +document.getElementById('dl-h').value;
+  const mi = +document.getElementById('dl-mi').value;
+  try {
+    const r = Features.daliuren.paiPan({ year: y, month: m, day: d, hour: h, minute: mi });
+    result.innerHTML = renderDaliuren(r);
+  } catch (e) {
+    result.innerHTML = '<div class="fr-empty">排盘出错：' + (e.message || e) + '</div>';
+  }
+}
+
+function renderDaliuren(r) {
+  // 四课
+  const lessonLabels = ['第一课', '第二课', '第三课', '第四课'];
+  const lessonsHtml = (r.fourLessons || []).map((l, i) => `<div class="fg-cell"><div class="fg-h">${lessonLabels[i]}</div><div class="fg-v">${l.up} / ${l.down}</div></div>`).join('');
+
+  // 天将（12个）
+  const tianJiangHtml = (r.tianJiang.positions || []).map((j, i) => `<div class="fg-cell"><div class="fg-h">${r.diPan[i]}</div><div class="fg-v">${j}</div></div>`).join('');
+
+  // 三传
+  const sc = r.sanChuan || {};
+  const scTj = r.sanChuanTianJiang || {};
+
+  return `
+    <div class="fr-card">
+      <div class="fr-title">基础信息</div>
+      <div class="fr-row"><div class="fr-label">日干支</div><div class="fr-value">${r.dayGan}${r.dayZhi}</div></div>
+      <div class="fr-row"><div class="fr-label">时辰</div><div class="fr-value">${r.hourZhi}</div></div>
+      <div class="fr-row"><div class="fr-label">昼夜</div><div class="fr-value">${r.isNight ? '夜占' : '昼占'}</div></div>
+      <div class="fr-row"><div class="fr-label">月将</div><div class="fr-value">${r.yueJiang}</div></div>
+      <div class="fr-row"><div class="fr-label">贵人</div><div class="fr-value">${r.tianJiang.guirenZhi}（${r.tianJiang.direction}布）</div></div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-title">四课</div>
+      <div class="fr-grid">${lessonsHtml}</div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-title">三传（${sc.method || '—'}）</div>
+      <div class="fr-row"><div class="fr-label">初传</div><div class="fr-value">${sc.initial}（${scTj.initial || '—'}）</div></div>
+      <div class="fr-row"><div class="fr-label">中传</div><div class="fr-value">${sc.middle}（${scTj.middle || '—'}）</div></div>
+      <div class="fr-row"><div class="fr-label">末传</div><div class="fr-value">${sc.last}（${scTj.last || '—'}）</div></div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-title">十二天将</div>
+      <div class="fr-grid">${tianJiangHtml}</div>
+    </div>
+    <div class="fr-meta">算法版本：${r.algorithmVersion || '—'}<br>规则集：${r.ruleset || '—'}<br>历法：${r.calendarVersion || '—'}<br>生成时间：${r.createdAt || '—'}</div>
+  `;
+}
 </script>
 
 <div id="confirm-modal" class="modal-mask hidden" onclick="if(event.target===this)closeConfirm()">
