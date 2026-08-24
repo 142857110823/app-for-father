@@ -681,3 +681,26 @@
 - ✅ Git 推送成功：`c7c32c0..af2acde master -> master`。
 - ✅ 本地预览地址：http://localhost:8090/（验证时间 2026-08-24）。
 **【相关文档】** index.html、public/index.html、docs/index.html、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx
+
+### 2026-08-24 中宫统一三分区修复 + 静态站点 AI 错误处理
+
+**【时间】** 2026-08-24 18:01（Asia/Shanghai）
+**【事件】** 修复中宫长期位置错误，并处理 GitHub Pages 上智能解读出现 `Unexpected token '<'` 的问题。
+**【问题来源】**
+- 中宫此前被错误实现为“顶部星、底部门/人盘”的专用三角模板；该模板与 `排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`天罡.docx` 所规定的所有宫位统一左/中/右三分区结构冲突。
+- GitHub Pages 为静态托管，访问 `/api/chat` 时会返回 HTML 页面；前端直接调用 `res.json()`，因此把 HTML 的 `<` 解析为 JSON 并报错。
+**【执行方向】**
+1. 删除屏幕和导出模板中的中宫专用三角布局。
+2. 中宫继续保持 `colspan=2`、`rowspan=2`，内部复用外围宫位的三分区模板。
+3. 新增统一 AI 请求模块，先读取响应文本并检查 HTTP 状态、内容类型及 HTML 特征，再进行 JSON 解析。
+4. 支持通过 `window.QIMEN_API_BASE` 配置未来的公开 AI 后端；不向前端暴露 `API密钥.txt`。
+5. 同步根目录、`public/`、`docs/`，补充自动测试并执行 Android Release 构建。
+**【执行边界】** 本轮仅修复中宫渲染和 AI 错误处理，不修改排盘核心算法，不替换学堂现有 EPUB，不触碰其他功能开发目录。GitHub Pages 在未部署公开后端前只能显示明确的“静态网页未连接 AI 后端服务”，不能提供真实 AI 解读。
+**【执行结果】**
+- 自动测试：33/33 通过。
+- 阴遁 5 局实测：2026-08-14 12:22，中宫显示“贪狼 / 休 / 戊”，左分区为“贪狼 / 休”，中分区为“戊”，专用三角节点数量为 0。
+- 阳遁 5 局实测：2026-08-14 14:22，中宫显示“右弼 / 生 / 戊”，左分区为“右弼 / 生”，中分区为“戊”，专用三角节点数量为 0。
+- 两组实测中宫均为 2×2 合并单元格，`colspan=2`、`rowspan=2`。
+- Android Release 构建成功；输出为 `app-release-unsigned.apk`，3,637,188 字节。
+- 本地预览：`http://localhost:8090/?qa=center-ai-fix`，HTTP 200，验证时间 2026-08-24 18:01。
+**【相关文档】** index.html、ai-client.js、public/index.html、public/ai-client.js、docs/index.html、docs/ai-client.js、tests/paipan-render.test.js、tests/ai-client.test.js、package.json、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx、天罡.docx

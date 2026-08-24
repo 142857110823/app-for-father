@@ -1345,6 +1345,7 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 <script src="school-library.js"></script>
 <script src="school-reader.js"></script>
 <script src="school-app.js"></script>
+<script src="ai-client.js"></script>
 <script>
 let curData = null;
 
@@ -1973,15 +1974,6 @@ function renderTraditionalPlate() {
     const tiangang = palace.tiangang || '';
     const riPaiJu  = palace.riPaiJu || '';
 
-    // 中宫特例：仅显示有值的要素（星/门/人盘），不显示空占位符
-    // 视觉布局：贪狼(星)顶部居中，休(门)与戊(人盘)左右并排
-    if (isCenter) {
-      const topItem = xing ? `<div class="pc-center-top"><span class="pc-xing">${xing}</span></div>` : '';
-      const bottomLeft = men ? `<div class="pc-center-bl"><span class="pc-men m-${men}">${men}</span></div>` : '';
-      const bottomRight = ren ? `<div class="pc-center-br"><span class="pc-ren">${ren}</span></div>` : '';
-      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})"><div class="palace-tri palace-center"><div class="pc-center-inner">${topItem}<div class="pc-center-bottom">${bottomLeft}${bottomRight}</div></div></div></td>`;
-    }
-
     // 严格按文档规范 三列竖排布局（9要素）：
     //   左列（竖排3项）: 神(金色) → 星(墨色) → 门(吉凶彩色)
     //   中列（竖排4项）: 灵盘(暗金) → 天盘(墨色) → 地盘(门盘映射) → 人盘(基础地盘干)
@@ -2019,6 +2011,9 @@ function renderTraditionalPlate() {
         </div>
       </div>`;
 
+    if (isCenter) {
+      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
+    }
     return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
   };
 
@@ -2482,20 +2477,6 @@ function buildPaipanHTML(data, opts) {
       const tg2  = palace.tiangang || '';
       const rp   = palace.riPaiJu || '';
 
-      // 中宫PDF特例：贪狼(星)顶部居中，休(门)与戊(人盘)左右并排
-      if (isCenter) {
-        const topItem = palace.xing ? `<div style="text-align:center"><span class="es-xing">${palace.xing}</span></div>` : '';
-        const bottomLeft = palace.men ? `<div style="flex:1;text-align:center"><span class="es-men m-${palace.men}">${palace.men}</span></div>` : '';
-        const bottomRight = ren ? `<div style="flex:1;text-align:center"><span class="em-ren">${ren}</span></div>` : '';
-        const centerInner = `
-          <div style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:stretch;box-sizing:border-box;padding:4px;gap:4px">
-            <div style="flex:1;display:flex;align-items:center;justify-content:center">${topItem}</div>
-            <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;flex:1">${bottomLeft}${bottomRight}</div>
-          </div>`;
-        plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2">${centerInner}</td>`;
-        continue;
-      }
-
       // PDF 三列竖排布局（9要素，与渲染端一致）：
       //   左列（竖排3项）: 神 → 星 → 门
       //   中列（竖排4项）: 灵盘 → 天盘 → 地盘 → 人盘
@@ -2533,7 +2514,7 @@ function buildPaipanHTML(data, opts) {
           </div>
         </div>`;
 
-      plateRows += `<td class="${isGuiShen ? 'gui-shen' : ''}" ${cell.center ? 'colspan="2" rowspan="2"' : ''}>${inner}</td>`;
+      plateRows += `<td class="${isCenter ? 'center ' : ''}${isGuiShen ? 'gui-shen' : ''}" ${isCenter ? 'colspan="2" rowspan="2"' : ''}>${inner}</td>`;
     }
     plateRows += '</tr>';
   }
@@ -2914,12 +2895,10 @@ function initAIAgent() {
       : '你是一位精通道家奇门遁甲的 AI 助手。当前尚未生成排盘，请引导用户先进行排盘。';
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'system', content: systemContent }, { role: 'user', content: text }] })
-      });
-      const json = await res.json();
+      const json = await QimenAiClient.requestAiChat([
+        { role: 'system', content: systemContent },
+        { role: 'user', content: text }
+      ]);
       if (json.ok && json.data && json.data.choices && json.data.choices[0] && json.data.choices[0].message) {
         addMessage('ai', json.data.choices[0].message.content);
       } else {
@@ -3255,15 +3234,10 @@ ${palaceSummary}
 {"geju":"格局判断的详细内容（300字以上）","keyPalaces":"关键宫位分析的详细内容（400字以上）","judgment":"综合吉凶断语的详细内容（300字以上）"}`;
 
   try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [
+    const json = await QimenAiClient.requestAiChat([
         { role: 'system', content: '你是一位精通道家奇门遁甲的资深大师，精通《烟波钓叟歌》《奇门总要诀》等经典，擅长格局判断、用神分析、吉凶断语。请用详实、专业、有深度的道家术语回答，每个部分务必达到规定字数。' },
         { role: 'user', content: prompt }
-      ] })
-    });
-    const json = await res.json();
+    ]);
     let content = '';
     if (json.ok && json.data && json.data.choices && json.data.choices[0]) {
       content = json.data.choices[0].message.content;
