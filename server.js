@@ -42,6 +42,10 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+app.use('/books', express.static(path.join(__dirname, 'docs', 'books'), {
+  immutable: true,
+  maxAge: '1y'
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '2mb' }));
 

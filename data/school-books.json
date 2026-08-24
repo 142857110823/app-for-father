@@ -1,0 +1,98 @@
+[
+  {
+    "id": "qimen-tongzong",
+    "title": "奇門遁甲統宗",
+    "author": "佚名",
+    "category": "奇门主典",
+    "description": "系统汇集奇门遁甲源流、起局、格局与占验方法的传统典籍。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E7%B5%B1%E5%AE%97",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/qimen-tongzong.epub",
+    "exportTitle": "奇門遁甲統宗",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "qimen-yuanling",
+    "title": "奇門遁甲元靈經",
+    "author": "清·隱溪居士",
+    "category": "奇门主典",
+    "description": "从动静、吉凶、生克、制伏等角度阐释奇门理法。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E5%85%83%E9%9D%88%E7%B6%93",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/qimen-yuanling.epub",
+    "exportTitle": "奇門遁甲元靈經",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "dunjia-yanyi",
+    "title": "遁甲演義（四庫全書本）",
+    "author": "明·程道生",
+    "category": "奇门主典",
+    "description": "四库全书本遁甲典籍，涵盖排局方法、九星八门与占断。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E9%81%81%E7%94%B2%E6%BC%94%E7%BE%A9_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/dunjia-yanyi.epub",
+    "exportTitle": "遁甲演義 (四庫全書本)",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "qimen-baojian",
+    "title": "奇门宝鉴御定",
+    "author": "清廷敕纂",
+    "category": "奇门主典",
+    "description": "清代官修奇门典籍，适合查阅局式、用法与传统术语。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E5%A5%87%E9%97%A8%E5%AE%9D%E9%89%B4%E5%BE%A1%E5%AE%9A",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/qimen-baojian.epub",
+    "exportTitle": "奇门宝鉴御定",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "yanbo-diaosou",
+    "title": "煙波釣叟歌",
+    "author": "傳·趙普",
+    "category": "奇门歌诀",
+    "description": "奇门遁甲常用总纲歌诀，便于记忆阴阳遁、三奇六仪等规则。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E7%85%99%E6%B3%A2%E9%87%A3%E5%8F%9F%E6%AD%8C",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/yanbo-diaosou.epub",
+    "exportTitle": "煙波釣叟歌",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "huangting-dunjia",
+    "title": "黃庭遁甲緣身經",
+    "author": "佚名",
+    "category": "遁甲道经",
+    "description": "道藏中的遁甲相关经典，用于理解遁甲与道教术数传统。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E9%BB%83%E5%BA%AD%E9%81%81%E7%94%B2%E7%B7%A3%E8%BA%AB%E7%B6%93",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/huangting-dunjia.epub",
+    "exportTitle": "黃庭遁甲緣身經",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "taiyi-jinjing",
+    "title": "太乙金鏡式經（四庫全書本）",
+    "author": "唐·王希明",
+    "category": "三式旁参",
+    "description": "太乙术经典，与奇门、六壬并称三式，可用于比较术数框架。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E5%A4%AA%E4%B9%99%E9%87%91%E9%8F%A1%E5%BC%8F%E7%B6%93_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/taiyi-jinjing.epub",
+    "exportTitle": "太乙金鏡式經 (四庫全書本)",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  },
+  {
+    "id": "liuren-daquan",
+    "title": "六壬大全（四庫全書本）",
+    "author": "明·郭載騋等",
+    "category": "三式旁参",
+    "description": "六壬术汇编，与奇门遁甲并列参读，补充传统三式知识体系。",
+    "sourcePage": "https://zh.wikisource.org/wiki/%E5%85%AD%E5%A3%AC%E5%A4%A7%E5%85%A8_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)",
+    "downloadUrl": "https://142857110823.github.io/app-for-father/books/liuren-daquan.epub",
+    "exportTitle": "六壬大全 (四庫全書本)",
+    "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+    "expectedType": "application/epub+zip"
+  }
+]

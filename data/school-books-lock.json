@@ -1,0 +1,93 @@
+{
+  "generatedAt": "2026-08-24T03:57:49.862Z",
+  "books": [
+    {
+      "id": "qimen-tongzong",
+      "title": "奇門遁甲統宗",
+      "fileName": "qimen-tongzong.epub",
+      "bytes": 81310,
+      "sha256": "c3c844c32f38f41eb42715ab9f8ccd8bba2604844474562f06d0e10b3502147c",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E7%B5%B1%E5%AE%97",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E7%B5%B1%E5%AE%97&format=epub&page=%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E7%B5%B1%E5%AE%97",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:24.585Z"
+    },
+    {
+      "id": "qimen-yuanling",
+      "title": "奇門遁甲元靈經",
+      "fileName": "qimen-yuanling.epub",
+      "bytes": 69683,
+      "sha256": "9fe76a276d19b6370edd7b740912b2abae58c82c8a3753b99efef73fef022b32",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E5%85%83%E9%9D%88%E7%B6%93",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E5%85%83%E9%9D%88%E7%B6%93&format=epub&page=%E5%A5%87%E9%96%80%E9%81%81%E7%94%B2%E5%85%83%E9%9D%88%E7%B6%93",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:26.868Z"
+    },
+    {
+      "id": "dunjia-yanyi",
+      "title": "遁甲演義（四庫全書本）",
+      "fileName": "dunjia-yanyi.epub",
+      "bytes": 156898,
+      "sha256": "8ad1bf727f40c407b44c3506c521d0873ca8c06cc152f64ac172d0e1e9d317fa",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E9%81%81%E7%94%B2%E6%BC%94%E7%BE%A9_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E9%81%81%E7%94%B2%E6%BC%94%E7%BE%A9+%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29&format=epub&page=%E9%81%81%E7%94%B2%E6%BC%94%E7%BE%A9+%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:31.968Z"
+    },
+    {
+      "id": "qimen-baojian",
+      "title": "奇门宝鉴御定",
+      "fileName": "qimen-baojian.epub",
+      "bytes": 63450,
+      "sha256": "80e89c20920ce371961dfa753a47f91e3d291219c4035c12803ab28c5a01b3f9",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E5%A5%87%E9%97%A8%E5%AE%9D%E9%89%B4%E5%BE%A1%E5%AE%9A",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E5%A5%87%E9%97%A8%E5%AE%9D%E9%89%B4%E5%BE%A1%E5%AE%9A&format=epub&page=%E5%A5%87%E9%97%A8%E5%AE%9D%E9%89%B4%E5%BE%A1%E5%AE%9A",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:34.083Z"
+    },
+    {
+      "id": "yanbo-diaosou",
+      "title": "煙波釣叟歌",
+      "fileName": "yanbo-diaosou.epub",
+      "bytes": 26017,
+      "sha256": "0b1ae3b870c87bde29a41733d27676b1bfa42583b8fd281704029a3fbcee9c01",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E7%85%99%E6%B3%A2%E9%87%A3%E5%8F%9F%E6%AD%8C",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E7%85%99%E6%B3%A2%E9%87%A3%E5%8F%9F%E6%AD%8C&format=epub&page=%E7%85%99%E6%B3%A2%E9%87%A3%E5%8F%9F%E6%AD%8C",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:35.274Z"
+    },
+    {
+      "id": "huangting-dunjia",
+      "title": "黃庭遁甲緣身經",
+      "fileName": "huangting-dunjia.epub",
+      "bytes": 28095,
+      "sha256": "b1ec2d61dc73778823378947ef354232739d7f326c3b6ed599f76c7a2444518a",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E9%BB%83%E5%BA%AD%E9%81%81%E7%94%B2%E7%B7%A3%E8%BA%AB%E7%B6%93",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E9%BB%83%E5%BA%AD%E9%81%81%E7%94%B2%E7%B7%A3%E8%BA%AB%E7%B6%93&format=epub&page=%E9%BB%83%E5%BA%AD%E9%81%81%E7%94%B2%E7%B7%A3%E8%BA%AB%E7%B6%93",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:36.606Z"
+    },
+    {
+      "id": "taiyi-jinjing",
+      "title": "太乙金鏡式經（四庫全書本）",
+      "fileName": "taiyi-jinjing.epub",
+      "bytes": 160658,
+      "sha256": "3e1f84549723eca4d34741dfeee5688470c106c66d81677c4d43ff98bbd159fa",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E5%A4%AA%E4%B9%99%E9%87%91%E9%8F%A1%E5%BC%8F%E7%B6%93_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E5%A4%AA%E4%B9%99%E9%87%91%E9%8F%A1%E5%BC%8F%E7%B6%93+%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29&format=epub&page=%E5%A4%AA%E4%B9%99%E9%87%91%E9%8F%A1%E5%BC%8F%E7%B6%93+%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:42.125Z"
+    },
+    {
+      "id": "liuren-daquan",
+      "title": "六壬大全（四庫全書本）",
+      "fileName": "liuren-daquan.epub",
+      "bytes": 823166,
+      "sha256": "95563ffc7a63d5029a06f984248b67528e6e433810a8f3c2a446eb86b515a5b8",
+      "sourcePage": "https://zh.wikisource.org/wiki/%E5%85%AD%E5%A3%AC%E5%A4%A7%E5%85%A8_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)",
+      "exportUrl": "https://ws-export.wmcloud.org/?lang=zh&title=%E5%85%AD%E5%A3%AC%E5%A4%A7%E5%85%A8+%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29&format=epub&page=%E5%85%AD%E5%A3%AC%E5%A4%A7%E5%85%A8+%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29",
+      "license": "古籍原作公版；维基文库整理文本 CC BY-SA 4.0",
+      "verifiedAt": "2026-08-24T03:57:49.860Z"
+    }
+  ]
+}

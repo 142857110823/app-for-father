@@ -5,6 +5,8 @@
   "main": "algorithm/qimen.js",
   "scripts": {
     "test": "node algorithm/qimen.js",
+    "test:school": "node --test tests/school-library.test.js tests/school-reader.test.js tests/school-integration.test.js tests/paipan-render.test.js",
+    "download:school": "node scripts/download-school-books.js",
     "build:browser": "esbuild algorithm/browser-entry.js --bundle --outfile=public/algorithm.bundle.js --format=iife --global-name=QiMenAlgorithmBundle",
     "build:android": "npm run build:browser && npx cap sync android && cd android && ./gradlew assembleRelease",
     "build:android:win": "npm run build:browser && npx cap sync android && cd android && gradlew.bat assembleRelease"
@@ -14,6 +16,7 @@
     "@capacitor/cli": "^8.5.0",
     "@capacitor/core": "^8.5.0",
     "bcryptjs": "^3.0.3",
+    "epubjs": "^0.3.93",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "lunar-javascript": "^1.6.11",

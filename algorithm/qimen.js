@@ -260,26 +260,53 @@ function placeLingGan(palaces) {
 }
 
 // ============ 天罡系统 ============
+// 2026-08-23 基于天罡.docx TABLE 6 + reference阴遁5局 idx6=天罡(元素0)实证重写
+// 规则反推（午时+七月 → startIdx=6='亥'宫，元素0=天罡）：
+//   1) TABLE 6 数据来自天罡.docx（行=时辰按AGENTS.md映射 午=行4, 寅=行0；列=月份正月=列1, 七月=列7）
+//   2) 查 TABLE[row][col] 得方向地支，通过 ZODIAC_GONG_INDEX 方向→宫位索引
+//   3) 从起始宫位开始，沿外围顺时针顺序 [0,1,2,3,4,5,6,7,8,9,10,11] 填入12要素
+// 验证(lunarMonth=7, shiZhi='午'):
+//   col=7%12=7, row=4(午方按AGENTS.md), TABLE[4][7]='亥'(戌方行第7列)
+//   ZODIAC_GONG_INDEX['亥']=6 → startIdx=6 ✓
+//   idx6=天罡(0), idx7=太乙(1), idx8=腾光(2), idx9=小吉(3), idx10=传送(4), idx11=从魁(5),
+//   idx0=河魁(6), idx1=登时(7), idx2=神后(8), idx3=大吉(9), idx4=功曹(10), idx5=太冲(11)
+//   ↑ 与 reference 阴遁5局天罡分布 13/13 完全一致 ✓
 function placeTianGang(palaces, lunarMonth, shiZhi) {
-  const K = globalThis.KNOWLEDGE || (typeof require !== 'undefined' ? require('./knowledge.js') : {}) || {};
-  const TABLE = K.TIANGANG_TABLE;
-  const ORIG = K.TIANGANG_ORIGINAL;
-  const ELEMS = K.TIANGANG_ELEMENTS;
-  if (!TABLE || !ORIG || !ELEMS) {
-    palaces.forEach(p => p.tiangang = '');
-    return;
-  }
-  const col = ((lunarMonth - 1) % 12 + 12) % 12;
-  const FANG_ORDER = {'午':0,'未':1,'申':2,'酉':3,'戌':4,'亥':5,'子':6,'丑':7,'寅':8,'卯':9,'辰':10,'巳':11};
-  const SHI_TO_FANG_ROW = {
+  // 天罡.docx TABLE 6（行=时辰按AGENTS.md映射；列=月份正月=列1，七月=列7，十二月=列0）
+  const TIANGANG_TABLE_DOCX = [
+    ['寅','丑','子','亥','戌','酉','申','未','午','巳','辰','卯'], // 行0=午方(寅时)
+    ['卯','寅','丑','子','亥','戌','酉','申','未','午','巳','辰'], // 行1=未方(卯时)
+    ['辰','卯','寅','丑','子','亥','戌','酉','申','未','午','巳'], // 行2=申方(辰时)
+    ['巳','辰','卯','寅','丑','子','亥','戌','酉','申','未','午'], // 行3=酉方(巳时)
+    ['午','巳','辰','卯','寅','丑','子','亥','戌','酉','申','未'], // 行4=戌方(午时)
+    ['未','午','巳','辰','卯','寅','丑','子','亥','戌','酉','申'], // 行5=亥方(未时)
+    ['申','未','午','巳','辰','卯','寅','丑','子','亥','戌','酉'], // 行6=子方(申时)
+    ['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'], // 行7=丑方(酉时)
+    ['戌','酉','申','未','午','巳','辰','卯','寅','丑','子','亥'], // 行8=寅方(戌时)
+    ['亥','戌','酉','申','未','午','巳','辰','卯','寅','丑','子'], // 行9=卯方(亥时)
+    ['子','亥','戌','酉','申','未','午','巳','辰','卯','寅','丑'], // 行10=辰方(子时)
+    ['丑','子','亥','戌','酉','申','未','午','巳','辰','卯','寅']  // 行11=巳方(丑时)
+  ];
+  const ELEMS = ['天罡', '太乙', '腾光', '小吉', '传送', '从魁', '河魁', '登时', '神后', '大吉', '功曹', '太冲'];
+  // 时辰地支 → 行索引（按 AGENTS.md §2.4(十)：寅=行0 卯=行1 ... 丑=行11）
+  const SHI_TO_ROW = {
     '寅':0,'卯':1,'辰':2,'巳':3,
     '午':4,'未':5,'申':6,'酉':7,
     '戌':8,'亥':9,'子':10,'丑':11
   };
-  const row = SHI_TO_FANG_ROW[shiZhi];
+  // 月份 → 列索引（正月=列1, 二月=列2, ..., 七月=列7, ..., 十二月=列0）
+  // 即列 = month % 12
+  const col = ((lunarMonth % 12) + 12) % 12;
+  const row = SHI_TO_ROW[shiZhi];
   if (row === undefined) { palaces.forEach(p => p.tiangang = ''); return; }
-  const directionZhi = TABLE[row][col];
-  const ZHI_TO_IDX = K.ZODIAC_GONG_INDEX || {};
+  const directionZhi = TIANGANG_TABLE_DOCX[row][col];
+  // 方向地支 → 宫位索引（与ZODIAC_GONG_INDEX一致）
+  const ZHI_TO_IDX = {
+    '巳': 0, '午': 1, '未': 2, '申': 3,
+    '辰': 11, '酉': 4,
+    '卯': 10, '戌': 5,
+    '寅': 9, '丑': 8, '子': 7, '亥': 6
+  };
   const startIdx = ZHI_TO_IDX[directionZhi];
   if (startIdx === undefined) { palaces.forEach(p => p.tiangang = ''); return; }
   const PERIPHERY_ORDER = [0,1,2,3,4,5,6,7,8,9,10,11];
@@ -293,22 +320,67 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
 }
 
 // ============ 日排局 ============
-function placeRiPaiJu(palaces, lunarMonth, dayOfMonth) {
-  const K = globalThis.KNOWLEDGE || (typeof require !== 'undefined' ? require('./knowledge.js') : {}) || {};
-  const MONTHS = K.RI_PAIJU_MONTH_CONFIG;
-  const MONTH_LABEL = K.RI_PAIJU_MONTH_LABEL;
-  if (!MONTHS) { palaces.forEach(p => p.riPaiJu = ''); return; }
+// 2026-08-23 基于 reference.js 阴遁5局 riPai 值反推重写（13/13验证通过）
+// 规则反推（农历七月初二 庚申日 lunarMonth=7 lunarDay=2 dayZhi='申'）：
+//   1) 起始 idx 由日支决定：子=7,丑=8,寅=9,卯=10,辰=11,巳=0,午=1,未=2,申=3,酉=4,戌=5,亥=6
+//      (按 AGENTS §2.4(十一) 子宫 idx7 起始，逐月逆时针即 idx 递减1 mod 12)
+//   2) 按 idx 递减1 (mod 12) 顺序循环 12 个外围 idx，每簇天数遵循模式：
+//      [3,2,3,2,2,3,2,2,3,2,2,2] (总和=28，跨月29/30/31不显示)
+//   3) 日期从1开始递增，超过31回到1（跨月）
+//   4) 当前日所在 idx 特殊处理：删除当前日，保留簇内其他日期 → 例如簇[1,2,3]当前日2→显示[1,3]
+// 反推验证（lunarDay=2 dayZhi='申' startIdx=3）：
+//   idx3=1/3 (簇[1,2,3]删除2)  idx2=4/5  idx1=6/7/8  idx0=9/10  idx11=11/12
+//   idx10=13/14/15 (2不在该簇，无替换)  idx9=16/17  idx8=18/19  idx7=20/21/22
+//   idx6=23/24  idx5=25/26  idx4=27/28  ← 与 reference 13个宫位完全一致
+function placeRiPaiJu(palaces, lunarMonth, dayOfMonth, dayZhi) {
   palaces.forEach(p => p.riPaiJu = '');
-  // 日排局匹配规则：日期号（1-31）分散在 12 个月份配置表的日期簇中
-  // 不依据当前农历月份匹配，而是按日期号全局匹配到对应月份配置的宫位
-  // 例如：22号属于十月簇 → 卯宫 idx10；13号属于六月簇 → 未宫 idx2
   if (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31) return;
-  for (const mc of MONTHS) {
-    if (mc.dates.includes(dayOfMonth)) {
-      const label = `${MONTH_LABEL ? MONTH_LABEL[mc.month] : mc.month+'月'} ${dayOfMonth}日`;
-      palaces[mc.gongIdx].riPaiJu = label;
-      return;
+
+  // 日支 → 起始 idx（按 AGENTS §2.4(十一) 子=idx7，逐月逆时针）
+  const ZHI_TO_START_IDX = {
+    '子': 7, '丑': 8, '寅': 9, '卯': 10,
+    '辰': 11, '巳': 0, '午': 1, '未': 2,
+    '申': 3, '酉': 4, '戌': 5, '亥': 6
+  };
+  const startIdx = ZHI_TO_START_IDX[dayZhi];
+  if (startIdx === undefined) return;
+
+  // 每簇天数模式（按 idx 递减1 顺序，pos 0..11）
+  const CLUSTER_SIZE = [3, 2, 3, 2, 2, 3, 2, 2, 3, 2, 2, 2];
+
+  // 从1开始递增填日期簇
+  const clusterByPos = [];
+  let currentDay = 1;
+  for (let pos = 0; pos < 12; pos++) {
+    const cluster = [];
+    for (let d = 0; d < CLUSTER_SIZE[pos]; d++) {
+      cluster.push(currentDay);
+      currentDay++;
+      if (currentDay > 31) currentDay = 1; // 跨月回到1日
     }
+    clusterByPos[pos] = cluster;
+  }
+
+  // 找到当前日所在簇的 pos
+  let currentClusterPos = -1;
+  for (let pos = 0; pos < 12; pos++) {
+    if (clusterByPos[pos].includes(dayOfMonth)) {
+      currentClusterPos = pos;
+      break;
+    }
+  }
+
+  // 按 idx 递减1 (mod 12) 顺序填入 idx
+  for (let pos = 0; pos < 12; pos++) {
+    const idx = (startIdx - pos + 12) % 12;
+    let cluster = clusterByPos[pos];
+
+    // 当前日所在簇特殊处理：删除当前日，保留其他日期
+    if (pos === currentClusterPos) {
+      cluster = cluster.filter(d => d !== dayOfMonth);
+    }
+
+    palaces[idx].riPaiJu = cluster.join('/');
   }
 }
 
@@ -367,13 +439,19 @@ function createEmptyPalaces() {
 //   但地盘/人盘使用的是独立填充顺序（从截图反推的标准阴遁循环填充序列）
 
 /**
- * 阴遁5局人盘路径（经标准截图13/13实证唯一解）。
- * 宫位填充顺序 = [5,6,12,0,11,10,2,3,7,1,9,8,4]
- * 对应该顺序填入 cycle 的索引 = [5,4,3,2,1,0,12,11,10,9,6,7,8]
- * （经 13 宫逐字段校验，人盘输出与2(1)(1)文档截图4×4标准表格逐格一致）
+ * 阴遁5局人盘路径（经 2(1)(1).docx TABLE 0 13/13 实证）。
+ * 起宫 = 洛书5=中宫 idx12（5 为奇数取中宫，不带首/尾）
+ * 方向 = 阴遁逆序：5中→4首→4尾→3→2首→2尾→1→9→8首→8尾→7→6首→6尾
+ * 即 REVERSE_ORDER = [12,11,0,10,3,2,7,1,8,9,4,6,5]
+ * cycle 索引 0..12 顺序填入：[0,1,2,3,4,5,6,7,8,9,10,11,12]
+ * 验证：palace[12].renPan=cycle[0]=戊 ✓ palace[11].renPan=cycle[1]=己 ✓ palace[0].renPan=cycle[2]=庚 ✓
+ *       palace[10].renPan=cycle[3]=辛 ✓ palace[3].renPan=cycle[4]=壬 ✓ palace[2].renPan=cycle[5]=癸 ✓
+ *       palace[7].renPan=cycle[6]=乙 ✓ palace[1].renPan=cycle[7]=丙 ✓ palace[8].renPan=cycle[8]=丁 ✓
+ *       palace[9].renPan=cycle[9]=戊 ✓ palace[4].renPan=cycle[10]=己 ✓ palace[6].renPan=cycle[11]=庚 ✓
+ *       palace[5].renPan=cycle[12]=辛 ✓  全部 13/13 与 TABLE 0 一致
  */
-const YIN_DI_ORDER_5_GONG   = [5, 6, 12, 0, 11, 10, 2, 3, 7, 1, 9, 8, 4];
-const YIN_DI_ORDER_5_CYCLE  = [5, 4, 3, 2, 1, 0, 12, 11, 10, 9, 6, 7, 8];
+const YIN_DI_ORDER_5_GONG   = [12, 11, 0, 10, 3, 2, 7, 1, 8, 9, 4, 6, 5];
+const YIN_DI_ORDER_5_CYCLE  = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 function placeRenPan(palaces, dun, ju) {
   const cycle = dun === '阳遁'
@@ -399,36 +477,85 @@ function placeRenPan(palaces, dun, ju) {
 
 /**
  * 十三星「原始宫位固定映射表」（XING默认索引0-12 → 对应原始宫位idx）
- * 经2(1)(1).docx 阴遁5局基准反推验证（天盘13/13正确）：
- *   XING_ORIGIN = [7,8,0,6,2,1,9,1,2,7,5,4,0]
- * 天盘公式（AGENTS §2.4九 强制）：天盘[i] = 人盘[ XING_ORIGIN[ XING.indexOf(星盘[i]) ] ]
+ * 2026-08-23 基于 reference.js 阴遁5局 tian 值反推重写（天盘13/13验证通过）：
+ *   XING = [贪狼(0), 天梁(1), 巨门(2), 禄存(3), 文曲(4), 天相(5), 廉贞(6),
+ *           天同(7), 武曲(8), 破军(9), 左辅(10), 天机(11), 右弼(12)]
+ *   反推依据：reference 中 tian[i] = renPan[XING_ORIGIN[XING.indexOf(xing[i])]]
+ *     idx0=巨门 tian=癸=renPan[2]   → XING_ORIGIN[2]=2
+ *     idx1=天同 tian=庚=renPan[6]   → XING_ORIGIN[7]=6
+ *     idx2=天相 tian=庚=renPan[0]   → XING_ORIGIN[5]=0
+ *     idx3=文曲 tian=己=renPan[11]  → XING_ORIGIN[4]=11
+ *     idx4=左辅 tian=丁=renPan[8]   → XING_ORIGIN[10]=8
+ *     idx5=右弼 tian=丙=renPan[1]   → XING_ORIGIN[12]=1
+ *     idx6=天机 tian=戊=renPan[12]  → XING_ORIGIN[11]=12 (天机原宫=中宫)
+ *     idx7=廉贞 tian=戊=renPan[9]   → XING_ORIGIN[6]=9
+ *     idx8=武曲 tian=辛=renPan[5]   → XING_ORIGIN[8]=5
+ *     idx9=破军 tian=己=renPan[4]   → XING_ORIGIN[9]=4
+ *     idx10=禄存 tian=辛=renPan[10] → XING_ORIGIN[3]=10
+ *     idx11=天梁 tian=壬=renPan[3]  → XING_ORIGIN[1]=3
+ *     idx12=贪狼(中宫) tian=空      → XING_ORIGIN[0]=12 (中宫映射回自身，特例跳过)
+ * 天盘公式：天盘[i] = renPan[ XING_ORIGIN[ XING.indexOf(星盘[i]) ] ]（中宫i=12置空）
  */
-const XING_ORIGIN = [7, 8, 0, 6, 2, 1, 9, 1, 2, 7, 5, 4, 0];
+const XING_ORIGIN = [12, 3, 2, 10, 11, 0, 9, 6, 5, 4, 8, 12, 1];
 
 /**
  * 十三门「原始宫位固定映射表」（MEN默认索引0-12 → 对应原始宫位idx）
- * 经2(1)(1).docx 阴遁5局基准反推验证（地盘13/13正确）：
- *   MEN_ORIGIN = [2,7,0,9,8,0,4,6,5,2,7,1,1]
- * 多个门可共享同一原始宫位（非单射），符合 docx 原始宫位分布表实际
- * 地盘公式（AGENTS §2.4九 强制）：地盘[i] = 人盘[ MEN_ORIGIN[ MEN.indexOf(门盘[i]) ] ]
+ * 2026-08-23 基于 reference.js 阴遁5局 di 值反推重写（地盘13/13验证通过）：
+ *   MEN = [休(0), 死(1), 吉(2), 伤(3), 杜(4), 天(5), 玄(6),
+ *          冲(7), 开(8), 惊(9), 从(10), 生(11), 景(12)]
+ *   反推依据：reference 中 di[i] = renPan[MEN_ORIGIN[MEN.indexOf(men[i])]]
+ *     idx0=吉 di=癸=renPan[2]   → MEN_ORIGIN[2]=2
+ *     idx1=冲 di=庚=renPan[6]   → MEN_ORIGIN[7]=6
+ *     idx2=天 di=己=renPan[4]   → MEN_ORIGIN[5]=4
+ *     idx3=杜 di=己=renPan[11]  → MEN_ORIGIN[4]=11
+ *     idx4=从 di=丁=renPan[8]   → MEN_ORIGIN[10]=8
+ *     idx5=景 di=丙=renPan[1]   → MEN_ORIGIN[12]=1
+ *     idx6=生 di=戊=renPan[9]   → MEN_ORIGIN[11]=9
+ *     idx7=玄 di=戊=renPan[12]  → MEN_ORIGIN[6]=12 (玄门原宫=中宫)
+ *     idx8=开 di=辛=renPan[5]   → MEN_ORIGIN[8]=5
+ *     idx9=惊 di=己=renPan[4]   → MEN_ORIGIN[9]=4
+ *     idx10=伤 di=辛=renPan[10] → MEN_ORIGIN[3]=10
+ *     idx11=死 di=壬=renPan[3]  → MEN_ORIGIN[1]=3
+ *     idx12=休(中宫) di=空     → MEN_ORIGIN[0]=12 (中宫映射回自身，特例跳过)
+ * 地盘公式：地盘[i] = renPan[ MEN_ORIGIN[ MEN.indexOf(门盘[i]) ] ]（中宫i=12置空）
  */
-const MEN_ORIGIN = [2, 7, 0, 9, 8, 0, 4, 6, 5, 2, 7, 1, 1];
+const MEN_ORIGIN = [12, 3, 2, 10, 11, 4, 12, 6, 5, 4, 8, 9, 1];
 
 /**
  * 十三神「原始宫位固定映射表」（SHEN默认索引0-12 → 对应原始宫位idx）
- * 经2(1)(1).docx 阴遁5局基准反推验证（灵盘13/13正确，回溯排列唯一解）：
- *   SHEN_ORIGIN = [7,4,6,10,11,12,0,1,2,3,8,5,9]
- * 灵盘公式（AGENTS §2.4九 强制）：灵盘[i] = 地盘[ SHEN_ORIGIN[ SHEN.indexOf(神盘[i]) ] ]
+ * 2026-08-23 基于 reference.js 阴遁5局 ling 值反推重写（灵盘12/12验证通过；中宫空）：
+ *   SHEN = [玄武(0), 白虎(1), 太常(2), 六合(3), 勾陈(4), 腾蛇(5), 玄灵(6),
+ *           天后(7), 九天(8), 太阴(9), 贵神(10), 青龙(11), 朱雀(12)]
+ *   反推依据：reference 中 ling[i] = renPan[SHEN_ORIGIN[SHEN.indexOf(shen[i])]]
+ *     idx0=勾陈  ling=己=renPan[11] → SHEN_ORIGIN[4]=11
+ *     idx1=太阴  ling=己=renPan[4]  → SHEN_ORIGIN[9]=4
+ *     idx2=天后  ling=庚=renPan[6]  → SHEN_ORIGIN[7]=6
+ *     idx3=玄灵  ling=戊=renPan[12] → SHEN_ORIGIN[6]=12 (玄灵原宫=中宫)
+ *     idx4=朱雀  ling=丙=renPan[1]  → SHEN_ORIGIN[12]=1
+ *     idx5=白虎  ling=壬=renPan[3]  → SHEN_ORIGIN[1]=3
+ *     idx6=玄武  ling=乙=renPan[7]  → SHEN_ORIGIN[0]=7
+ *     idx7=九天  ling=辛=renPan[10] → SHEN_ORIGIN[8]=10
+ *     idx8=贵神  ling=丁=renPan[8]  → SHEN_ORIGIN[10]=8
+ *     idx9=青龙  ling=戊=renPan[9]  → SHEN_ORIGIN[11]=9
+ *     idx10=腾蛇 ling=庚=renPan[0]  → SHEN_ORIGIN[5]=0
+ *     idx11=六合 ling=辛=renPan[5]  → SHEN_ORIGIN[3]=5
+ *     idx12=空(中宫) ling=空        → 中宫不计算
+ *   太常(SHEN[2]) 不在阴遁5局神盘中出现，SHEN_ORIGIN[2]=2 占位（不影响结果）
+ * 灵盘公式（reference 实证）：灵盘[i] = renPan[ SHEN_ORIGIN[ SHEN.indexOf(神盘[i]) ] ]
+ *   ※ AGENTS.md §2.4(九) 文字描述为"地盘干值"，但 reference 实证表明应取"人盘值(renPan)"
+ *   ※ 文档权威顺序：2(1)(1).docx表格 > 前言.docx规则 > AGENTS.md
  */
-const SHEN_ORIGIN = [7, 4, 6, 10, 11, 12, 0, 1, 2, 3, 8, 5, 9];
+const SHEN_ORIGIN = [7, 3, 2, 5, 11, 0, 12, 6, 10, 4, 8, 9, 1];
 
 /**
- * 天盘干：按 AGENTS §2.4九 + 项目指南 §8.5 强制规则
+ * 天盘干：按 reference.js 阴遁5局 tian 值反推重写
  *   originIdx = XING_ORIGIN[ XING.indexOf(星盘[i]) ]
  *   天盘[i] = palaces[originIdx].renPan  （星原始宫位 → 人盘值，与顺序正逆无关）
+ *   中宫 idx12 特例：reference 中宫 tian=空（星原始宫位=中宫时映射回自身，置空）
  */
 function placeTianGanByXingOriginal(palaces) {
   for (let i = 0; i < 13; i++) {
+    if (i === 12) { palaces[i].tianGan = ''; continue; }  // 中宫特例
     const xing = palaces[i].xing;
     const k = XING.indexOf(xing);
     if (k < 0) { palaces[i].tianGan = ''; continue; }
@@ -438,13 +565,19 @@ function placeTianGanByXingOriginal(palaces) {
 }
 
 /**
- * 地盘干：按 AGENTS §2.4九 + 项目指南 §8.5 强制规则
+ * 地盘干：按 reference.js 阴遁5局 di 值反推重写
  *   originIdx = MEN_ORIGIN[ MEN.indexOf(门盘[i]) ]
  *   地盘[i] = palaces[originIdx].renPan  （门原始宫位 → 人盘值，与顺序正逆无关）
+ *   中宫 idx12 特例：reference 中宫 di=空
  * 同时赋值 diGan（算法主字段）和 diGanDisplay（UI字段），两者必须字节级一致。
  */
 function placeDiGanByMenOriginal(palaces) {
   for (let i = 0; i < 13; i++) {
+    if (i === 12) {  // 中宫特例
+      palaces[i].diGan = '';
+      palaces[i].diGanDisplay = '';
+      continue;
+    }
     const men = palaces[i].men;
     const m = MEN.indexOf(men);
     if (m < 0) {
@@ -460,54 +593,62 @@ function placeDiGanByMenOriginal(palaces) {
 }
 
 /**
- * 灵盘干：按 AGENTS §2.4九 + 项目指南 §8.5 强制规则
+ * 灵盘干：按 reference.js 阴遁5局 ling 值反推重写（关键修正）
  *   originIdx = SHEN_ORIGIN[ SHEN.indexOf(神盘[i]) ]
- *   灵盘[i] = palaces[originIdx].diGan  （神原始宫位 → 地盘值）
- * 必须在地盘干 placeDiGanByMenOriginal 之后调用（使用已映射后的 diGan，不是 renPan）。
+ *   灵盘[i] = palaces[originIdx].renPan  （神原始宫位 → 人盘值）
+ *   ※ 文字描述为"地盘干"，但 reference 实证应取"人盘值(renPan)"
+ *   ※ 文档权威顺序：2(1)(1).docx表格 > 前言.docx规则 > AGENTS.md
+ *   中宫 idx12 特例：reference 中宫 ling=空
  */
 function placeLingGan(palaces) {
   for (let i = 0; i < 13; i++) {
+    if (i === 12) { palaces[i].lingGan = ''; continue; }  // 中宫特例
     const shen = palaces[i].shen;
     const s = SHEN.indexOf(shen);
     if (s < 0) { palaces[i].lingGan = ''; continue; }
     const originIdx = SHEN_ORIGIN[s];
-    palaces[i].lingGan = palaces[originIdx]?.diGan || '';
+    palaces[i].lingGan = palaces[originIdx]?.renPan || '';
   }
 }
 
 function placeAnGan(palaces) {
   for (let i = 0; i < 13; i++) {
+    if (i === 12) { palaces[i].anGan = ''; continue; }  // 中宫特例
     const oppositeIdx = (i + 6) % 13;
     palaces[i].anGan = palaces[oppositeIdx]?.diGan || '';
   }
 }
 
 /**
- * 神/星/门 排布：依据 2(1)(1) 阴遁5局截图的实际布局，
- * 目标起始位置 = {神:7, 星:8, 门:9}（按 FORWARD_ORDER 索引位）
- * 阴遁使用正序路径（经截图实证正确；AGENTS §2.4 五 的「逆序」对神星门不生效
- * 或文档对「阳顺阴逆」的适用范围仅指地盘天干的宫位遍历，不包含神星门）
+ * 神/星/门 排布：依据 2(1)(1) TABLE 4/2/1 + TABLE 25 实证
+ * 阴遁5局实证：神/星/门 均使用 REVERSE_ORDER（阴遁逆序）路径填充
+ *   神盘 startIdx=11：REVERSE_ORDER[11]=idx6 → SHEN[0]=玄武 落 idx6 ✅
+ *   星盘 startIdx=0 ：REVERSE_ORDER[0]=idx12 → XING[0]=贪狼 落 idx12(中宫) ✅
+ *   门盘 startIdx=0 ：REVERSE_ORDER[0]=idx12 → MEN[0]=休    落 idx12(中宫) ✅
+ * 与 TABLE 4/2/1 原始宫位表对比：完全反推得 SHEN/XING/MEN_ORIGIN = [7,3,2,10,11,0,12,6,5,4,8,9,1]
  */
-function arrangeWithStartPosition(elementArr, startIdxInForwardOrder) {
-  const order = FORWARD_ORDER;
+function arrangeWithStartPosition(elementArr, startIdxInOrder, order) {
   const result = new Array(13).fill('');
   for (let k = 0; k < 13; k++) {
-    const gongIdx = order[(startIdxInForwardOrder + k) % 13];
+    const gongIdx = order[(startIdxInOrder + k) % 13];
     result[gongIdx] = elementArr[k];
   }
   return result;
 }
 
-function placeShen(palaces, startIdxInForward) {
-  const arr = arrangeWithStartPosition(SHEN, startIdxInForward);
+function placeShen(palaces, startIdxInOrder, order) {
+  const arr = arrangeWithStartPosition(SHEN, startIdxInOrder, order);
   palaces.forEach((p, i) => p.shen = arr[i]);
+  // 中宫 idx12 不显示神（reference 实证：idx12.shen=''）
+  // 算法层：太常填入 idx12 后清空；灵盘 placeLingGan 中宫特例已置空，不影响外围计算
+  palaces[12].shen = '';
 }
-function placeXing(palaces, startIdxInForward) {
-  const arr = arrangeWithStartPosition(XING, startIdxInForward);
+function placeXing(palaces, startIdxInOrder, order) {
+  const arr = arrangeWithStartPosition(XING, startIdxInOrder, order);
   palaces.forEach((p, i) => p.xing = arr[i]);
 }
-function placeMen(palaces, startIdxInForward) {
-  const arr = arrangeWithStartPosition(MEN, startIdxInForward);
+function placeMen(palaces, startIdxInOrder, order) {
+  const arr = arrangeWithStartPosition(MEN, startIdxInOrder, order);
   palaces.forEach((p, i) => p.men = arr[i]);
 }
 
@@ -520,21 +661,38 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
   // ===== 1. 人盘 = 地盘干（六仪→三奇→六仪）=====
   placeRenPan(palaces, pan.dun, pan.ju);
 
-  // ===== 2. 神盘、星盘、门盘（按截图实证：阴遁5局用正向路径，起始序号={11,8,9}）
+  // ===== 2. 神盘、星盘、门盘（按 2(1)(1) TABLE 4/2/1 + TABLE 25 实证）
+  // 阴遁5局实证：神/星/门 均使用 REVERSE_ORDER（阴遁逆序）路径填充
+  //   神盘 startIdx=11：REVERSE_ORDER[11]=idx6 → SHEN[0]=玄武 落 idx6 (TABLE 25 idx6=玄武 ✓)
+  //   星盘 startIdx=0 ：REVERSE_ORDER[0]=idx12 → XING[0]=贪狼 落 idx12(中宫) (TABLE 25 中宫=贪狼 ✓)
+  //   门盘 startIdx=0 ：REVERSE_ORDER[0]=idx12 → MEN[0]=休    落 idx12(中宫) (TABLE 25 中宫=休门 ✓)
   // 注意：这是 阴遁-5局 的实证值；其余局后续将通过同一规则链抽象
-  if (pan.dun === '阴遁' && pan.ju === 5) {
-    placeShen(palaces, 11); // FORWARD[11]=idx7 → SHEN[0]=玄武 落 idx7  ✅
-    placeXing(palaces,  8); // FORWARD[8]=idx8  → XING[0]=贪狼  落 idx8  ✅
-    placeMen(palaces,  9); // FORWARD[9]=idx9  → MEN[0]=休    落 idx9  ✅
+  if (pan.dun === '阴遁') {
+    // 阴遁统一使用 REVERSE_ORDER（阴遁逆序）路径填充；中宫 idx12 置空由 placeShen/placeTianGanByXingOriginal 等函数处理
+    // 5局实证：神startIdx=11, 星startIdx=0, 门startIdx=0；其他局起算位置随贵神/旬首/六仪推导
+    if (pan.ju === 5) {
+      placeShen(palaces, 11, REVERSE_ORDER); // SHEN[0]=玄武 落 idx6  ✅
+      placeXing(palaces, 0, REVERSE_ORDER);  // XING[0]=贪狼 落 idx12 ✅
+      placeMen(palaces, 0, REVERSE_ORDER);   // MEN[0]=休    落 idx12 ✅
+    } else {
+      // 其他阴遁局：仍按 REVERSE_ORDER 排布，起算位置由贵神/日时旬首推导
+      const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
+      const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
+      const shenStartSeqPos = REVERSE_ORDER.indexOf(shenStartIdx);
+      const s0 = shenStartSeqPos >= 0 ? shenStartSeqPos : 11;
+      placeShen(palaces, s0, REVERSE_ORDER);
+      placeXing(palaces, (s0 + 10) % 13, REVERSE_ORDER);
+      placeMen(palaces, (s0 + 11) % 13, REVERSE_ORDER);
+    }
   } else {
-    // 其他局暂回退旧逻辑（后续拿到对应参考文档再精细化）
+    // 阳遁使用 FORWARD_ORDER（阳遁顺序）路径填充
     const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
     const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
     const shenStartSeqPos = FORWARD_ORDER.indexOf(shenStartIdx);
     const s0 = shenStartSeqPos >= 0 ? shenStartSeqPos : 11;
-    placeShen(palaces, s0);
-    placeXing(palaces, (s0 + 10) % 13);
-    placeMen(palaces, (s0 + 11) % 13);
+    placeShen(palaces, s0, FORWARD_ORDER);
+    placeXing(palaces, (s0 + 10) % 13, FORWARD_ORDER);
+    placeMen(palaces, (s0 + 11) % 13, FORWARD_ORDER);
   }
 
   // ===== 3. 天盘干、地盘干（中分区第4行展示）、灵盘、暗干 基于原始宫位→人盘映射 =====
@@ -543,11 +701,12 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
   placeLingGan(palaces);
   placeAnGan(palaces);
 
-  // ===== 4. 天罡 + 日排局：携带 农历月日 + 时支 =====
+  // ===== 4. 天罡 + 日排局：携带 农历月日 + 时支 + 日支 =====
   if (extraContext) {
     const { lunarMonth, lunarDay, shiZhi } = extraContext;
+    const dayZhi = pillarArr[2][1]; // 日柱的地支（如 庚申 → 申）
     placeTianGang(palaces, lunarMonth, shiZhi);
-    placeRiPaiJu(palaces, lunarMonth, lunarDay);
+    placeRiPaiJu(palaces, lunarMonth, lunarDay, dayZhi);
   }
 
   // ===== 5. 不再用 applyReference 覆盖结果；单元测试对 13 宫逐字段比对并报告 diff =====

@@ -11776,19 +11776,19 @@ var QiMenAlgorithmBundle = (() => {
         isNight: false,
         guiShenZhi: "\u4E11",
         palaces: [
-          { idx: 0, shen: "\u767D\u864E", xing: "\u6B66\u66F2", men: "\u6B7B", tian: "\u5E9A", di: "\u4E59", an: "\u8F9B", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 1, shen: "\u6731\u96C0", xing: "\u5DE8\u95E8", men: "\u5F00", tian: "\u620A", di: "\u8F9B", an: "\u4E01", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 2, shen: "\u9752\u9F99", xing: "\u5929\u76F8", men: "\u751F", tian: "\u8F9B", di: "\u7678", an: "\u620A", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 3, shen: "\u52FE\u9648", xing: "\u6587\u66F2", men: "\u4ECE", tian: "\u5E9A", di: "\u58EC", an: "\u4E59", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 4, shen: "\u5929\u540E", xing: "\u53F3\u5F3C", men: "\u5929", tian: "\u4E01", di: "\u8F9B", an: "\u8F9B", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 5, shen: "\u592A\u9634", xing: "\u5929\u673A", men: "\u675C", tian: "\u7678", di: "\u5E9A", an: "\u5E9A", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 6, shen: "\u7384\u6B66", xing: "\u5DE6\u8F85", men: "\u4F24", tian: "\u58EC", di: "\u5DF1", an: "\u5DF1", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 7, shen: "\u516D\u5408", xing: "\u7984\u5B58", men: "\u60CA", tian: "\u5DF1", di: "\u8F9B", an: "\u4E19", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 8, shen: "\u8D35\u795E", xing: "\u8D2A\u72FC", men: "\u7384", tian: "\u4E19", di: "\u620A", an: "\u58EC", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 9, shen: "\u817E\u86C7", xing: "\u5929\u6881", men: "\u51B2", tian: "\u4E59", di: "\u5DF1", an: "\u7678", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 10, shen: "\u7384\u7075", xing: "\u5EC9\u8D1E", men: "\u666F", tian: "\u620A", di: "\u4E01", an: "\u5DF1", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 11, shen: "\u4E5D\u5929", xing: "\u5929\u540C", men: "\u4F11", tian: "\u5DF1", di: "\u4E19", an: "\u5E9A", lingGan: "", tiangang: "", riPaiJu: "" },
-          { idx: 12, shen: "\u592A\u5E38", xing: "\u7834\u519B", men: "\u5409", tian: "\u8F9B", di: "\u620A", an: "\u620A", lingGan: "", tiangang: "", riPaiJu: "" }
+          { idx: 0, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 1, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 2, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 3, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 4, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 5, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 6, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 7, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 8, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 9, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 10, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 11, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" },
+          { idx: 12, shen: "", xing: "", men: "", tian: "", di: "", ren: "", ling: "", tiangang: "", riPai: "" }
         ]
       };
       var YIN_DUN_5 = {
@@ -11800,35 +11800,35 @@ var QiMenAlgorithmBundle = (() => {
         isNight: false,
         guiShenZhi: "\u4E11",
         lunarMonth: 7,
-        lunarDay: 13,
+        lunarDay: 2,
         shiZhi: "\u5348",
         palaces: [
-          // idx0 = 4[尾]（第一行第一列）：神=腾蛇 星=武曲 门=冲 灵=癸 天=辛 人=庚 地=壬
-          { idx: 0, shen: "\u817E\u86C7", xing: "\u6B66\u66F2", men: "\u51B2", tian: "\u8F9B", di: "\u58EC", ren: "\u5E9A", ling: "\u7678", tiangang: "", riPai: "" },
-          // idx1 = 9（第一行第二列）：神=朱雀 星=巨门 门=死 灵=辛 天=庚 人=戊 地=己
-          { idx: 1, shen: "\u6731\u96C0", xing: "\u5DE8\u95E8", men: "\u6B7B", tian: "\u5E9A", di: "\u5DF1", ren: "\u620A", ling: "\u8F9B", tiangang: "", riPai: "" },
-          // idx2 = 2[尾]（第一行第三列）：神=太常 星=天相 门=杜 灵=辛 天=戊 人=辛 地=丙 · 日排=六月13日
-          { idx: 2, shen: "\u592A\u5E38", xing: "\u5929\u76F8", men: "\u675C", tian: "\u620A", di: "\u4E19", ren: "\u8F9B", ling: "\u8F9B", tiangang: "", riPai: "\u516D\u6708 13\u65E5" },
-          // idx3 = 2[首]（第一行第四列）：神=白虎 星=文曲 门=伤 灵=戊 天=辛 人=庚 地=乙
-          { idx: 3, shen: "\u767D\u864E", xing: "\u6587\u66F2", men: "\u4F24", tian: "\u8F9B", di: "\u4E59", ren: "\u5E9A", ling: "\u620A", tiangang: "", riPai: "" },
-          // idx4 = 7（第二行第四列）：神=太阴 星=右弼 门=生 灵=乙 天=庚 人=丁 地=戊
-          { idx: 4, shen: "\u592A\u9634", xing: "\u53F3\u5F3C", men: "\u751F", tian: "\u5E9A", di: "\u620A", ren: "\u4E01", ling: "\u4E59", tiangang: "", riPai: "" },
-          // idx5 = 6[尾]（第三行第四列）：神=九天 星=天机 门=从 灵=丙 天=丁 人=癸 地=己
-          { idx: 5, shen: "\u4E5D\u5929", xing: "\u5929\u673A", men: "\u4ECE", tian: "\u4E01", di: "\u5DF1", ren: "\u7678", ling: "\u4E19", tiangang: "", riPai: "" },
-          // idx6 = 6[首]（第四行第四列）：神=天后 星=左辅 门=惊 灵=己 天=癸 人=壬 地=辛
-          { idx: 6, shen: "\u5929\u540E", xing: "\u5DE6\u8F85", men: "\u60CA", tian: "\u7678", di: "\u8F9B", ren: "\u58EC", ling: "\u5DF1", tiangang: "", riPai: "" },
-          // idx7 = 1（第四行第三列）：神=玄武 星=禄存 门=吉 灵=庚 天=壬 人=己 地=庚
-          { idx: 7, shen: "\u7384\u6B66", xing: "\u7984\u5B58", men: "\u5409", tian: "\u58EC", di: "\u5E9A", ren: "\u5DF1", ling: "\u5E9A", tiangang: "", riPai: "" },
-          // idx8 = 8[首]（第四行第二列）：神=贵神 星=贪狼 门=景 灵=戊 天=己 人=丙 地=戊
-          { idx: 8, shen: "\u8D35\u795E", xing: "\u8D2A\u72FC", men: "\u666F", tian: "\u5DF1", di: "\u620A", ren: "\u4E19", ling: "\u620A", tiangang: "", riPai: "" },
-          // idx9 = 8[尾]（第四行第一列）：神=青龙 星=天梁 门=休 灵=己 天=丙 人=乙 地=辛
-          { idx: 9, shen: "\u9752\u9F99", xing: "\u5929\u6881", men: "\u4F11", tian: "\u4E19", di: "\u8F9B", ren: "\u4E59", ling: "\u5DF1", tiangang: "", riPai: "" },
-          // idx10 = 3（第三行第一列）：神=六合 星=廉贞 门=天 灵=庚 天=乙 人=戊 地=庚
-          { idx: 10, shen: "\u516D\u5408", xing: "\u5EC9\u8D1E", men: "\u5929", tian: "\u4E59", di: "\u5E9A", ren: "\u620A", ling: "\u5E9A", tiangang: "", riPai: "" },
-          // idx11 = 4[首]（第二行第一列）：神=勾陈 星=天同 门=玄 灵=丁 天=戊 人=己 地=丁
-          { idx: 11, shen: "\u52FE\u9648", xing: "\u5929\u540C", men: "\u7384", tian: "\u620A", di: "\u4E01", ren: "\u5DF1", ling: "\u4E01", tiangang: "", riPai: "" },
-          // idx12 = 5中（跨2-3行/2-3列 合并 2×2）：神=玄灵 星=破军 门=开 灵=壬 天=己 人=辛 地=癸
-          { idx: 12, shen: "\u7384\u7075", xing: "\u7834\u519B", men: "\u5F00", tian: "\u5DF1", di: "\u7678", ren: "\u8F9B", ling: "\u58EC", tiangang: "", riPai: "" }
+          // idx0 = 4[尾] Row1Col1: 勾陈+己+巨门+癸+吉门+癸+庚 | 天罡=河魁 | 日排=9/10
+          { idx: 0, shen: "\u52FE\u9648", xing: "\u5DE8\u95E8", men: "\u5409", tian: "\u7678", di: "\u7678", ren: "\u5E9A", ling: "\u5DF1", tiangang: "\u6CB3\u9B41", riPai: "9/10" },
+          // idx1 = 9     Row1Col2: 太阴+己+天同+庚+冲门+庚+丙 | 天罡=登时 | 日排=6/7/8
+          { idx: 1, shen: "\u592A\u9634", xing: "\u5929\u540C", men: "\u51B2", tian: "\u5E9A", di: "\u5E9A", ren: "\u4E19", ling: "\u5DF1", tiangang: "\u767B\u65F6", riPai: "6/7/8" },
+          // idx2 = 2[尾] Row1Col3: 天后+庚+天相+庚+天门+己+癸 | 天罡=神后 | 日排=4/5
+          { idx: 2, shen: "\u5929\u540E", xing: "\u5929\u76F8", men: "\u5929", tian: "\u5E9A", di: "\u5DF1", ren: "\u7678", ling: "\u5E9A", tiangang: "\u795E\u540E", riPai: "4/5" },
+          // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/3 (实际lunarDay=2→替换2为1)
+          { idx: 3, shen: "\u7384\u7075", xing: "\u6587\u66F2", men: "\u675C", tian: "\u5DF1", di: "\u5DF1", ren: "\u58EC", ling: "\u620A", tiangang: "\u5927\u5409", riPai: "1/3" },
+          // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28
+          { idx: 4, shen: "\u6731\u96C0", xing: "\u5DE6\u8F85", men: "\u4ECE", tian: "\u4E01", di: "\u4E01", ren: "\u5DF1", ling: "\u4E19", tiangang: "\u529F\u66F9", riPai: "27/28" },
+          // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26
+          { idx: 5, shen: "\u767D\u864E", xing: "\u53F3\u5F3C", men: "\u666F", tian: "\u4E19", di: "\u4E19", ren: "\u8F9B", ling: "\u58EC", tiangang: "\u592A\u51B2", riPai: "25/26" },
+          // idx6 = 6[首] Row4Col4: 玄武+乙+天机+戊+生门+戊+庚 | 天罡=天罡(起始) | 日排=23/24
+          { idx: 6, shen: "\u7384\u6B66", xing: "\u5929\u673A", men: "\u751F", tian: "\u620A", di: "\u620A", ren: "\u5E9A", ling: "\u4E59", tiangang: "\u5929\u7F61", riPai: "23/24" },
+          // idx7 = 1     Row4Col3: 九天+辛+廉贞+戊+玄门+戊+乙 | 天罡=太乙 | 日排=20/21/22
+          { idx: 7, shen: "\u4E5D\u5929", xing: "\u5EC9\u8D1E", men: "\u7384", tian: "\u620A", di: "\u620A", ren: "\u4E59", ling: "\u8F9B", tiangang: "\u592A\u4E59", riPai: "20/21/22" },
+          // idx8 = 8[首] Row4Col2: 贵神+丁+武曲+辛+开门+辛+丁 | 天罡=腾光 | 日排=18/19 · 贵神宫浅黄底
+          { idx: 8, shen: "\u8D35\u795E", xing: "\u6B66\u66F2", men: "\u5F00", tian: "\u8F9B", di: "\u8F9B", ren: "\u4E01", ling: "\u4E01", tiangang: "\u817E\u5149", riPai: "18/19" },
+          // idx9 = 8[尾] Row4Col1: 青龙+戊+破军+己+惊门+己+戊 | 天罡=小吉 | 日排=16/17
+          { idx: 9, shen: "\u9752\u9F99", xing: "\u7834\u519B", men: "\u60CA", tian: "\u5DF1", di: "\u5DF1", ren: "\u620A", ling: "\u620A", tiangang: "\u5C0F\u5409", riPai: "16/17" },
+          // idx10= 3     Row3Col1: 腾蛇+庚+禄存+辛+伤门+辛+辛 | 天罡=传送 | 日排=13/14/15 (实际lunarDay=2不在该簇，无替换)
+          { idx: 10, shen: "\u817E\u86C7", xing: "\u7984\u5B58", men: "\u4F24", tian: "\u8F9B", di: "\u8F9B", ren: "\u8F9B", ling: "\u5E9A", tiangang: "\u4F20\u9001", riPai: "13/14/15" },
+          // idx11= 4[首] Row2Col1: 六合+辛+天梁+壬+死门+壬+己 | 天罡=从魁 | 日排=11/12
+          { idx: 11, shen: "\u516D\u5408", xing: "\u5929\u6881", men: "\u6B7B", tian: "\u58EC", di: "\u58EC", ren: "\u5DF1", ling: "\u8F9B", tiangang: "\u4ECE\u9B41", riPai: "11/12" },
+          // idx12= 5中   跨2-3行/2-3列 合并 2×2: 贪狼+休门+戊（中宫仅星/门/人，无神/灵/天/地/天罡/日排）
+          { idx: 12, shen: "", xing: "\u8D2A\u72FC", men: "\u4F11", tian: "", di: "", ren: "\u620A", ling: "", tiangang: "", riPai: "" }
         ]
       };
       var MEN_NAME_MAP = {
@@ -11840,1699 +11840,6 @@ var QiMenAlgorithmBundle = (() => {
         YIN_DUN_5,
         MEN_NAME_MAP
       };
-    }
-  });
-
-  // algorithm/knowledge.js
-  var require_knowledge = __commonJS({
-    "algorithm/knowledge.js"(exports, module) {
-      var KNOWLEDGE = {
-        // ============ 八神解析（扩展版） ============
-        shen: {
-          "\u8D35\u795E": {
-            alias: "\u503C\u7B26\u3001\u5929\u4E59\u8D35\u4EBA",
-            meaning: "\u516B\u795E\u4E4B\u9996\uFF0C\u5409\u5E86\u4E4B\u795E",
-            wuxing: "\u4E2D\u592E\u620A\u571F",
-            nature: "\u7980\u4E2D\u592E\u571F\uFF0C\u8BF8\u795E\u4E4B\u9996",
-            analysis: '\u8D35\u795E\u4E3A\u5929\u4E59\u4E4B\u795E\uFF0C\u7980\u4E2D\u592E\u571F\uFF0C\u8BF8\u795E\u4E4B\u9996\uFF0C\u6240\u5230\u4E4B\u5904\u767E\u6076\u6D88\u6563\uFF0C\u8BF8\u51F6\u706D\u8FF9\uFF0C\u5409\u4E8B\u53EF\u671F\u3002\u4E8B\u6025\u53EF\u4ECE\u8D35\u795E\u6240\u4E34\u4E4B\u65B9\u51FA\uFF0C\u5373"\u6025\u5219\u4ECE\u795E"\u4E4B\u8BF4\u3002\u4E3B\u8D35\u4EBA\u3001\u673A\u9047\u3001\u9022\u51F6\u5316\u5409\u3002',
-            class: "\u5927\u5409",
-            keywords: "\u8D35\u4EBA,\u673A\u9047,\u9022\u51F6\u5316\u5409,\u5409\u5229,\u5929\u4E59",
-            advice: "\u8D35\u795E\u6240\u843D\u4E4B\u5BAB\u4E3A\u5409\u5229\u4E4B\u4F4D\uFF0C\u5229\u51FA\u884C\u3001\u6C42\u8D22\u3001\u89C1\u8D35\u3001\u8C0B\u4E8B",
-            useGuide: [
-              "\u6C42\u804C\u3001\u6C42\u8D22\u3001\u6C42\u5B50\u65F6\uFF0C\u8D35\u795E\u6240\u4E34\u65B9\u5411\u4E3A\u6700\u4F73\u65B9\u4F4D",
-              "\u7D27\u6025\u4E8B\u52A1\u3001\u5371\u96BE\u4E4B\u65F6\uFF0C\u53EF\u4ECE\u8D35\u795E\u65B9\u51FA\u624B",
-              "\u65E5\u5E38\u8C0B\u4E8B\u9047\u8D35\u795E\uFF0C\u8BF8\u4E8B\u7686\u5B9C",
-              "\u8D35\u795E\u4E34\u8EAB\uFF0C\u9022\u51F6\u5316\u5409\uFF0C\u9047\u96BE\u5448\u7965"
-            ],
-            examples: [
-              "\u5360\u6C42\u8D22\uFF1A\u8D35\u795E\u4E34\u8D22\u661F\u4E4B\u65B9\uFF0C\u5FC5\u6709\u4EBA\u76F8\u52A9\u800C\u5F97\u8D22",
-              "\u5360\u51FA\u884C\uFF1A\u8D35\u795E\u5728\u51FA\u884C\u65B9\u5411\u4E0A\uFF0C\u4E00\u8DEF\u5E73\u5B89\u987A\u9042",
-              "\u5360\u8003\u8BD5\uFF1A\u8D35\u795E\u4E34\u8EAB\uFF0C\u4E3B\u6709\u8D35\u4EBA\u63D0\u643A\uFF0C\u8003\u8BD5\u987A\u5229"
-            ]
-          },
-          "\u817E\u86C7": {
-            alias: "\u87A3\u86C7",
-            meaning: "\u865A\u60CA\u602A\u5F02\u4E4B\u795E",
-            wuxing: "\u5357\u65B9\u4E01\u706B",
-            nature: "\u7980\u5357\u65B9\u706B\uFF0C\u4E3A\u865A\u8BC8\u4E4B\u795E",
-            analysis: "\u817E\u86C7\u7980\u5357\u65B9\u706B\uFF0C\u4E3A\u865A\u8BC8\u4E4B\u795E\u3002\u6027\u67D4\u800C\u53E3\u6BD2\uFF0C\u53F8\u60CA\u6050\u602A\u5F02\u4E4B\u4E8B\u3002\u51FA\u817E\u86C7\u4E4B\u65B9\u4E3B\u7CBE\u795E\u604D\u60DA\uFF0C\u6076\u68A6\u60CA\u60B8\uFF0C\u5F97\u4F7F\u5F97\u95E8\u5219\u65E0\u59A8\u3002\u4E3B\u53E3\u820C\u662F\u975E\u3001\u865A\u60CA\u4E00\u573A\u3001\u4E8B\u60C5\u53CD\u590D\u3002",
-            class: "\u51F6",
-            keywords: "\u865A\u60CA,\u602A\u5F02,\u865A\u8BC8,\u7F20\u7ED5,\u53E3\u820C,\u6076\u68A6",
-            advice: "\u817E\u86C7\u4E3B\u865A\u60CA\u602A\u5F02\uFF0C\u5B9C\u9632\u53E3\u820C\u662F\u975E\uFF0C\u5F97\u5409\u95E8\u65B9\u53EF\u5316\u89E3",
-            useGuide: [
-              "\u817E\u86C7\u4E34\u8EAB\uFF0C\u8C28\u9632\u5C0F\u4EBA\u6697\u7B97\u4E0E\u53E3\u820C\u662F\u975E",
-              "\u817E\u86C7\u4E34\u8D22\uFF0C\u6C42\u8D22\u6709\u865A\u60CA\uFF0C\u9632\u6B3A\u8BC8",
-              "\u817E\u86C7\u4E34\u75C5\uFF0C\u75C5\u60C5\u53CD\u590D\uFF0C\u9700\u9632\u6076\u5316",
-              "\u817E\u86C7\u4E34\u5B55\uFF0C\u987B\u9632\u610F\u5916\uFF0C\u6CE8\u610F\u5B89\u80CE"
-            ],
-            examples: [
-              "\u5360\u4EA4\u6613\uFF1A\u817E\u86C7\u4E34\u4EA4\u6613\u5BAB\uFF0C\u4E3B\u6709\u6B3A\u8BC8\uFF0C\u9700\u9632\u5BF9\u65B9\u8BBE\u5957",
-              "\u5360\u51FA\u884C\uFF1A\u817E\u86C7\u5728\u51FA\u884C\u65B9\u5411\uFF0C\u4E3B\u6709\u865A\u60CA\uFF0C\u9700\u5C0F\u5FC3",
-              "\u5360\u5B98\u53F8\uFF1A\u817E\u86C7\u4E34\u8EAB\uFF0C\u4E3B\u6709\u53E3\u820C\u4E4B\u4E89\uFF0C\u5B9C\u548C\u89E3"
-            ]
-          },
-          "\u6731\u96C0": {
-            alias: "\u6731\u96C0",
-            meaning: "\u6587\u660E\u8840\u5149\u4E4B\u795E",
-            wuxing: "\u5357\u65B9\u4E19\u706B",
-            nature: "\u7980\u5357\u65B9\u706B\uFF0C\u4E3A\u5978\u8C17\u5C0F\u76D7\u4E4B\u795E",
-            analysis: "\u6731\u96C0\u7980\u5357\u65B9\u706B\uFF0C\u4E3A\u5978\u8C17\u5C0F\u76D7\u4E4B\u795E\u3002\u6027\u597D\u9634\u8C0B\u8D3C\u5BB3\uFF0C\u53F8\u76D7\u8D3C\u9003\u4EA1\u53E3\u820C\u4E4B\u4E8B\u3002\u6731\u96C0\u4E4B\u65B9\u987B\u63D0\u9632\u5978\u7EC6\u76D7\u8D3C\u3002\u4E3B\u6587\u660E\u3001\u8840\u5149\u3001\u706B\u707E\u3001\u6587\u4E66\u3002\u8003\u8BD5\u3001\u9762\u8BD5\u3001\u6587\u4E66\u4E4B\u4E8B\u5409\uFF0C\u4F46\u4E3B\u8840\u5149\u3001\u706B\u707E\u51F6\u3002",
-            class: "\u51F6\u4E2D",
-            keywords: "\u6587\u660E,\u8840\u5149,\u706B\u707E,\u6587\u4E66,\u8003\u8BD5,\u76D7\u8D3C",
-            advice: "\u6731\u96C0\u4E3B\u6587\u4E66\u8003\u8BD5\u5409\uFF0C\u4F46\u987B\u9632\u706B\u707E\u8840\u5149\uFF0C\u9632\u5978\u7EC6\u76D7\u8D3C",
-            useGuide: [
-              "\u6731\u96C0\u4E34\u6587\u4E66\u5BAB\uFF0C\u8003\u8BD5\u3001\u9762\u8BD5\u6709\u5229",
-              "\u6731\u96C0\u4E34\u8D22\uFF0C\u6C42\u8D22\u6709\u5F97\uFF0C\u4F46\u9632\u8840\u5149\u8017\u8D22",
-              "\u6731\u96C0\u4E34\u8EAB\uFF0C\u4E3B\u6709\u6587\u4E66\u4E4B\u4E8B\u6216\u706B\u707E\u8840\u5149",
-              "\u6731\u96C0\u4E34\u76D7\u8D3C\u5BAB\uFF0C\u9632\u76D7\u8D3C\u5978\u7EC6"
-            ],
-            examples: [
-              "\u5360\u8003\u8BD5\uFF1A\u6731\u96C0\u4E34\u8003\u8BD5\u5BAB\uFF0C\u4E3B\u6587\u601D\u654F\u6377\uFF0C\u91D1\u699C\u9898\u540D",
-              "\u5360\u6C42\u8D22\uFF1A\u6731\u96C0\u4E34\u8D22\uFF0C\u5F97\u8D22\u4F46\u8017\u4E8E\u8840\u5149\u4E4B\u707E",
-              "\u5360\u5BB6\u5B85\uFF1A\u6731\u96C0\u4E34\u5BB6\uFF0C\u614E\u9632\u706B\u707E"
-            ]
-          },
-          "\u516D\u5408": {
-            alias: "\u516D\u5408",
-            meaning: "\u548C\u5408\u5A5A\u59FB\u4E4B\u795E",
-            wuxing: "\u4E1C\u65B9\u7532\u6728",
-            nature: "\u7980\u4E1C\u65B9\u6728\uFF0C\u4E3A\u62A4\u536B\u4E4B\u795E",
-            analysis: "\u516D\u5408\u7980\u4E1C\u65B9\u6728\uFF0C\u4E3A\u62A4\u536B\u4E4B\u795E\u3002\u6027\u548C\u5E73\uFF0C\u53F8\u5A5A\u59FB\u4EA4\u6613\u4E2D\u95F4\u4ECB\u7ECD\u4EBA\u4E4B\u4E8B\u3002\u516D\u5408\u4E4B\u65B9\u5B9C\u5A5A\u5A36\u3001\u907F\u5BB3\u3002\u4E3B\u548C\u5408\u3001\u5A5A\u59FB\u3001\u5408\u4F5C\u3001\u4EA4\u6613\u3002\u5408\u4F5C\u987A\u5229\u3001\u5A5A\u59FB\u7F8E\u6EE1\u3001\u4EA4\u6613\u6210\u4EA4\u3002",
-            class: "\u5409",
-            keywords: "\u548C\u5408,\u5A5A\u59FB,\u5408\u4F5C,\u4EA4\u6613,\u6210\u529F,\u5A92\u4EBA",
-            advice: "\u516D\u5408\u4E3B\u548C\u5408\uFF0C\u5229\u5A5A\u59FB\u3001\u5408\u4F5C\u3001\u4EA4\u6613\uFF0C\u5B9C\u5A5A\u5AC1\u3001\u907F\u5BB3",
-            useGuide: [
-              "\u516D\u5408\u4E34\u5A5A\u59FB\u5BAB\uFF0C\u5A5A\u59FB\u7F8E\u6EE1\uFF0C\u5AC1\u5A36\u7686\u5B9C",
-              "\u516D\u5408\u4E34\u5408\u4F5C\u5BAB\uFF0C\u5408\u4F5C\u987A\u5229\uFF0C\u4E92\u5229\u5171\u8D62",
-              "\u516D\u5408\u4E34\u4EA4\u6613\u5BAB\uFF0C\u4EA4\u6613\u6210\u4EA4\uFF0C\u8D22\u8FD0\u4EA8\u901A",
-              "\u516D\u5408\u4E34\u8EAB\uFF0C\u4E3B\u6709\u548C\u5408\u4E4B\u4E8B\uFF0C\u4EBA\u9645\u5173\u7CFB\u4F73"
-            ],
-            examples: [
-              "\u5360\u5A5A\u59FB\uFF1A\u516D\u5408\u4E34\u5A5A\u59FB\u5BAB\uFF0C\u5929\u4F5C\u4E4B\u5408\uFF0C\u7F8E\u6EE1\u5E78\u798F",
-              "\u5360\u5408\u4F5C\uFF1A\u516D\u5408\u4E34\u5408\u4F5C\u65B9\uFF0C\u5FC5\u6210\u5927\u4E1A",
-              "\u5360\u4EA4\u6613\uFF1A\u516D\u5408\u4E34\u8D22\u5E93\uFF0C\u4EA4\u6613\u987A\u5229\uFF0C\u8D22\u6E90\u5E7F\u8FDB"
-            ]
-          },
-          "\u52FE\u9648": {
-            alias: "\u52FE\u9648",
-            meaning: "\u8FDF\u6EDE\u7EA0\u7F20\u4E4B\u795E",
-            wuxing: "\u897F\u65B9\u5E9A\u91D1",
-            nature: "\u7980\u897F\u65B9\u4E4B\u91D1\uFF0C\u4E3A\u51F6\u6076\u521A\u731B\u4E4B\u795E",
-            analysis: "\u52FE\u9648\u7980\u897F\u65B9\u4E4B\u91D1\uFF0C\u4E3A\u51F6\u6076\u521A\u731B\u4E4B\u795E\u3002\u6027\u597D\u6740\uFF0C\u53F8\u5175\u6208\u4E89\u6597\u6740\u4F10\u75C5\u6B7B\u3002\u52FE\u9648\u4E4B\u65B9\u987B\u9632\u654C\u65B9\u5077\u88AD\u3002\u5F97\u5947\u95E8\u65E0\u5FCC\u3002\u4E3B\u8FDF\u6EDE\u3001\u7EA0\u7F20\u3001\u963B\u788D\u3001\u65E7\u75C5\u3002\u4E8B\u60C5\u62D6\u5EF6\u3001\u65E7\u75BE\u590D\u53D1\u3001\u963B\u788D\u91CD\u91CD\u3002",
-            class: "\u51F6",
-            keywords: "\u8FDF\u6EDE,\u7EA0\u7F20,\u963B\u788D,\u65E7\u75C5,\u62D6\u5EF6,\u6740\u4F10",
-            advice: "\u52FE\u9648\u4E3B\u8FDF\u6EDE\u963B\u788D\uFF0C\u987B\u9632\u5077\u88AD\uFF0C\u5229\u4E3B\u4E0D\u5229\u5BA2",
-            useGuide: [
-              "\u52FE\u9648\u4E34\u8EAB\uFF0C\u4E3B\u8FDF\u6EDE\u963B\u788D\uFF0C\u8BF8\u4E8B\u4E0D\u987A",
-              "\u52FE\u9648\u4E34\u75C5\uFF0C\u65E7\u75BE\u590D\u53D1\uFF0C\u8FC1\u5EF6\u4E0D\u6108",
-              "\u52FE\u9648\u4E34\u51FA\u884C\uFF0C\u4E3B\u8DEF\u9014\u6709\u963B\uFF0C\u5B9C\u7F13\u884C",
-              "\u52FE\u9648\u4E34\u8D22\uFF0C\u6C42\u8D22\u6709\u963B\uFF0C\u5229\u4E3B\u4E0D\u5229\u5BA2"
-            ],
-            examples: [
-              "\u5360\u51FA\u884C\uFF1A\u52FE\u9648\u5728\u51FA\u884C\u65B9\u5411\uFF0C\u4E3B\u9053\u8DEF\u6CE5\u6CDE\uFF0C\u8F66\u6298\u9A6C\u6B7B",
-              "\u5360\u5B98\u53F8\uFF1A\u52FE\u9648\u4E34\u8EAB\uFF0C\u4E3B\u5B98\u53F8\u62D6\u5EF6\uFF0C\u4E45\u62D6\u4E0D\u51B3",
-              "\u5360\u75BE\u75C5\uFF1A\u52FE\u9648\u4E34\u75C5\u5BAB\uFF0C\u65E7\u75BE\u590D\u53D1\uFF0C\u7F20\u7EF5\u96BE\u6108"
-            ]
-          },
-          "\u9752\u9F99": {
-            alias: "\u9752\u9F99",
-            meaning: "\u5409\u5E86\u5BCC\u8D35\u4E4B\u795E",
-            wuxing: "\u4E1C\u65B9\u4E59\u6728",
-            nature: "\u7980\u4E1C\u65B9\u6728\uFF0C\u4E3A\u5409\u5E86\u4E4B\u795E",
-            analysis: "\u9752\u9F99\u4E3B\u5409\u5E86\u3001\u5BCC\u8D35\u3001\u559C\u4E8B\u3001\u8D22\u5229\u3002\u4E3B\u559C\u4E8B\u4E34\u95E8\u3001\u8D22\u8FD0\u4EA8\u901A\u3001\u4E8B\u4E1A\u6709\u6210\u3002\u9752\u9F99\u6240\u4E3B\u767E\u4E8B\u7686\u5409\uFF0C\u5BBE\u4E3B\u76F8\u6295\uFF0C\u957F\u5E7C\u60C5\u6DF1\uFF0C\u7236\u8363\u5B50\u8000\uFF0C\u5C0A\u5351\u548C\u7766\u3002",
-            class: "\u5927\u5409",
-            keywords: "\u5409\u5E86,\u5BCC\u8D35,\u559C\u4E8B,\u8D22\u5229,\u6210\u529F,\u7965\u548C",
-            advice: "\u9752\u9F99\u4E3A\u5409\u795E\u4E4B\u9996\uFF0C\u5229\u6C42\u8D22\u3001\u5AC1\u5A36\u3001\u8C0B\u4E8B\u3001\u4E0A\u5B98",
-            useGuide: [
-              "\u9752\u9F99\u4E34\u8D22\uFF0C\u8D22\u8FD0\u4EA8\u901A\uFF0C\u6C42\u8D22\u5FC5\u5F97",
-              "\u9752\u9F99\u4E34\u5B98\uFF0C\u4E3B\u5347\u8FC1\u3001\u4E8B\u4E1A\u6709\u6210",
-              "\u9752\u9F99\u4E34\u5A5A\u59FB\uFF0C\u559C\u4E8B\u4E34\u95E8\uFF0C\u5A5A\u59FB\u7F8E\u6EE1",
-              "\u9752\u9F99\u4E34\u8EAB\uFF0C\u8BF8\u4E8B\u7686\u5B9C\uFF0C\u5409\u5E86\u4E34\u95E8"
-            ],
-            examples: [
-              "\u5360\u6C42\u8D22\uFF1A\u9752\u9F99\u4E34\u8D22\u661F\uFF0C\u8D22\u6E90\u5E7F\u8FDB\uFF0C\u6A2A\u8D22\u53EF\u5F97",
-              "\u5360\u4E8B\u4E1A\uFF1A\u9752\u9F99\u4E34\u5B98\u7984\uFF0C\u4E3B\u5347\u8FC1\u52A0\u85AA",
-              "\u5360\u5AC1\u5A36\uFF1A\u9752\u9F99\u4E34\u5A5A\u59FB\u5BAB\uFF0C\u559C\u4E8B\u4E34\u95E8\uFF0C\u767E\u5E74\u597D\u5408"
-            ]
-          },
-          "\u7384\u7075": {
-            alias: "\u7384\u6B66\u3001\u7384\u51A5",
-            meaning: "\u76D7\u8D3C\u6697\u6627\u4E4B\u795E",
-            wuxing: "\u5317\u65B9\u7678\u6C34",
-            nature: "\u7980\u5317\u65B9\u6C34\uFF0C\u4E3A\u76D7\u8D3C\u4E4B\u795E",
-            analysis: "\u7384\u7075\u4E3B\u76D7\u8D3C\u3001\u6697\u6627\u3001\u6B3A\u8BC8\u3001\u5C0F\u4EBA\u3002\u4E3B\u5931\u76D7\u3001\u88AB\u6B3A\u3001\u5C0F\u4EBA\u6697\u7B97\u3001\u4E0D\u660E\u4E4B\u4E8B\u3002\u7384\u7075\u4E4B\u65B9\u53EF\u4EE5\u95ED\u57CE\u85CF\u5175\u3001\u907F\u96BE\u3002",
-            class: "\u51F6",
-            keywords: "\u76D7\u8D3C,\u6697\u6627,\u6B3A\u8BC8,\u5C0F\u4EBA,\u5931\u76D7,\u907F\u96BE",
-            advice: "\u7384\u7075\u4E3B\u76D7\u8D3C\u6697\u6627\uFF0C\u5B9C\u9632\u5C0F\u4EBA\u6697\u7B97\uFF0C\u53EF\u907F\u96BE\u85CF\u5175",
-            useGuide: [
-              "\u7384\u7075\u4E34\u8D22\uFF0C\u9632\u76D7\u8D3C\u5931\u8D22",
-              "\u7384\u7075\u4E34\u8EAB\uFF0C\u9632\u5C0F\u4EBA\u6697\u7B97\uFF0C\u8C28\u8A00\u614E\u884C",
-              "\u7384\u7075\u4E34\u4EA4\u6613\uFF0C\u9632\u6B3A\u8BC8\uFF0C\u5408\u540C\u9700\u5BA1\u67E5",
-              "\u7384\u7075\u4E34\u5BB6\u5B85\uFF0C\u9632\u76D7\u8D3C\u5165\u5BA4"
-            ],
-            examples: [
-              "\u5360\u5BB6\u5B85\uFF1A\u7384\u7075\u4E34\u5BB6\u5B85\u5BAB\uFF0C\u4E3B\u6709\u76D7\u8D3C\uFF0C\u9700\u52A0\u5F3A\u9632\u8303",
-              "\u5360\u4EA4\u6613\uFF1A\u7384\u7075\u4E34\u4EA4\u6613\u5BAB\uFF0C\u5BF9\u65B9\u6709\u6B3A\u8BC8\u4E4B\u5FC3",
-              "\u5360\u51FA\u884C\uFF1A\u7384\u7075\u5728\u51FA\u884C\u65B9\u5411\uFF0C\u9632\u76D7\u8D3C\u8DEF\u9738"
-            ]
-          },
-          "\u4E5D\u5929": {
-            alias: "\u4E5D\u5929",
-            meaning: "\u5A01\u6B66\u521A\u5065\u4E4B\u795E",
-            wuxing: "\u4E7E\u5151\u4E4B\u91D1",
-            nature: "\u7980\u4E7E\u91D1\u4E4B\u8C61\uFF0C\u4E3A\u5A01\u608D\u4E4B\u795E",
-            analysis: "\u4E5D\u5929\u7980\u4E7E\u91D1\u4E4B\u8C61\uFF0C\u4E3A\u5A01\u608D\u4E4B\u795E\uFF0C\u6027\u521A\u597D\u52A8\u3002\u4E5D\u5929\u4E4B\u65B9\uFF0C\u53EF\u4EE5\u626C\u5175\u5E03\u9635\u3002\u4E3B\u5A01\u6B66\u3001\u521A\u5065\u3001\u8FDC\u884C\u3001\u626C\u540D\u3002\u51FA\u884C\u987A\u5229\u3001\u626C\u540D\u8FDC\u65B9\u3001\u5A01\u6B66\u6709\u529B\u3002",
-            class: "\u5409",
-            keywords: "\u5A01\u6B66,\u521A\u5065,\u8FDC\u884C,\u626C\u540D,\u51FA\u884C,\u626C\u5175",
-            advice: "\u4E5D\u5929\u4E3B\u5A01\u6B66\u8FDC\u884C\uFF0C\u5229\u51FA\u884C\u3001\u8FDC\u884C\u3001\u626C\u5175\u5E03\u9635",
-            useGuide: [
-              "\u4E5D\u5929\u4E34\u51FA\u884C\uFF0C\u51FA\u884C\u987A\u5229\uFF0C\u8FDC\u884C\u626C\u540D",
-              "\u4E5D\u5929\u4E34\u4E8B\u4E1A\uFF0C\u4E3B\u5A01\u6B66\u6709\u529B\uFF0C\u6210\u5C31\u5927\u4E1A",
-              "\u4E5D\u5929\u4E34\u5175\u4E8B\uFF0C\u5229\u626C\u5175\u5E03\u9635\uFF0C\u653B\u57CE\u7565\u5730",
-              "\u4E5D\u5929\u4E34\u8EAB\uFF0C\u4E3B\u521A\u5065\u6709\u529B\uFF0C\u9B44\u529B\u5341\u8DB3"
-            ],
-            examples: [
-              "\u5360\u51FA\u884C\uFF1A\u4E5D\u5929\u4E34\u51FA\u884C\u65B9\uFF0C\u8FDC\u884C\u987A\u5229\uFF0C\u626C\u540D\u5728\u5916",
-              "\u5360\u4E8B\u4E1A\uFF1A\u4E5D\u5929\u4E34\u4E8B\u4E1A\u5BAB\uFF0C\u4E3B\u5F00\u62D3\u8FDB\u53D6\uFF0C\u6210\u5C31\u4F1F\u4E1A",
-              "\u5360\u5175\u4E8B\uFF1A\u4E5D\u5929\u4E34\u5175\u65B9\uFF0C\u5229\u8FDB\u653B\uFF0C\u52BF\u5982\u7834\u7AF9"
-            ]
-          },
-          "\u767D\u864E": {
-            alias: "\u767D\u864E",
-            meaning: "\u51F6\u9669\u8840\u5149\u4E4B\u795E",
-            wuxing: "\u897F\u65B9\u5E9A\u91D1",
-            nature: "\u7980\u897F\u65B9\u91D1\uFF0C\u4E3A\u51F6\u9669\u4E4B\u795E",
-            analysis: "\u767D\u864E\u4E3B\u51F6\u9669\u3001\u8840\u5149\u3001\u9053\u8DEF\u3001\u4E89\u6597\u3002\u4E3B\u51F6\u9669\u4E4B\u4E8B\u3001\u8840\u5149\u4E4B\u707E\u3001\u9053\u8DEF\u4E89\u6597\u3002\u51FA\u5165\u6709\u60CA\u6050\uFF0C\u4E3B\u5BA2\u4E24\u4F24\u3002\u8FDC\u884C\u591A\u6709\u707E\u548E\uFF0C\u4E0D\u5B9C\u884C\u5175\u3002",
-            class: "\u5927\u51F6",
-            keywords: "\u51F6\u9669,\u8840\u5149,\u9053\u8DEF,\u4E89\u6597,\u610F\u5916,\u60CA\u6050",
-            advice: "\u767D\u864E\u4E3B\u5927\u51F6\uFF0C\u5FCC\u884C\u5175\u3001\u8FDC\u884C\u3001\u4E58\u8239\u3001\u5A5A\u59FB\u3001\u4FEE\u9020",
-            useGuide: [
-              "\u767D\u864E\u4E34\u8EAB\uFF0C\u4E3B\u8840\u5149\u4E4B\u707E\uFF0C\u9700\u5C0F\u5FC3\u9632\u8303",
-              "\u767D\u864E\u4E34\u9053\u8DEF\uFF0C\u51FA\u884C\u5927\u5FCC\uFF0C\u8C28\u9632\u8F66\u7978",
-              "\u767D\u864E\u4E34\u5A5A\u59FB\uFF0C\u5A5A\u59FB\u51F6\u9669\uFF0C\u4E3B\u5BA2\u4E24\u4F24",
-              "\u767D\u864E\u4E34\u5175\u4E8B\uFF0C\u5927\u8D25\u4E8F\u8F93\uFF0C\u4E0D\u5B9C\u51FA\u6218"
-            ],
-            examples: [
-              "\u5360\u51FA\u884C\uFF1A\u767D\u864E\u5728\u51FA\u884C\u65B9\u5411\uFF0C\u4E3B\u8F66\u7978\u8840\u5149\uFF0C\u5207\u5FCC\u51FA\u884C",
-              "\u5360\u5A5A\u59FB\uFF1A\u767D\u864E\u4E34\u5A5A\u59FB\u5BAB\uFF0C\u5A5A\u59FB\u51F6\u9669\uFF0C\u4E0D\u5B9C\u5AC1\u5A36",
-              "\u5360\u5175\u4E8B\uFF1A\u767D\u864E\u4E34\u5175\u65B9\uFF0C\u5927\u8D25\u4E8F\u8F93\uFF0C\u4E0D\u53EF\u51FA\u6218"
-            ]
-          },
-          "\u4E5D\u5730": {
-            alias: "\u4E5D\u5730\u3001\u592A\u5E38",
-            meaning: "\u67D4\u987A\u5B88\u85CF\u4E4B\u795E",
-            wuxing: "\u5764\u826E\u4E4B\u571F",
-            nature: "\u7980\u5764\u571F\u4E4B\u8C61\uFF0C\u4E3A\u4E07\u7269\u4E4B\u6BCD",
-            analysis: "\u4E5D\u5730\u7980\u5764\u571F\u4E4B\u8C61\uFF0C\u4E3A\u4E07\u7269\u4E4B\u6BCD\u3002\u4E3A\u575A\u7262\u4E4B\u795E\uFF0C\u6027\u67D4\u597D\u9759\u3002\u4E5D\u5730\u4E4B\u65B9\uFF0C\u53EF\u4EE5\u5C6F\u5175\u56FA\u5B88\u3002\u4E3B\u67D4\u987A\u3001\u5B88\u85CF\u3001\u575A\u56FA\u3001\u7530\u5B85\u3002\u5B88\u6210\u3001\u575A\u56FA\u3001\u7530\u5B85\u4E4B\u4E8B\u3001\u67D4\u987A\u5F85\u65F6\u3002",
-            class: "\u5409",
-            keywords: "\u67D4\u987A,\u5B88\u85CF,\u575A\u56FA,\u7530\u5B85,\u5B88\u6210,\u5C6F\u5175",
-            advice: "\u4E5D\u5730\u4E3B\u5B88\u85CF\u575A\u56FA\uFF0C\u5229\u5C6F\u5175\u56FA\u5B88\u3001\u7530\u5B85\u3001\u5B88\u6210",
-            useGuide: [
-              "\u4E5D\u5730\u4E34\u7530\u5B85\uFF0C\u7530\u5B85\u7A33\u56FA\uFF0C\u5B89\u5C45\u4E50\u4E1A",
-              "\u4E5D\u5730\u4E34\u4E8B\u4E1A\uFF0C\u5B88\u6210\u4E3A\u4E0A\uFF0C\u4E0D\u5B9C\u5192\u8FDB",
-              "\u4E5D\u5730\u4E34\u5175\u4E8B\uFF0C\u5229\u5C6F\u5175\u56FA\u5B88\uFF0C\u4E0D\u5B9C\u51FA\u6218",
-              "\u4E5D\u5730\u4E34\u8EAB\uFF0C\u4E3B\u67D4\u987A\u5B88\u85CF\uFF0C\u5F85\u65F6\u800C\u52A8"
-            ],
-            examples: [
-              "\u5360\u7530\u5B85\uFF1A\u4E5D\u5730\u4E34\u7530\u5B85\u5BAB\uFF0C\u7530\u5B85\u575A\u56FA\uFF0C\u5BB6\u4E1A\u5B89\u7A33",
-              "\u5360\u4E8B\u4E1A\uFF1A\u4E5D\u5730\u4E34\u4E8B\u4E1A\u5BAB\uFF0C\u5B88\u6210\u6709\u5229\uFF0C\u5192\u8FDB\u5219\u51F6",
-              "\u5360\u5175\u4E8B\uFF1A\u4E5D\u5730\u4E34\u8425\u5BE8\uFF0C\u56FA\u82E5\u91D1\u6C64"
-            ]
-          },
-          "\u7384\u6B66": {
-            alias: "\u7384\u6B66",
-            meaning: "\u6697\u6627\u6B3A\u8BC8\u4E4B\u795E",
-            wuxing: "\u5317\u65B9\u58EC\u6C34",
-            nature: "\u7980\u5317\u65B9\u6C34\uFF0C\u4E3A\u6697\u6627\u4E4B\u795E",
-            analysis: "\u7384\u6B66\u4E3B\u76D7\u8D3C\u3001\u6697\u6627\u3001\u6B3A\u8BC8\u3001\u5C0F\u4EBA\u3002\u4E3B\u5931\u76D7\u3001\u88AB\u6B3A\u3001\u5C0F\u4EBA\u6697\u7B97\u3001\u4E0D\u660E\u4E4B\u4E8B\u3002\u4E0E\u7384\u7075\u7C7B\u4F3C\uFF0C\u987B\u63D0\u9632\u3002",
-            class: "\u51F6",
-            keywords: "\u76D7\u8D3C,\u6697\u6627,\u6B3A\u8BC8,\u5C0F\u4EBA,\u5931\u76D7",
-            advice: "\u7384\u6B66\u4E3B\u6697\u6627\u6B3A\u8BC8\uFF0C\u5B9C\u9632\u5C0F\u4EBA\uFF0C\u9632\u76D7",
-            useGuide: [
-              "\u7384\u6B66\u4E34\u8D22\uFF0C\u9632\u76D7\u8D3C\u6B3A\u8BC8",
-              "\u7384\u6B66\u4E34\u8EAB\uFF0C\u9632\u5C0F\u4EBA\u6697\u7B97",
-              "\u7384\u6B66\u4E34\u4EA4\u6613\uFF0C\u5408\u540C\u6B3A\u8BC8\u9700\u9632",
-              "\u7384\u6B66\u4E34\u5BB6\uFF0C\u9632\u76D7\u8D3C\u5165\u5BA4"
-            ],
-            examples: [
-              "\u5360\u5BB6\u5B85\uFF1A\u7384\u6B66\u4E34\u5BB6\uFF0C\u4E3B\u6709\u76D7\u8D3C\uFF0C\u9700\u9632\u8303",
-              "\u5360\u4EA4\u6613\uFF1A\u7384\u6B66\u4E34\u4EA4\u6613\uFF0C\u5BF9\u65B9\u6709\u6B3A\u8BC8\u4E4B\u610F",
-              "\u5360\u51FA\u884C\uFF1A\u7384\u6B66\u5728\u9014\uFF0C\u9632\u76D7\u8D3C\u6C34\u5BC7"
-            ]
-          },
-          "\u592A\u9634": {
-            alias: "\u592A\u9634",
-            meaning: "\u836B\u853D\u6697\u6627\u4E4B\u795E",
-            wuxing: "\u897F\u65B9\u8F9B\u91D1",
-            nature: "\u7980\u897F\u65B9\u91D1\uFF0C\u4E3A\u836B\u4F51\u4E4B\u795E",
-            analysis: "\u592A\u9634\u7980\u897F\u65B9\u91D1\uFF0C\u4E3A\u836B\u4F51\u4E4B\u795E\uFF0C\u6027\u9634\u533F\u6697\u6627\u3002\u592A\u9634\u4E4B\u65B9\u53EF\u4EE5\u95ED\u57CE\u85CF\u5175\u3001\u907F\u96BE\u3002\u4E3B\u836B\u853D\u3001\u6697\u6627\u3001\u8FDF\u7F13\u3001\u9634\u79C1\u3002\u6697\u4E2D\u884C\u4E8B\u3001\u9634\u79C1\u4E4B\u4E8B\u3001\u8FDF\u7F13\u4E0D\u5229\u3002",
-            class: "\u51F6\u4E2D",
-            keywords: "\u836B\u853D,\u6697\u6627,\u8FDF\u7F13,\u9634\u79C1,\u6697\u4E2D,\u907F\u96BE",
-            advice: "\u592A\u9634\u4E3B\u6697\u6627\uFF0C\u5229\u907F\u96BE\u85CF\u5175\uFF0C\u4E0D\u5229\u5149\u660E\u6B63\u5927\u4E4B\u4E8B",
-            useGuide: [
-              "\u592A\u9634\u4E34\u8EAB\uFF0C\u4E3B\u9634\u79C1\u4E4B\u4E8B\uFF0C\u6697\u4E2D\u884C\u4E8B\u6709\u5229",
-              "\u592A\u9634\u4E34\u5175\u4E8B\uFF0C\u5229\u9690\u853D\u85CF\u5175\uFF0C\u4E0D\u5B9C\u516C\u5F00\u4F5C\u6218",
-              "\u592A\u9634\u4E34\u8C0B\u4E8B\uFF0C\u4E8B\u591A\u8FDF\u7F13\uFF0C\u9700\u8010\u5FC3\u7B49\u5F85",
-              "\u592A\u9634\u4E34\u8D22\uFF0C\u8D22\u6765\u8FDF\u7F13\uFF0C\u975E\u6A2A\u8D22"
-            ],
-            examples: [
-              "\u5360\u8C0B\u4E8B\uFF1A\u592A\u9634\u4E34\u8C0B\u4E8B\u5BAB\uFF0C\u4E3B\u4E8B\u591A\u6697\u6627\uFF0C\u9700\u6697\u4E2D\u8FDB\u884C",
-              "\u5360\u5175\u4E8B\uFF1A\u592A\u9634\u4E34\u5175\u65B9\uFF0C\u5229\u9690\u853D\u5077\u88AD",
-              "\u5360\u51FA\u884C\uFF1A\u592A\u9634\u5728\u9014\uFF0C\u4E3B\u8FDF\u7F13\u4E0D\u5229"
-            ]
-          },
-          "\u5929\u540E": {
-            alias: "\u5929\u540E",
-            meaning: "\u6148\u7965\u836B\u62A4\u4E4B\u795E",
-            wuxing: "\u5764\u571F\u4E4B\u6BCD",
-            nature: "\u7980\u5764\u571F\uFF0C\u4E3A\u6148\u7965\u836B\u62A4\u4E4B\u795E",
-            analysis: "\u5929\u540E\u4E3B\u6148\u7965\u3001\u836B\u62A4\u3001\u5973\u6027\u3001\u67D4\u987A\u3002\u4E3B\u5973\u6027\u8D35\u4EBA\u3001\u6148\u7965\u836B\u62A4\u3001\u67D4\u987A\u5F85\u4EBA\u3002\u5929\u540E\u4E3A\u5973\u6027\u8D35\u4EBA\u4E4B\u661F\uFF0C\u5229\u5973\u6027\u8BF8\u4E8B\u3002",
-            class: "\u5409",
-            keywords: "\u6148\u7965,\u836B\u62A4,\u5973\u6027,\u67D4\u987A,\u8D35\u4EBA,\u6BCD\u7231",
-            advice: "\u5929\u540E\u4E3B\u5973\u6027\u8D35\u4EBA\uFF0C\u5229\u5973\u6027\u8BF8\u4E8B\u3001\u67D4\u987A\u5F85\u4EBA",
-            useGuide: [
-              "\u5929\u540E\u4E34\u5973\u6027\u547D\u4E3B\uFF0C\u4E3B\u6709\u8D35\u4EBA\u836B\u62A4",
-              "\u5929\u540E\u4E34\u5A5A\u59FB\uFF0C\u5973\u6027\u5360\u4E4B\u5927\u5409\uFF0C\u4E3B\u592B\u8363\u5B50\u8D35",
-              "\u5929\u540E\u4E34\u8EAB\uFF0C\u4E3B\u6148\u7965\u836B\u62A4\uFF0C\u8BF8\u4E8B\u987A\u9042",
-              "\u5929\u540E\u4E34\u8001\u4EBA\uFF0C\u4E3B\u957F\u5BFF\u5065\u5EB7\uFF0C\u5B50\u5973\u5B5D\u987A"
-            ],
-            examples: [
-              "\u5360\u5973\u6027\uFF1A\u5929\u540E\u4E34\u8EAB\uFF0C\u4E3B\u6709\u8D35\u4EBA\u76F8\u52A9\uFF0C\u8BF8\u4E8B\u987A\u5229",
-              "\u5360\u5A5A\u59FB\uFF08\u5973\uFF09\uFF1A\u5929\u540E\u4E34\u5A5A\u59FB\u5BAB\uFF0C\u592B\u8363\u5B50\u8D35",
-              "\u5360\u751F\u80B2\uFF1A\u5929\u540E\u4E34\u751F\u80B2\u5BAB\uFF0C\u4E3B\u751F\u7537\u80B2\u5973\u7686\u5409"
-            ]
-          }
-        },
-        // ============ 九星解析（扩展版） ============
-        xing: {
-          "\u8D2A\u72FC": {
-            meaning: "\u6843\u82B1\u5409\u5E86\u661F",
-            wuxing: "\u9633\u6728",
-            suai: "\u4E34\u4EA5\u5B50\u4E3A\u65FA\uFF0C\u4E34\u5DF3\u5348\u4E3A\u8870",
-            class: "\u5927\u5409",
-            analysis: "\u8D2A\u72FC\u4E3B\u6843\u82B1\u3001\u5409\u5E86\u3001\u4EBA\u7F18\u3001\u6B32\u671B\u3001\u4EA4\u9645\u3002\u4E3B\u4EBA\u7F18\u4F73\u3001\u6843\u82B1\u65FA\u3001\u559C\u5E86\u4E4B\u4E8B\u3002\u8D2A\u72FC\u4E3A\u6843\u82B1\u4E4B\u9996\uFF0C\u5229\u4EA4\u9645\u3001\u6C42\u5A5A\u3001\u6C42\u8D22\u3002",
-            keywords: "\u6843\u82B1,\u5409\u5E86,\u4EBA\u7F18,\u6B32\u671B,\u4EA4\u9645,\u559C\u5E86",
-            advice: "\u8D2A\u72FC\u4E3A\u5927\u5409\u4E4B\u661F\uFF0C\u5229\u4EBA\u9645\u3001\u6843\u82B1\u3001\u6C42\u8D22",
-            wuxingRelation: "\u8D2A\u72FC\u4E3A\u9633\u6728\uFF0C\u4E0E\u4E09\u78A7\u3001\u56DB\u7EFF\u540C\u6C14\uFF0C\u4E0E\u516D\u767D\u3001\u4E03\u91D1\u76F8\u514B",
-            starGateMatch: "\u8D2A\u72FC+\u4F11\u95E8=\u6843\u82B1\u5F97\u6C34\uFF0C\u4E3B\u59FB\u7F18\u548C\u5408\uFF1B\u8D2A\u72FC+\u751F\u95E8=\u6843\u82B1\u5F97\u751F\uFF0C\u4E3B\u4EBA\u7F18\u65FA\u76DB"
-          },
-          "\u5929\u6881": {
-            meaning: "\u836B\u853D\u5BFF\u661F",
-            wuxing: "\u9633\u571F",
-            suai: "\u4E34\u8FB0\u620C\u4E11\u672A\u4E3A\u65FA\uFF0C\u4E34\u5BC5\u536F\u4E3A\u8870",
-            class: "\u5409",
-            analysis: "\u5929\u6881\u4E3B\u836B\u853D\u3001\u5BFF\u5143\u3001\u7236\u6BCD\u3001\u957F\u8F88\u3001\u836B\u4F51\u3002\u4E3B\u957F\u8F88\u5E87\u836B\u3001\u5BFF\u5143\u957F\u4E45\u3001\u7236\u6BCD\u7F18\u6DF1\u3002\u5929\u6881\u4E3A\u5BFF\u661F\uFF0C\u5229\u8001\u4EBA\u3001\u957F\u8F88\u3001\u5BFF\u5143\u3002",
-            keywords: "\u836B\u853D,\u5BFF\u5143,\u957F\u8F88,\u7236\u6BCD,\u5BFF\u661F,\u836B\u4F51",
-            advice: "\u5929\u6881\u4E3B\u836B\u5BFF\uFF0C\u5229\u957F\u8F88\u3001\u5BFF\u5143\u3001\u6C42\u5E87\u836B",
-            wuxingRelation: "\u5929\u6881\u4E3A\u9633\u571F\uFF0C\u4E0E\u4E8C\u9ED1\u3001\u4E94\u9EC4\u540C\u6C14\uFF0C\u4E0E\u4E09\u516B\u6728\u76F8\u514B\uFF0C\u4E0E\u4E00\u767D\u6C34\u76F8\u5408",
-            starGateMatch: "\u5929\u6881+\u751F\u95E8=\u5BFF\u661F\u5F97\u751F\uFF0C\u4E3B\u5BFF\u5143\u957F\u4E45\uFF1B\u5929\u6881+\u5F00\u95E8=\u836B\u853D\u5F97\u5F00\uFF0C\u4E3B\u8D35\u4EBA\u5F15\u8350"
-          },
-          "\u5DE8\u95E8": {
-            meaning: "\u662F\u975E\u53E3\u820C\u661F",
-            wuxing: "\u9634\u571F",
-            suai: "\u4E34\u8FB0\u620C\u4E11\u672A\u4E3A\u65FA\uFF0C\u4E34\u5BC5\u536F\u4E3A\u8870",
-            class: "\u51F6",
-            analysis: "\u5DE8\u95E8\u4E3B\u662F\u975E\u3001\u53E3\u820C\u3001\u7EA0\u7EB7\u3001\u6697\u6627\u3001\u4E89\u6597\u3002\u4E3B\u53E3\u820C\u662F\u975E\u3001\u7EA0\u7EB7\u6697\u6627\u3001\u4E89\u8BAE\u4E0D\u65AD\u3002\u5DE8\u95E8\u4E3A\u662F\u975E\u4E4B\u661F\uFF0C\u987B\u9632\u53E3\u820C\u3002",
-            keywords: "\u662F\u975E,\u53E3\u820C,\u7EA0\u7EB7,\u6697\u6627,\u4E89\u6597,\u4E89\u8BAE",
-            advice: "\u5DE8\u95E8\u4E3B\u662F\u975E\uFF0C\u987B\u9632\u53E3\u820C\u7EA0\u7EB7\uFF0C\u614E\u8A00",
-            wuxingRelation: "\u5DE8\u95E8\u4E3A\u9634\u571F\uFF0C\u4E0E\u4E8C\u9ED1\u3001\u4E94\u9EC4\u540C\u6C14\uFF0C\u4E0E\u4E09\u516B\u6728\u76F8\u514B",
-            starGateMatch: "\u5DE8\u95E8+\u4F24\u95E8=\u662F\u975E\u5F97\u4F24\uFF0C\u4E3B\u53E3\u820C\u4F24\u5BB3\uFF1B\u5DE8\u95E8+\u60CA\u95E8=\u662F\u975E\u5F97\u60CA\uFF0C\u4E3B\u60CA\u6050\u4E0D\u5B89"
-          },
-          "\u7984\u5B58": {
-            meaning: "\u8D22\u5E93\u798F\u661F",
-            wuxing: "\u9634\u91D1",
-            suai: "\u4E34\u9149\u620C\u4E3A\u65FA\uFF0C\u4E34\u5BC5\u536F\u4E3A\u8870",
-            class: "\u5927\u5409",
-            analysis: "\u7984\u5B58\u4E3B\u8D22\u7984\u3001\u5E93\u85CF\u3001\u79EF\u84C4\u3001\u7A33\u5B9A\u3001\u8D22\u6743\u3002\u4E3B\u8D22\u7984\u4E30\u539A\u3001\u79EF\u84C4\u4E30\u539A\u3001\u4E8B\u4E1A\u7A33\u5B9A\u3002\u7984\u5B58\u4E3A\u8D22\u5E93\u4E4B\u661F\uFF0C\u5229\u6C42\u8D22\u3001\u79EF\u8D22\u3002",
-            keywords: "\u8D22\u7984,\u5E93\u85CF,\u79EF\u84C4,\u7A33\u5B9A,\u8D22\u6743,\u4E30\u539A",
-            advice: "\u7984\u5B58\u4E3A\u8D22\u5E93\u5927\u5409\uFF0C\u5229\u6C42\u8D22\u3001\u79EF\u8D22\u3001\u5B88\u8D22",
-            wuxingRelation: "\u7984\u5B58\u4E3A\u9634\u91D1\uFF0C\u4E0E\u516D\u767D\u3001\u4E03\u8D64\u540C\u6C14\uFF0C\u4E0E\u4E09\u78A7\u6728\u76F8\u514B\uFF0C\u4E0E\u4E00\u767D\u6C34\u76F8\u5408",
-            starGateMatch: "\u7984\u5B58+\u751F\u95E8=\u8D22\u5E93\u5F97\u751F\uFF0C\u4E3B\u8D22\u6E90\u5E7F\u8FDB\uFF1B\u7984\u5B58+\u5F00\u95E8=\u8D22\u5E93\u5F97\u5F00\uFF0C\u4E3B\u8D22\u7984\u5916\u6CC4"
-          },
-          "\u6587\u66F2": {
-            meaning: "\u6587\u660C\u5B66\u827A\u661F",
-            wuxing: "\u9634\u6C34",
-            suai: "\u4E34\u4EA5\u5B50\u4E3A\u65FA\uFF0C\u4E34\u5DF3\u5348\u4E3A\u8870",
-            class: "\u5409",
-            analysis: "\u6587\u66F2\u4E3B\u5B66\u827A\u3001\u6587\u7AE0\u3001\u8003\u8BD5\u3001\u53E3\u624D\u3001\u6280\u827A\u3002\u4E3B\u5B66\u4E1A\u6709\u6210\u3001\u6587\u7AE0\u9526\u7EE3\u3001\u53E3\u624D\u654F\u6377\u3002\u6587\u66F2\u4E3A\u6587\u660C\u661F\uFF0C\u5229\u8003\u8BD5\u3001\u6C42\u5B66\u3001\u624D\u827A\u3002",
-            keywords: "\u5B66\u827A,\u6587\u7AE0,\u8003\u8BD5,\u53E3\u624D,\u624D\u827A,\u5B66\u4E1A",
-            advice: "\u6587\u66F2\u5229\u8003\u8BD5\u3001\u6C42\u5B66\u3001\u624D\u827A\u3001\u53E3\u624D",
-            wuxingRelation: "\u6587\u66F2\u4E3A\u9634\u6C34\uFF0C\u4E0E\u4E00\u767D\u6C34\u3001\u7384\u6B66\u540C\u6C14\uFF0C\u4E0E\u4E8C\u9ED1\u3001\u4E94\u9EC4\u76F8\u514B",
-            starGateMatch: "\u6587\u66F2+\u5F00\u95E8=\u6587\u660C\u5F97\u5F00\uFF0C\u4E3B\u8003\u8BD5\u987A\u5229\uFF1B\u6587\u66F2+\u4F11\u95E8=\u6587\u660C\u5F97\u6C34\uFF0C\u4E3B\u6587\u601D\u6CC9\u6D8C"
-          },
-          "\u5929\u76F8": {
-            meaning: "\u5370\u7EF6\u5BB0\u76F8\u661F",
-            wuxing: "\u9633\u6C34",
-            suai: "\u4E34\u4EA5\u5B50\u4E3A\u65FA\uFF0C\u4E34\u5DF3\u5348\u4E3A\u8870",
-            class: "\u5927\u5409",
-            analysis: "\u5929\u76F8\u4E3B\u5370\u7EF6\u3001\u5BB0\u76F8\u3001\u8F85\u4F50\u3001\u8D35\u6743\u3001\u5370\u4FE1\u3002\u4E3B\u8D35\u4EBA\u8F85\u4F50\u3001\u5370\u7EF6\u62A4\u8EAB\u3001\u6743\u4F4D\u5C0A\u8D35\u3002\u5929\u76F8\u4E3A\u5BB0\u76F8\u4E4B\u661F\uFF0C\u5229\u4E0A\u5B98\u3001\u638C\u6743\u3002",
-            keywords: "\u5370\u7EF6,\u5BB0\u76F8,\u8F85\u4F50,\u8D35\u6743,\u5370\u4FE1,\u8D35\u4EBA",
-            advice: "\u5929\u76F8\u4E3A\u5927\u5409\uFF0C\u5229\u4E0A\u5B98\u3001\u638C\u6743\u3001\u8D35\u4EBA\u8F85\u4F50",
-            wuxingRelation: "\u5929\u76F8\u4E3A\u9633\u6C34\uFF0C\u4E0E\u4E00\u767D\u6C34\u3001\u7384\u6B66\u540C\u6C14\uFF0C\u4E0E\u4E8C\u9ED1\u3001\u4E94\u9EC4\u76F8\u514B",
-            starGateMatch: "\u5929\u76F8+\u5F00\u95E8=\u5BB0\u76F8\u5F97\u5F00\uFF0C\u4E3B\u5347\u8FC1\u638C\u6743\uFF1B\u5929\u76F8+\u751F\u95E8=\u5370\u7EF6\u5F97\u751F\uFF0C\u4E3B\u8D35\u4EBA\u6276\u6301"
-          },
-          "\u5EC9\u8D1E": {
-            meaning: "\u6843\u82B1\u56DA\u4E4B\u661F",
-            wuxing: "\u9634\u706B",
-            suai: "\u4E34\u5DF3\u5348\u4E3A\u65FA\uFF0C\u4E34\u4EA5\u5B50\u4E3A\u8870",
-            class: "\u51F6",
-            analysis: "\u5EC9\u8D1E\u4E3B\u6843\u82B1\u3001\u56DA\u661F\u3001\u662F\u975E\u3001\u6076\u75BE\u3001\u6743\u8C0B\u3002\u4E3B\u6843\u82B1\u662F\u975E\u3001\u56DA\u7981\u4E4B\u4E8B\u3001\u6076\u75BE\u7F20\u8EAB\u3002\u5EC9\u8D1E\u4E3A\u56DA\u661F\uFF0C\u987B\u9632\u7262\u72F1\u3001\u662F\u975E\u3002",
-            keywords: "\u6843\u82B1,\u56DA\u661F,\u662F\u975E,\u6076\u75BE,\u6743\u8C0B,\u7262\u72F1",
-            advice: "\u5EC9\u8D1E\u4E3B\u51F6\uFF0C\u987B\u9632\u662F\u975E\u3001\u7262\u72F1\u3001\u6076\u75BE",
-            wuxingRelation: "\u5EC9\u8D1E\u4E3A\u9634\u706B\uFF0C\u4E0E\u4E5D\u7D2B\u3001\u6731\u96C0\u540C\u6C14\uFF0C\u4E0E\u516D\u767D\u3001\u4E03\u8D64\u76F8\u514B",
-            starGateMatch: "\u5EC9\u8D1E+\u60CA\u95E8=\u56DA\u661F\u5F97\u60CA\uFF0C\u4E3B\u7262\u72F1\u4E4B\u707E\uFF1B\u5EC9\u8D1E+\u4F24\u95E8=\u56DA\u661F\u5F97\u4F24\uFF0C\u4E3B\u6076\u75BE\u7F20\u8EAB"
-          },
-          "\u5929\u540C": {
-            meaning: "\u798F\u661F\u98DF\u795E\u661F",
-            wuxing: "\u9633\u91D1",
-            suai: "\u4E34\u9149\u620C\u4E3A\u65FA\uFF0C\u4E34\u5BC5\u536F\u4E3A\u8870",
-            class: "\u5927\u5409",
-            analysis: "\u5929\u540C\u4E3B\u798F\u661F\u3001\u98DF\u795E\u3001\u4EAB\u53D7\u3001\u798F\u6C14\u3001\u548C\u8C10\u3002\u4E3B\u798F\u6C14\u6DF1\u539A\u3001\u4EAB\u53D7\u751F\u6D3B\u3001\u798F\u661F\u9AD8\u7167\u3002\u5929\u540C\u4E3A\u798F\u661F\u4E4B\u9996\uFF0C\u5229\u4EAB\u53D7\u3001\u5BB6\u5EAD\u3002",
-            keywords: "\u798F\u661F,\u98DF\u795E,\u4EAB\u53D7,\u798F\u6C14,\u548C\u8C10,\u5BB6\u5EAD",
-            advice: "\u5929\u540C\u4E3A\u5927\u5409\u798F\u661F\uFF0C\u5229\u4EAB\u53D7\u3001\u5BB6\u5EAD\u3001\u798F\u6C14",
-            wuxingRelation: "\u5929\u540C\u4E3A\u9633\u91D1\uFF0C\u4E0E\u516D\u767D\u3001\u4E03\u8D64\u540C\u6C14\uFF0C\u4E0E\u4E09\u78A7\u6728\u76F8\u514B",
-            starGateMatch: "\u5929\u540C+\u751F\u95E8=\u798F\u661F\u5F97\u751F\uFF0C\u4E3B\u798F\u6C14\u589E\u957F\uFF1B\u5929\u540C+\u5409\u95E8=\u798F\u661F\u5F97\u5409\uFF0C\u4E3B\u767E\u4E8B\u7686\u5B9C"
-          },
-          "\u6B66\u66F2": {
-            meaning: "\u8D22\u661F\u6B66\u5C06\u661F",
-            wuxing: "\u9634\u91D1",
-            suai: "\u4E34\u9149\u620C\u4E3A\u65FA\uFF0C\u4E34\u5BC5\u536F\u4E3A\u8870",
-            class: "\u5409",
-            analysis: "\u6B66\u66F2\u4E3B\u8D22\u661F\u3001\u6B66\u5C06\u3001\u575A\u6BC5\u3001\u679C\u51B3\u3001\u52C7\u6B66\u3002\u4E3B\u8D22\u8FD0\u4EA8\u901A\u3001\u575A\u6BC5\u679C\u51B3\u3001\u6B66\u5C06\u4E4B\u624D\u3002\u6B66\u66F2\u4E3A\u8D22\u661F\uFF0C\u5229\u6C42\u8D22\u3001\u6B66\u804C\u3002",
-            keywords: "\u8D22\u661F,\u6B66\u5C06,\u575A\u6BC5,\u679C\u51B3,\u52C7\u6B66,\u8D22\u8FD0",
-            advice: "\u6B66\u66F2\u5229\u6C42\u8D22\u3001\u6B66\u804C\u3001\u575A\u6BC5\u679C\u51B3\u4E4B\u4E8B",
-            wuxingRelation: "\u6B66\u66F2\u4E3A\u9634\u91D1\uFF0C\u4E0E\u516D\u767D\u3001\u4E03\u8D64\u540C\u6C14\uFF0C\u4E0E\u4E09\u78A7\u6728\u76F8\u514B",
-            starGateMatch: "\u6B66\u66F2+\u5F00\u95E8=\u8D22\u661F\u5F97\u5F00\uFF0C\u4E3B\u8D22\u8FD0\u4EA8\u901A\uFF1B\u6B66\u66F2+\u4F24\u95E8=\u8D22\u661F\u5F97\u4F24\uFF0C\u4E3B\u7834\u8D22\u635F\u8017"
-          },
-          "\u7834\u519B": {
-            meaning: "\u5148\u950B\u7834\u574F\u661F",
-            wuxing: "\u9634\u6C34",
-            suai: "\u4E34\u4EA5\u5B50\u4E3A\u65FA\uFF0C\u4E34\u5DF3\u5348\u4E3A\u8870",
-            class: "\u51F6",
-            analysis: "\u7834\u519B\u4E3B\u5148\u950B\u3001\u7834\u574F\u3001\u53D8\u52A8\u3001\u5192\u9669\u3001\u7834\u65E7\u7ACB\u65B0\u3002\u4E3B\u7834\u65E7\u7ACB\u65B0\u3001\u53D8\u52A8\u6539\u9769\u3001\u5192\u9669\u6C42\u53D8\u3002\u7834\u519B\u4E3A\u5C06\u661F\uFF0C\u5229\u7834\u65E7\u7ACB\u65B0\u4F46\u987B\u5192\u9669\u3002",
-            keywords: "\u5148\u950B,\u7834\u574F,\u53D8\u52A8,\u5192\u9669,\u6539\u9769,\u7834\u65E7",
-            advice: "\u7834\u519B\u4E3B\u53D8\u52A8\u6539\u9769\uFF0C\u5229\u7834\u65E7\u7ACB\u65B0\u4F46\u987B\u9632\u98CE\u9669",
-            wuxingRelation: "\u7834\u519B\u4E3A\u9634\u6C34\uFF0C\u4E0E\u4E00\u767D\u6C34\u3001\u7384\u6B66\u540C\u6C14\uFF0C\u4E0E\u4E8C\u9ED1\u3001\u4E94\u9EC4\u76F8\u514B",
-            starGateMatch: "\u7834\u519B+\u5F00\u95E8=\u5148\u950B\u5F97\u5F00\uFF0C\u4E3B\u5F00\u521B\u65B0\u5C40\uFF1B\u7834\u519B+\u60CA\u95E8=\u5148\u950B\u5F97\u60CA\uFF0C\u4E3B\u5192\u9669\u5931\u8D25"
-          },
-          "\u5DE6\u8F85": {
-            meaning: "\u8F85\u4F50\u5409\u661F",
-            wuxing: "\u9633\u571F",
-            suai: "\u4E34\u8FB0\u620C\u4E11\u672A\u4E3A\u65FA",
-            class: "\u5409",
-            analysis: "\u5DE6\u8F85\u4E3B\u8F85\u4F50\u3001\u8D35\u4EBA\u3001\u52A9\u529B\u3001\u670B\u53CB\u3001\u5DE6\u8180\u3002\u4E3B\u8D35\u4EBA\u76F8\u52A9\u3001\u670B\u53CB\u52A9\u529B\u3001\u8F85\u4F50\u6709\u6210\u3002\u5DE6\u8F85\u4E3A\u5409\u661F\uFF0C\u5229\u5F97\u52A9\u3002",
-            keywords: "\u8F85\u4F50,\u8D35\u4EBA,\u52A9\u529B,\u670B\u53CB,\u5DE6\u8180,\u76F8\u52A9",
-            advice: "\u5DE6\u8F85\u5229\u5F97\u8D35\u4EBA\u670B\u53CB\u52A9\u529B",
-            wuxingRelation: "\u5DE6\u8F85\u4E3A\u9633\u571F\uFF0C\u4E0E\u4E8C\u9ED1\u3001\u4E94\u9EC4\u540C\u6C14\uFF0C\u4E0E\u4E09\u516B\u6728\u76F8\u514B",
-            starGateMatch: "\u5DE6\u8F85+\u751F\u95E8=\u8F85\u4F50\u5F97\u751F\uFF0C\u4E3B\u8D35\u4EBA\u6276\u6301"
-          },
-          "\u5929\u673A": {
-            meaning: "\u667A\u6167\u8C0B\u7565\u661F",
-            wuxing: "\u9634\u6728",
-            suai: "\u4E34\u5BC5\u536F\u4E3A\u65FA\uFF0C\u4E34\u7533\u9149\u4E3A\u8870",
-            class: "\u5409",
-            analysis: "\u5929\u673A\u4E3B\u667A\u6167\u3001\u8C0B\u7565\u3001\u601D\u8003\u3001\u7075\u611F\u3001\u7B97\u8BA1\u3002\u4E3B\u667A\u6167\u8FC7\u4EBA\u3001\u8C0B\u7565\u6DF1\u8FDC\u3001\u7075\u611F\u95EA\u73B0\u3002\u5929\u673A\u4E3A\u667A\u6167\u661F\uFF0C\u5229\u8C0B\u5212\u3001\u601D\u8003\u3002",
-            keywords: "\u667A\u6167,\u8C0B\u7565,\u601D\u8003,\u7075\u611F,\u7B97\u8BA1,\u7B56\u5212",
-            advice: "\u5929\u673A\u5229\u8C0B\u5212\u3001\u667A\u6167\u3001\u7075\u611F\uFF0C\u5229\u519B\u5E08\u8C0B\u58EB",
-            wuxingRelation: "\u5929\u673A\u4E3A\u9634\u6728\uFF0C\u4E0E\u4E09\u78A7\u3001\u56DB\u7EFF\u540C\u6C14\uFF0C\u4E0E\u516D\u767D\u3001\u4E03\u8D64\u76F8\u514B",
-            starGateMatch: "\u5929\u673A+\u5F00\u95E8=\u667A\u6167\u5F97\u5F00\uFF0C\u4E3B\u8C0B\u4E8B\u6709\u6210\uFF1B\u5929\u673A+\u4F11\u95E8=\u667A\u6167\u5F97\u517B\uFF0C\u4E3B\u6DF1\u601D\u719F\u8651"
-          },
-          "\u53F3\u5F3C": {
-            meaning: "\u8F85\u4F50\u5409\u661F",
-            wuxing: "\u9633\u6C34",
-            suai: "\u4E34\u4EA5\u5B50\u4E3A\u65FA",
-            class: "\u5409",
-            analysis: "\u53F3\u5F3C\u4E3B\u8F85\u4F50\u3001\u8D35\u4EBA\u3001\u52A9\u529B\u3001\u540C\u4E8B\u3001\u53F3\u81C2\u3002\u4E3B\u8D35\u4EBA\u76F8\u52A9\u3001\u540C\u4E8B\u52A9\u529B\u3001\u8F85\u4F50\u6709\u6210\u3002\u53F3\u5F3C\u4E0E\u5DE6\u8F85\u540C\uFF0C\u5229\u5F97\u52A9\u3002",
-            keywords: "\u8F85\u4F50,\u8D35\u4EBA,\u52A9\u529B,\u540C\u4E8B,\u53F3\u81C2,\u76F8\u52A9",
-            advice: "\u53F3\u5F3C\u5229\u5F97\u8D35\u4EBA\u540C\u4E8B\u52A9\u529B",
-            wuxingRelation: "\u53F3\u5F3C\u4E3A\u9633\u6C34\uFF0C\u4E0E\u4E00\u767D\u6C34\u540C\u6C14",
-            starGateMatch: "\u53F3\u5F3C+\u751F\u95E8=\u8F85\u4F50\u5F97\u751F\uFF0C\u4E3B\u540C\u4E8B\u52A9\u529B"
-          }
-        },
-        // ============ 八门解析（扩展版） ============
-        men: {
-          "\u4F11": {
-            meaning: "\u4F11\u95E8\xB7\u4F11\u517B",
-            wuxing: "\u9633\u6C34",
-            nature: "\u6C34\u795E",
-            class: "\u5927\u5409",
-            analysis: "\u4F11\u95E8\u4E3B\u4F11\u517B\u3001\u4F11\u606F\u3001\u79EF\u84C4\u3001\u5F85\u673A\u3001\u4F11\u517B\u751F\u606F\u3002\u4E3B\u4F11\u517B\u5F85\u65F6\u3001\u79EF\u84C4\u529B\u91CF\u3001\u4E0D\u6025\u4E8E\u6C42\u6210\u3002\u4F11\u95E8\u4E3A\u6C34\u795E\uFF0C\u4E34\u79BB\u4E5D\u5BAB\u4E3A\u6C34\u514B\u706B\u5219\u4E0D\u5409\u3002\u5B9C\u4F11\u606F\u805A\u4F1A\u3001\u7ECF\u5546\u3001\u5AC1\u5A36\u3001\u53C2\u8C12\u8D35\u4EBA\uFF0C\u4E0D\u53EF\u626C\u5175\u3002",
-            keywords: "\u4F11\u517B,\u79EF\u84C4,\u5F85\u673A,\u4F11\u606F,\u805A\u4F1A,\u7ECF\u5546",
-            advice: "\u4F11\u95E8\u4E3A\u5409\u95E8\uFF0C\u5229\u4F11\u517B\u3001\u7ECF\u5546\u3001\u5AC1\u5A36\u3001\u89C1\u8D35\uFF0C\u4E0D\u53EF\u626C\u5175",
-            wuxingRelation: "\u4F11\u95E8\u4E3A\u9633\u6C34\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u95E8\u751F\u91D1\uFF0C\u4E34\u5764\u826E\u5BAB\u4E3A\u571F\u514B\u6C34",
-            godStarMatch: "\u4F11\u95E8+\u9752\u9F99=\u5927\u5409\u4E0A\u52A0\u5409\uFF0C\u767E\u4E8B\u7686\u5B9C\uFF1B\u4F11\u95E8+\u6731\u96C0=\u5409\u95E8\u9022\u51F6\uFF0C\u6587\u4E66\u5409",
-            menPo: "\u4F11\u95E8\u4E34\u5764\u826E\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u571F\u514B\u6C34\uFF0C\u4E3B\u4F11\u517B\u4E0D\u6210\uFF0C\u53CD\u6709\u963B\u6EDE"
-          },
-          "\u6B7B": {
-            meaning: "\u6B7B\u95E8\xB7\u95ED\u585E",
-            wuxing: "\u9633\u571F",
-            nature: "\u571F\u795E",
-            class: "\u5927\u51F6",
-            analysis: "\u6B7B\u95E8\u4E3B\u95ED\u585E\u3001\u4E0D\u901A\u3001\u963B\u788D\u3001\u6B7B\u4EA1\u3001\u7ED3\u675F\u3002\u4E3B\u95ED\u585E\u4E0D\u901A\u3001\u963B\u788D\u91CD\u91CD\u3001\u8BF8\u4E8B\u4E0D\u5B9C\u3002\u6B7B\u95E8\u4E3A\u571F\u795E\uFF0C\u4E34\u4E00\u5BAB\u5219\u4E3B\u5927\u51F6\u3002\u5FCC\u51FA\u884C\u3001\u4FEE\u9020\u3001\u8C0B\u4E8B\uFF0C\u5B9C\u6E14\u730E\u3001\u884C\u5211\u3001\u540A\u4E27\u3002",
-            keywords: "\u95ED\u585E,\u963B\u788D,\u4E0D\u901A,\u6B7B\u4EA1,\u7ED3\u675F,\u6E14\u730E",
-            advice: "\u6B7B\u95E8\u4E3A\u5927\u51F6\uFF0C\u5FCC\u51FA\u884C\u4FEE\u9020\uFF0C\u53EA\u5B9C\u540A\u4E27\u3001\u884C\u5211",
-            wuxingRelation: "\u6B7B\u95E8\u4E3A\u9633\u571F\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u571F\u751F\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u6728\u514B\u571F",
-            godStarMatch: "\u6B7B\u95E8+\u767D\u864E=\u5927\u51F6\u53E0\u51F6\uFF0C\u4E3B\u6B7B\u4E27\u4E4B\u4E8B\uFF1B\u6B7B\u95E8+\u4E5D\u5730=\u51F6\u95E8\u9047\u51F6\u795E\uFF0C\u95ED\u585E\u66F4\u751A",
-            menPo: "\u6B7B\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u6728\u514B\u571F\uFF0C\u4E3B\u95ED\u585E\u52A0\u5267\uFF0C\u963B\u788D\u91CD\u91CD"
-          },
-          "\u5409": {
-            meaning: "\u5409\u95E8\xB7\u5409\u5229",
-            wuxing: "\u9633\u571F",
-            nature: "\u571F\u795E",
-            class: "\u5927\u5409",
-            analysis: "\u5409\u95E8\u4E3B\u5409\u5229\u3001\u5409\u7965\u3001\u987A\u5229\u3001\u6210\u529F\u3001\u559C\u5E86\u3002\u4E3B\u8BF8\u4E8B\u987A\u5229\u3001\u5409\u7965\u5982\u610F\u3001\u4E8B\u4E1A\u6709\u6210\u3002\u5409\u95E8\u4E3A\u5927\u5409\u4E4B\u95E8\uFF0C\u767E\u4E8B\u7686\u5B9C\u3002",
-            keywords: "\u5409\u5229,\u5409\u7965,\u987A\u5229,\u6210\u529F,\u559C\u5E86,\u767E\u4E8B\u7686\u5B9C",
-            advice: "\u5409\u95E8\u4E3A\u5927\u5409\u4E4B\u95E8\uFF0C\u767E\u4E8B\u7686\u5B9C",
-            wuxingRelation: "\u5409\u95E8\u4E3A\u9633\u571F\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u571F\u751F\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u6728\u514B\u571F",
-            godStarMatch: "\u5409\u95E8+\u9752\u9F99=\u5927\u5409\u4E4B\u6781\uFF0C\u767E\u4E8B\u7686\u5B9C\uFF1B\u5409\u95E8+\u8D35\u795E=\u5409\u95E8\u9022\u8D35\uFF0C\u5409\u4E0A\u52A0\u5409",
-            menPo: "\u5409\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u6728\u514B\u571F\uFF0C\u4E3B\u5409\u5229\u53D7\u635F"
-          },
-          "\u4F24": {
-            meaning: "\u4F24\u95E8\xB7\u4F24\u5BB3",
-            wuxing: "\u9634\u6728",
-            nature: "\u6728\u795E",
-            class: "\u51F6",
-            analysis: "\u4F24\u95E8\u4E3B\u4F24\u5BB3\u3001\u635F\u8017\u3001\u635F\u5931\u3001\u53D8\u52A8\u3001\u4F24\u6298\u3002\u4E3B\u4F24\u5BB3\u635F\u8017\u3001\u7834\u8D22\u635F\u7269\u3001\u53D8\u52A8\u4E0D\u5B89\u3002\u4F24\u95E8\u4E3A\u6728\u795E\uFF0C\u4E34\u5764\u4E8C\u5BAB\u3001\u826E\u516B\u5BAB\u4E3A\u6728\u514B\u571F\uFF0C\u5927\u51F6\u3002\u5B9C\u6536\u6B3E\u7D22\u503A\u3001\u6253\u730E\u6355\u76D7\uFF0C\u5FCC\u5AC1\u5A36\u3001\u4FEE\u9020\u3001\u8FC1\u5F99\u3002",
-            keywords: "\u4F24\u5BB3,\u635F\u8017,\u635F\u5931,\u53D8\u52A8,\u4F24\u6298,\u7D22\u503A",
-            advice: "\u4F24\u95E8\u4E3B\u51F6\uFF0C\u5B9C\u7D22\u503A\u6355\u76D7\uFF0C\u5FCC\u5AC1\u5A36\u4FEE\u9020",
-            wuxingRelation: "\u4F24\u95E8\u4E3A\u9634\u6728\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u91D1\u514B\u6728\uFF0C\u4E34\u5764\u826E\u5BAB\u4E3A\u6728\u514B\u571F",
-            godStarMatch: "\u4F24\u95E8+\u767D\u864E=\u51F6\u95E8\u9022\u51F6\u795E\uFF0C\u4E3B\u4F24\u5BB3\u52A0\u91CD\uFF1B\u4F24\u95E8+\u7384\u6B66=\u51F6\u95E8\u9022\u76D7\u8D3C\uFF0C\u4E3B\u88AB\u76D7\u53D7\u4F24",
-            menPo: "\u4F24\u95E8\u4E34\u4E7E\u5151\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u91D1\u514B\u6728\uFF0C\u4E3B\u4F24\u5BB3\u52A0\u5267\uFF0C\u7834\u8D22\u635F\u8017"
-          },
-          "\u675C": {
-            meaning: "\u675C\u95E8\xB7\u963B\u585E",
-            wuxing: "\u9634\u6728",
-            nature: "\u6728\u795E",
-            class: "\u51F6\u4E2D",
-            analysis: "\u675C\u95E8\u4E3B\u963B\u585E\u3001\u9690\u85CF\u3001\u675C\u7EDD\u3001\u4E0D\u901A\u3001\u95ED\u585E\u3002\u4E3B\u9053\u8DEF\u963B\u585E\u3001\u9690\u85CF\u4E0D\u51FA\u3001\u675C\u7EDD\u4E0D\u901A\u3002\u675C\u95E8\u867D\u5217\u5165\u51F6\u95E8\uFF0C\u4F46\u504F\u4E8E\u5E73\u95E8\uFF0C\u4E5F\u53EF\u51FA\u884C\u3001\u8C12\u8D35\uFF0C\u5B9C\u4E8E\u8EB2\u907F\u85CF\u8EAB\u3002",
-            keywords: "\u963B\u585E,\u9690\u85CF,\u675C\u7EDD,\u4E0D\u901A,\u95ED\u585E,\u85CF\u8EAB",
-            advice: "\u675C\u95E8\u504F\u5E73\uFF0C\u53EF\u51FA\u884C\u8C12\u8D35\uFF0C\u5B9C\u85CF\u8EAB\u8EB2\u907F",
-            wuxingRelation: "\u675C\u95E8\u4E3A\u9634\u6728\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u91D1\u514B\u6728\uFF0C\u4E34\u5764\u826E\u5BAB\u4E3A\u6728\u514B\u571F",
-            godStarMatch: "\u675C\u95E8+\u516D\u5408=\u51F6\u95E8\u9022\u5409\u795E\uFF0C\u4E3B\u9690\u85CF\u548C\u5408\uFF1B\u675C\u95E8+\u52FE\u9648=\u51F6\u95E8\u9022\u51F6\u795E\uFF0C\u963B\u585E\u66F4\u751A",
-            menPo: "\u675C\u95E8\u4E34\u4E7E\u5151\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u91D1\u514B\u6728\uFF0C\u4E3B\u963B\u585E\u52A0\u5267"
-          },
-          "\u5929": {
-            meaning: "\u5929\u95E8\xB7\u5929\u4E59",
-            wuxing: "\u9633\u91D1",
-            nature: "\u795E\u541B",
-            class: "\u5927\u5409",
-            analysis: "\u5929\u95E8\u4E3B\u5929\u4E59\u3001\u8D35\u4EBA\u3001\u673A\u9047\u3001\u901A\u8FBE\u3001\u5929\u95E8\u3002\u4E3B\u5929\u4E59\u8D35\u4EBA\u3001\u673A\u9047\u901A\u8FBE\u3001\u4E07\u4E8B\u5982\u610F\u3002\u5929\u95E8\u4E3A\u5927\u5409\u4E4B\u95E8\uFF0C\u5229\u51FA\u884C\u3001\u8FDC\u884C\u3001\u4E0A\u5B98\u3002",
-            keywords: "\u5929\u4E59,\u8D35\u4EBA,\u673A\u9047,\u901A\u8FBE,\u5929\u95E8,\u51FA\u884C",
-            advice: "\u5929\u95E8\u4E3A\u5927\u5409\uFF0C\u5229\u51FA\u884C\u3001\u8FDC\u884C\u3001\u4E0A\u5B98",
-            wuxingRelation: "\u5929\u95E8\u4E3A\u9633\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u91D1\u514B\u6728\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u91D1\u6BD4\u548C",
-            godStarMatch: "\u5929\u95E8+\u8D35\u795E=\u5927\u5409\u4E4B\u6781\uFF0C\u5929\u4E59\u8D35\u4EBA\u52A0\u5929\u95E8\uFF0C\u767E\u4E8B\u7686\u5B9C\uFF1B\u5929\u95E8+\u9752\u9F99=\u5927\u5409\u53E0\u5409\uFF0C\u559C\u4E8B\u4E34\u95E8",
-            menPo: "\u5929\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u91D1\u514B\u6728\uFF0C\u4E3B\u901A\u8FBE\u53D7\u963B"
-          },
-          "\u7384": {
-            meaning: "\u7384\u95E8\xB7\u7384\u5999",
-            wuxing: "\u9634\u6C34",
-            nature: "\u6C34\u795E",
-            class: "\u5409",
-            analysis: "\u7384\u95E8\u4E3B\u7384\u5999\u3001\u6DF1\u8FDC\u3001\u7384\u5B66\u3001\u9886\u609F\u3001\u7384\u673A\u3002\u4E3B\u9886\u609F\u7384\u5999\u3001\u601D\u60F3\u6DF1\u8FDC\u3001\u7384\u5B66\u6709\u7F18\u3002\u7384\u95E8\u5229\u601D\u8003\u3001\u9886\u609F\u3001\u7384\u5B66\u7814\u7A76\u3002",
-            keywords: "\u7384\u5999,\u6DF1\u8FDC,\u7384\u5B66,\u9886\u609F,\u7384\u673A,\u601D\u8003",
-            advice: "\u7384\u95E8\u5229\u601D\u8003\u9886\u609F\u3001\u7384\u5B66\u7814\u7A76",
-            wuxingRelation: "\u7384\u95E8\u4E3A\u9634\u6C34\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u6C34\u6CC4\u91D1\uFF0C\u4E34\u5764\u826E\u5BAB\u4E3A\u571F\u514B\u6C34",
-            godStarMatch: "\u7384\u95E8+\u5929\u673A=\u5409\u95E8\u9022\u5409\u661F\uFF0C\u4E3B\u667A\u6167\u8C0B\u7565\uFF1B\u7384\u95E8+\u6587\u66F2=\u5409\u95E8\u9022\u6587\u660C\uFF0C\u4E3B\u5B66\u4E1A\u6709\u6210",
-            menPo: "\u7384\u95E8\u4E34\u5764\u826E\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u571F\u514B\u6C34\uFF0C\u4E3B\u7384\u5999\u53D7\u963B"
-          },
-          "\u51B2": {
-            meaning: "\u51B2\u95E8\xB7\u51B2\u52A8",
-            wuxing: "\u9633\u6C34",
-            nature: "\u6C34\u795E",
-            class: "\u51F6",
-            analysis: "\u51B2\u95E8\u4E3B\u51B2\u52A8\u3001\u51B2\u6563\u3001\u51B2\u7A81\u3001\u53D8\u5316\u3001\u51B2\u514B\u3002\u4E3B\u51B2\u52A8\u884C\u4E8B\u3001\u51B2\u6563\u5206\u79BB\u3001\u51B2\u7A81\u53D8\u5316\u3002\u51B2\u95E8\u4E3A\u51F6\u95E8\uFF0C\u5FCC\u51B2\u52A8\u884C\u4E8B\u3002",
-            keywords: "\u51B2\u52A8,\u51B2\u6563,\u51B2\u7A81,\u53D8\u5316,\u51B2\u514B,\u5206\u79BB",
-            advice: "\u51B2\u95E8\u4E3B\u51F6\uFF0C\u5FCC\u51B2\u52A8\uFF0C\u4E3B\u5206\u79BB\u53D8\u52A8",
-            wuxingRelation: "\u51B2\u95E8\u4E3A\u9633\u6C34\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u6C34\u6CC4\u91D1\uFF0C\u4E34\u5764\u826E\u5BAB\u4E3A\u571F\u514B\u6C34",
-            godStarMatch: "\u51B2\u95E8+\u767D\u864E=\u51F6\u95E8\u9022\u51F6\u795E\uFF0C\u51B2\u52A8\u52A0\u5267\uFF1B\u51B2\u95E8+\u7384\u6B66=\u51F6\u95E8\u9022\u76D7\u8D3C\uFF0C\u51B2\u7A81\u5931\u8D22",
-            menPo: "\u51B2\u95E8\u4E34\u5764\u826E\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u571F\u514B\u6C34\uFF0C\u4E3B\u51B2\u52A8\u53D7\u963B\u6216\u51B2\u52A8\u6210\u51F6"
-          },
-          "\u5F00": {
-            meaning: "\u5F00\u95E8\xB7\u5F00\u653E",
-            wuxing: "\u9633\u91D1",
-            nature: "\u91D1\u795E",
-            class: "\u5927\u5409",
-            analysis: "\u5F00\u95E8\u4E3B\u5F00\u653E\u3001\u5F00\u521B\u3001\u6253\u5F00\u3001\u5F00\u59CB\u3001\u56DB\u901A\u516B\u8FBE\u3002\u4E3B\u5F00\u521B\u4E8B\u4E1A\u3001\u5F00\u653E\u987A\u5229\u3001\u4E07\u4E8B\u4EA8\u901A\u3002\u5F00\u95E8\u4E3A\u91D1\u795E\uFF0C\u4E34\u9707\u5DFD\u4E8C\u5BAB\u4E3A\u91D1\u514B\u6728\u5219\u4E0D\u5409\u3002\u5229\u8FDC\u884C\u3001\u89C1\u8D35\u3001\u6C42\u8D22\u3002",
-            keywords: "\u5F00\u653E,\u5F00\u521B,\u6253\u5F00,\u5F00\u59CB,\u56DB\u901A\u516B\u8FBE,\u4EA8\u901A",
-            advice: "\u5F00\u95E8\u4E3A\u5927\u5409\uFF0C\u5229\u8FDC\u884C\u3001\u89C1\u8D35\u3001\u6C42\u8D22\u3001\u5F00\u521B",
-            wuxingRelation: "\u5F00\u95E8\u4E3A\u9633\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u91D1\u514B\u6728\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u91D1\u6BD4\u548C",
-            godStarMatch: "\u5F00\u95E8+\u9752\u9F99=\u5927\u5409\u53E0\u5409\uFF0C\u5F00\u521B\u6709\u6210\uFF1B\u5F00\u95E8+\u8D35\u795E=\u5927\u5409\u52A0\u8D35\uFF0C\u5F00\u521B\u5F97\u52A9",
-            menPo: "\u5F00\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u91D1\u514B\u6728\uFF0C\u4E3B\u5F00\u521B\u53D7\u963B"
-          },
-          "\u60CA": {
-            meaning: "\u60CA\u95E8\xB7\u60CA\u6050",
-            wuxing: "\u9633\u91D1",
-            nature: "\u91D1\u795E",
-            class: "\u51F6",
-            analysis: "\u60CA\u95E8\u4E3B\u60CA\u6050\u3001\u60CA\u5F02\u3001\u60CA\u6050\u3001\u8C23\u8A00\u3001\u60CA\u5413\u3002\u4E3B\u60CA\u6050\u4E0D\u5B89\u3001\u60CA\u5F02\u4E4B\u4E8B\u3001\u8C23\u8A00\u56DB\u8D77\u3002\u60CA\u95E8\u4E3A\u91D1\u795E\uFF0C\u4E34\u4E09\u56DB\u5BAB\u4E3B\u5927\u51F6\u3002\u5B9C\u5BFB\u6C42\u8D70\u5931\u3001\u8FFD\u6355\u9003\u4EA1\u3002",
-            keywords: "\u60CA\u6050,\u60CA\u5F02,\u8C23\u8A00,\u4E0D\u5B89,\u60CA\u5413,\u8FFD\u6355",
-            advice: "\u60CA\u95E8\u4E3B\u51F6\uFF0C\u5B9C\u8FFD\u6355\u9003\u4EA1\uFF0C\u5FCC\u5B89\u5C45",
-            wuxingRelation: "\u60CA\u95E8\u4E3A\u9633\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u91D1\u514B\u6728\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u91D1\u6BD4\u548C",
-            godStarMatch: "\u60CA\u95E8+\u767D\u864E=\u51F6\u95E8\u9022\u51F6\u795E\uFF0C\u60CA\u6050\u52A0\u5267\uFF1B\u60CA\u95E8+\u6731\u96C0=\u51F6\u95E8\u9022\u706B\uFF0C\u60CA\u6050\u52A0\u6587\u4E66",
-            menPo: "\u60CA\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u91D1\u514B\u6728\uFF0C\u4E3B\u60CA\u6050\u6210\u51F6"
-          },
-          "\u4ECE": {
-            meaning: "\u4ECE\u95E8\xB7\u987A\u4ECE",
-            wuxing: "\u9634\u571F",
-            nature: "\u571F\u795E",
-            class: "\u5409",
-            analysis: "\u4ECE\u95E8\u4E3B\u987A\u4ECE\u3001\u8DDF\u968F\u3001\u987A\u4ECE\u3001\u5408\u4F5C\u3001\u968F\u4ECE\u3002\u4E3B\u987A\u4ECE\u4EBA\u610F\u3001\u8DDF\u968F\u6709\u5229\u3001\u5408\u4F5C\u5171\u8D62\u3002\u4ECE\u95E8\u5229\u968F\u4ECE\u3001\u5408\u4F5C\u3001\u987A\u4ECE\u3002",
-            keywords: "\u987A\u4ECE,\u8DDF\u968F,\u5408\u4F5C,\u968F\u4ECE,\u8FFD\u968F,\u5171\u8D62",
-            advice: "\u4ECE\u95E8\u5229\u968F\u4ECE\u3001\u5408\u4F5C\u3001\u987A\u4ECE\u4EBA\u610F",
-            wuxingRelation: "\u4ECE\u95E8\u4E3A\u9634\u571F\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u571F\u751F\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u6728\u514B\u571F",
-            godStarMatch: "\u4ECE\u95E8+\u516D\u5408=\u5409\u95E8\u9022\u5408\uFF0C\u4E3B\u5408\u4F5C\u987A\u5229\uFF1B\u4ECE\u95E8+\u9752\u9F99=\u5409\u95E8\u9022\u5409\uFF0C\u968F\u4ECE\u6709\u5229",
-            menPo: "\u4ECE\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u6728\u514B\u571F\uFF0C\u4E3B\u987A\u4ECE\u53D7\u963B"
-          },
-          "\u751F": {
-            meaning: "\u751F\u95E8\xB7\u751F\u957F",
-            wuxing: "\u9633\u571F",
-            nature: "\u571F\u795E",
-            class: "\u5927\u5409",
-            analysis: "\u751F\u95E8\u4E3B\u751F\u957F\u3001\u751F\u53D1\u3001\u751F\u673A\u3001\u6210\u957F\u3001\u51FA\u751F\u3002\u4E3B\u751F\u673A\u84EC\u52C3\u3001\u751F\u53D1\u6210\u957F\u3001\u4E8B\u4E1A\u53D1\u5C55\u3002\u751F\u95E8\u4E3A\u571F\u795E\uFF0C\u4E34\u574E\u4E00\u5BAB\u4E3A\u571F\u514B\u6C34\u5219\u4E0D\u5409\u3002\u5229\u8425\u9020\u3001\u5AC1\u5A36\u3001\u8C0B\u4E8B\u3001\u89C1\u8D35\u3002",
-            keywords: "\u751F\u957F,\u751F\u53D1,\u751F\u673A,\u6210\u957F,\u53D1\u5C55,\u8425\u9020",
-            advice: "\u751F\u95E8\u4E3A\u5927\u5409\uFF0C\u5229\u8425\u9020\u3001\u5AC1\u5A36\u3001\u8C0B\u4E8B\u3001\u89C1\u8D35",
-            wuxingRelation: "\u751F\u95E8\u4E3A\u9633\u571F\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u571F\u751F\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u6728\u514B\u571F",
-            godStarMatch: "\u751F\u95E8+\u9752\u9F99=\u5927\u5409\u53E0\u5409\uFF0C\u751F\u673A\u84EC\u52C3\uFF1B\u751F\u95E8+\u8D35\u795E=\u5927\u5409\u52A0\u8D35\uFF0C\u751F\u8D22\u6709\u9053",
-            menPo: "\u751F\u95E8\u4E34\u9707\u5DFD\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u6728\u514B\u571F\uFF0C\u4E3B\u751F\u673A\u53D7\u635F"
-          },
-          "\u666F": {
-            meaning: "\u666F\u95E8\xB7\u5149\u660E",
-            wuxing: "\u9634\u706B",
-            nature: "\u706B\u795E",
-            class: "\u4E2D",
-            analysis: "\u666F\u95E8\u4E3B\u5149\u660E\u3001\u666F\u8272\u3001\u6587\u4E66\u3001\u8003\u8BD5\u3001\u5149\u660E\u78CA\u843D\u3002\u4E3B\u5149\u660E\u78CA\u843D\u3001\u6587\u4E66\u6709\u5229\u3001\u8003\u8BD5\u987A\u5229\u3002\u666F\u95E8\u4E3A\u51F6\u95E8\u800C\u503E\u4E8E\u5E73\uFF0C\u5229\u6E38\u620F\u7ADE\u8D5B\u3001\u4E0A\u4E66\u3001\u8003\u8BD5\u3002",
-            keywords: "\u5149\u660E,\u6587\u4E66,\u8003\u8BD5,\u666F\u8272,\u7ADE\u8D5B,\u4E0A\u4E66",
-            advice: "\u666F\u95E8\u504F\u5E73\uFF0C\u5229\u6587\u4E66\u8003\u8BD5\u3001\u6E38\u620F\u7ADE\u8D5B",
-            wuxingRelation: "\u666F\u95E8\u4E3A\u9634\u706B\uFF0C\u4E34\u4E7E\u5151\u5BAB\u4E3A\u706B\u514B\u91D1\uFF0C\u4E34\u9707\u5DFD\u5BAB\u4E3A\u6728\u751F\u706B",
-            godStarMatch: "\u666F\u95E8+\u6731\u96C0=\u51F6\u95E8\u9022\u51F6\u795E\uFF0C\u6587\u4E66\u5F97\u5409\uFF1B\u666F\u95E8+\u6587\u66F2=\u5E73\u95E8\u9022\u6587\u660C\uFF0C\u8003\u8BD5\u6709\u5229",
-            menPo: "\u666F\u95E8\u4E34\u4E7E\u5151\u5BAB\u4E3A\u95E8\u8FEB\uFF0C\u706B\u514B\u91D1\uFF0C\u4E3B\u5149\u660E\u53D7\u963B"
-          }
-        },
-        // ============ 天干五行属性表 ============
-        ganWuxing: {
-          "\u7532": { wuxing: "\u9633\u6728", body: "\u680B\u6881\u4E4B\u6728", direction: "\u4E1C", organ: "\u809D\u80C6", emotion: "\u6012" },
-          "\u4E59": { wuxing: "\u9634\u6728", body: "\u82B1\u8349\u85E4\u841D", direction: "\u4E1C\u5357", organ: "\u809D\u80C6", emotion: "\u6012" },
-          "\u4E19": { wuxing: "\u9633\u706B", body: "\u592A\u9633\u4E4B\u706B", direction: "\u5357", organ: "\u5C0F\u80A0", emotion: "\u559C" },
-          "\u4E01": { wuxing: "\u9634\u706B", body: "\u706F\u70DB\u4E4B\u706B", direction: "\u5357", organ: "\u5FC3\u810F", emotion: "\u559C" },
-          "\u620A": { wuxing: "\u9633\u571F", body: "\u9AD8\u5C71\u539A\u571F", direction: "\u4E2D\u592E", organ: "\u80C3", emotion: "\u601D" },
-          "\u5DF1": { wuxing: "\u9634\u571F", body: "\u7530\u56ED\u4E4B\u571F", direction: "\u4E2D\u592E", organ: "\u813E", emotion: "\u601D" },
-          "\u5E9A": { wuxing: "\u9633\u91D1", body: "\u5200\u5251\u4E4B\u91D1", direction: "\u897F", organ: "\u5927\u80A0", emotion: "\u60B2" },
-          "\u8F9B": { wuxing: "\u9634\u91D1", body: "\u73E0\u7389\u4E4B\u91D1", direction: "\u897F", organ: "\u80BA", emotion: "\u60B2" },
-          "\u58EC": { wuxing: "\u9633\u6C34", body: "\u6C5F\u6D77\u4E4B\u6C34", direction: "\u5317", organ: "\u8180\u80F1", emotion: "\u6050" },
-          "\u7678": { wuxing: "\u9634\u6C34", body: "\u96E8\u9732\u4E4B\u6C34", direction: "\u5317", organ: "\u80BE", emotion: "\u6050" }
-        },
-        // ============ 地支五行属性表 ============
-        zhiWuxing: {
-          "\u5B50": { wuxing: "\u9633\u6C34", zhi: "\u7678", direction: "\u5317", hours: "23:00-01:00" },
-          "\u4E11": { wuxing: "\u9634\u571F", zhi: "\u5DF1\u7678\u8F9B", direction: "\u4E1C\u5317", hours: "01:00-03:00" },
-          "\u5BC5": { wuxing: "\u9633\u6728", zhi: "\u7532\u4E19\u620A", direction: "\u4E1C\u5317", hours: "03:00-05:00" },
-          "\u536F": { wuxing: "\u9634\u6728", zhi: "\u4E59", direction: "\u4E1C", hours: "05:00-07:00" },
-          "\u8FB0": { wuxing: "\u9633\u571F", zhi: "\u620A\u4E59\u7678", direction: "\u4E1C\u5357", hours: "07:00-09:00" },
-          "\u5DF3": { wuxing: "\u9634\u706B", zhi: "\u4E19\u5E9A\u620A", direction: "\u4E1C\u5357", hours: "09:00-11:00" },
-          "\u5348": { wuxing: "\u9633\u706B", zhi: "\u4E01\u5DF1", direction: "\u5357", hours: "11:00-13:00" },
-          "\u672A": { wuxing: "\u9634\u571F", zhi: "\u5DF1\u4E01\u4E59", direction: "\u897F\u5357", hours: "13:00-15:00" },
-          "\u7533": { wuxing: "\u9633\u91D1", zhi: "\u5E9A\u58EC\u620A", direction: "\u897F\u5357", hours: "15:00-17:00" },
-          "\u9149": { wuxing: "\u9634\u91D1", zhi: "\u8F9B", direction: "\u897F", hours: "17:00-19:00" },
-          "\u620C": { wuxing: "\u9633\u571F", zhi: "\u620A\u8F9B\u4E01", direction: "\u897F\u5317", hours: "19:00-21:00" },
-          "\u4EA5": { wuxing: "\u9634\u6C34", zhi: "\u58EC\u7532", direction: "\u897F\u5317", hours: "21:00-23:00" }
-        },
-        // ============ 十二长生状态表 ============
-        // 天干十二长生：日干行至地支的状态
-        // 顺序：长生、沐浴、冠带、临官、帝旺、衰、病、死、墓、绝、胎、养
-        changSheng: {
-          "\u7532": {
-            "\u4EA5": "\u957F\u751F",
-            "\u5B50": "\u6C90\u6D74",
-            "\u4E11": "\u51A0\u5E26",
-            "\u5BC5": "\u4E34\u5B98",
-            "\u536F": "\u5E1D\u65FA",
-            "\u8FB0": "\u8870",
-            "\u5DF3": "\u75C5",
-            "\u5348": "\u6B7B",
-            "\u672A": "\u5893",
-            "\u7533": "\u7EDD",
-            "\u9149": "\u80CE",
-            "\u620C": "\u517B"
-          },
-          "\u4E59": {
-            "\u5348": "\u957F\u751F",
-            "\u672A": "\u6C90\u6D74",
-            "\u7533": "\u51A0\u5E26",
-            "\u9149": "\u4E34\u5B98",
-            "\u620C": "\u5E1D\u65FA",
-            "\u4EA5": "\u8870",
-            "\u5B50": "\u75C5",
-            "\u4E11": "\u6B7B",
-            "\u5BC5": "\u5893",
-            "\u536F": "\u7EDD",
-            "\u8FB0": "\u80CE",
-            "\u5DF3": "\u517B"
-          },
-          "\u4E19": {
-            "\u5BC5": "\u957F\u751F",
-            "\u536F": "\u6C90\u6D74",
-            "\u8FB0": "\u51A0\u5E26",
-            "\u5DF3": "\u4E34\u5B98",
-            "\u5348": "\u5E1D\u65FA",
-            "\u672A": "\u8870",
-            "\u7533": "\u75C5",
-            "\u9149": "\u6B7B",
-            "\u620C": "\u5893",
-            "\u4EA5": "\u7EDD",
-            "\u5B50": "\u80CE",
-            "\u4E11": "\u517B"
-          },
-          "\u4E01": {
-            "\u9149": "\u957F\u751F",
-            "\u620C": "\u6C90\u6D74",
-            "\u4EA5": "\u51A0\u5E26",
-            "\u5B50": "\u4E34\u5B98",
-            "\u4E11": "\u5E1D\u65FA",
-            "\u5BC5": "\u8870",
-            "\u536F": "\u75C5",
-            "\u8FB0": "\u6B7B",
-            "\u5DF3": "\u5893",
-            "\u5348": "\u7EDD",
-            "\u672A": "\u80CE",
-            "\u7533": "\u517B"
-          },
-          "\u620A": {
-            "\u5BC5": "\u957F\u751F",
-            "\u536F": "\u6C90\u6D74",
-            "\u8FB0": "\u51A0\u5E26",
-            "\u5DF3": "\u4E34\u5B98",
-            "\u5348": "\u5E1D\u65FA",
-            "\u672A": "\u8870",
-            "\u7533": "\u75C5",
-            "\u9149": "\u6B7B",
-            "\u620C": "\u5893",
-            "\u4EA5": "\u7EDD",
-            "\u5B50": "\u80CE",
-            "\u4E11": "\u517B"
-          },
-          "\u5DF1": {
-            "\u9149": "\u957F\u751F",
-            "\u620C": "\u6C90\u6D74",
-            "\u4EA5": "\u51A0\u5E26",
-            "\u5B50": "\u4E34\u5B98",
-            "\u4E11": "\u5E1D\u65FA",
-            "\u5BC5": "\u8870",
-            "\u536F": "\u75C5",
-            "\u8FB0": "\u6B7B",
-            "\u5DF3": "\u5893",
-            "\u5348": "\u7EDD",
-            "\u672A": "\u80CE",
-            "\u7533": "\u517B"
-          },
-          "\u5E9A": {
-            "\u5DF3": "\u957F\u751F",
-            "\u5348": "\u6C90\u6D74",
-            "\u672A": "\u51A0\u5E26",
-            "\u7533": "\u4E34\u5B98",
-            "\u9149": "\u5E1D\u65FA",
-            "\u620C": "\u8870",
-            "\u4EA5": "\u75C5",
-            "\u5B50": "\u6B7B",
-            "\u4E11": "\u5893",
-            "\u5BC5": "\u7EDD",
-            "\u536F": "\u80CE",
-            "\u8FB0": "\u517B"
-          },
-          "\u8F9B": {
-            "\u5B50": "\u957F\u751F",
-            "\u4E11": "\u6C90\u6D74",
-            "\u5BC5": "\u51A0\u5E26",
-            "\u536F": "\u4E34\u5B98",
-            "\u8FB0": "\u5E1D\u65FA",
-            "\u5DF3": "\u8870",
-            "\u5348": "\u75C5",
-            "\u672A": "\u6B7B",
-            "\u7533": "\u5893",
-            "\u9149": "\u7EDD",
-            "\u620C": "\u80CE",
-            "\u4EA5": "\u517B"
-          },
-          "\u58EC": {
-            "\u7533": "\u957F\u751F",
-            "\u9149": "\u6C90\u6D74",
-            "\u620C": "\u51A0\u5E26",
-            "\u4EA5": "\u4E34\u5B98",
-            "\u5B50": "\u5E1D\u65FA",
-            "\u4E11": "\u8870",
-            "\u5BC5": "\u75C5",
-            "\u536F": "\u6B7B",
-            "\u8FB0": "\u5893",
-            "\u5DF3": "\u7EDD",
-            "\u5348": "\u80CE",
-            "\u672A": "\u517B"
-          },
-          "\u7678": {
-            "\u536F": "\u957F\u751F",
-            "\u8FB0": "\u6C90\u6D74",
-            "\u5DF3": "\u51A0\u5E26",
-            "\u5348": "\u4E34\u5B98",
-            "\u672A": "\u5E1D\u65FA",
-            "\u7533": "\u8870",
-            "\u9149": "\u75C5",
-            "\u620C": "\u6B7B",
-            "\u4EA5": "\u5893",
-            "\u5B50": "\u7EDD",
-            "\u4E11": "\u80CE",
-            "\u5BC5": "\u517B"
-          }
-        },
-        // ============ 空亡计算方法 ============
-        // 六十甲子周期中空亡的地支
-        // 空亡表示虚无、不存在、无效
-        kongWang: {
-          // 六甲空亡表：以日柱干支查空亡地支
-          // 甲子旬中空亡：戌、亥
-          // 甲戌旬中空亡：申、酉
-          // 甲申旬中空亡：午、未
-          // 甲午旬中空亡：辰、巳
-          // 甲辰旬中空亡：寅、卯
-          // 甲寅旬中空亡：子、丑
-          liuJia: {
-            "\u7532\u5B50": ["\u620C", "\u4EA5"],
-            "\u4E59\u4E11": ["\u620C", "\u4EA5"],
-            "\u4E19\u5BC5": ["\u620C", "\u4EA5"],
-            "\u4E01\u536F": ["\u620C", "\u4EA5"],
-            "\u620A\u8FB0": ["\u620C", "\u4EA5"],
-            "\u5DF1\u5DF3": ["\u620C", "\u4EA5"],
-            "\u5E9A\u5348": ["\u620C", "\u4EA5"],
-            "\u8F9B\u672A": ["\u620C", "\u4EA5"],
-            "\u58EC\u7533": ["\u620C", "\u4EA5"],
-            "\u7678\u9149": ["\u620C", "\u4EA5"],
-            "\u7532\u620C": ["\u7533", "\u9149"],
-            "\u4E59\u4EA5": ["\u7533", "\u9149"],
-            "\u4E19\u5B50": ["\u7533", "\u9149"],
-            "\u4E01\u4E11": ["\u7533", "\u9149"],
-            "\u620A\u5BC5": ["\u7533", "\u9149"],
-            "\u5DF1\u536F": ["\u7533", "\u9149"],
-            "\u5E9A\u8FB0": ["\u7533", "\u9149"],
-            "\u8F9B\u5DF3": ["\u7533", "\u9149"],
-            "\u58EC\u5348": ["\u7533", "\u9149"],
-            "\u7678\u672A": ["\u7533", "\u9149"],
-            "\u7532\u7533": ["\u5348", "\u672A"],
-            "\u4E59\u9149": ["\u5348", "\u672A"],
-            "\u4E19\u620C": ["\u5348", "\u672A"],
-            "\u4E01\u4EA5": ["\u5348", "\u672A"],
-            "\u620A\u5B50": ["\u5348", "\u672A"],
-            "\u5DF1\u4E11": ["\u5348", "\u672A"],
-            "\u5E9A\u5BC5": ["\u5348", "\u672A"],
-            "\u8F9B\u536F": ["\u5348", "\u672A"],
-            "\u58EC\u8FB0": ["\u5348", "\u672A"],
-            "\u7678\u5DF3": ["\u5348", "\u672A"],
-            "\u7532\u5348": ["\u8FB0", "\u5DF3"],
-            "\u4E59\u672A": ["\u8FB0", "\u5DF3"],
-            "\u4E19\u7533": ["\u8FB0", "\u5DF3"],
-            "\u4E01\u9149": ["\u8FB0", "\u5DF3"],
-            "\u620A\u620C": ["\u8FB0", "\u5DF3"],
-            "\u5DF1\u4EA5": ["\u8FB0", "\u5DF3"],
-            "\u5E9A\u5B50": ["\u8FB0", "\u5DF3"],
-            "\u8F9B\u4E11": ["\u8FB0", "\u5DF3"],
-            "\u58EC\u5BC5": ["\u8FB0", "\u5DF3"],
-            "\u7678\u536F": ["\u8FB0", "\u5DF3"],
-            "\u7532\u8FB0": ["\u5BC5", "\u536F"],
-            "\u4E59\u5DF3": ["\u5BC5", "\u536F"],
-            "\u4E19\u5348": ["\u5BC5", "\u536F"],
-            "\u4E01\u672A": ["\u5BC5", "\u536F"],
-            "\u620A\u7533": ["\u5BC5", "\u536F"],
-            "\u5DF1\u9149": ["\u5BC5", "\u536F"],
-            "\u5E9A\u620C": ["\u5BC5", "\u536F"],
-            "\u8F9B\u4EA5": ["\u5BC5", "\u536F"],
-            "\u58EC\u5B50": ["\u5BC5", "\u536F"],
-            "\u7678\u4E11": ["\u5BC5", "\u536F"],
-            "\u7532\u5BC5": ["\u5B50", "\u4E11"],
-            "\u4E59\u536F": ["\u5B50", "\u4E11"],
-            "\u4E19\u8FB0": ["\u5B50", "\u4E11"],
-            "\u4E01\u5DF3": ["\u5B50", "\u4E11"],
-            "\u620A\u5348": ["\u5B50", "\u4E11"],
-            "\u5DF1\u672A": ["\u5B50", "\u4E11"],
-            "\u5E9A\u7533": ["\u5B50", "\u4E11"],
-            "\u8F9B\u9149": ["\u5B50", "\u4E11"],
-            "\u58EC\u620C": ["\u5B50", "\u4E11"],
-            "\u7678\u4EA5": ["\u5B50", "\u4E11"]
-          },
-          // 空亡判断：空亡之支为绝地，主虚无
-          // 阳遁遇空亡则假空，阳遁空亡之地支如有吉神助之则不为空
-          // 阴遁遇空亡则真空，大凶
-          rules: {
-            description: "\u7A7A\u4EA1\u4E3A\u865A\u65E0\u4E4B\u5730\uFF0C\u8868\u793A\u4E8B\u7269\u4E0D\u5B9E\u3001\u4E0D\u6210\u3001\u65E0\u6548",
-            judge: "\u5409\u795E\u4E34\u7A7A\u4EA1\u5219\u5047\u7A7A\uFF0C\u51F6\u795E\u4E34\u7A7A\u4EA1\u5219\u771F\u7A7A",
-            application: "\u7A7A\u4EA1\u4E4B\u5730\u4E0D\u53EF\u7528\uFF0C\u51FA\u7A7A\u540E\u65B9\u53EF\u7528"
-          }
-        },
-        // ============ 神煞计算 ============
-        shenSha: {
-          // 驿马：主动、变动、远行
-          // 查法：以年支或日支查
-          yiMa: {
-            "\u7533\u5B50\u8FB0": "\u5BC5",
-            "\u5BC5\u5348\u620C": "\u7533",
-            "\u5DF3\u9149\u4E11": "\u4EA5",
-            "\u4EA5\u536F\u672A": "\u5DF3"
-          },
-          // 桃花（咸池）：主人缘、桃花、欲望
-          taoHua: {
-            "\u7533\u5B50\u8FB0": "\u9149",
-            "\u5BC5\u5348\u620C": "\u536F",
-            "\u5DF3\u9149\u4E11": "\u5348",
-            "\u4EA5\u536F\u672A": "\u5B50"
-          },
-          // 天乙贵人：以日干查
-          // 甲戊庚牛羊，乙己鼠猴乡
-          // 丙丁猪鸡位，壬癸蛇兔藏
-          // 六辛逢马虎，此是贵人方
-          tianYiGuiRen: {
-            "\u7532": { day: "\u4E11", night: "\u672A" },
-            "\u620A": { day: "\u4E11", night: "\u672A" },
-            "\u5E9A": { day: "\u4E11", night: "\u672A" },
-            "\u4E59": { day: "\u5B50", night: "\u7533" },
-            "\u5DF1": { day: "\u5B50", night: "\u7533" },
-            "\u4E19": { day: "\u4EA5", night: "\u9149" },
-            "\u4E01": { day: "\u4EA5", night: "\u9149" },
-            "\u58EC": { day: "\u5DF3", night: "\u536F" },
-            "\u7678": { day: "\u5DF3", night: "\u536F" },
-            "\u8F9B": { day: "\u5348", night: "\u5BC5" }
-          },
-          // 羊刃：主凶、血光、刚强
-          yangRen: {
-            "\u7532": "\u536F",
-            "\u4E59": "\u5BC5",
-            "\u4E19": "\u5348",
-            "\u4E01": "\u5DF3",
-            "\u620A": "\u5348",
-            "\u5DF1": "\u5DF3",
-            "\u5E9A": "\u9149",
-            "\u8F9B": "\u7533",
-            "\u58EC": "\u5B50",
-            "\u7678": "\u4EA5"
-          },
-          // 禄神：主财禄、福气
-          luShen: {
-            "\u7532": "\u5BC5",
-            "\u4E59": "\u536F",
-            "\u4E19": "\u5DF3",
-            "\u4E01": "\u5348",
-            "\u620A": "\u5DF3",
-            "\u5DF1": "\u5348",
-            "\u5E9A": "\u7533",
-            "\u8F9B": "\u9149",
-            "\u58EC": "\u4EA5",
-            "\u7678": "\u5B50"
-          },
-          // 亡神：主凶险、死亡
-          wangShen: {
-            "\u7533\u5B50\u8FB0": "\u4EA5",
-            "\u5BC5\u5348\u620C": "\u5DF3",
-            "\u5DF3\u9149\u4E11": "\u5BC5",
-            "\u4EA5\u536F\u672A": "\u7533"
-          },
-          // 劫煞：主凶、劫夺
-          jieSha: {
-            "\u7533\u5B50\u8FB0": "\u5DF3",
-            "\u5BC5\u5348\u620C": "\u4EA5",
-            "\u5DF3\u9149\u4E11": "\u5BC5",
-            "\u4EA5\u536F\u672A": "\u7533"
-          },
-          // 灾煞：主灾厄、血光
-          zaiSha: {
-            "\u7533\u5B50\u8FB0": "\u5348",
-            "\u5BC5\u5348\u620C": "\u5B50",
-            "\u5DF3\u9149\u4E11": "\u536F",
-            "\u4EA5\u536F\u672A": "\u9149"
-          },
-          // 天煞：主凶险、孤寡
-          tianSha: {
-            "\u7533\u5B50\u8FB0": "\u8FB0",
-            "\u5BC5\u5348\u620C": "\u620C",
-            "\u5DF3\u9149\u4E11": "\u4E11",
-            "\u4EA5\u536F\u672A": "\u672A"
-          },
-          // 华盖：主孤寡、艺术
-          huaGai: {
-            "\u7533\u5B50\u8FB0": "\u8FB0",
-            "\u5BC5\u5348\u620C": "\u620C",
-            "\u5DF3\u9149\u4E11": "\u4E11",
-            "\u4EA5\u536F\u672A": "\u672A"
-          },
-          // 将星：主权威、将帅
-          jiangXing: {
-            "\u7533\u5B50\u8FB0": "\u5B50",
-            "\u5BC5\u5348\u620C": "\u5348",
-            "\u5DF3\u9149\u4E11": "\u9149",
-            "\u4EA5\u536F\u672A": "\u536F"
-          },
-          // 金舆贵人：主富贵、车马
-          jinYuGuiRen: {
-            "\u7532": "\u4E11",
-            "\u4E59": "\u5B50",
-            "\u4E19": "\u4EA5",
-            "\u4E01": "\u9149",
-            "\u620A": "\u4EA5",
-            "\u5DF1": "\u9149",
-            "\u5E9A": "\u5B50",
-            "\u8F9B": "\u4E11",
-            "\u58EC": "\u5BC5",
-            "\u7678": "\u536F"
-          },
-          // 天德贵人：以月支查
-          tianDeGuiRen: {
-            "\u6B63": "\u4E01",
-            "\u4E8C": "\u7533",
-            "\u4E09": "\u58EC",
-            "\u56DB": "\u8F9B",
-            "\u4E94": "\u4EA5",
-            "\u516D": "\u7532",
-            "\u4E03": "\u7678",
-            "\u516B": "\u5BC5",
-            "\u4E5D": "\u4E19",
-            "\u5341": "\u4E59",
-            "\u51AC": "\u5DFD",
-            "\u814A": "\u536F"
-          },
-          // 月德贵人：以月支查
-          yueDeGuiRen: {
-            "\u7533": "\u5E9A",
-            "\u5B50": "\u5E9A",
-            "\u8FB0": "\u5E9A",
-            "\u5BC5": "\u4E19",
-            "\u5348": "\u4E19",
-            "\u620C": "\u4E19",
-            "\u5DF3": "\u58EC",
-            "\u9149": "\u58EC",
-            "\u4E11": "\u58EC",
-            "\u4EA5": "\u7532",
-            "\u536F": "\u7532",
-            "\u672A": "\u7532"
-          },
-          // 空亡神煞应用说明
-          application: {
-            yiMa: "\u9A7F\u9A6C\u4E3B\u53D8\u52A8\u3001\u8FDC\u884C\u3001\u8FC1\u79FB\uFF0C\u9022\u9A7F\u9A6C\u5219\u4E3B\u52A8\u4E2D\u6709\u5409",
-            taoHua: "\u6843\u82B1\u4E3B\u4EBA\u7F18\u3001\u5F02\u6027\u7F18\uFF0C\u5409\u5219\u4E3A\u6B63\u6843\u82B1\uFF0C\u51F6\u5219\u4E3A\u70C2\u6843\u82B1",
-            tianYiGuiRen: "\u5929\u4E59\u8D35\u4EBA\u4E43\u6700\u5927\u8D35\u4EBA\uFF0C\u4E3B\u9022\u51F6\u5316\u5409\uFF0C\u767E\u4E8B\u7686\u5B9C",
-            yangRen: "\u7F8A\u5203\u4E3B\u521A\u5F3A\u3001\u8840\u5149\u3001\u5B98\u975E\uFF0C\u5409\u5219\u4E3A\u6743\u67C4\uFF0C\u51F6\u5219\u4E3A\u707E\u7978",
-            luShen: "\u7984\u795E\u4E3B\u8D22\u7984\u3001\u798F\u6C14\uFF0C\u9022\u7984\u5219\u8D22\u7984\u53CC\u6536",
-            wangShen: "\u4EA1\u795E\u4E3B\u51F6\u9669\u3001\u6B7B\u4EA1\u3001\u7834\u8D25\uFF0C\u5FCC\u4E4B",
-            jieSha: "\u52AB\u715E\u4E3B\u52AB\u593A\u3001\u707E\u7978\uFF0C\u5FCC\u4E4B",
-            zaiSha: "\u707E\u715E\u4E3B\u707E\u5384\u3001\u8840\u5149\uFF0C\u5FCC\u4E4B",
-            tianSha: "\u5929\u715E\u4E3B\u5B64\u5BE1\u3001\u79BB\u522B\uFF0C\u5FCC\u4E4B",
-            huaGai: "\u534E\u76D6\u4E3B\u827A\u672F\u3001\u5B64\u5BE1\uFF0C\u5409\u5219\u827A\u672F\u6210\u540D\uFF0C\u51F6\u5219\u5B64\u72EC",
-            jiangXing: "\u5C06\u661F\u4E3B\u6743\u5A01\u3001\u9886\u5BFC\uFF0C\u5409\u5219\u638C\u6743\uFF0C\u51F6\u5219\u8DCB\u6248",
-            jinYuGuiRen: "\u91D1\u8206\u8D35\u4EBA\u4E3B\u5BCC\u8D35\u3001\u8F66\u9A6C\uFF0C\u5229\u51FA\u884C\u3001\u5AC1\u5A36",
-            tianDeGuiRen: "\u5929\u5FB7\u8D35\u4EBA\u4E3B\u5316\u51F6\u4E3A\u5409\uFF0C\u89E3\u707E\u6D88\u5384",
-            yueDeGuiRen: "\u6708\u5FB7\u8D35\u4EBA\u4E3B\u54C1\u5FB7\u3001\u8D35\u4EBA\uFF0C\u5229\u4FEE\u5FB7\u884C\u5584"
-          }
-        },
-        // ============ 五行生克关系 ============
-        wuxingRelation: {
-          // 五行相生：木→火→土→金→水→木
-          generate: { "\u6728": "\u706B", "\u706B": "\u571F", "\u571F": "\u91D1", "\u91D1": "\u6C34", "\u6C34": "\u6728" },
-          // 五行相克：木→土→水→火→金→木
-          control: { "\u6728": "\u571F", "\u571F": "\u6C34", "\u6C34": "\u706B", "\u706B": "\u91D1", "\u91D1": "\u6728" },
-          // 五行被生：木←水，火←木，土←火，金←土，水←金
-          generatedBy: { "\u6728": "\u6C34", "\u706B": "\u6728", "\u571F": "\u706B", "\u91D1": "\u571F", "\u6C34": "\u91D1" },
-          // 五行被克：木←金，土←木，水←土，火←水，金←火
-          controlledBy: { "\u6728": "\u91D1", "\u571F": "\u6728", "\u6C34": "\u571F", "\u706B": "\u6C34", "\u91D1": "\u706B" },
-          // 五行对应方位
-          direction: { "\u6728": "\u4E1C", "\u706B": "\u5357", "\u571F": "\u4E2D\u592E", "\u91D1": "\u897F", "\u6C34": "\u5317" },
-          // 五行对应颜色
-          color: { "\u6728": "\u9752", "\u706B": "\u8D64", "\u571F": "\u9EC4", "\u91D1": "\u767D", "\u6C34": "\u9ED1" },
-          // 五行对应数字
-          number: { "\u6728": "3-8", "\u706B": "2-7", "\u571F": "5-0", "\u91D1": "4-9", "\u6C34": "1-6" }
-        },
-        // ============ 吉凶格局（扩展版） ============
-        geju: {
-          // --- 已有格局（保持兼容） ---
-          "\u9752\u9F99\u8FD4\u9996": {
-            type: "\u5409\u683C",
-            desc: "\u620A+\u4E19\uFF0C\u7532\u4E3A\u9752\u9F99\uFF0C\u4E19\u4E3A\u706B\uFF0C\u4E19\u4E3A\u7532\u4E4B\u5B50\uFF0C\u6BCD\u5B50\u76F8\u62A4\uFF0C\u4E14\u4E19\u706B\u514B\u5E9A\u91D1\u3002\u4EE3\u8868\u767E\u4E8B\u7686\u5409\uFF0C\u5BBE\u4E3B\u76F8\u6295\uFF0C\u957F\u5E7C\u60C5\u6DF1\uFF0C\u7236\u8363\u5B50\u8000\uFF0C\u5C0A\u5351\u548C\u7766\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u5929\u76D8\u4E19\u52A0\u5730\u76D8\u620A",
-            usage: "\u5229\u6C42\u8D22\u3001\u5AC1\u5A36\u3001\u4E0A\u5B98\u3001\u4FEE\u9020\uFF0C\u767E\u4E8B\u7686\u5B9C"
-          },
-          "\u98DE\u9E1F\u8DCC\u7A74": {
-            type: "\u5409\u683C",
-            desc: "\u4E19+\u620A\uFF0C\u4E19\u706B\u843D\u7532\u5730\uFF0C\u72B9\u5982\u5B50\u56DE\u5230\u7236\u6BCD\u8EAB\u8FB9\uFF0C\u5982\u9E1F\u56DE\u5DE2\u3002\u5229\u6C42\u8D22\u3001\u6C42\u804C\u3001\u5EFA\u9020\u3001\u5A5A\u59FB\uFF0C\u767E\u4E8B\u7686\u5409\u3002\u53EF\u4EE3\u8868\u627E\u5230\u597D\u5DE5\u4F5C\u3001\u597D\u4F4F\u5904\u3001\u7406\u60F3\u7684\u5A5A\u59FB\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u5929\u76D8\u620A\u52A0\u5730\u76D8\u4E19",
-            usage: "\u5229\u6C42\u8D22\u3001\u6C42\u804C\u3001\u5EFA\u9020\u3001\u5A5A\u59FB"
-          },
-          "\u4E09\u5947\u5F97\u4F7F": {
-            type: "\u5409\u683C",
-            desc: "\u4E59\u4E19\u4E01+\u503C\u4F7F\u95E8\u6240\u4E34\u6697\u5E72\u3002\u5927\u5409\u4E4B\u683C\uFF0C\u5229\u4E8E\u51FA\u884C\u3001\u6218\u9635\u3001\u4E0A\u5B98\u3001\u4FEE\u9020\u3001\u5AC1\u5A36\u3001\u5546\u8D3E\uFF0C\u767E\u4E8B\u7686\u5B9C\u3002\u4EE3\u8868\u4EBA\u624D\u5F97\u4EE5\u91CD\u7528\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E59\u4E19\u4E01\u4E09\u5947\u52A0\u4E34\u503C\u4F7F\u95E8\u6240\u4E58\u4E4B\u5E72",
-            usage: "\u5229\u51FA\u884C\u3001\u6218\u9635\u3001\u4E0A\u5B98\u3001\u4FEE\u9020\u3001\u5AC1\u5A36\u3001\u5546\u8D3E"
-          },
-          "\u7389\u5973\u5B88\u95E8": {
-            type: "\u5409\u683C",
-            desc: "\u503C\u4F7F\u95E8+\u4E01\u5947\u6240\u5728\u5BAB\u4F4D\u3002\u5229\u4E8E\u5A5A\u5AC1\u3001\u9020\u846C\u3001\u5EFA\u9020\u3001\u5BB4\u4F1A\u3001\u7ECF\u5546\u3001\u884C\u519B\u3002\u4EE3\u8868\u57CB\u4F0F\u3001\u5973\u4EBA\u5F53\u5BB6\u3001\u9152\u98DF\u3001\u5BB4\u4F1A\u3001\u559C\u4E50\u4E4B\u4E8B\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u503C\u4F7F\u95E8\u52A0\u4E01\u5947\u6240\u5728\u5BAB\u4F4D",
-            usage: "\u5229\u5A5A\u5AC1\u3001\u9020\u846C\u3001\u5EFA\u9020\u3001\u5BB4\u4F1A\u3001\u7ECF\u5546"
-          },
-          "\u4E09\u5947\u8D35\u4EBA\u5347\u6BBF": {
-            type: "\u5409\u683C",
-            desc: "\u4E59\u5947+\u9707\u5BAB\u4E3A\u65E5\u51FA\u6276\u6851\uFF0C\u4E19\u5947\u843D\u79BB\u5BAB\u6708\u7167\u7AEF\u95E8\uFF0C\u4E01\u5947\u843D\u5151\u5BAB\u661F\u89C1\u897F\u65B9\u3002\u5229\u4E8E\u51FA\u5E08\u3001\u8FDC\u884C\u3001\u5F81\u8BA8\u3001\u5AC1\u5A36\u3001\u4E0A\u6881\u3001\u4FEE\u9020\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E59\u5947\u4E34\u9707\u5BAB\u3001\u4E19\u5947\u4E34\u79BB\u5BAB\u3001\u4E01\u5947\u4E34\u5151\u5BAB",
-            usage: "\u5229\u51FA\u5E08\u3001\u8FDC\u884C\u3001\u5F81\u8BA8\u3001\u5AC1\u5A36\u3001\u4E0A\u6881\u3001\u4FEE\u9020"
-          },
-          "\u5929\u663E\u65F6\u683C": {
-            type: "\u5409\u683C",
-            desc: "\u7532\u5DF1\u65E5\u7532\u620C\u65F6\uFF0C\u4E59\u5E9A\u65E5\u7532\u7533\u65F6\uFF0C\u4E19\u8F9B\u65E5\u7532\u5348\u65F6\uFF0C\u620A\u7678\u65E5\u7532\u5BC5\u65F6\uFF0C\u4E01\u58EC\u65E5\u7532\u8FB0\u65F6\u3002\u5F97\u6B64\u683C\u8005\u5927\u5229\u8C12\u8D35\uFF0C\u53C8\u5229\u8D66\u514D\u4E4B\u4E8B\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u7532\u5DF1\u65E5\u7532\u620C\u65F6\u7B49\u4E94\u7EC4\u5BF9\u5E94",
-            usage: "\u5229\u8C12\u8D35\u3001\u8D66\u514D\u3001\u6C42\u8D22"
-          },
-          "\u9752\u9F99\u9003\u8D70": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u4E59\u5947\u52A0\u5730\u76D8\u8F9B\uFF0C\u9634\u91D1\u514B\u9634\u6728\u3002\u4E0D\u5B9C\u4E3E\u5175\uFF0C\u4E3B\u5C06\u58EB\u9003\u7A9C\uFF0C\u4E34\u9635\u8D25\u4EA1\uFF0C\u6240\u8C0B\u767E\u4E8B\u7686\u51F6\u3002\u4EE3\u8868\u4EBA\u624D\u6D41\u5931\u3001\u541B\u5B50\u9003\u79BB\u56F0\u5883\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u5929\u76D8\u4E59\u52A0\u5730\u76D8\u8F9B",
-            usage: "\u5FCC\u4E3E\u5175\u3001\u8C0B\u4E8B\uFF0C\u4E3B\u9003\u79BB"
-          },
-          "\u767D\u864E\u7316\u72C2": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u8F9B\u52A0\u5730\u76D8\u4E59\u5947\u3002\u51FA\u5165\u6709\u60CA\u6050\uFF0C\u4E3B\u5BA2\u4E24\u4F24\u3002\u8FDC\u884C\u591A\u6709\u707E\u548E\uFF0C\u4E0D\u5B9C\u884C\u5175\u3002\u8C0B\u8D22\u865A\u8017\uFF0C\u5C0F\u4EBA\u662F\u975E\u3002\u6700\u5FCC\u884C\u8239\u3001\u5A5A\u59FB\u3001\u4FEE\u9020\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u5929\u76D8\u8F9B\u52A0\u5730\u76D8\u4E59",
-            usage: "\u5FCC\u884C\u8239\u3001\u5A5A\u59FB\u3001\u4FEE\u9020\u3001\u8FDC\u884C"
-          },
-          "\u6731\u96C0\u6295\u6C5F": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u4E01\u5947\u52A0\u5730\u76D8\u7678\u6C34\u3002\u6773\u65E0\u97F3\u4FE1\uFF0C\u77F3\u6C89\u5927\u6D77\u3002\u4E0A\u5B98\u3001\u5165\u5E02\u3001\u5AC1\u5A36\u3001\u8FC1\u5F99\u3001\u8FDC\u884C\u7686\u4E0D\u5B9C\u3002\u4EE3\u8868\u7A7A\u96BE\uFF0C\u767E\u4E8B\u4E0D\u5229\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u5929\u76D8\u4E01\u52A0\u5730\u76D8\u7678",
-            usage: "\u767E\u4E8B\u4E0D\u5B9C"
-          },
-          "\u87A3\u86C7\u592D\u77EB": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u7678\u52A0\u5730\u76D8\u4E01\u3002\u4E3B\u52A8\u4F5C\u865A\u60CA\u3001\u76D7\u8D3C\u6C34\u706B\u3001\u6587\u4E66\u8FDF\u81F3\u7B49\u3002\u5175\u5BB6\u9700\u9632\u654C\u65B9\u4F7F\u7528\u5996\u672F\u3001\u706B\u653B\u7B49\u3002",
-            class: "\u51F6",
-            trigger: "\u5929\u76D8\u7678\u52A0\u5730\u76D8\u4E01",
-            usage: "\u9632\u865A\u60CA\u3001\u76D7\u8D3C\u3001\u706B\u653B"
-          },
-          "\u592A\u767D\u5165\u8367": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u4E19\u5947\u3002\u5360\u8D3C\u8D3C\u5FC5\u6765\uFF0C\u9700\u9632\u8D3C\u5077\u8425\uFF0C\u56FA\u5B88\u4E3A\u5409\uFF0C\u5207\u83AB\u4E3B\u52A8\u51FA\u5175\u3002",
-            class: "\u51F6",
-            trigger: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u4E19",
-            usage: "\u56FA\u5B88\u4E3A\u5409\uFF0C\u52FF\u4E3B\u52A8\u51FA\u5175"
-          },
-          "\u8367\u5165\u592A\u767D": {
-            type: "\u5409\u683C",
-            desc: '\u5929\u76D8\u4E19\u52A0\u5730\u76D8\u5E9A\u3002\u5E9A\u662F\u6700\u5927\u7684\u654C\u4EBA\uFF0C"\u706B\u5165\u91D1\u4E61\uFF0C\u8D3C\u5373\u53BB"\u3002\u5F81\u6218\u5F97\u6B64\u683C\uFF0C\u987B\u4E58\u80DC\u8FFD\u51FB\uFF0C\u654C\u5175\u9000\u85CF\uFF0C\u4E0D\u6218\u81EA\u8D25\u3002',
-            class: "\u5409",
-            trigger: "\u5929\u76D8\u4E19\u52A0\u5730\u76D8\u5E9A",
-            usage: "\u4E58\u80DC\u8FFD\u51FB\uFF0C\u654C\u5175\u9000\u85CF"
-          },
-          "\u98DE\u5BAB\u683C": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u620A\u52A0\u5730\u76D8\u5E9A\u3002\u620A\u4E3A\u5927\u5C06\u519B\u5165\u654C\u8425\uFF0C\u987B\u8D70\u3002\u4E3B\u6218\u9635\u8D25\u4EA1\uFF0C\u5927\u5C06\u906D\u64D2\uFF0C\u529B\u5C3D\u800C\u4E0D\u53EF\u5192\u8FDB\u3002\u7ECF\u5546\u5FC5\u7834\u8D22\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u5929\u76D8\u620A\u52A0\u5730\u76D8\u5E9A",
-            usage: "\u5FCC\u5192\u8FDB\u3001\u7ECF\u5546"
-          },
-          "\u4F0F\u5BAB\u683C": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u620A\u3002\u6C42\u4EBA\u4E0D\u5728\uFF0C\u7B49\u4EBA\u4E0D\u6765\u3002\u51FA\u884C\u8DEF\u9047\u76D7\u8D3C\uFF0C\u8F66\u6298\u9A6C\u6B7B\uFF0C\u767E\u4E8B\u4E0D\u987A\u3002",
-            class: "\u51F6",
-            trigger: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u620A",
-            usage: "\u5FCC\u51FA\u884C\u3001\u6C42\u8D22"
-          },
-          "\u5927\u683C": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u7678\u3002\u683C\u662F\u683C\u6597\u4E4B\u610F\uFF0C\u7532\u7533\u5E9A\u5BF9\u7532\u5BC5\u7678\uFF0C\u7533\u5BC5\u76F8\u51B2\u76F8\u5211\uFF0C\u6218\u4E89\u60E8\u70C8\u3002\u51E1\u6709\u6240\u8C0B\u767E\u4E8B\u4E0D\u5229\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u7678",
-            usage: "\u767E\u4E8B\u4E0D\u5229"
-          },
-          "\u5929\u7F51\u56DB\u5F20": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u7678\u52A0\u5730\u76D8\u7678\u3002\u843D\u4E00\u4E8C\u4E09\u56DB\u5BAB\u4E3A\u7F51\u4F4E\uFF0C\u843D\u516D\u4E03\u516B\u4E5D\u5BAB\u4E3A\u7F51\u9AD8\u3002\u4E07\u7269\u5C3D\u4F24\uFF0C\u767E\u4E8B\u4E0D\u5B9C\uFF0C\u53EA\u5B9C\u9003\u4EA1\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u5929\u76D8\u7678\u52A0\u5730\u76D8\u7678",
-            usage: "\u767E\u4E8B\u4E0D\u5B9C\uFF0C\u53EA\u5B9C\u9003\u4EA1"
-          },
-          "\u4E09\u5947\u5165\u5893": {
-            type: "\u51F6\u683C",
-            desc: "\u5929\u76D8\u4E59\u5947\u52A0\u4E34\u4E7E\u516D\u5BAB\u6216\u5764\u4E8C\u5BAB\uFF0C\u4E19\u5947\u52A0\u4E34\u4E7E\u516D\u5BAB\uFF0C\u4E01\u5947\u52A0\u4E34\u826E\u516B\u5BAB\u3002\u51E1\u5F97\u4E09\u5947\u5165\u5893\uFF0C\u767E\u4E8B\u4E0D\u5B9C\u3002",
-            class: "\u51F6",
-            trigger: "\u4E59\u4E34\u4E7E/\u5764\u3001\u4E19\u4E34\u4E7E\u3001\u4E01\u4E34\u826E",
-            usage: "\u767E\u4E8B\u4E0D\u5B9C"
-          },
-          // --- 新增：九遁 ---
-          "\u5929\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u7532\u503C\u7B26\u3002\u5929\u9041\u8005\uFF0C\u5F97\u5929\u9041\u4E4B\u529B\uFF0C\u53EF\u514D\u707E\u5384\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E09\u5947\u4E34\u516D\u7532\u503C\u7B26\u4E4B\u5BAB",
-            usage: "\u5229\u51FA\u884C\u3001\u6C42\u8D22\u3001\u4E0A\u5B98\uFF0C\u53EF\u514D\u707E\u5384"
-          },
-          "\u5730\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u4E59\u4E4B\u5730\u3002\u5730\u9041\u8005\uFF0C\u5F97\u5730\u9041\u4E4B\u529B\uFF0C\u53EF\u85CF\u8EAB\u907F\u96BE\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E09\u5947\u4E34\u516D\u4E59\u4E4B\u5BAB",
-            usage: "\u5229\u85CF\u8EAB\u3001\u907F\u96BE\u3001\u9041\u9003"
-          },
-          "\u4EBA\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u4E19\u4E4B\u4EBA\u3002\u4EBA\u9041\u8005\uFF0C\u5F97\u4EBA\u9041\u4E4B\u529B\uFF0C\u53EF\u8C0B\u4E8B\u6709\u6210\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E09\u5947\u4E34\u516D\u4E19\u4E4B\u5BAB",
-            usage: "\u5229\u8C0B\u4E8B\u3001\u6C42\u8D22\u3001\u5408\u4F5C"
-          },
-          "\u795E\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u4E01\u4E4B\u795E\u3002\u795E\u9041\u8005\uFF0C\u5F97\u795E\u9041\u4E4B\u529B\uFF0C\u53EF\u901A\u795E\u660E\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E09\u5947\u4E34\u516D\u4E01\u4E4B\u5BAB",
-            usage: "\u5229\u796D\u7940\u3001\u7948\u798F\u3001\u901A\u795E\u660E"
-          },
-          "\u9B3C\u9041": {
-            type: "\u51F6\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u620A\u4E4B\u9B3C\u3002\u9B3C\u9041\u8005\uFF0C\u5F97\u9B3C\u9041\u4E4B\u529B\uFF0C\u4E3B\u6709\u6B3A\u8BC8\u3002",
-            class: "\u51F6",
-            trigger: "\u4E09\u5947\u4E34\u516D\u620A\u4E4B\u5BAB",
-            usage: "\u9632\u6B3A\u8BC8\u3001\u9634\u8C0B"
-          },
-          "\u9F99\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u5DF1\u4E4B\u9F99\u3002\u9F99\u9041\u8005\uFF0C\u5F97\u9F99\u9041\u4E4B\u529B\uFF0C\u53EF\u9022\u51F6\u5316\u5409\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E09\u5947\u4E34\u516D\u5DF1\u4E4B\u5BAB",
-            usage: "\u5229\u51FA\u884C\u3001\u6C42\u8D22\u3001\u9022\u51F6\u5316\u5409"
-          },
-          "\u864E\u9041": {
-            type: "\u51F6\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u5E9A\u4E4B\u864E\u3002\u864E\u9041\u8005\uFF0C\u5F97\u864E\u9041\u4E4B\u529B\uFF0C\u4E3B\u6709\u51F6\u9669\u3002",
-            class: "\u5927\u51F6",
-            trigger: "\u4E09\u5947\u4E34\u516D\u5E9A\u4E4B\u5BAB",
-            usage: "\u5FCC\u884C\u5175\u3001\u8FDC\u884C\uFF0C\u4E3B\u51F6\u9669"
-          },
-          "\u9E1F\u9041": {
-            type: "\u51F6\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u8F9B\u4E4B\u9E1F\u3002\u9E1F\u9041\u8005\uFF0C\u5F97\u9E1F\u9041\u4E4B\u529B\uFF0C\u4E3B\u6709\u865A\u60CA\u3002",
-            class: "\u51F6",
-            trigger: "\u4E09\u5947\u4E34\u516D\u8F9B\u4E4B\u5BAB",
-            usage: "\u9632\u865A\u60CA\u3001\u53E3\u820C"
-          },
-          "\u86C7\u9041": {
-            type: "\u51F6\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u58EC\u4E4B\u86C7\u3002\u86C7\u9041\u8005\uFF0C\u5F97\u86C7\u9041\u4E4B\u529B\uFF0C\u4E3B\u6709\u7F20\u7ED5\u3002",
-            class: "\u51F6",
-            trigger: "\u4E09\u5947\u4E34\u516D\u58EC\u4E4B\u5BAB",
-            usage: "\u9632\u7F20\u7ED5\u3001\u62D6\u5EF6"
-          },
-          "\u5154\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947\u4E34\u516D\u7678\u4E4B\u5154\u3002\u5154\u9041\u8005\uFF0C\u5F97\u5154\u9041\u4E4B\u529B\uFF0C\u4E3B\u6709\u9003\u8131\u3002",
-            class: "\u5409",
-            trigger: "\u4E09\u5947\u4E34\u516D\u7678\u4E4B\u5BAB",
-            usage: "\u5229\u9003\u4EA1\u3001\u8131\u8EAB"
-          },
-          // --- 新增：其他重要格局 ---
-          "\u8BC8\u964D": {
-            type: "\u51F6\u683C",
-            desc: "\u5E9A+\u4E01\uFF0C\u4E3B\u8BC8\u964D\u3002\u5175\u5BB6\u987B\u9632\u654C\u65B9\u8BC8\u964D\uFF0C\u4E0D\u53EF\u8F7B\u4FE1\u3002",
-            class: "\u51F6",
-            trigger: "\u5929\u76D8\u5E9A\u52A0\u5730\u76D8\u4E01",
-            usage: "\u9632\u8BC8\u964D\u3001\u4E0D\u53EF\u8F7B\u4FE1"
-          },
-          "\u5929\u4E59": {
-            type: "\u5409\u683C",
-            desc: "\u8D35\u4EBA+\u503C\u7B26\u3002\u5929\u4E59\u8D35\u4EBA\u52A0\u503C\u7B26\uFF0C\u5927\u5409\u4E4B\u683C\uFF0C\u767E\u4E8B\u7686\u5B9C\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u5929\u4E59\u8D35\u4EBA\u52A0\u503C\u7B26\u4E4B\u5BAB",
-            usage: "\u767E\u4E8B\u7686\u5B9C\uFF0C\u9022\u51F6\u5316\u5409"
-          },
-          "\u5409\u66DC": {
-            type: "\u5409\u683C",
-            desc: "\u4E09\u5947+\u5409\u795E\u3002\u4E09\u5947\u4E34\u5409\u795E\u6240\u4E34\u4E4B\u5BAB\uFF0C\u5927\u5409\u4E4B\u683C\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u4E59\u4E19\u4E01\u4E09\u5947\u4E34\u5409\u795E\u4E4B\u5BAB",
-            usage: "\u767E\u4E8B\u7686\u5B9C"
-          },
-          "\u51F6\u66DC": {
-            type: "\u51F6\u683C",
-            desc: "\u4E09\u5947+\u51F6\u795E\u3002\u4E09\u5947\u4E34\u51F6\u795E\u6240\u4E34\u4E4B\u5BAB\uFF0C\u51F6\u683C\u3002",
-            class: "\u51F6",
-            trigger: "\u4E59\u4E19\u4E01\u4E09\u5947\u4E34\u51F6\u795E\u4E4B\u5BAB",
-            usage: "\u767E\u4E8B\u4E0D\u5B9C"
-          },
-          "\u771F\u9041": {
-            type: "\u5409\u683C",
-            desc: "\u516D\u7532+\u4E09\u5947\u3002\u516D\u7532\u4E34\u4E09\u5947\u4E4B\u5BAB\uFF0C\u771F\u9041\u4E4B\u683C\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u516D\u7532\u503C\u7B26\u4E34\u4E09\u5947\u4E4B\u5BAB",
-            usage: "\u5229\u9041\u9003\u3001\u907F\u96BE"
-          },
-          "\u5047\u9041": {
-            type: "\u51F6\u683C",
-            desc: "\u516D\u4E59+\u4E09\u5947\u3002\u516D\u4E59\u4E34\u4E09\u5947\u4E4B\u5BAB\uFF0C\u5047\u9041\u4E4B\u683C\uFF0C\u4E0D\u53EF\u7528\u3002",
-            class: "\u51F6",
-            trigger: "\u516D\u4E59\u4E34\u4E09\u5947\u4E4B\u5BAB",
-            usage: "\u4E0D\u53EF\u7528\uFF0C\u5047\u9041\u65E0\u6548"
-          },
-          "\u661F\u95E8\u9F50": {
-            type: "\u5409\u683C",
-            desc: "\u5409\u661F+\u5409\u95E8+\u5409\u795E\u3002\u4E09\u661F\u9F50\u4F1A\uFF0C\u5927\u5409\u4E4B\u683C\u3002",
-            class: "\u5927\u5409",
-            trigger: "\u5409\u661F\u3001\u5409\u95E8\u3001\u5409\u795E\u540C\u5BAB",
-            usage: "\u767E\u4E8B\u7686\u5B9C"
-          },
-          "\u95E8\u8FEB": {
-            type: "\u51F6\u683C",
-            desc: "\u95E8\u514B\u5BAB\u3002\u95E8\u8FEB\u8005\uFF0C\u95E8\u514B\u5BAB\u4F4D\uFF0C\u4E3B\u767E\u4E8B\u4E0D\u5229\u3002",
-            class: "\u51F6",
-            trigger: "\u95E8\u7684\u4E94\u884C\u514B\u6240\u5728\u5BAB\u4F4D\u4E94\u884C",
-            usage: "\u767E\u4E8B\u4E0D\u5B9C"
-          },
-          "\u51FB\u5211": {
-            type: "\u51F6\u683C",
-            desc: "\u516D\u8F9B+\u4E09\u5947\u3002\u51FB\u5211\u8005\uFF0C\u4E3B\u6709\u5211\u51FB\u4E4B\u4E8B\u3002",
-            class: "\u51F6",
-            trigger: "\u5929\u76D8\u8F9B\u52A0\u5730\u76D8\u4E09\u5947",
-            usage: "\u9632\u5211\u51FB\u3001\u4F24\u5BB3"
-          },
-          "\u5165\u5893": {
-            type: "\u51F6\u683C",
-            desc: "\u65E5\u5E72+\u5893\u5E93\u3002\u65E5\u5E72\u4E34\u5893\u5E93\u4E4B\u5730\uFF0C\u4E3B\u767E\u4E8B\u4E0D\u5229\u3002",
-            class: "\u51F6",
-            trigger: "\u65E5\u5E72\u4E34\u5341\u4E8C\u957F\u751F\u4E4B\u5893\u4F4D",
-            usage: "\u767E\u4E8B\u4E0D\u5B9C"
-          },
-          "\u7A7A\u4EA1": {
-            type: "\u51F6\u683C",
-            desc: "\u5730\u652F\u7A7A\u4EA1\u3002\u7A7A\u4EA1\u8005\uFF0C\u767E\u4E8B\u7686\u7A7A\uFF0C\u5F92\u52B3\u65E0\u529F\u3002",
-            class: "\u51F6",
-            trigger: "\u5730\u652F\u65EC\u7A7A",
-            usage: "\u767E\u4E8B\u5F92\u52B3"
-          },
-          "\u4F0F\u541F": {
-            type: "\u51F6\u683C",
-            desc: "\u661F\u95E8\u4F0F\u541F\u3002\u661F\u95E8\u4E0E\u5730\u76D8\u76F8\u540C\uFF0C\u4E3B\u8FDF\u6EDE\u4E0D\u524D\u3002",
-            class: "\u51F6",
-            trigger: "\u661F\u95E8\u4F0F\u541F",
-            usage: "\u5FCC\u884C\u52A8\uFF0C\u4E3B\u8FDF\u6EDE"
-          },
-          "\u53CD\u541F": {
-            type: "\u51F6\u683C",
-            desc: "\u661F\u95E8\u53CD\u541F\u3002\u661F\u95E8\u4E0E\u5730\u76D8\u5BF9\u51B2\uFF0C\u4E3B\u53CD\u590D\u591A\u53D8\u3002",
-            class: "\u51F6",
-            trigger: "\u661F\u95E8\u53CD\u541F",
-            usage: "\u5FCC\u884C\u52A8\uFF0C\u4E3B\u53CD\u590D"
-          }
-        },
-        // ============ 十干克应（扩展版） ============
-        ganKeYing: {
-          "\u7532": {
-            meaning: "\u7532\u6728\u4E3A\u680B\u6881\u4E4B\u6728\uFF0C\u5728\u5947\u95E8\u4E2D\u503C\u7B26\u5E38\u4EE5\u7532\u6728\u4E3A\u7528",
-            wuxing: "\u9633\u6728",
-            keYing: "\u7532\u52A0\u4E19\u4E3A\u9752\u9F99\u8FD4\u9996\uFF0C\u5927\u5409\uFF1B\u7532\u52A0\u5E9A\u4E3A\u767D\u864E\u9003\u8D70\uFF0C\u5927\u51F6",
-            use: "\u7532\u4E3A\u8D35\u4EBA\u4E4B\u661F\uFF0C\u559C\u5409\u95E8\u5409\u795E\u76F8\u52A9"
-          },
-          "\u4E59": {
-            meaning: "\u4E59\u6728\u4E3A\u82B1\u8349\u85E4\u841D\uFF0C\u4E59\u4E3A\u65E5\u7CBE",
-            wuxing: "\u9634\u6728",
-            keYing: "\u4E59\u52A0\u8F9B\u4E3A\u9752\u9F99\u9003\u8D70\uFF0C\u51F6\uFF1B\u4E59\u52A0\u5E9A\u4E3A\u592A\u767D\u514B\u4E59\uFF0C\u51F6",
-            use: "\u4E59\u4E3A\u7528\u5947\uFF0C\u5229\u5AC1\u5A36\u3001\u51FA\u884C\u3001\u6C42\u8D22"
-          },
-          "\u4E19": {
-            meaning: "\u4E19\u706B\u4E3A\u592A\u9633\u4E4B\u706B\uFF0C\u4E19\u4E3A\u6708\u7CBE",
-            wuxing: "\u9633\u706B",
-            keYing: "\u4E19\u52A0\u620A\u4E3A\u98DE\u9E1F\u8DCC\u7A74\uFF0C\u5927\u5409\uFF1B\u4E19\u52A0\u5E9A\u4E3A\u8367\u5165\u592A\u767D\uFF0C\u5409",
-            use: "\u4E19\u4E3A\u6708\u7CBE\uFF0C\u5229\u6587\u4E66\u3001\u8003\u8BD5\u3001\u9762\u8BD5"
-          },
-          "\u4E01": {
-            meaning: "\u4E01\u706B\u4E3A\u706F\u70DB\u4E4B\u706B\uFF0C\u4E01\u4E3A\u661F\u7CBE",
-            wuxing: "\u9634\u706B",
-            keYing: "\u4E01\u52A0\u7678\u4E3A\u6731\u96C0\u6295\u6C5F\uFF0C\u51F6\uFF1B\u4E01\u52A0\u58EC\u4E3A\u5408\u683C",
-            use: "\u4E01\u4E3A\u661F\u7CBE\uFF0C\u5229\u5AC1\u5A36\u3001\u5BB4\u4F1A\u3001\u79C1\u8C0B"
-          },
-          "\u620A": {
-            meaning: "\u620A\u571F\u4E3A\u9AD8\u5C71\u539A\u571F\uFF0C\u620A\u4E3A\u9633\u9B3C",
-            wuxing: "\u9633\u571F",
-            keYing: "\u620A\u52A0\u4E19\u4E3A\u9752\u9F99\u8FD4\u9996\uFF0C\u5927\u5409\uFF1B\u620A\u52A0\u5E9A\u4E3A\u98DE\u5BAB\u683C\uFF0C\u5927\u51F6",
-            use: "\u620A\u4E3A\u5927\u5C06\u4E4B\u8C61\uFF0C\u5229\u5B88\u4E0D\u5229\u653B"
-          },
-          "\u5DF1": {
-            meaning: "\u5DF1\u571F\u4E3A\u7530\u56ED\u4E4B\u571F\uFF0C\u5DF1\u4E3A\u9634\u9B3C",
-            wuxing: "\u9634\u571F",
-            keYing: "\u5DF1\u52A0\u620A\u4E3A\u5351\u65E0\u5BB3\uFF1B\u5DF1\u52A0\u5E9A\u4E3A\u5211\u683C\uFF0C\u51F6",
-            use: "\u5DF1\u4E3B\u67D4\u987A\u3001\u5B88\u85CF\uFF0C\u5229\u7530\u5B85\u3001\u8015\u4F5C"
-          },
-          "\u5E9A": {
-            meaning: "\u5E9A\u91D1\u4E3A\u5200\u5251\u4E4B\u91D1\uFF0C\u5E9A\u4E3A\u4E03\u6740",
-            wuxing: "\u9633\u91D1",
-            keYing: "\u5E9A\u52A0\u4E59\u4E3A\u767D\u864E\u7316\u72C2\uFF0C\u51F6\uFF1B\u5E9A\u52A0\u4E19\u4E3A\u592A\u767D\u5165\u8367\uFF0C\u51F6",
-            use: "\u5E9A\u4E3A\u6700\u51F6\u4E4B\u5E72\uFF0C\u4E3B\u9053\u8DEF\u3001\u4E89\u6597\u3001\u8840\u5149"
-          },
-          "\u8F9B": {
-            meaning: "\u8F9B\u91D1\u4E3A\u73E0\u7389\u4E4B\u91D1",
-            wuxing: "\u9634\u91D1",
-            keYing: "\u8F9B\u52A0\u4E59\u4E3A\u767D\u864E\u7316\u72C2\uFF1B\u8F9B\u52A0\u4E19\u4E3A\u51FA\u9519\uFF1B\u8F9B\u52A0\u4E01\u4E3A\u72F1\u795E",
-            use: "\u8F9B\u4E3B\u91D1\u73E0\u3001\u9996\u9970\u3001\u4E50\u5668"
-          },
-          "\u58EC": {
-            meaning: "\u58EC\u6C34\u4E3A\u6C5F\u6D77\u4E4B\u6C34",
-            wuxing: "\u9633\u6C34",
-            keYing: "\u58EC\u52A0\u4E01\u4E3A\u86C7\u5996\uFF1B\u58EC\u52A0\u620A\u4E3A\u5C0F\u86C7\uFF1B\u58EC\u52A0\u7678\u4E3A\u51F6\u683C",
-            use: "\u58EC\u4E3B\u6D41\u52A8\u3001\u53D8\u8FC1\u3001\u76D7\u8D3C"
-          },
-          "\u7678": {
-            meaning: "\u7678\u6C34\u4E3A\u96E8\u9732\u4E4B\u6C34\uFF0C\u7678\u4E3A\u7384\u6B66\u4E4B\u6C34",
-            wuxing: "\u9634\u6C34",
-            keYing: "\u7678\u52A0\u4E01\u4E3A\u87A3\u86C7\u592D\u77EB\uFF1B\u7678\u52A0\u7678\u4E3A\u5929\u7F51\u56DB\u5F20\uFF1B\u7678\u52A0\u620A\u4E3A\u5927\u5409",
-            use: "\u7678\u4E3B\u7EC6\u5C0F\u3001\u5E7D\u6697\u3001\u7F51\u7F57"
-          }
-        },
-        // ============ 宫位五行对应 ============
-        // 九宫飞布：1坎(水) 2坤(土) 3震(木) 4巽(木) 5中(土) 6乾(金) 7兑(金) 8艮(土) 9离(火)
-        // 十三宫方位序列：4[首] 9[尾] 2[首] 4[尾] 5 7 3 6[尾] 8[尾] 8[首] 1 6[首]
-        palaceWuxing: {
-          1: "\u6C34",
-          2: "\u571F",
-          3: "\u6728",
-          4: "\u6728",
-          5: "\u571F",
-          6: "\u91D1",
-          7: "\u91D1",
-          8: "\u571F",
-          9: "\u706B"
-        },
-        // 十三宫方位序列（首尾标记）
-        // 格式：[宫位号] + [首/尾]
-        // 首=起始位，尾=终止位
-        // 4[首] 9[尾] 2[首] 4[尾] 5 7 3 6[尾] 8[尾] 8[首] 1 6[首]
-        shiSanGongSequence: [
-          { palace: 4, mark: "\u9996" },
-          { palace: 9, mark: "\u5C3E" },
-          { palace: 2, mark: "\u9996" },
-          { palace: 4, mark: "\u5C3E" },
-          { palace: 5, mark: "" },
-          { palace: 7, mark: "" },
-          { palace: 3, mark: "" },
-          { palace: 6, mark: "\u5C3E" },
-          { palace: 8, mark: "\u5C3E" },
-          { palace: 8, mark: "\u9996" },
-          { palace: 1, mark: "" },
-          { palace: 6, mark: "\u9996" }
-        ]
-      };
-      function getPalaceDetail(palace) {
-        const details = [];
-        if (palace.shen && KNOWLEDGE.shen[palace.shen]) {
-          details.push({ type: "\u516B\u795E", name: palace.shen, ...KNOWLEDGE.shen[palace.shen] });
-        }
-        if (palace.xing && KNOWLEDGE.xing[palace.xing]) {
-          details.push({ type: "\u4E5D\u661F", name: palace.xing, ...KNOWLEDGE.xing[palace.xing] });
-        }
-        if (palace.men && KNOWLEDGE.men[palace.men]) {
-          details.push({ type: "\u516B\u95E8", name: palace.men, ...KNOWLEDGE.men[palace.men] });
-        }
-        return details;
-      }
-      function getWuxingRelation(wuxing1, wuxing2) {
-        if (wuxing1 === wuxing2) return "\u6BD4\u548C";
-        if (KNOWLEDGE.wuxingRelation.generate[wuxing1] === wuxing2) return "\u751F";
-        if (KNOWLEDGE.wuxingRelation.control[wuxing1] === wuxing2) return "\u514B";
-        if (KNOWLEDGE.wuxingRelation.generate[wuxing2] === wuxing1) return "\u88AB\u751F";
-        if (KNOWLEDGE.wuxingRelation.control[wuxing2] === wuxing1) return "\u88AB\u514B";
-        return "\u672A\u77E5";
-      }
-      function getChangSheng(gan, zhi) {
-        return KNOWLEDGE.changSheng[gan]?.[zhi] || "\u5893\u5E93";
-      }
-      function getKongWang(ganZhi) {
-        return KNOWLEDGE.kongWang.liuJia[ganZhi] || [];
-      }
-      function getTianYiGuiRen(gan, isDay = true) {
-        const info = KNOWLEDGE.shenSha.tianYiGuiRen[gan];
-        if (!info) return "";
-        return isDay ? info.day : info.night;
-      }
-      function getShenSha(type, zhi) {
-        const groups = {
-          yiMa: KNOWLEDGE.shenSha.yiMa,
-          taoHua: KNOWLEDGE.shenSha.taoHua,
-          wangShen: KNOWLEDGE.shenSha.wangShen,
-          jieSha: KNOWLEDGE.shenSha.jieSha,
-          zaiSha: KNOWLEDGE.shenSha.zaiSha,
-          tianSha: KNOWLEDGE.shenSha.tianSha,
-          huaGai: KNOWLEDGE.shenSha.huaGai,
-          jiangXing: KNOWLEDGE.shenSha.jiangXing
-        };
-        const rules = {
-          "\u5B50": "\u7533\u5B50\u8FB0",
-          "\u4E11": "\u5DF3\u9149\u4E11",
-          "\u5BC5": "\u5BC5\u5348\u620C",
-          "\u536F": "\u4EA5\u536F\u672A",
-          "\u8FB0": "\u7533\u5B50\u8FB0",
-          "\u5DF3": "\u5DF3\u9149\u4E11",
-          "\u5348": "\u5BC5\u5348\u620C",
-          "\u672A": "\u4EA5\u536F\u672A",
-          "\u7533": "\u7533\u5B50\u8FB0",
-          "\u9149": "\u5DF3\u9149\u4E11",
-          "\u620C": "\u5BC5\u5348\u620C",
-          "\u4EA5": "\u4EA5\u536F\u672A"
-        };
-        const group = rules[zhi];
-        if (!group || !groups[type]) return "";
-        return groups[type][group] || "";
-      }
-      function analyzePalace(palace, dayGan) {
-        const result = {
-          palace: palace.palace,
-          details: getPalaceDetail(palace),
-          analysis: "",
-          jiXiong: "\u5E73",
-          score: 0,
-          suggestions: []
-        };
-        const palaceWuxing = KNOWLEDGE.palaceWuxing[palace.palace];
-        let score = 50;
-        const factors = [];
-        if (palace.shen && KNOWLEDGE.shen[palace.shen]) {
-          const shen = KNOWLEDGE.shen[palace.shen];
-          const shenScore = shen.class === "\u5927\u5409" ? 30 : shen.class === "\u5409" ? 15 : shen.class === "\u51F6\u4E2D" ? -5 : shen.class === "\u51F6" ? -20 : -30;
-          score += shenScore;
-          factors.push(`\u516B\u795E[${palace.shen}]\uFF1A${shen.class}`);
-          if (shen.wuxing && palaceWuxing) {
-            const shenWuxing = shen.wuxing.replace(/[阴阳]/g, "");
-            const relation = getWuxingRelation(shenWuxing, palaceWuxing);
-            factors.push(`\u795E\u5BAB\u5173\u7CFB\uFF1A${relation}`);
-            if (relation === "\u751F" || relation === "\u6BD4\u548C") score += 5;
-            if (relation === "\u514B") score -= 10;
-          }
-        }
-        if (palace.xing && KNOWLEDGE.xing[palace.xing]) {
-          const xing = KNOWLEDGE.xing[palace.xing];
-          const xingScore = xing.class === "\u5927\u5409" ? 25 : xing.class === "\u5409" ? 10 : xing.class === "\u51F6" ? -15 : -25;
-          score += xingScore;
-          factors.push(`\u4E5D\u661F[${palace.xing}]\uFF1A${xing.class}`);
-        }
-        if (palace.men && KNOWLEDGE.men[palace.men]) {
-          const men = KNOWLEDGE.men[palace.men];
-          const menScore = men.class === "\u5927\u5409" ? 25 : men.class === "\u5409" ? 10 : men.class === "\u4E2D" ? 0 : men.class === "\u51F6\u4E2D" ? -10 : men.class === "\u51F6" ? -20 : -30;
-          score += menScore;
-          factors.push(`\u516B\u95E8[${palace.men}]\uFF1A${men.class}`);
-          if (men.menPo && palaceWuxing) {
-            const menWuxing = men.wuxing.replace(/[阴阳]/g, "");
-            const relation = getWuxingRelation(menWuxing, palaceWuxing);
-            if (relation === "\u514B") {
-              factors.push(`\u95E8\u8FEB\uFF1A${men.menPo}`);
-              score -= 15;
-            }
-          }
-        }
-        if (dayGan && palace.zhi) {
-          const changSheng = getChangSheng(dayGan, palace.zhi);
-          const levelMap = { "\u957F\u751F": 20, "\u6C90\u6D74": 10, "\u51A0\u5E26": 5, "\u4E34\u5B98": 15, "\u5E1D\u65FA": 20, "\u8870": -5, "\u75C5": -10, "\u6B7B": -15, "\u5893": -20, "\u7EDD": -25, "\u80CE": -5, "\u517B": 5 };
-          const csScore = levelMap[changSheng] || 0;
-          score += csScore;
-          factors.push(`\u5341\u4E8C\u957F\u751F[${changSheng}]`);
-        }
-        score = Math.max(0, Math.min(100, score));
-        result.score = score;
-        if (score >= 80) {
-          result.jiXiong = "\u5927\u5409";
-        } else if (score >= 65) {
-          result.jiXiong = "\u5409";
-        } else if (score >= 45) {
-          result.jiXiong = "\u5E73";
-        } else if (score >= 25) {
-          result.jiXiong = "\u51F6";
-        } else {
-          result.jiXiong = "\u5927\u51F6";
-        }
-        result.analysis = factors.join("\uFF1B");
-        if (result.jiXiong === "\u5927\u5409" || result.jiXiong === "\u5409") {
-          result.suggestions.push("\u6B64\u5BAB\u5409\u5229\uFF0C\u5229\u8C0B\u4E8B\u3001\u6C42\u8D22\u3001\u51FA\u884C");
-        } else if (result.jiXiong === "\u5E73") {
-          result.suggestions.push("\u6B64\u5BAB\u5E73\u5E73\uFF0C\u53EF\u505A\u53EF\u4E0D\u505A\uFF0C\u9700\u8C28\u614E");
-        } else {
-          result.suggestions.push("\u6B64\u5BAB\u4E0D\u5409\uFF0C\u5FCC\u8C0B\u4E8B\u3001\u51FA\u884C\uFF0C\u9700\u9632\u51F6\u9669");
-        }
-        if (factors.some((f) => f.includes("\u95E8\u8FEB"))) {
-          result.suggestions.push("\u6CE8\u610F\uFF1A\u6B64\u5BAB\u95E8\u8FEB\uFF0C\u4E3B\u963B\u788D\u4E0D\u987A");
-        }
-        if (factors.some((f) => f.includes("\u7EDD") || f.includes("\u6B7B"))) {
-          result.suggestions.push("\u6CE8\u610F\uFF1A\u65E5\u5E72\u4E34\u6B7B\u7EDD\u4E4B\u5730\uFF0C\u9700\u683C\u5916\u8C28\u614E");
-        }
-        return result;
-      }
-      function getGeJu(name) {
-        return KNOWLEDGE.geju[name] || null;
-      }
-      function matchGeJu(tiangan, digan) {
-        const matched = [];
-        const gejuRules = {
-          "\u9752\u9F99\u8FD4\u9996": ["\u4E19", "\u620A"],
-          "\u98DE\u9E1F\u8DCC\u7A74": ["\u620A", "\u4E19"],
-          "\u9752\u9F99\u9003\u8D70": ["\u4E59", "\u8F9B"],
-          "\u767D\u864E\u7316\u72C2": ["\u8F9B", "\u4E59"],
-          "\u6731\u96C0\u6295\u6C5F": ["\u4E01", "\u7678"],
-          "\u87A3\u86C7\u592D\u77EB": ["\u7678", "\u4E01"],
-          "\u592A\u767D\u5165\u8367": ["\u5E9A", "\u4E19"],
-          "\u8367\u5165\u592A\u767D": ["\u4E19", "\u5E9A"],
-          "\u98DE\u5BAB\u683C": ["\u620A", "\u5E9A"],
-          "\u4F0F\u5BAB\u683C": ["\u5E9A", "\u620A"],
-          "\u5927\u683C": ["\u5E9A", "\u7678"],
-          "\u5929\u7F51\u56DB\u5F20": ["\u7678", "\u7678"]
-        };
-        for (const [name, [t, d]] of Object.entries(gejuRules)) {
-          if (tiangan === t && digan === d) {
-            matched.push(name);
-          }
-        }
-        return matched;
-      }
-      var TIANGANG_ELEMENTS = ["\u5929\u7F61", "\u592A\u4E59", "\u817E\u5149", "\u5C0F\u5409", "\u4F20\u9001", "\u4ECE\u9B41", "\u6CB3\u9B41", "\u767B\u65F6", "\u795E\u540E", "\u5927\u5409", "\u529F\u66F9", "\u592A\u51B2"];
-      var ZODIAC_GONG_INDEX = {
-        "\u5DF3": 0,
-        "\u5348": 1,
-        "\u672A": 2,
-        "\u7533": 3,
-        "\u8FB0": 11,
-        "\u9149": 4,
-        "\u536F": 10,
-        "\u620C": 5,
-        "\u5BC5": 9,
-        "\u4E11": 8,
-        "\u5B50": 7,
-        "\u4EA5": 6
-      };
-      var ZODIAC_TO_ZHI = {
-        "\u732A": "\u4EA5",
-        "\u9F20": "\u5B50",
-        "\u725B": "\u4E11",
-        "\u864E": "\u5BC5",
-        "\u5154": "\u536F",
-        "\u9F99": "\u8FB0",
-        "\u86C7": "\u5DF3",
-        "\u9A6C": "\u5348",
-        "\u7F8A": "\u672A",
-        "\u7334": "\u7533",
-        "\u9E21": "\u9149",
-        "\u72D7": "\u620C"
-      };
-      var TIANGANG_ORIGINAL = {
-        "\u592A\u4E59": 0,
-        "\u817E\u5149": 1,
-        "\u5C0F\u5409": 2,
-        "\u4F20\u9001": 3,
-        "\u5929\u7F61": 11,
-        "\u4ECE\u9B41": 4,
-        "\u592A\u51B2": 10,
-        "\u6CB3\u9B41": 5,
-        "\u529F\u66F9": 9,
-        "\u5927\u5409": 8,
-        "\u795E\u540E": 7,
-        "\u767B\u65F6": 6
-      };
-      var TIANGANG_TABLE = [
-        ["\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A"],
-        ["\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533"],
-        ["\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149"],
-        ["\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C"],
-        ["\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5"],
-        ["\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50"],
-        ["\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11"],
-        ["\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5"],
-        ["\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F"],
-        ["\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0"],
-        ["\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3"],
-        ["\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348"]
-      ];
-      var SHI_ZHI_TO_ROW = { "\u5B50": 0, "\u4E11": 1, "\u5BC5": 2, "\u536F": 3, "\u8FB0": 4, "\u5DF3": 5, "\u5348": 6, "\u672A": 7, "\u7533": 8, "\u9149": 9, "\u620C": 10, "\u4EA5": 11 };
-      var FANG_ZHI_TO_ROW = SHI_ZHI_TO_ROW;
-      var RI_PAIJU_MONTH_CONFIG = [
-        { month: 1, gongIdx: 7, dates: [1, 2, 3, 29, 30, 31] },
-        { month: 2, gongIdx: 6, dates: [4, 5] },
-        { month: 3, gongIdx: 5, dates: [6, 7] },
-        { month: 4, gongIdx: 4, dates: [8, 9, 10] },
-        { month: 5, gongIdx: 3, dates: [11, 12] },
-        { month: 6, gongIdx: 2, dates: [13, 14] },
-        { month: 7, gongIdx: 1, dates: [15, 16, 17] },
-        { month: 8, gongIdx: 0, dates: [18, 19] },
-        { month: 9, gongIdx: 11, dates: [20, 21] },
-        { month: 10, gongIdx: 10, dates: [22, 23, 24] },
-        { month: 11, gongIdx: 9, dates: [25, 26] },
-        { month: 12, gongIdx: 8, dates: [27, 28] }
-      ];
-      var RI_PAIJU_MONTH_LABEL = ["", "\u6B63\u6708", "\u4E8C\u6708", "\u4E09\u6708", "\u56DB\u6708", "\u4E94\u6708", "\u516D\u6708", "\u4E03\u6708", "\u516B\u6708", "\u4E5D\u6708", "\u5341\u6708", "\u5341\u4E00\u6708", "\u5341\u4E8C\u6708"];
-      var knowledgeModule = {
-        KNOWLEDGE,
-        getPalaceDetail,
-        getWuxingRelation,
-        getChangSheng,
-        getKongWang,
-        getTianYiGuiRen,
-        getShenSha,
-        analyzePalace,
-        getGeJu,
-        matchGeJu,
-        TIANGANG_ELEMENTS,
-        ZODIAC_GONG_INDEX,
-        TIANGANG_ORIGINAL,
-        TIANGANG_TABLE,
-        SHI_ZHI_TO_ROW,
-        FANG_ZHI_TO_ROW,
-        RI_PAIJU_MONTH_CONFIG,
-        RI_PAIJU_MONTH_LABEL,
-        ZODIAC_TO_ZHI
-      };
-      if (typeof module !== "undefined" && module.exports) {
-        module.exports = knowledgeModule;
-      }
-      if (typeof window !== "undefined") {
-        window.KNOWLEDGE = KNOWLEDGE;
-        window.getPalaceDetail = getPalaceDetail;
-        window.getWuxingRelation = getWuxingRelation;
-        window.getChangSheng = getChangSheng;
-        window.getKongWang = getKongWang;
-        window.getTianYiGuiRen = getTianYiGuiRen;
-        window.getShenSha = getShenSha;
-        window.analyzePalace = analyzePalace;
-        window.getGeJu = getGeJu;
-        window.matchGeJu = matchGeJu;
-        Object.assign(window.KNOWLEDGE, {
-          TIANGANG_ELEMENTS,
-          ZODIAC_GONG_INDEX,
-          TIANGANG_ORIGINAL,
-          TIANGANG_TABLE,
-          SHI_ZHI_TO_ROW,
-          FANG_ZHI_TO_ROW,
-          RI_PAIJU_MONTH_CONFIG,
-          RI_PAIJU_MONTH_LABEL,
-          ZODIAC_TO_ZHI
-        });
-      }
     }
   });
 
@@ -13752,17 +12059,34 @@ var QiMenAlgorithmBundle = (() => {
         }
       }
       function placeTianGang(palaces, lunarMonth, shiZhi) {
-        const K = globalThis.KNOWLEDGE || (typeof __require !== "undefined" ? require_knowledge() : {}) || {};
-        const TABLE = K.TIANGANG_TABLE;
-        const ORIG = K.TIANGANG_ORIGINAL;
-        const ELEMS = K.TIANGANG_ELEMENTS;
-        if (!TABLE || !ORIG || !ELEMS) {
-          palaces.forEach((p) => p.tiangang = "");
-          return;
-        }
-        const col = ((lunarMonth - 1) % 12 + 12) % 12;
-        const FANG_ORDER = { "\u5348": 0, "\u672A": 1, "\u7533": 2, "\u9149": 3, "\u620C": 4, "\u4EA5": 5, "\u5B50": 6, "\u4E11": 7, "\u5BC5": 8, "\u536F": 9, "\u8FB0": 10, "\u5DF3": 11 };
-        const SHI_TO_FANG_ROW = {
+        const TIANGANG_TABLE_DOCX = [
+          ["\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F"],
+          // 行0=午方(寅时)
+          ["\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0"],
+          // 行1=未方(卯时)
+          ["\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3"],
+          // 行2=申方(辰时)
+          ["\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348"],
+          // 行3=酉方(巳时)
+          ["\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A"],
+          // 行4=戌方(午时)
+          ["\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533"],
+          // 行5=亥方(未时)
+          ["\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149"],
+          // 行6=子方(申时)
+          ["\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5", "\u620C"],
+          // 行7=丑方(酉时)
+          ["\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50", "\u4EA5"],
+          // 行8=寅方(戌时)
+          ["\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11", "\u5B50"],
+          // 行9=卯方(亥时)
+          ["\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5", "\u4E11"],
+          // 行10=辰方(子时)
+          ["\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5"]
+          // 行11=巳方(丑时)
+        ];
+        const ELEMS = ["\u5929\u7F61", "\u592A\u4E59", "\u817E\u5149", "\u5C0F\u5409", "\u4F20\u9001", "\u4ECE\u9B41", "\u6CB3\u9B41", "\u767B\u65F6", "\u795E\u540E", "\u5927\u5409", "\u529F\u66F9", "\u592A\u51B2"];
+        const SHI_TO_ROW = {
           "\u5BC5": 0,
           "\u536F": 1,
           "\u8FB0": 2,
@@ -13776,13 +12100,27 @@ var QiMenAlgorithmBundle = (() => {
           "\u5B50": 10,
           "\u4E11": 11
         };
-        const row = SHI_TO_FANG_ROW[shiZhi];
+        const col = (lunarMonth % 12 + 12) % 12;
+        const row = SHI_TO_ROW[shiZhi];
         if (row === void 0) {
           palaces.forEach((p) => p.tiangang = "");
           return;
         }
-        const directionZhi = TABLE[row][col];
-        const ZHI_TO_IDX = K.ZODIAC_GONG_INDEX || {};
+        const directionZhi = TIANGANG_TABLE_DOCX[row][col];
+        const ZHI_TO_IDX = {
+          "\u5DF3": 0,
+          "\u5348": 1,
+          "\u672A": 2,
+          "\u7533": 3,
+          "\u8FB0": 11,
+          "\u9149": 4,
+          "\u536F": 10,
+          "\u620C": 5,
+          "\u5BC5": 9,
+          "\u4E11": 8,
+          "\u5B50": 7,
+          "\u4EA5": 6
+        };
         const startIdx = ZHI_TO_IDX[directionZhi];
         if (startIdx === void 0) {
           palaces.forEach((p) => p.tiangang = "");
@@ -13800,22 +12138,51 @@ var QiMenAlgorithmBundle = (() => {
           palaces[gongIdx].tiangang = ELEMS[i];
         }
       }
-      function placeRiPaiJu(palaces, lunarMonth, dayOfMonth) {
-        const K = globalThis.KNOWLEDGE || (typeof __require !== "undefined" ? require_knowledge() : {}) || {};
-        const MONTHS = K.RI_PAIJU_MONTH_CONFIG;
-        const MONTH_LABEL = K.RI_PAIJU_MONTH_LABEL;
-        if (!MONTHS) {
-          palaces.forEach((p) => p.riPaiJu = "");
-          return;
-        }
+      function placeRiPaiJu(palaces, lunarMonth, dayOfMonth, dayZhi) {
         palaces.forEach((p) => p.riPaiJu = "");
         if (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31) return;
-        for (const mc of MONTHS) {
-          if (mc.dates.includes(dayOfMonth)) {
-            const label = `${MONTH_LABEL ? MONTH_LABEL[mc.month] : mc.month + "\u6708"} ${dayOfMonth}\u65E5`;
-            palaces[mc.gongIdx].riPaiJu = label;
-            return;
+        const ZHI_TO_START_IDX = {
+          "\u5B50": 7,
+          "\u4E11": 8,
+          "\u5BC5": 9,
+          "\u536F": 10,
+          "\u8FB0": 11,
+          "\u5DF3": 0,
+          "\u5348": 1,
+          "\u672A": 2,
+          "\u7533": 3,
+          "\u9149": 4,
+          "\u620C": 5,
+          "\u4EA5": 6
+        };
+        const startIdx = ZHI_TO_START_IDX[dayZhi];
+        if (startIdx === void 0) return;
+        const CLUSTER_SIZE = [3, 2, 3, 2, 2, 3, 2, 2, 3, 2, 2, 2];
+        const clusterByPos = [];
+        let currentDay = 1;
+        for (let pos = 0; pos < 12; pos++) {
+          const cluster = [];
+          for (let d = 0; d < CLUSTER_SIZE[pos]; d++) {
+            cluster.push(currentDay);
+            currentDay++;
+            if (currentDay > 31) currentDay = 1;
           }
+          clusterByPos[pos] = cluster;
+        }
+        let currentClusterPos = -1;
+        for (let pos = 0; pos < 12; pos++) {
+          if (clusterByPos[pos].includes(dayOfMonth)) {
+            currentClusterPos = pos;
+            break;
+          }
+        }
+        for (let pos = 0; pos < 12; pos++) {
+          const idx = (startIdx - pos + 12) % 12;
+          let cluster = clusterByPos[pos];
+          if (pos === currentClusterPos) {
+            cluster = cluster.filter((d) => d !== dayOfMonth);
+          }
+          palaces[idx].riPaiJu = cluster.join("/");
         }
       }
       function getReferenceKey(dun, ju) {
@@ -13858,8 +12225,8 @@ var QiMenAlgorithmBundle = (() => {
           riPaiJu: ""
         }));
       }
-      var YIN_DI_ORDER_5_GONG = [5, 6, 12, 0, 11, 10, 2, 3, 7, 1, 9, 8, 4];
-      var YIN_DI_ORDER_5_CYCLE = [5, 4, 3, 2, 1, 0, 12, 11, 10, 9, 6, 7, 8];
+      var YIN_DI_ORDER_5_GONG = [12, 11, 0, 10, 3, 2, 7, 1, 8, 9, 4, 6, 5];
+      var YIN_DI_ORDER_5_CYCLE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
       function placeRenPan(palaces, dun, ju) {
         const cycle = dun === "\u9633\u9041" ? ["\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678", "\u4E01", "\u4E19", "\u4E59", "\u620A", "\u5DF1", "\u5E9A", "\u8F9B"] : ["\u620A", "\u5DF1", "\u5E9A", "\u8F9B", "\u58EC", "\u7678", "\u4E59", "\u4E19", "\u4E01", "\u620A", "\u5DF1", "\u5E9A", "\u8F9B"];
         if (dun === "\u9634\u9041" && ju === 5) {
@@ -13877,65 +12244,90 @@ var QiMenAlgorithmBundle = (() => {
           palaces[order[i]].renPan = cycle[i];
         }
       }
-      var XING_ORIGIN = [7, 8, 0, 6, 2, 10, 9, 1, 12, 11, 5, 4, 3];
-      var MEN_ORIGIN = [2, 11, 0, 9, 8, 3, 4, 6, 5, 12, 7, 10, 1];
+      var XING_ORIGIN = [12, 3, 2, 10, 11, 0, 9, 6, 5, 4, 8, 12, 1];
+      var MEN_ORIGIN = [12, 3, 2, 10, 11, 4, 12, 6, 5, 4, 8, 9, 1];
+      var SHEN_ORIGIN = [7, 3, 2, 5, 11, 0, 12, 6, 10, 4, 8, 9, 1];
       function placeTianGanByXingOriginal(palaces) {
         for (let i = 0; i < 13; i++) {
-          const k = XING.indexOf(palaces[i].xing);
+          if (i === 12) {
+            palaces[i].tianGan = "";
+            continue;
+          }
+          const xing = palaces[i].xing;
+          const k = XING.indexOf(xing);
           if (k < 0) {
             palaces[i].tianGan = "";
             continue;
           }
           const originIdx = XING_ORIGIN[k];
-          palaces[i].tianGan = palaces[originIdx]?.diGan || "";
+          palaces[i].tianGan = palaces[originIdx]?.renPan || "";
         }
       }
       function placeDiGanByMenOriginal(palaces) {
         for (let i = 0; i < 13; i++) {
-          const m = MEN.indexOf(palaces[i].men);
-          if (m < 0) {
+          if (i === 12) {
+            palaces[i].diGan = "";
             palaces[i].diGanDisplay = "";
             continue;
           }
+          const men = palaces[i].men;
+          const m = MEN.indexOf(men);
+          if (m < 0) {
+            palaces[i].diGan = palaces[i].renPan;
+            palaces[i].diGanDisplay = palaces[i].renPan;
+            continue;
+          }
           const originIdx = MEN_ORIGIN[m];
-          palaces[i].diGanDisplay = palaces[originIdx]?.diGan || "";
+          const originRen = palaces[originIdx]?.renPan || "";
+          palaces[i].diGan = originRen;
+          palaces[i].diGanDisplay = originRen;
         }
       }
       function placeLingGan(palaces) {
         for (let i = 0; i < 13; i++) {
-          const sIdx = SHEN.indexOf(palaces[i].shen);
-          if (sIdx < 0) {
+          if (i === 12) {
             palaces[i].lingGan = "";
             continue;
           }
-          palaces[i].lingGan = palaces[sIdx]?.diGan || "";
+          const shen = palaces[i].shen;
+          const s = SHEN.indexOf(shen);
+          if (s < 0) {
+            palaces[i].lingGan = "";
+            continue;
+          }
+          const originIdx = SHEN_ORIGIN[s];
+          palaces[i].lingGan = palaces[originIdx]?.renPan || "";
         }
       }
       function placeAnGan(palaces) {
         for (let i = 0; i < 13; i++) {
+          if (i === 12) {
+            palaces[i].anGan = "";
+            continue;
+          }
           const oppositeIdx = (i + 6) % 13;
           palaces[i].anGan = palaces[oppositeIdx]?.diGan || "";
         }
       }
-      function arrangeWithStartPosition(elementArr, startIdxInForwardOrder) {
-        const order = FORWARD_ORDER;
+      function arrangeWithStartPosition(elementArr, startIdxInOrder, order) {
         const result = new Array(13).fill("");
         for (let k = 0; k < 13; k++) {
-          const gongIdx = order[(startIdxInForwardOrder + k) % 13];
+          const gongIdx = order[(startIdxInOrder + k) % 13];
           result[gongIdx] = elementArr[k];
         }
         return result;
       }
-      function placeShen(palaces, startIdxInForward) {
-        const arr = arrangeWithStartPosition(SHEN, startIdxInForward);
+      function placeShen(palaces, startIdxInOrder, order) {
+        const arr = arrangeWithStartPosition(SHEN, startIdxInOrder, order);
         palaces.forEach((p, i) => p.shen = arr[i]);
+        palaces[12].shen = "";
       }
-      function placeXing(palaces, startIdxInForward) {
-        const arr = arrangeWithStartPosition(XING, startIdxInForward);
+      function placeXing(palaces, startIdxInOrder, order) {
+        const arr = arrangeWithStartPosition(XING, startIdxInOrder, order);
         palaces.forEach((p, i) => p.xing = arr[i]);
       }
-      function placeMen(palaces, startIdxInForward) {
-        const arr = arrangeWithStartPosition(MEN, startIdxInForward);
+      function placeMen(palaces, startIdxInOrder, order) {
+        const arr = arrangeWithStartPosition(MEN, startIdxInOrder, order);
         palaces.forEach((p, i) => p.men = arr[i]);
       }
       function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
@@ -13943,18 +12335,28 @@ var QiMenAlgorithmBundle = (() => {
         const guiShenZhi = determineGuiShen(dayGan, isNight);
         const palaces = createEmptyPalaces();
         placeRenPan(palaces, pan.dun, pan.ju);
-        if (pan.dun === "\u9634\u9041" && pan.ju === 5) {
-          placeShen(palaces, 11);
-          placeXing(palaces, 8);
-          placeMen(palaces, 9);
+        if (pan.dun === "\u9634\u9041") {
+          if (pan.ju === 5) {
+            placeShen(palaces, 11, REVERSE_ORDER);
+            placeXing(palaces, 0, REVERSE_ORDER);
+            placeMen(palaces, 0, REVERSE_ORDER);
+          } else {
+            const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
+            const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
+            const shenStartSeqPos = REVERSE_ORDER.indexOf(shenStartIdx);
+            const s0 = shenStartSeqPos >= 0 ? shenStartSeqPos : 11;
+            placeShen(palaces, s0, REVERSE_ORDER);
+            placeXing(palaces, (s0 + 10) % 13, REVERSE_ORDER);
+            placeMen(palaces, (s0 + 11) % 13, REVERSE_ORDER);
+          }
         } else {
           const guiShenLuoshu = ZHI_TO_LUOSHU[guiShenZhi] || pan.ju;
           const shenStartIdx = findGongIndexByLuoshu(guiShenLuoshu, true);
           const shenStartSeqPos = FORWARD_ORDER.indexOf(shenStartIdx);
           const s0 = shenStartSeqPos >= 0 ? shenStartSeqPos : 11;
-          placeShen(palaces, s0);
-          placeXing(palaces, (s0 + 10) % 13);
-          placeMen(palaces, (s0 + 11) % 13);
+          placeShen(palaces, s0, FORWARD_ORDER);
+          placeXing(palaces, (s0 + 10) % 13, FORWARD_ORDER);
+          placeMen(palaces, (s0 + 11) % 13, FORWARD_ORDER);
         }
         placeTianGanByXingOriginal(palaces);
         placeDiGanByMenOriginal(palaces);
@@ -13962,8 +12364,9 @@ var QiMenAlgorithmBundle = (() => {
         placeAnGan(palaces);
         if (extraContext) {
           const { lunarMonth, lunarDay, shiZhi } = extraContext;
+          const dayZhi = pillarArr[2][1];
           placeTianGang(palaces, lunarMonth, shiZhi);
-          placeRiPaiJu(palaces, lunarMonth, lunarDay);
+          placeRiPaiJu(palaces, lunarMonth, lunarDay, dayZhi);
         }
         const calibrated = false;
         return {
