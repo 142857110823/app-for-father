@@ -2914,7 +2914,19 @@ function initAIAgent() {
         addMessage('ai', 'AI 响应异常：' + (json.error || '未知错误'));
       }
     } catch (e) {
-      addMessage('ai', '请求失败：' + e.message);
+      const host = typeof location !== 'undefined' ? String(location.hostname || '') : '';
+      const isLocalhost = host === 'localhost' || host === '127.0.0.1';
+      const isGitHub = /github\.io$/i.test(host);
+      const isFileProtocol = typeof location !== 'undefined' && location.protocol === 'file:';
+      let guide;
+      if (isGitHub || isFileProtocol) {
+        guide = '当前为静态部署，无 AI 后端。请在本机运行 node server.js，然后访问 http://localhost:8090 使用完整 AI 功能。';
+      } else if (isLocalhost) {
+        guide = `本机后端未启动或密钥缺失。请在项目根目录运行 node server.js 并确认 API密钥.txt 存在。（${e.message}）`;
+      } else {
+        guide = '无法连接 AI：' + e.message;
+      }
+      addMessage('ai', guide);
     } finally {
       send.disabled = false;
       input.disabled = false;
@@ -3292,7 +3304,30 @@ ${palaceSummary}
       footer.style.display = 'none';
     }
   } catch(e) {
-    body.innerHTML = `<div class="ai-interpret-section"><h4>解读失败</h4><p>网络异常：${e.message}</p></div>`;
+    const host = typeof location !== 'undefined' ? String(location.hostname || '') : '';
+    const isLocalhost = host === 'localhost' || host === '127.0.0.1';
+    const isGitHub = /github\.io$/i.test(host);
+    const isFileProtocol = typeof location !== 'undefined' && location.protocol === 'file:';
+    const errMsg = String(e.message || '');
+    const isQuotaError = /额度|quota|余额|insufficient|exhausted|限额|额度不足/i.test(errMsg);
+    const isBackendMsg = /未启动|未连接|未响应|后端/i.test(errMsg);
+    let html = `<div class="ai-interpret-section"><h4>智能解读暂不可用</h4>`;
+    if (isQuotaError) {
+      html += `<p><strong style="color:#c62828">AI 服务额度不足</strong>。当前调用的 juapi.net 账户额度已耗尽，请联系管理员充值或更换 API 密钥。</p>`;
+      html += `<p style="color:#8b6914;font-size:12px">服务返回：${e.message}</p>`;
+    } else if (isGitHub || isFileProtocol) {
+      html += `<p>当前为<strong>纯静态部署（${isGitHub ? 'GitHub Pages' : '本地文件'}）</strong>，无 AI 后端服务。</p>`;
+      html += `<p><strong>使用方法</strong>：在本机命令行进入项目根目录，运行：<br><code style="background:#f0ecde;border:1px solid #d4cfc4;padding:2px 6px;border-radius:4px;font-family:monospace">node server.js</code><br>然后在浏览器打开 <strong>http://localhost:8090/</strong>，即可使用完整智能解读功能。</p>`;
+      html += `<p style="color:#8b6914;font-size:12px">提示：本机启动 server.js 后，当前页面也会尝试自动连接 http://localhost:8090/api/chat。若浏览器因 HTTPS→HTTP 混合内容阻止请求，请直接访问本地 http://localhost:8090/。</p>`;
+    } else if (isLocalhost && isBackendMsg) {
+      html += `<p>本机后端未启动或 API 密钥缺失。</p>`;
+      html += `<p><strong>解决步骤</strong>：① 项目根目录运行 <code style="background:#f0ecde;border:1px solid #d4cfc4;padding:2px 6px;border-radius:4px;font-family:monospace">node server.js</code>；② 确认根目录存在 <code>API密钥.txt</code>（第一行写 juapi.net 的 API Key）。</p>`;
+      html += `<p style="color:#8b6914;font-size:12px">错误详情：${e.message}</p>`;
+    } else {
+      html += `<p>请求失败：${e.message}</p>`;
+    }
+    html += `</div>`;
+    body.innerHTML = html;
     footer.style.display = 'none';
   }
 }

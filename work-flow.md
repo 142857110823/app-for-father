@@ -682,6 +682,29 @@
 - ✅ 本地预览地址：http://localhost:8090/（验证时间 2026-08-24）。
 **【相关文档】** index.html、public/index.html、docs/index.html、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx
 
+### 2026-08-24 修复静态部署 AI 解读失败 + CORS 跨域 + 分级错误提示
+
+**【时间】** 2026-08-24
+**【事件】** 用户反馈「智能解读 解读失败 网络异常：当前静态网页未连接 AI 后端服务」（访问 GitHub Pages 时）。根因是 ai-client.js 返回内容被判定为 HTML 时抛出该错误，但未提供解决指引；且未做静态环境自动降级；server.js 未启用 CORS 导致静态站点无法调用本机 API。
+**【问题来源】** GitHub Pages 为纯静态站点，Node.js Express 后端不存在，`/api/chat` fetch 返回 404 HTML 页面，被 parseJsonResponse 的 HTML 检测命中后 throw "当前静态网页未连接 AI 后端服务"，但错误信息笼统、无操作指引。同时 GitHub Pages (HTTPS) → localhost (HTTP) 调用需浏览器允许混合内容，server.js 需响应 OPTIONS 预检请求并回显正确 CORS 头。
+**【执行方向】**
+1. 重写 ai-client.js `getDefaultEndpoint()`：① 优先 window.QIMEN_API_BASE；② localhost/127.0.0.1 用同源 /api/chat；③ 其他环境（github.io/file:/等静态部署）默认指向 http://localhost:8090/api/chat，利用本机运行的 server.js 提供 AI 服务。
+2. 重写 ai-client.js 网络层 catch：区分「GitHub 静态」「localhost 后端未启动」「其他环境」三种场景，附明确命令行操作指引（node server.js + 访问 http://localhost:8090）。
+3. 修改 server.js：在顶层 middleware 中注入 CORS 头（ACAO/ACAM/ACAH/ACAC），并对 OPTIONS 预检响应 204，使用 `res.status(204).end()` 确保 CORS 头不落空。
+4. 修改 index.html `generateInterpret` catch 分支：区分「额度不足 / GitHub/file 静态 / localhost 后端不可达 / 其他错误」四级，分别渲染对应文案 + 代码块 node server.js 命令 + API密钥.txt 说明，附 monospace 样式代码段。
+5. 同步修改 index.html 聊天面板 (doSend) catch 分支，同样的分级错误提示。
+6. 三处入口（根/、public/、docs/）同步 ai-client.js、index.html、server.js。
+7. CORS 验证：OPTIONS 响应 204 且回显 Origin=github.io、Methods、Headers 三字段齐全。
+**【执行边界】** 不改动排盘算法；不改动前端 UI 其他部分；不引入新依赖。
+**【执行结果】**
+- ✅ ai-client.js 新逻辑上线：GitHub Pages 默认自动指向 http://localhost:8090/api/chat，无需用户手改。
+- ✅ server.js CORS：OPTIONS HTTP/204 + ACAO=回显Origin + ACAM=GET,POST,OPTIONS,PUT,DELETE + ACAH=Content-Type,Authorization,X-Requested-With + ACAC=true。
+- ✅ 错误分级：额度不足提示"联系管理员充值"、GitHub 静态提示"运行 node server.js + 访问 localhost:8090"、localhost 不可达提示"检查 API密钥.txt"、其他透传错误。
+- ✅ 测试：curl /api/health = 200 {"ok":true}、/ = 200、CORS 预检三字段齐全。
+- ✅ 本地预览地址：http://localhost:8090/（验证时间 2026-08-24）。
+- ⚠️ 已知约束：GitHub Pages 为 HTTPS，调用 http://localhost:8090 可能因浏览器混合内容策略被拦截（不同浏览器策略不同）。此时用户需直接访问本地 http://localhost:8090/ 使用完整功能，已在提示文案中注明。
+**【相关文档】** ai-client.js、server.js、index.html、public/ai-client.js、public/index.html、public/server.js、docs/ai-client.js、docs/index.html、docs/server.js、work-flow.md
+
 ### 2026-08-24 中宫统一三分区修复 + 静态站点 AI 错误处理
 
 **【时间】** 2026-08-24 18:01（Asia/Shanghai）
