@@ -656,3 +656,28 @@
 - ✅ Python 服务器已停止，消除跨端口混淆。
 - ✅ 三处入口（public/、根/、docs/）代码同步。
 **【相关文档】** index.html、public/index.html、server.js、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx、天罡.docx
+
+### 2026-08-24 中宫视觉布局修正：三列布局 → 贪狼顶部 + 休/戊底部并排
+
+**【时间】** 2026-08-24
+**【事件】** 用户反馈「【中宫】的问题依旧存在」：上一轮修复虽解决了空占位符问题，但中宫视觉布局（贪狼/休/戊 三列竖排）与文档标准（贪狼顶部居中、休+戊底部左右并排）不一致。
+**【问题来源】** 上一轮修复仅解决了「不显示空占位符」的功能问题，但使用了与外围宫位相同的三列布局（左列贪狼+休、中列戊），未按文档标准的「贪狼顶部居中、休+戊底部并排」布局渲染。
+**【执行方向】**
+1. 分析文档标准截图：中宫 2×2 合并单元格内，贪狼（星）在顶部居中位置，休（门）和戊（人盘）在底部左右并排。
+2. 修改 `renderCell` 函数中宫特例：从三列布局改为两区域布局（顶部贪狼、底部休+戊并排）。
+3. 修改 CSS：中宫使用 `flex-direction:column` + 底部 `flex-direction:row` 实现上下两区域布局。
+4. 同步修改 PDF 导出模板中的中宫布局。
+5. 同步响应式 CSS（@media max-width:380px）。
+6. 三处入口同步（index.html / public/index.html / docs/index.html）。
+7. Git commit + push 到 GitHub Pages。
+**【执行边界】** 仅修改中宫渲染逻辑和 CSS，不修改外围宫位布局、排盘算法核心。
+**【执行结果】**
+- ✅ 中宫新布局：贪狼（星）顶部居中、休（门）底部左侧、戊（人盘）底部右侧，与文档标准截图一致。
+- ✅ 布局验证：`layoutVerified: true`（贪狼位于休/戊上方，休位于戊左侧）。
+- ✅ 无空占位符：`emptySpansCount: 0`。
+- ✅ 三处入口代码同步（index.html / public/index.html / docs/index.html）。
+- ✅ PDF 导出模板同步新布局。
+- ✅ 响应式 CSS 同步。
+- ✅ Git 推送成功：`c7c32c0..af2acde master -> master`。
+- ✅ 本地预览地址：http://localhost:8090/（验证时间 2026-08-24）。
+**【相关文档】** index.html、public/index.html、docs/index.html、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx
