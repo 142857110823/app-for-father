@@ -955,14 +955,15 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
   </div>
 
   <div class="section-title"><span>账号安全</span></div>
+  <!-- P1: 账号绑定四行保留结构，sub 改为暂未开放灰态提示（点击回调 bindItem → 暂未开放 toast） -->
   <div class="card-lined" style="margin:0 16px 16px">
-    <div class="lined-row list-arrow" onclick="bindItem('phone')"><div class="lr-label">手机号</div><div class="lr-value"><span id="bind-phone-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
-    <div class="lined-row list-arrow" onclick="bindItem('email')"><div class="lr-label">邮箱</div><div class="lr-value"><span id="bind-email-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
-    <div class="lined-row list-arrow" onclick="bindItem('wx')"><div class="lr-label">微信</div><div class="lr-value"><span id="bind-wx-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
-    <div class="lined-row list-arrow" onclick="bindItem('qq')"><div class="lr-label">QQ</div><div class="lr-value"><span id="bind-qq-status" class="sub">未绑定</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('phone')"><div class="lr-label">手机号</div><div class="lr-value"><span id="bind-phone-status" class="sub">暂未开放</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('email')"><div class="lr-label">邮箱</div><div class="lr-value"><span id="bind-email-status" class="sub">暂未开放</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('wx')"><div class="lr-label">微信</div><div class="lr-value"><span id="bind-wx-status" class="sub">暂未开放</span><span class="arrow">›</span></div></div>
+    <div class="lined-row list-arrow" onclick="bindItem('qq')"><div class="lr-label">QQ</div><div class="lr-value"><span id="bind-qq-status" class="sub">暂未开放</span><span class="arrow">›</span></div></div>
   </div>
+  <!-- P1: 本地游客无密码概念——移除"重置密码"行（与 deactivateAccount 同卡片仅保留注销行） -->
   <div class="card-lined" style="margin:0 16px 16px">
-    <div class="lined-row list-arrow" onclick="resetPwd()"><div class="lr-label">重置密码</div><div class="lr-value"><span class="arrow">›</span></div></div>
     <div class="lined-row list-arrow" onclick="deactivateAccount()"><div class="lr-label" style="color:#d33">注销账号</div><div class="lr-value"><span class="arrow">›</span></div></div>
   </div>
 
@@ -972,7 +973,8 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
   </div>
 
   <div style="padding:16px 16px 24px">
-    <button class="btn-primary-big" style="background:#b23a3a;color:#fff" onclick="confirmLogout()">退出登录</button>
+    <!-- P1: 退出登录按钮保留，文案改为"清除本地偏好"（退出游客状态 = 清除本地昵称/头像/排盘输入偏好） -->
+    <button class="btn-primary-big" style="background:#b23a3a;color:#fff" onclick="confirmLogout()">清除本地偏好</button>
   </div>
 </div>
 
@@ -3093,14 +3095,24 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 });
 
+// P1: 清除本地偏好（退出游客状态）——清除 localStorage 中昵称/头像/排盘输入偏好等
 function confirmLogout() {
-  openConfirm('退出登录', '确定要退出当前登录状态吗？<br>退出后需重新登录才能同步数据。', function() {
+  openConfirm('清除本地偏好', '确定要清除全部本地偏好数据吗？<br>将清除：当前昵称、头像、主题偏好、上次排盘输入、收藏标记等。<br>排盘历史记录如需一并清除，请在【排盘历史】页面操作。', function() {
+    // 本地游客模式：无 auth_token / user_info 概念，仅清除本地偏好
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_info');
-    showToast('已退出登录');
+    // P1: 额外清除本地游客存储的昵称/头像/性别/生日/偏好
+    localStorage.removeItem('profile_nickname');
+    localStorage.removeItem('profile_avatar');
+    localStorage.removeItem('profile_gender');
+    localStorage.removeItem('profile_birth');
+    localStorage.removeItem('profile_place');
+    localStorage.removeItem('theme_preference');
+    localStorage.removeItem('last_paipan_input');
+    showToast('本地偏好已清除');
     showPage('home');
     if (typeof refreshProfile === 'function') refreshProfile();
-  }, { confirmText:'退出登录', confirmDanger:false });
+  }, { confirmText:'确认清除', confirmDanger:false });
 }
 
 function deactivateAccount() {
@@ -3117,11 +3129,12 @@ function deactivateAccount() {
   }, { confirmText:'我理解风险，确认注销', confirmDanger:true });
 }
 
-function resetPwd() { showToast('请通过手机号/邮箱验证码重置密码（跳转中）'); }
+// P1: 本地游客无密码概念——去掉验证码重置
+function resetPwd() { showToast('本地游客账号，无需密码'); }
 
+// P1: 所有绑定方式改为暂未开放提示
 function bindItem(type) {
-  var map = { phone:'手机号', email:'邮箱', wx:'微信', qq:'QQ' };
-  showToast(map[type] + '绑定功能即将上线');
+  showToast('该绑定方式暂未开放');
 }
 
 function setSettingGender(g) {
@@ -3133,34 +3146,35 @@ function setSettingGender(g) {
 
 function saveProfile() { showToast('用户信息已保存'); }
 
+// P1: 隐私政策——本地游客无密码模式，舍去验证码登录
 const PRIVACY_POLICY_TEXT = '\
 <h2>道家奇门遁甲 隐私保护政策</h2>\
-<p>更新日期：2026年8月23日 ｜ 生效日期：2026年8月23日</p>\
+<p>更新日期：2026年8月24日 ｜ 生效日期：2026年8月24日</p>\
 <p>【道家奇门遁甲】（以下简称"我们"）深知个人信息对您的重要性，并将按照法律法规要求和业界成熟的安全标准，采取相应的安全保护措施来保护您的个人信息。我们希望通过本隐私政策向您说明，在使用我们的产品与/或服务时，我们如何收集、使用、存储、共享、转让、公开披露您的个人信息，以及您如何行使您的隐私权利。请您在使用我们的产品/服务前，务必仔细阅读并充分理解本政策的全部内容（尤其是以粗体/下划线形式标注的内容）。</p>\
 <p><b>一、我们如何收集和使用您的个人信息</b></p>\
-<p>1. 帮助您成为注册用户：为使用完整服务，您需要注册账号。您可以通过手机号、邮箱、微信、QQ 等方式注册并绑定。在此过程中，我们会收集您的手机号码、邮箱地址、第三方平台 OpenID，并向您的手机或邮箱发送验证码以验证身份。账号昵称、头像、性别、生日等信息为选填，不影响使用核心功能。</p>\
-<p>2. 排盘与历史记录：当您使用核心排盘功能时，我们需要处理您输入的姓名、性别、出生年月日时分、出生地点。这些信息将用于计算四柱干支、定遁定局、生成十三宫排盘图表，并自动保存为历史记录（仅保存在您的账号下或您自己的本地设备）。</p>\
-<p>3. AI 智能问答：当您使用右下角阴阳双鱼盘的 AI 对话功能时，您的排盘结果将作为上下文被发送给大语言模型，以便生成针对性解答。我们会记录您的提问、模型回复以改进服务质量。</p>\
-<p>4. 设备与日志：为保障服务稳定性，我们的后端服务器可能自动记录您的 IP 地址、浏览器类型、访问时间、操作路径等日志信息，保留期限不超过 6 个月。</p>\
+<p>1. <b>核心排盘功能无需注册即可使用</b>：本应用采用本地游客模式，无需注册账号即可使用全部核心排盘功能。我们<b>不发送短信、不请求邮件、不请求第三方 OpenID</b>，也不收集手机号码、邮箱地址、微信/QQ 等第三方账号信息。账号绑定功能（手机号/邮箱/微信/QQ）暂未开放。</p>\
+<p>2. 昵称/头像/性别/生日/出生地点：这些信息为选填项，不影响核心排盘功能使用，且<b>仅保存在您设备本地的 LocalStorage</b> 中，不会上传至任何服务器。您可在【设置 → 用户信息】随时修改或通过"清除本地偏好"一键清除。</p>\
+<p>3. 排盘与历史记录：当您使用核心排盘功能时，您输入的姓名、性别、出生年月日时分、出生地点仅用于本地计算四柱干支、定遁定局、生成十三宫排盘图表。<b>历史排盘记录保存在本地设备</b>，不会上传至服务器，您可随时单条删除或批量清空。</p>\
+<p>4. AI 智能问答（可选）：当您使用右下角阴阳双鱼盘的 AI 对话功能时，您的排盘结果将作为上下文被发送给大语言模型，以便生成针对性解答。我们不会将这些数据用于识别您的个人身份。</p>\
 <p><b>二、我们如何使用 Cookie 和同类技术</b></p>\
-<p>为使您获得更流畅的登录状态保持体验，我们会在您的设备上使用 Cookie 与 LocalStorage 存储您的登录凭证、主题偏好、上次排盘输入等。您可通过浏览器或手机系统设置清除这些数据。清除后您可能需要重新登录。</p>\
+<p>为使您获得更流畅的使用体验，我们会在您的设备上使用 LocalStorage 存储您的主题偏好、上次排盘输入、昵称、头像等<b>本地偏好数据</b>。您可随时通过【我的 → ⚙ 设置 → 清除本地偏好】一键清除这些数据。本应用不使用 Cookie 进行账号登录跟踪。</p>\
 <p><b>三、我们如何共享、转让、公开披露您的个人信息</b></p>\
-<p>1. 共享：除以下情形外，我们不会向任何第三方共享您的个人信息：(a) 事先获得您的明确同意；(b) 根据法律法规或司法/行政机关强制性要求；(c) 与关联公司共享必要信息以便提供服务（仅限本政策声明的目的）；(d) 与授权合作伙伴共享：仅为实现本政策中声明的目的，我们的某些服务将由授权合作伙伴提供（例如 AI 模型服务、短信/邮件验证码服务商、云服务器提供商）。我们会与合作伙伴签署严格的数据保密协议，要求其遵照我们的说明、本政策以及其他任何相关的保密和安全措施来处理您的个人信息。</p>\
+<p>1. 共享：由于我们采用纯本地游客模式，绝大部分个人信息仅保存在您的设备本地，不存在批量上传与共享。除以下情形外，我们不会向任何第三方共享您的个人信息：(a) 事先获得您的明确同意；(b) 根据法律法规或司法/行政机关强制性要求；(c) 与授权合作伙伴共享：仅为实现 AI 智能问答功能，排盘上下文将被发送至 AI 模型服务提供商；除此之外无其他第三方共享。</p>\
 <p>2. 转让：未经您的明确同意，我们不会将您的个人信息转让给任何公司、组织和个人。</p>\
 <p>3. 公开披露：我们仅会在收到法律程序要求、或为防止 imminent 人身财产损害时，公开披露您的个人信息。</p>\
 <p><b>四、我们如何存储和保护您的个人信息</b></p>\
-<p>1. 存储地点与期限：我们在中华人民共和国境内收集和产生的个人信息，将存储在境内服务器的 SQLite 数据库中。存储期限遵循"最小必要"原则：账号信息保留至您注销账号后 30 天；操作日志保留 6 个月；历史排盘记录在您主动删除或注销账号前保留。</p>\
-<p>2. 安全措施：我们采用业界标准的安全措施，包括但不限于：bcrypt 哈希加盐存储密码、JWT + session token 双轨鉴权、TLS/HTTPS 数据传输加密、数据库参数化查询防 SQL 注入、操作日志审计。我们会尽力保护您的个人信息，但任何安全措施都无法做到绝对安全。</p>\
+<p>1. 存储地点与期限：<b>个人信息（昵称、头像、性别、生日、排盘历史、收藏、偏好）全部存储在您本地设备的浏览器 LocalStorage 中</b>，不存在远程服务器存储端。存储期限遵循"最小必要"原则：数据在您主动删除或通过"清除本地偏好"一键清除前持续保留。</p>\
+<p>2. 安全措施：我们采用纯本地存储模式，用户无需设置密码，无需 JWT/session token 鉴权，也不涉及 bcrypt 密码哈希存储。AI 问答数据传输采用 TLS/HTTPS 加密。由于数据保存在您自己的设备上，您对本地存储数据负有保管责任。</p>\
 <p><b>五、您的权利</b></p>\
-<p>根据《个人信息保护法》等相关法律，您享有以下权利：访问权、更正权、删除权、撤回同意权、注销账号权、获取个人信息副本权、投诉举报权。您可随时通过【我的 → ⚙ 设置 → 用户信息 / 账号安全】行使上述权利，或通过文末联系方式书面联系我们，我们将在 15 个工作日内处理并回复。</p>\
-<p>（1）访问权：您可在【我的】页面查看您的账号信息、排盘历史、收藏、消息。<br>（2）更正权：在【设置 → 用户信息】修改昵称、头像、性别、生日、出生地点。<br>（3）删除权：单条历史记录可左滑删除；收藏可取消。<br>（4）注销账号：【设置 → 账号安全 → 注销账号】按流程操作即可。注销后 30 天冷静期内您可以恢复账号，之后将进行不可逆的匿名化处理。</p>\
+<p>根据《个人信息保护法》等相关法律，您享有以下权利：访问权、更正权、删除权、撤回同意权、获取个人信息副本权、投诉举报权。您可随时通过【我的 → ⚙ 设置 → 用户信息 / 账号安全】行使上述权利，或通过文末联系方式书面联系我们，我们将在 15 个工作日内处理并回复。</p>\
+<p>（1）访问权：您可在【我的】页面查看您的昵称头像、排盘历史、收藏、本地偏好。<br>（2）更正权：在【设置 → 用户信息】修改昵称、头像、性别、生日、出生地点。<br>（3）删除权：单条历史记录可左滑删除；收藏可取消；全部本地数据可通过【清除本地偏好】一键清空。<br>（4）撤回同意权：随时停止使用 AI 问答功能，或清除全部本地数据。</p>\
 <p><b>六、未成年人保护</b></p>\
 <p>我们非常重视对未成年人个人信息的保护。如果您是未满 16 周岁的未成年人，请在您的父母或监护人的陪同下阅读本政策，并在征得其同意后使用我们的服务。对于经监护人同意而收集的未成年人信息，我们只会在法律允许、监护人明确同意或保护未成年人所必要的范围内使用或披露。若您是未成年人的监护人，如对我们处理未成年人信息有疑问，请通过以下联系方式与我们取得联系。</p>\
 <p><b>七、本政策的更新</b></p>\
-<p>我们的隐私政策可能会不时进行修订。当本政策发生变更时，我们会在应用内以弹窗、站内消息或显著位置通知您，并向您说明生效日期。重大变更还会通过更显著的方式（包括在某些情况下通过电子邮件）通知您。</p>\
+<p>我们的隐私政策可能会不时进行修订。当本政策发生变更时，我们会在应用内以弹窗、站内消息或显著位置通知您，并向您说明生效日期。重大变更还会通过更显著的方式通知您。</p>\
 <p><b>八、联系我们</b></p>\
 <p>如您对本隐私政策有任何疑问、意见、建议、投诉，或希望行使法定权利，请通过以下方式与我们联系：<br>电子邮箱：privacy@qimen-shisan-gong.app<br>通信地址：中华人民共和国 · 道家奇门遁甲项目组<br>一般情况下，我们将在 15 个工作日内回复。</p>\
-<p>——本政策总计约 2000 字，严格遵循《中华人民共和国个人信息保护法》《中华人民共和国网络安全法》《中华人民共和国数据安全法》《常见类型移动互联网应用程序必要个人信息范围规定》等要求制定。</p>';
+<p>——本政策严格遵循《中华人民共和国个人信息保护法》《中华人民共和国网络安全法》《中华人民共和国数据安全法》《常见类型移动互联网应用程序必要个人信息范围规定》等要求制定。</p>';
 
 function showPrivacyPolicy() {
   openConfirm('隐私保护政策', '<div style="max-height:50vh;overflow:auto;text-align:left;font-size:12px;line-height:1.7;color:var(--ink-2)">' + PRIVACY_POLICY_TEXT + '</div>', null, { cancelText:'我已阅读', confirmText:'同意并继续' });
