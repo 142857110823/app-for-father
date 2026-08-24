@@ -9,7 +9,9 @@
     "download:school": "node scripts/download-school-books.js",
     "build:browser": "esbuild algorithm/browser-entry.js --bundle --outfile=public/algorithm.bundle.js --format=iife --global-name=QiMenAlgorithmBundle",
     "build:android": "npm run build:browser && npx cap sync android && cd android && ./gradlew assembleRelease",
-    "build:android:win": "npm run build:browser && npx cap sync android && cd android && gradlew.bat assembleRelease"
+    "build:android:win": "npm run build:browser && npx cap sync android && cd android && gradlew.bat assembleRelease",
+    "gen:cases": "node algorithm/generate-cases.js",
+    "test:regression": "node algorithm/regression-test.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.0",
@@ -22,7 +24,8 @@
     "lunar-javascript": "^1.6.11",
     "pdf-parse": "^2.4.5",
     "sqlite3": "^6.0.1",
-    "uuid": "^14.0.2"
+    "uuid": "^14.0.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "esbuild": "^0.28.2"

@@ -36,3 +36,22 @@ temp_docx_media/
 data/
 .worktrees/
 data/unverified/
+
+# Debug / scratch scripts (not part of release)
+_cmp_*.js
+debug_page.js
+fetch_books*.js
+paipan_result.json
+school-ui-verification.json
+school-mobile.png
+school-reader.png
+algorithm/_audit_*.js
+algorithm/_solver_*.js
+algorithm/_solver_*.json
+
+# Word lock files
+~$*.docx
+
+# 案例库（生成文件，不纳入git）
+algorithm/案例库.xlsx
+algorithm/test-cases.xlsx
