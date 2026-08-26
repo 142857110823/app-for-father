@@ -94,6 +94,26 @@ const LUOSHU_NAME = {
   5: '中', 6: '乾', 7: '兑', 8: '艮', 9: '离'
 };
 
+/**
+ * 固定宫位映射：月局 + 二十四节气（依据天罡.docx 原始宫位表）。
+ * 中宫 idx12 不显示月局/节气；其余 12 外围宫按 4×4 空间布局固定对应。
+ */
+const GONG_MONTH_JIEQI = [
+  { month: '八月', jieqi: '白露、秋分' },   // idx0  4尾
+  { month: '七月', jieqi: '立秋、处暑' },   // idx1  9
+  { month: '六月', jieqi: '小暑、大暑' },   // idx2  2尾
+  { month: '五月', jieqi: '芒种、夏至' },   // idx3  2首
+  { month: '四月', jieqi: '立夏、小满' },   // idx4  7
+  { month: '三月', jieqi: '清明、谷雨' },   // idx5  6尾
+  { month: '二月', jieqi: '惊蛰、春分' },   // idx6  6首
+  { month: '正月', jieqi: '立春、雨水' },   // idx7  1
+  { month: '十二月', jieqi: '小寒、大寒' }, // idx8  8首
+  { month: '十一月', jieqi: '大雪、冬至' }, // idx9  8尾
+  { month: '十月', jieqi: '立冬、小雪' },   // idx10 3
+  { month: '九月', jieqi: '寒露、霜降' },   // idx11 4首
+  { month: '', jieqi: '' }                  // idx12 中宫
+];
+
 /** 地支 → 洛书位置映射 */
 const ZHI_TO_LUOSHU = {
   '子': 1, '丑': 8, '寅': 8, '卯': 3,
@@ -416,6 +436,8 @@ function createEmptyPalaces() {
     lingGan: '',    // 灵盘干 = 神盘当前宫 → SHEN.indexOf(神) 得原始宫idx → 取该原始宫的 diGan
     renPan: '',     // 人盘 = 地盘干的别名（渲染时中列展示顺序：灵 / 天 / 人 / 地）
     tiangang: '',
+    yueJu: '',      // 月局（固定宫位，天罡.docx 原始宫位表）
+    jieQi: '',      // 二十四节气（固定宫位）
     riPaiJu: ''
   }));
 }
@@ -641,6 +663,12 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
 
   const palaces = createEmptyPalaces();
 
+  // 固定月局 / 节气（天罡.docx 原始宫位表，不随遁局变化）
+  palaces.forEach((p, i) => {
+    p.yueJu = GONG_MONTH_JIEQI[i]?.month || '';
+    p.jieQi = GONG_MONTH_JIEQI[i]?.jieqi || '';
+  });
+
   // ===== 1. 人盘 = 地盘干（六仪→三奇→六仪）=====
   placeRenPan(palaces, pan.dun, pan.ju);
 
@@ -723,7 +751,7 @@ module.exports = {
   XING_ORIGIN, MEN_ORIGIN,
   YIN_DI_ORDER_5_GONG, YIN_DI_ORDER_5_CYCLE,
   GONG_LAYOUT, LUOSHU_POS, LUOSHU_NAME,
-  ZHI_TO_LUOSHU,
+  GONG_MONTH_JIEQI, ZHI_TO_LUOSHU,
   findGongIndexByLuoshu,
   determineDun, determineJu, determinePan,
   determineGuiShen, fullPaiPan, paiPan,

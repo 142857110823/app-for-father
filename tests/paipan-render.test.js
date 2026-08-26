@@ -30,9 +30,19 @@ for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html'
       `${relativePath} screen`,
     );
     assertFieldOrder(
+      html.slice(screenStart, screenEnd),
+      ['pc-tg', 'pc-yj', 'pc-jq', 'pc-rp'],
+      `${relativePath} screen right`,
+    );
+    assertFieldOrder(
       html.slice(exportStart, exportEnd),
       ['em-ling', 'em-tian', 'em-ren', 'em-di'],
       `${relativePath} export`,
+    );
+    assertFieldOrder(
+      html.slice(exportStart, exportEnd),
+      ['er-tiangang', 'er-yueju', 'er-jieqi', 'er-ripai'],
+      `${relativePath} export right`,
     );
   });
 

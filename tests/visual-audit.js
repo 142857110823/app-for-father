@@ -51,7 +51,7 @@ async function auditViewport(browser, width, height) {
       }
 
       const items = [...cell.querySelectorAll(
-        '.pc-shen,.pc-xing,.pc-men,.pc-ling,.pc-tian,.pc-di,.pc-ren,.pc-tg,.pc-rp',
+        '.pc-shen,.pc-xing,.pc-men,.pc-ling,.pc-tian,.pc-di,.pc-ren,.pc-tg,.pc-yj,.pc-jq,.pc-rp',
       )].filter((item) => item.textContent.trim());
 
       for (let i = 0; i < items.length; i++) {
@@ -75,6 +75,8 @@ async function auditViewport(browser, width, height) {
         text: item.textContent,
         writingMode: getComputedStyle(item).writingMode,
       })),
+      yueju: [...document.querySelectorAll('.pc-yj')].map((item) => item.textContent).filter(Boolean),
+      jieqi: [...document.querySelectorAll('.pc-jq')].map((item) => item.textContent).filter(Boolean),
       overlaps,
       overflow,
     };
@@ -127,6 +129,12 @@ async function main() {
       }
       if (result.tiangang.some((item) => item.writingMode !== 'vertical-rl')) {
         throw new Error(`${viewport} 存在未纵排的天罡标签`);
+      }
+      if (!result.yueju.length) {
+        throw new Error(`${viewport} 缺少月局标签`);
+      }
+      if (!result.jieqi.length) {
+        throw new Error(`${viewport} 缺少节气标签`);
       }
       if (result.overlaps.length || result.overflow.length) {
         throw new Error(

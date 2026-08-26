@@ -11923,6 +11923,34 @@ var QiMenAlgorithmBundle = (() => {
         8: "\u826E",
         9: "\u79BB"
       };
+      var GONG_MONTH_JIEQI = [
+        { month: "\u516B\u6708", jieqi: "\u767D\u9732\u3001\u79CB\u5206" },
+        // idx0  4尾
+        { month: "\u4E03\u6708", jieqi: "\u7ACB\u79CB\u3001\u5904\u6691" },
+        // idx1  9
+        { month: "\u516D\u6708", jieqi: "\u5C0F\u6691\u3001\u5927\u6691" },
+        // idx2  2尾
+        { month: "\u4E94\u6708", jieqi: "\u8292\u79CD\u3001\u590F\u81F3" },
+        // idx3  2首
+        { month: "\u56DB\u6708", jieqi: "\u7ACB\u590F\u3001\u5C0F\u6EE1" },
+        // idx4  7
+        { month: "\u4E09\u6708", jieqi: "\u6E05\u660E\u3001\u8C37\u96E8" },
+        // idx5  6尾
+        { month: "\u4E8C\u6708", jieqi: "\u60CA\u86F0\u3001\u6625\u5206" },
+        // idx6  6首
+        { month: "\u6B63\u6708", jieqi: "\u7ACB\u6625\u3001\u96E8\u6C34" },
+        // idx7  1
+        { month: "\u5341\u4E8C\u6708", jieqi: "\u5C0F\u5BD2\u3001\u5927\u5BD2" },
+        // idx8  8首
+        { month: "\u5341\u4E00\u6708", jieqi: "\u5927\u96EA\u3001\u51AC\u81F3" },
+        // idx9  8尾
+        { month: "\u5341\u6708", jieqi: "\u7ACB\u51AC\u3001\u5C0F\u96EA" },
+        // idx10 3
+        { month: "\u4E5D\u6708", jieqi: "\u5BD2\u9732\u3001\u971C\u964D" },
+        // idx11 4首
+        { month: "", jieqi: "" }
+        // idx12 中宫
+      ];
       var ZHI_TO_LUOSHU = {
         "\u5B50": 1,
         "\u4E11": 8,
@@ -12224,6 +12252,10 @@ var QiMenAlgorithmBundle = (() => {
           renPan: "",
           // 人盘 = 地盘干的别名（渲染时中列展示顺序：灵 / 天 / 人 / 地）
           tiangang: "",
+          yueJu: "",
+          // 月局（固定宫位，天罡.docx 原始宫位表）
+          jieQi: "",
+          // 二十四节气（固定宫位）
           riPaiJu: ""
         }));
       }
@@ -12322,6 +12354,10 @@ var QiMenAlgorithmBundle = (() => {
         const pan = determinePan(pillarArr);
         const guiShenZhi = determineGuiShen(dayGan, isNight);
         const palaces = createEmptyPalaces();
+        palaces.forEach((p, i) => {
+          p.yueJu = GONG_MONTH_JIEQI[i]?.month || "";
+          p.jieQi = GONG_MONTH_JIEQI[i]?.jieqi || "";
+        });
         placeRenPan(palaces, pan.dun, pan.ju);
         if (pan.dun === "\u9634\u9041") {
           if (pan.ju === 5) {
@@ -12393,6 +12429,7 @@ var QiMenAlgorithmBundle = (() => {
         GONG_LAYOUT,
         LUOSHU_POS,
         LUOSHU_NAME,
+        GONG_MONTH_JIEQI,
         ZHI_TO_LUOSHU,
         findGongIndexByLuoshu,
         determineDun,
