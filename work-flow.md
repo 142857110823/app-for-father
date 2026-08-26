@@ -424,6 +424,28 @@
 - AI中转站: API密钥URL=https://www.juapi.net/v1, key=sk-UEcSmrEsDBKUJRdsarxV1oJMd7DUmDhwvd9jnQQXDYBe7Tqe（已配置在server.js）。
 【相关文档】API密钥.txt、algorithm/qimen.js、algorithm/reference.js、algorithm/test.js、algorithm/browser-entry.js、public/algorithm.bundle.js、server.js
 
+### 2026-08-27 调整视觉效果与空间布局：右列增加月局/节气并统一三列对齐
+【时间】2026-08-27
+【事件】用户依据最新完善《天罡》文档反馈：宫位内左/中/右三部分对齐不统一，右列需由天罡/日排扩展为天罡→月局→节气→日排局。
+【问题来源】用户消息"布局与对齐问题 (Layout & Alignment)"及附图错误案例，参考《天罡》文档。
+【执行方向】
+1. 算法层：在 `algorithm/qimen.js` 新增 `GONG_MONTH_JIEQI` 固定映射，为 13 宫填充 `yueJu`（月局）与 `jieQi`（节气）；中宫置空。
+2. 前端渲染：修改 `public/index.html` 的 `renderTraditionalPlate()` 与 `buildPaipanHTML()`，右列改为天罡(纵排)→月局→节气→日排局四要素；左列（神/星/门）改为左对齐，中列（灵/天/人/地）改为居中对齐，右列保持右对齐。
+3. 同步三处入口：public/index.html、仓库根 index.html、docs/index.html 与 PDF 导出模板。
+4. 更新测试：`tests/paipan-render.test.js` 增加右列四要素顺序断言；`tests/visual-audit.js` 将月局/节气纳入重叠检测并断言其存在。
+5. 重建 browser bundle：`npm run build:browser`。
+6. 视觉审查：启动 server.js，使用 Playwright 在 480×900 与 360×800 两个视口执行 `tests/visual-audit.js`，保存截图并人工复核。
+【执行边界】
+- 改动：algorithm/qimen.js、public/index.html（含根/docs同步）、public/algorithm.bundle.js、tests/paipan-render.test.js、tests/visual-audit.js。
+- 未改：排盘核心算法（定遁定局、神/星/门/天/地/人/灵/天罡/日排局规则）；未改 backend/*、android/*。
+【执行结果】
+- 算法层：`GONG_MONTH_JIEQI` 已注入 palace.yueJu / palace.jieQi；`npm run build:browser` 成功（587.7kb）。
+- 单元测试：`node --test tests/qimen-core.test.js` 3/3 通过；`node --test tests/paipan-render.test.js` 9/9 通过。
+- 视觉审查：`node tests/visual-audit.js` 通过，480×900 与 360×800 均无重叠/溢出；截图显示左列左对齐、中列居中、右列右对齐，右列依次呈现天罡/月局/节气/日排局。
+- 本地提交：`a15bc59 feat(layout): 右列增加月局/节气并统一三列对齐`。
+- 推送状态：因当前环境无法连接 github.com:443（Connection was reset / Could not connect to server），本次未成功推送；需用户在网络通畅时手动执行 `git push origin master`。
+【相关文档】天罡.docx、algorithm/qimen.js、public/index.html、tests/paipan-render.test.js、tests/visual-audit.js、work-flow.md
+
 ---
 
 ## 关键决策记录
