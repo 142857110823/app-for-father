@@ -442,8 +442,8 @@
 - 算法层：`GONG_MONTH_JIEQI` 已注入 palace.yueJu / palace.jieQi；`npm run build:browser` 成功（587.7kb）。
 - 单元测试：`node --test tests/qimen-core.test.js` 3/3 通过；`node --test tests/paipan-render.test.js` 9/9 通过。
 - 视觉审查：`node tests/visual-audit.js` 通过，480×900 与 360×800 均无重叠/溢出；截图显示左列左对齐、中列居中、右列右对齐，右列依次呈现天罡/月局/节气/日排局。
-- 本地提交：`a15bc59 feat(layout): 右列增加月局/节气并统一三列对齐`。
-- 推送状态：因当前环境无法连接 github.com:443（Connection was reset / Could not connect to server），本次未成功推送；需用户在网络通畅时手动执行 `git push origin master`。
+- 本地提交：`a15bc59 feat(layout): 右列增加月局/节气并统一三列对齐` → `543db8a docs(work-flow)` → `c60303d docs(work-flow)`（最终本地 HEAD）。
+- 推送状态：因当前环境无法连接 github.com:443（Connection was reset / Could not connect to server），多次重试均未成功；需用户在网络通畅时手动执行 `git push origin master`。
 【相关文档】天罡.docx、algorithm/qimen.js、public/index.html、tests/paipan-render.test.js、tests/visual-audit.js、work-flow.md
 
 ---
