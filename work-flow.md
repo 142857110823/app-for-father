@@ -906,4 +906,5 @@
 - 测试：node algorithm/qimen.js（5项断言全过）、node algorithm/test.js（13宫×8字段一致）、node --test paipan-render+qimen-core+school 系列 36/36 通过（ai-client.test 因本地8090服务运行导致端点分支差异失败，属环境因素，与本次改动无关）。
 - 视觉证据：artifacts/visual-audit/plate-480x900.png、plate-360x800.png（标准案例）、usercase-plate-480x900.png、usercase-plate-360x800.png（用户案例，审查时间 2026-08-26 晚）。
 - 本地预览地址：http://localhost:8090/（验证时间 2026-08-26）。
+- 提交与推送：commit 4d483d6（fix(riPaiJu): 日排局尾簇按农历实际天数截断并优化宫位布局），2026-08-26 推送 GitHub master 成功（fc766d8..4d483d6）；用户案例复验（2026-02-26 16:55）：has31=false、天罡12px、overflow=0，证据 artifacts/visual-audit/user-case-20260226.png。
 **【相关文档】** 项目信息/天罡.docx、algorithm/qimen.js、algorithm/pillars.js、algorithm/reference.js、algorithm/test.js、algorithm.bundle.js、public/index.html、index.html、docs/index.html、tests/qimen-core.test.js、tests/visual-audit.js、tests/paipan-render.test.js、work-flow.md
