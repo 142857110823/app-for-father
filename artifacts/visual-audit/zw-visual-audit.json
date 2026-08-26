@@ -1,0 +1,123 @@
+{
+  "url": "http://localhost:8090/artifacts/visual-audit/zw-preview.html",
+  "checkedAt": "2026-08-25T01:18:26.594Z",
+  "results": {
+    "1280x900": {
+      "boardCount": 3,
+      "boards": [
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        },
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        },
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        }
+      ],
+      "statusText": "ZiWeiPro.available=true | selfTest=PASS（5 项）"
+    },
+    "480x900": {
+      "boardCount": 3,
+      "boards": [
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        },
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        },
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        }
+      ],
+      "statusText": "ZiWeiPro.available=true | selfTest=PASS（5 项）"
+    },
+    "360x800": {
+      "boardCount": 3,
+      "boards": [
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        },
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        },
+        {
+          "cellCount": 13,
+          "centerColspan": "2",
+          "centerRowspan": "2",
+          "soulCells": 1,
+          "bodyTags": 1,
+          "mutSup": 4,
+          "starRed": 14,
+          "overlaps": [],
+          "overflow": []
+        }
+      ],
+      "statusText": "ZiWeiPro.available=true | selfTest=PASS（5 项）"
+    }
+  }
+}

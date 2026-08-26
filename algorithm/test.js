@@ -34,7 +34,7 @@ function comparePalace(computed, ref, idx) {
 function runCase(refData) {
   console.log(`\n------ ${refData.pan}-${refData.dun}-${refData.ju}局 (${refData.pillars.join(' ')}) ------`);
   const extra = (refData.lunarMonth !== undefined)
-    ? { lunarMonth: refData.lunarMonth, lunarDay: refData.lunarDay, shiZhi: refData.shiZhi }
+    ? { lunarMonth: refData.lunarMonth, lunarDay: refData.lunarDay, shiZhi: refData.shiZhi, paiJuMonthDays: refData.paiJuMonthDays }
     : undefined;
   const result = fullPaiPan(refData.pillars, refData.dayGan, refData.isNight, extra);
 

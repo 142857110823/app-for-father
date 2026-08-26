@@ -26,12 +26,12 @@ for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html'
     assert.ok(exportStart >= 0 && exportEnd > exportStart, `${relativePath} export template missing`);
     assertFieldOrder(
       html.slice(screenStart, screenEnd),
-      ['pc-ling', 'pc-tian', 'pc-di', 'pc-ren'],
+      ['pc-ling', 'pc-tian', 'pc-ren', 'pc-di'],
       `${relativePath} screen`,
     );
     assertFieldOrder(
       html.slice(exportStart, exportEnd),
-      ['em-ling', 'em-tian', 'em-di', 'em-ren'],
+      ['em-ling', 'em-tian', 'em-ren', 'em-di'],
       `${relativePath} export`,
     );
   });

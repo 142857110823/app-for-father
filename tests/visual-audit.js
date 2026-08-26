@@ -112,14 +112,18 @@ async function main() {
     );
 
     for (const [viewport, result] of Object.entries(results)) {
-      if (result.centerText.join('/') !== '太常/贪狼/休/癸/乙/乙/戊') {
+      if (result.centerText.join('/') !== '太常/癸/贪狼/乙/休门/戊/乙') {
         throw new Error(`${viewport} 中宫内容不符合标准: ${result.centerText.join('/')}`);
       }
       if (result.centerColspan !== '2' || result.centerRowspan !== '2') {
         throw new Error(`${viewport} 中宫未保持 2x2 合并`);
       }
-      if (!result.dates.includes('1/2/3/29/30/31')) {
+      // 2026-08-14 标准案例（阴遁5局）：丙午年五月为 29 天小月，尾簇截断为 1/2/3/29
+      if (!result.dates.includes('1/2/3/29')) {
         throw new Error(`${viewport} 缺少完整日排局日期簇`);
+      }
+      if (result.dates.some((d) => d.includes('31'))) {
+        throw new Error(`${viewport} 日排局出现农历不存在的 31 日`);
       }
       if (result.tiangang.some((item) => item.writingMode !== 'vertical-rl')) {
         throw new Error(`${viewport} 存在未纵排的天罡标签`);

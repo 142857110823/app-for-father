@@ -1,7 +1,25 @@
 // 四柱干支计算（公历时间 → 年月日时四柱）
 // 基于 lunar-javascript 农历库
-const { Solar } = require('lunar-javascript');
+const { Solar, LunarMonth } = require('lunar-javascript');
 const { fullPaiPan: corePaiPan, determinePan, determineGuiShen, SHEN, XING, MEN, GONG_LAYOUT } = require('./qimen.js');
+
+/**
+ * 排局月（第 N 农历月）在指定农历年的实际天数
+ * 依据【万年历】【阴历】：农历月仅有 29 天（小月）或 30 天（大月）
+ * @param {number} lunarYear 农历年
+ * @param {number} paiJuMonth 排局月（局数 N，0 局等价 10）
+ * @returns {number} 29 或 30（查询失败时保底 30）
+ */
+function getPaiJuMonthDays(lunarYear, paiJuMonth) {
+  try {
+    const lunarMonthObj = LunarMonth.fromYm(lunarYear, paiJuMonth);
+    if (lunarMonthObj) {
+      const days = lunarMonthObj.getDayCount();
+      if (days === 29 || days === 30) return days;
+    }
+  } catch (e) { /* 超出历法范围时保底 */ }
+  return 30;
+}
 
 /**
  * 公历时间 → 四柱（年月日时）
@@ -64,7 +82,12 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
   const lunarDay = lunar.getDay();
   const shiZhi = pillars.zhi.time;
 
-  const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi });
+  // 排局月（局数 N）的农历实际天数：用于日排局第 N 月宫位尾簇截断
+  const panInfo = determinePan(pillarArr);
+  const paiJuMonth = panInfo.ju === 0 ? 10 : panInfo.ju;
+  const paiJuMonthDays = getPaiJuMonthDays(lunar.getYear(), paiJuMonth);
+
+  const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays });
 
   return {
     input: { year, month, day, hour, minute },
@@ -85,7 +108,9 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     lunarMonth,
     lunarDay,
     shiZhi,
-    extraContext: { lunarMonth, lunarDay, shiZhi }
+    paiJuMonth,
+    paiJuMonthDays,
+    extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays }
   };
 }
 

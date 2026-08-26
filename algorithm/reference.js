@@ -64,6 +64,7 @@ const YANG_DUN_5 = {
 // 字段：shen(神) / xing(星) / men(门) / tian(天盘) / di(地盘) / ren(人盘) / ling(灵盘) / tiangang(天罡) / riPai(日排局)
 // 三个原始宫位映射表（TABLE 0/1/2/4 反推）：
 //   中宫标准：太常/贪狼/休门 | 癸/乙/乙/戊
+// 2026-08-26 阴历逻辑修正：丙午年五月为 29 天小月，2首(idx3) 尾簇由 1/2/3/29/30/31 截断为 1/2/3/29
 const YIN_DUN_5 = {
   pan: '阴盘',
   dun: '阴遁',
@@ -75,6 +76,7 @@ const YIN_DUN_5 = {
   lunarMonth: 7,
   lunarDay: 2,
   shiZhi: '午',
+  paiJuMonthDays: 29,
   palaces: [
     // idx0 = 4[尾] Row1Col1: 勾陈+己+巨门+癸+吉门+癸+庚 | 天罡=河魁 | 日排=9/10
     { idx: 0,  shen:'勾陈', xing:'巨门', men:'吉', tian:'癸', di:'癸', ren:'庚', ling:'己', tiangang:'河魁', riPai:'9/10' },
@@ -82,11 +84,11 @@ const YIN_DUN_5 = {
     { idx: 1,  shen:'太阴', xing:'天同', men:'冲', tian:'庚', di:'庚', ren:'丙', ling:'己', tiangang:'登时', riPai:'6/7/8' },
     // idx2 = 2[尾] Row1Col3: 天后+庚+天相+庚+天门+己+癸 | 天罡=神后 | 日排=4/5
     { idx: 2,  shen:'天后', xing:'天相', men:'天', tian:'庚', di:'己', ren:'癸', ling:'庚', tiangang:'神后', riPai:'4/5' },
-    // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/2/3/29/30/31
-    { idx: 3,  shen:'玄灵', xing:'文曲', men:'杜', tian:'己', di:'己', ren:'壬', ling:'戊', tiangang:'大吉', riPai:'1/2/3/29/30/31' },
-    // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28
+    // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/2/3/29（五月29天小月，尾簇截断）
+    { idx: 3,  shen:'玄灵', xing:'文曲', men:'杜', tian:'己', di:'己', ren:'壬', ling:'戊', tiangang:'大吉', riPai:'1/2/3/29' },
+    // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28 (4月特殊月，天罡.docx第五月表)
     { idx: 4,  shen:'朱雀', xing:'左辅', men:'从', tian:'丁', di:'丁', ren:'己', ling:'丙', tiangang:'功曹', riPai:'27/28' },
-    // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26
+    // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26 (3月，天罡.docx第五月表)
     { idx: 5,  shen:'白虎', xing:'右弼', men:'景', tian:'丙', di:'丙', ren:'辛', ling:'壬', tiangang:'太冲', riPai:'25/26' },
     // idx6 = 6[首] Row4Col4: 玄武+乙+天机+戊+生门+戊+庚 | 天罡=天罡(起始) | 日排=23/24
     { idx: 6,  shen:'玄武', xing:'天机', men:'生', tian:'戊', di:'戊', ren:'庚', ling:'乙', tiangang:'天罡', riPai:'23/24' },

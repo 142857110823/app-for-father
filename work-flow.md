@@ -1,4 +1,4 @@
-﻿# Work-Flow - 十三宫奇门遁甲 APP 项目进度
+# Work-Flow - 十三宫奇门遁甲 APP 项目进度
 
 > 本文件动态记录项目进度，每次重要节点更新。
 
@@ -18,6 +18,9 @@
 ---
 
 ## 阶段总览
+
+> ⚠️ **【用户强制戒律（2026-08-24，写入 AGENTS 前此处先立档，后续同步）】**
+> 进行 UI 设计（四柱八字、紫微斗数、梅花易数、大六壬等）时，**若未确定视觉风格必须先联网搜索主流产品的视觉参考**，绝不允许在不知道"该长什么样"的情况下主观臆造，输出"一堆垃圾"。——该戒律作为本项目视觉工作的强制门槛，与 AGENTS 第11条（视觉效果审查）和第12条（权威案例逐格审查）并列生效。
 
 | 阶段 | 状态 | 说明 |
 |------|------|------|
@@ -759,3 +762,148 @@
 - 本地预览：`http://localhost:8090/?qa=visual-audit`，验证时间 2026-08-24 18:45–19:10。
 - GitHub Pages 线上实机复验：`https://142857110823.github.io/app-for-father/?qa=907f97d`，验证时间 2026-08-24 19:21（Asia/Shanghai），HTTP 200；实际输入 `2026-08-14 12:22` 后生成“阴盘 · 阴遁 · 5局”，中宫为 `太常/贪狼/休/癸/乙/乙/戊`，2首日期为 `1/2/3/29/30/31`，12 个天罡标签均为 `vertical-rl` 纵排，在线 DOM 几何审查结果为重叠 0、溢出 0，并已完成无遮挡目视检查。
 **【相关文档】** AGENTS.md、qimen.js、reference.js、test.js、index.html、public/index.html、docs/index.html、qimen-core.test.js、paipan-render.test.js、visual-audit.js、visual-audit.json、plate-480x900.png、plate-360x800.png、package.json、work-flow.md、排盘-【阴盘-阴遁-5局】 2(1)(1).docx、天罡.docx
+
+
+### 2026-08-25 紫微斗数模块 ZiWeiPro 创建与三视口视觉审查
+
+**【时间】** 2026-08-25（Asia/Shanghai）
+**【事件】** 新建紫微斗数排盘模块 js/ziwei.js（挂载 window.ZiWeiPro），基于本地已缓存的 iztro UMD 构建（vendor/iztro.min.js，768KB，无需网络），实现 paiPan/render/selfTest 与 4×4 十二宫方格命盘 UI。
+**【问题来源】** 任务要求创建紫微模块：检查 vendor 已有 iztro 则无需下载；任务给定的 node -e 原命令在 Node 下因 iztro UMD 以 self 为宿主对象抛 ReferenceError（Node 无 self 全局），需按任务注意事项补 global.self 宿主 mock。
+**【执行方向】**
+1. 复用 vendor/iztro.min.js（786,836 字节，含 astro 命名空间，验证可用，未重新下载）。
+2. 重写 js/ziwei.js：window.ZiWeiPro = { available, error, version, paiPan, render, selfTest }；paiPan 返回 raw/姓名/阳历/农历/四柱/命主/身主/命宫位置/十二宫（每宫含 name、是身宫、天干、地支、大限、小限、主星、辅星、杂耀、四化 map、空亡，附英文键）；render(el, result) 写入容器并兼容 render(result) 旧单参调用；保留 window.FeaturesZiwei 旧别名与旧字段超集，旧测试不破。
+3. selfTest 以 2000-01-01 00:00 男校验：引擎可用/返回非空/12 宫固定序/含命宫兄弟宫/四化与空亡字段（生年四化恰 4 颗）。
+4. 更新 artifacts/visual-audit/zw-preview.html 为新 API 三案例审查页；新增 tests/ziwei-visual-audit.js 自动审查脚本（Edge headless + 打包版 playwright），生成 1280×900/480×900/360×800 截图与 JSON 证据。
+5. 首轮审查发现杂耀文字与底部大限行重叠（桌面 2 处、360px 5 处）：td 预留 padding-bottom 15px 小于底部信息区实际高度约 35px；改为桌面 36px/窄屏 38px 并微调宫高后复审通过。
+**【执行边界】** 仅新建/修改 js/ziwei.js、tests/ziwei-visual-audit.js、artifacts/visual-audit/zw-preview.html 及审查产物；不改动奇门主盘、不重新下载 vendor、不做 git 提交；紫微排盘数值正确性以 iztro 引擎为准（案例① 命宫午/紫微庙/土五局/命主破军/身主天同与旧测试手工推算一致）。
+**【执行结果】**
+- node 校验（需 self 宿主 mock）：PASS: true，5 项用例全过；生年四化 禄→武曲 权→贪狼 科→天梁 忌→文曲。
+- 旧测试 tests/ziwei.test.js：6/6 通过（向后兼容）。
+- 视觉审查：1280×900、480×900、360×800 三视口重叠 0、溢出 0；每盘 13 单元格（12 宫+2×2 中宫）、身宫标记 1、四化上标 4；布局映射验证 td 序 = 巳,午,未,申,辰,中宫,酉,卯,戌,寅,丑,子,亥；四化上标颜色实测 禄#2e7d32 权#e65100 科#1565c0 忌#c62828。
+- 产物：zw-page/zw-board 六张截图 + zw-visual-audit.json（artifacts/visual-audit/）。
+- 本地预览：http://localhost:8090/artifacts/visual-audit/zw-preview.html（本地开发地址，静态服务器端口 8090，会话内有效；GitHub Pages 线上地址本轮未部署）。
+**【相关文档】** js/ziwei.js、vendor/iztro.min.js、tests/ziwei.test.js、tests/ziwei-visual-audit.js、artifacts/visual-audit/zw-preview.html、artifacts/visual-audit/zw-visual-audit.json、work-flow.md
+
+---
+
+## 2026-08-25 09:35 梅花易数模块创建（js/meihua.js 自包含引擎 + 三卦并排 UI + selfTest）
+
+**【时间】** 2026-08-25 09:15 - 09:40
+**【事件】** 新建 js/meihua.js：十三宫奇门遁甲 APP 梅花易数模块，自包含挂 window.MeiHuaPro = { paiPan, render, selfTest }，宣纸白/墨色/暗金/楷体风格，类名前缀 mh-。
+**【问题来源】** 用户需求（梅花易数排盘引擎 + 渲染 + 自测，时间起卦/数字起卦双模式，node 验证通过为准）。
+**【执行方向】**
+1. 农历转换自包含：用项目内 lunar-javascript 逐月提取 1900-2100 农历压缩表（bit15-4=正月..十二月大小、bit16=闰月大小、bit0-3=闰月月份），公历→农历经典算法与 lunar-javascript 全量 73384 天逐日比对零误差后内嵌。
+2. paiPan 双模式：时间起卦（年支序数+农历月+日 ÷8 余上卦，加时辰序数 ÷8 余下卦，总数 ÷6 余动爻，余 0 当 8/6，闰月按基月）；数字起卦两数/三数；输出本卦/互卦（234 下互、345 上互）/变卦（动爻取反）/体用判定（动爻所在卦为用）/体用五行生克/互变生克链/卦气旺衰（按季节，土旺四季月）。
+3. 历法勘误：任务原文称 2026-08-14 为农历「七月十二」，经 lunar-javascript + 公开万年历多方核实实为「七月初二」（丙午年 丙申月 壬戌日）；农历七月十二对应 2026-08-24。selfTest 用例 1 按真实农历输出（坤为地上爻动），用例 2 用 2026-08-24 复现原文数字算式（26÷8余2 兑 / 34÷8余2 兑 / 34÷6余4 → 兑为泽四爻动）。
+4. 手算勘误：任务原文数字起卦 [1,2,3] 写「天泽履变泽天夬」；手算复核履卦上爻（第6爻）阳变阴后上卦为兑、下卦仍为兑，变卦应为「兑为泽」（泽天夬与履相差第3、6两爻，非单爻之变），selfTest 按手算为准。
+5. render(el, result)：三卦横向并排（本卦→互卦→变卦），六爻从下往上画（阳爻长横实线/阴爻断线），动爻朱红圆圈+红字「动」，体/用徽标，底部信息条（体用关系+吉凶+互变生克链+卦气）。
+**【执行边界】** 仅新建 js/meihua.js 与临时审查页 temp_meihua_preview.html；不改奇门主盘/紫微/后端；不做 git 提交；排盘正确性以标准梅花心易规则 + 手算复核为准。
+**【执行结果】**
+- node 验证（global.window mock）：selfTest 6/6 用例 PASS: true（时间起卦 2 例 + 动爻复核 1 例 + 数字起卦三数 2 例 + 两数 1 例，每例含手算算式与 expected/actual 逐字段比对）。
+- 边界验证：闰月（2025-07-26 闰六月初二按六月计）、1900-01-31/2100-12-31 边界、缺省当前时间、date 字符串入参均正常。
+- 视觉审查（Edge headless + DOM 布局自动检测 59 项全过）：三卦横排 top 一致、每卦 6 爻、初爻在底、阴阳爻线段数正确、动爻朱红 rgb(185,74,58) 圆圈+动字仅本卦、体用徽标、信息条 3 行、无横向溢出、宣纸白 rgb(245,242,233)、楷体字体链；桌面 1000px 与窄屏 375px 双视口截图存证。
+- 产物：js/meihua.js（约 40KB 纯自包含）；截图 artifacts/meihua-visual-desktop-20260825.png、artifacts/meihua-visual-mobile-375px-20260825.png。
+- 本地预览：http://localhost:8765/（本地开发地址，静态服务端口 8765，会话内有效，页面 temp_meihua_preview.html 渲染 5 个案例含 375px 窄屏模拟；GitHub Pages 线上地址本轮未部署）。
+**【相关文档】** js/meihua.js、temp_meihua_preview.html、artifacts/meihua-visual-desktop-20260825.png、artifacts/meihua-visual-mobile-375px-20260825.png、work-flow.md
+
+### 2026-08-26 日排局算法修复 + CSS文本重叠修复
+
+**【时间】** 2026-08-26（Asia/Shanghai）
+**【事件】** 修复日排局日期分配错误（1/4/7/10月需显示3个日期）和宫位文本重叠问题
+**【问题来源】** 用户截图反馈：1）第4月份违反核心规则，仅显示2个日期；2）宫位左侧【神盘】【星盘】与中间部分发生重叠挤压
+**【执行方向】**
+1. 分析日排局算法 placeRiPaiJu 函数，确认特殊月份（1/4/7/10）需获得3个日期的规则
+2. 重构算法：添加 SPECIAL_MONTHS 定义，优先分配特殊月份3个日期，从最后普通月份开始缩减以满足 MAX_DAYS=25 限制
+3. 修复CSS布局：增加单元格高度（100px→110px），调整列宽分配（左:中=0.55:0.65），减小右侧标签宽度（44px→40px），添加gap间距
+4. 同步修改到三处入口（public/、根目录、docs/）
+
+**【执行边界】** 仅修改 algorithm/qimen.js、algorithm.bundle.js、public/index.html、index.html、docs/index.html 中的日排局算法和CSS样式；不修改其他功能代码。
+
+**【执行结果】**
+- Node.js算法验证：阴遁5局（2026-08-14 12:22）排盘结果正确
+  - 4月(idx4): 26/27/28 (3个日期) ✓
+  - 7月(idx1): 6/7/8 (3个日期) ✓
+  - 10月(idx10): 13/14/15 (3个日期) ✓
+  - 1月(idx7): 20/21/22 (3个日期) ✓
+- 浏览器DOM验证：#plate-table正确渲染，12个.pc-rp元素（日排局文本），12个.pc-tg元素（天罡标签）
+- CSS修改验证：
+  - 单元格高度增加至110px，为4行内容提供充足空间
+  - 左中列flex比例调整为0.55:0.65，减少左侧内容挤压
+  - 右侧标签宽度缩小至40px，为左中内容让出更多空间
+  - 添加gap:1px间距，避免元素直接接触
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-26）
+
+**【相关文档】** algorithm/qimen.js、algorithm.bundle.js、public/index.html、index.html、docs/index.html、work-flow.md
+
+### 2026-08-26 天罡标签居中 + 外围宫左中分区居中修复
+
+**【时间】** 2026-08-26（Asia/Shanghai）
+**【事件】** 用户反馈视觉效果不达标：②右上角黄色天罡标签（"从魁""神后"等）大小不一、高低错落，需要在标签内居中对齐；③12个外围宫位的【中间+左部分】文字死死贴靠左侧，宫位出现大片无意义留白。
+**【问题来源】**
+- ②根因（DOM Range 实测确证）：`.pc-tg` 使用 `writing-mode:vertical-rl` 竖排且固定 `width:18px`，竖排行盒贴容器右缘——标签内文字左空7px/右空1px，未水平居中；固定宽度与字体度量不匹配导致视觉上大小不一。
+- ③根因（几何实测确证）：`.palace-col-left/.palace-col-mid` 及 `.pc-row-left/.pc-row-mid` 均 `justify-content:flex-start`，中列单字干（13px宽）贴在列左缘 x=125，与右列（x=157）之间形成 19px 死区；列内右侧留白全部浪费。
+**【执行方向】**
+1. `.pc-tg`：移除固定 `width:18px`，改为自适应宽度 + 对称内边距 `padding:2px 3px` + `white-space:nowrap` + `box-sizing:content-box`，文字收缩包裹后天然居中；380px 移动端同步改为 `padding:1px 2px`（去掉 width:14px）。
+2. `.palace-col-left/.palace-col-mid`：增加 `justify-content:center`（列容器主轴居中）；`.pc-row-left/.pc-row-mid` 同步改 `justify-content:center`（双保险）。
+3. 同步三处入口（public/、仓库根/、docs/），Select-String 校验三处 CSS 命中一致。
+4. 权威案例 2026-08-14 12:22（阴盘·阴遁·5局）实机复现 + DOM 几何逐宫校验 + 截图存证。
+**【执行边界】** 仅修改 CSS（public/index.html 三处样式规则），不改动排盘算法、DOM 结构、PDF 导出模板（er-tiangang 本已自适应宽度）；不涉及中宫（.pc-center-* 独立布局）。
+**【执行结果】**
+- ②修复后：12 个天罡标签统一 19×26px，标签内文字左/右间隙各 4px（完全居中），每宫顶部偏移一致（y=td+5px）。
+- ③修复后：中列干字从 x=125 移至 x=134-146（列内居中），12 宫内容与右列间隙统一 10px（修复前 19px），左列神/星/门在列内居中，留白均衡分布。
+- `node algorithm/test.js`：阴遁5局 13宫×8字段与参考完全一致，全部测试通过（CSS-only 变更，算法零影响）。
+- 视觉审查证据：artifacts/visual-audit/plate-before-fix-20260826-desktop.jpg、plate-after-fix-20260826-desktop.jpg（视口 627×582，验证时间 2026-08-26 15:35 前后）。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-26）。
+**【相关文档】** public/index.html、index.html、docs/index.html、algorithm/test.js、work-flow.md、artifacts/visual-audit/plate-before-fix-20260826-desktop.jpg、artifacts/visual-audit/plate-after-fix-20260826-desktop.jpg
+
+### 2026-08-26 门盘全称 + 中宫统一规格 + 依据更新后天罡.docx修复日排局
+
+**【时间】** 2026-08-26（Asia/Shanghai）
+**【事件】** 用户提出三项需求：①门盘呈现全称（休门/死门/吉门/伤门…），不再使用简写；②神盘/星盘/门盘需统一规格（中宫呈现歪七扭八）；③依据更新的《天罡.docx》优化右部分日排局。同时补充 AGENTS：用户消息中所有【】标识均为重要信息，多数在【项目信息】文件夹。
+**【问题来源】**
+- ①原实现门盘只显示单字（休/死/吉…），与文档表格（TABLE 1：天门|景门|吉门|死门…）不符。
+- ②中宫存在两处 CSS 冲突：主样式块（.pc-shen 17px/.pc-xing 18px/.pc-ren 18px）与文件后部遗留死代码块（覆盖为 .pc-shen 18px/.pc-xing/.pc-men 16px），叠加后中宫神18px/星16px/门16px/人18px 四种字号并存 → 歪七扭八；遗留块中 .pc-tri/.pc-col/.pc-tiangang/.pc-ripai/.pc-center-* 均为无模板引用的死 CSS。
+- ③《天罡.docx》更新（16:37，含【核心规则：依据万年历的阴历为标准】）后逐例核对发现：旧实现超限时缩减"循环顺序中最后的普通月"，导致阴遁5局三月=25（1日）、四月=26/27/28；文档标准（第N月各表逐例验证）：三月=25/26、四月=27/28——正确规则是缩减"循环顺序中最后一个特殊月"（N=2 缩正月、N=3 缩正月、N=5 缩四月，N∈{1,4,7,10}时恰好25日无需缩减）。reference.js 中 idx4/idx5 的 riPai 值已被旧错误实现污染，一并修正。
+**【执行方向】**
+1. algorithm/qimen.js placeRiPaiJu：超限缩减逻辑改为"缩减循环顺序中最后一个特殊月"（break 单次缩减），注释标注文档依据。
+2. algorithm/reference.js：idx4 riPai '26/27/28'→'27/28'、idx5 '25'→'25/26'，注释同步。
+3. public/index.html：renderCell/PDF 导出/宫位详情弹窗三处门显示改为 `men + '门'` 全称（色彩类 m-* 与知识库键仍用单字，数据层不变）。
+4. 中宫 CSS 重写：神/星/门统一 17px/700/letter-spacing 1px，四干统一 17px/700；380px 断点统一为神/星/门 14px、四干 13px；删除全部死 CSS（.pc-tri/.pc-col/.pc-tiangang/.pc-ripai/.pc-center-*/.palace-center 及冲突的遗留覆盖块）。
+5. tests/visual-audit.js 中宫断言同步门全称与 DOM 行交织序（太常/癸/贪狼/乙/休门/戊/乙）。
+6. npm run build:browser 重建 bundle；同步三处入口（index.html + algorithm.bundle.js × public/根/docs/）。
+7. AGENTS.md 追加【】标识约定与【项目信息】文件夹说明。
+**【执行边界】** 不改神/星/门/天罡排布算法与数据结构（men 字段仍为单字）；不动学堂/其他功能模块；PDF 模板仅改门显示文本。
+**【执行结果】**
+- ①门盘全称：13 宫显示"吉门,冲门,天门,杜门,死门,休门,从门,伤门,景门,惊门,开门,玄门,生门"（含中宫休门），屏幕/PDF/详情弹窗三处一致。
+- ②中宫规格：神/星/门 17px/700 完全统一（实测 x=225-262 居中一致），四干 17px 统一；死 CSS 清零。
+- ③日排局：node 逐宫核对 13 宫 riPaiJu 与天罡.docx 第五月表 ALL MATCH（idx4=27/28、idx5=25/26 修复生效，天罡起始 idx6=天罡 正确）。
+- `node algorithm/test.js`：阴遁5局 13宫×8字段全部一致；`node tests/visual-audit.js`：480×900 与 360×800 双视口 overlaps=0、overflow=0、天罡标签全纵排、日排局含完整日期簇。
+- 视觉证据：artifacts/visual-audit/plate-menfull-center-20260826-desktop.jpg（627×582 桌面）、plate-480x900.png、plate-360x800.png（窄屏）。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-26 17:00 前后）。
+**【相关文档】** 项目信息/天罡.docx、algorithm/qimen.js、algorithm/reference.js、algorithm.bundle.js、public/index.html、index.html、docs/index.html、tests/visual-audit.js、AGENTS.md、work-flow.md
+
+### 2026-08-26 日排局农历天数截断 + 宫位内容居中 + 天罡增大
+
+**【时间】** 2026-08-26（Asia/Shanghai）
+**【事件】** 用户提出三项需求：①2026年2月26日16:55排盘结果显示31日，不符合【万年历】【阴历】时间逻辑；②宫位【中间】部分空白偏多，需在整个宫位内【居中对齐】，目标饱和充实但不拥挤；③【天罡要素】偏小，适当增大（避免紊乱布局）。
+**【问题来源】**
+- ①placeRiPaiJu 将第N月原始宫位尾簇硬编码为 1/2/3/29/30/31，但农历月仅有29天（小月）/30天（大月），31日恒不存在。用户案例：2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局，三月宫位(idx5)显示含31的尾簇；经 lunar-javascript 核实丙午年三月为30天。
+- ②原 .palace-row 采用 flex 0.55/0.65 固定比例分列，中列内容（单字干）居中于过宽列内，左中内容组整体偏挤一侧，视觉留白失衡。
+- ③.pc-tg 仅 10px，与 13-14px 的主内容相比偏小。
+**【执行方向】**
+1. algorithm/qimen.js：placeRiPaiJu 增加 paiJuMonthDays 参数，尾簇按排局月实际天数截断（29天→1/2/3/29；30天→1/2/3/29/30；未提供时保底30）；fullPaiPan 从 extraContext 透传。
+2. algorithm/pillars.js：新增 getPaiJuMonthDays（LunarMonth.fromYm(农历年, 排局月).getDayCount()），经 determinePan 得局数后计算排局月天数并注入 extraContext；返回值新增 paiJuMonth/paiJuMonthDays。
+3. algorithm/reference.js：阴遁5局标准案例（丙午年五月29天小月）idx3 尾簇 1/2/3/29/30/31 → 1/2/3/29，新增 paiJuMonthDays:29 字段。**冲突记录**：天罡.docx 规则①"固定显示1/2/3/29/30/31"与用户最新阴历逻辑要求冲突，按项目规则以用户最新要求为准，标准案例尾簇随之截断。
+4. CSS（public/index.html + 根 + docs 三处同步）：.palace-left-mid 改为 grid 两列（auto auto，column-gap 5px，grid-auto-rows 1fr，justify-content center），.palace-row 改 display:contents，左列右对齐+中列左对齐，实现"神星门列↔灵天人地列"跨行对齐且整组在宫位内水平居中；.pc-tg 10px→12px（中宫12→13px、380px断点8→9px），padding 相应微调。
+5. PDF 导出模板 em-*/em-di 顺序修正：灵天地人 → 灵天人地（与屏幕模板及 AGENTS 2.4(十二) 规范一致，存量不一致顺手修复）；tests/paipan-render.test.js 断言同步为 pc/em-ling→tian→ren→di。
+6. 测试同步：qimen.js 自测（含新增2026-02-26阳遁3局案例断言 idx5=1/2/3/29/30 且全盘无31）、tests/qimen-core.test.js（新增农历截断测试）、tests/visual-audit.js（尾簇断言 1/2/3/29 + 全盘无31）。
+7. npm run build:browser 重建 bundle，同步 public/根/docs 三处。
+**【执行边界】** 不改神/星/门/天罡排布算法；不动 4-28 日期分配与特殊月缩减逻辑；不改学堂/我的/其他工具模块。
+**【执行结果】**
+- ①用户案例验证：2026-02-26 16:55 → 阳遁3局，idx5=1/2/3/29/30（三月30天），全盘无31；标准案例 2026-08-14 12:22 阴遁5局 idx3=1/2/3/29（五月29天）。
+- ②居中验证：480×900 与 360×800 双视口 13 宫左右留白差值全部为 0px；overlaps=0、overflow=0。
+- ③天罡字号：桌面 12px（原10px）、中宫 13px、窄屏 9px，纵排保持，无重叠溢出。
+- 测试：node algorithm/qimen.js（5项断言全过）、node algorithm/test.js（13宫×8字段一致）、node --test paipan-render+qimen-core+school 系列 36/36 通过（ai-client.test 因本地8090服务运行导致端点分支差异失败，属环境因素，与本次改动无关）。
+- 视觉证据：artifacts/visual-audit/plate-480x900.png、plate-360x800.png（标准案例）、usercase-plate-480x900.png、usercase-plate-360x800.png（用户案例，审查时间 2026-08-26 晚）。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-26）。
+**【相关文档】** 项目信息/天罡.docx、algorithm/qimen.js、algorithm/pillars.js、algorithm/reference.js、algorithm/test.js、algorithm.bundle.js、public/index.html、index.html、docs/index.html、tests/qimen-core.test.js、tests/visual-audit.js、tests/paipan-render.test.js、work-flow.md

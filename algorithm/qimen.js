@@ -320,9 +320,13 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
 }
 
 // ============ 日排局 ============
-// 天罡.docx：第 N 月排局的原始宫位承载 1/2/3/29/30/31，
+// 天罡.docx：第 N 月排局的原始宫位承载 1/2/3 + 月末尾簇，
 // 之后按月份顺序分配 4..28；1/4/7/10 月承载 3 日，其余月承载 2 日。
-function placeRiPaiJu(palaces, paiJuMonth) {
+// 当总日期数不足时，从最后一个普通月份开始减少，优先保证特殊月份获得 3 日。
+// 2026-08-26 依据【万年历】【阴历】逻辑修正：农历月仅有 29 天（小月）或 30 天（大月），
+// 不存在 31 日；第 N 月原始宫位尾簇按该农历月实际天数截断：
+//   30 天 → 1/2/3/29/30；29 天 → 1/2/3/29。
+function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays) {
   palaces.forEach(p => p.riPaiJu = '');
   if (!Number.isInteger(paiJuMonth) || paiJuMonth < 1 || paiJuMonth > 12) return;
 
@@ -331,14 +335,46 @@ function placeRiPaiJu(palaces, paiJuMonth) {
     7: 1, 8: 0, 9: 11, 10: 10, 11: 9, 12: 8
   };
 
-  palaces[MONTH_TO_GONG_IDX[paiJuMonth]].riPaiJu = '1/2/3/29/30/31';
-  let nextDay = 4;
+  const SPECIAL_MONTHS = [1, 4, 7, 10];
+
+  // 尾簇按排局月（第 N 农历月）实际天数截断；未提供天数时按大月 30 天保底
+  const tail = paiJuMonthDays === 29 ? '29' : '29/30';
+  palaces[MONTH_TO_GONG_IDX[paiJuMonth]].riPaiJu = '1/2/3/' + tail;
+
+  // 收集其余 11 个月的分配顺序（从第 N+1 月开始正向循环）
+  const monthOrder = [];
   for (let offset = 1; offset < 12; offset++) {
-    const month = ((paiJuMonth - 1 + offset) % 12) + 1;
-    const count = [1, 4, 7, 10].includes(month) ? 3 : 2;
+    monthOrder.push(((paiJuMonth - 1 + offset) % 12) + 1);
+  }
+
+  // 初始化每个月的日期数：1/4/7/10 月默认 3 日，其余月 2 日
+  const monthDates = {};
+  monthOrder.forEach(m => {
+    monthDates[m] = SPECIAL_MONTHS.includes(m) ? 3 : 2;
+  });
+
+  // 日期 4..28 共 25 天；总需求超限时，缩减循环顺序中最后一个特殊月份
+  // （依据更新后天罡.docx 第N月各表逐例验证：N=3 缩正月、N=5 缩四月、N=2 缩正月）
+  const MAX_DAYS = 25;
+  let total = Object.values(monthDates).reduce((a, b) => a + b, 0);
+  if (total > MAX_DAYS) {
+    for (let i = monthOrder.length - 1; i >= 0; i--) {
+      const m = monthOrder[i];
+      if (SPECIAL_MONTHS.includes(m) && monthDates[m] > 2) {
+        monthDates[m]--;
+        total--;
+        break;
+      }
+    }
+  }
+
+  // 按顺序分配日期
+  let nextDay = 4;
+  for (const m of monthOrder) {
+    const count = monthDates[m];
     const dates = [];
     for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
-    palaces[MONTH_TO_GONG_IDX[month]].riPaiJu = dates.join('/');
+    palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = dates.join('/');
   }
 }
 
@@ -650,10 +686,10 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
 
   // ===== 4. 天罡 + 日排局 =====
   if (extraContext) {
-    const { lunarMonth, shiZhi } = extraContext;
+    const { lunarMonth, shiZhi, paiJuMonthDays } = extraContext;
     placeTianGang(palaces, lunarMonth, shiZhi);
     const paiJuMonth = pan.ju === 0 ? 10 : pan.ju;
-    placeRiPaiJu(palaces, paiJuMonth);
+    placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays);
   }
 
   // ===== 5. 不再用 applyReference 覆盖结果；单元测试对 13 宫逐字段比对并报告 diff =====
@@ -723,12 +759,13 @@ if (require.main === module) {
   console.log(`  ${ok2 ? '✅ 定遁定局通过' : '❌ 定遁定局失败'}\n`);
 
   // 完整排盘：按阴遁5局权威案例检查中宫和日排局
+  // 丙午年五月为 29 天小月 → 2首(idx3) 尾簇截断为 1/2/3/29
   console.log('------ 完整排盘（示例② 阴遁5局）------');
   const full2 = fullPaiPan(
     ['丙午', '丙申', '庚申', '壬午'],
     '庚',
     false,
-    { lunarMonth: 7, lunarDay: 2, shiZhi: '午' }
+    { lunarMonth: 7, lunarDay: 2, shiZhi: '午', paiJuMonthDays: 29 }
   );
   console.log(`  贵神: ${full2.guiShen.dayGan}日${full2.guiShen.isNight ? '夜' : '昼'} → ${full2.guiShen.zhi}`);
   console.log(`  宫位排布:`);
@@ -748,10 +785,23 @@ if (require.main === module) {
   console.log(`\n  中宫标准: ${centerActual} ${ok3 ? '✅' : '❌'}`);
 
   const primaryDates = full2.palaces[3].riPaiJu;
-  const ok4 = primaryDates === '1/2/3/29/30/31';
+  const ok4 = primaryDates === '1/2/3/29';
   console.log(`  2首日排局: ${primaryDates} ${ok4 ? '✅' : '❌'}`);
 
-  const allOk = ok1 && ok2 && ok3 && ok4;
+  // 用户案例：2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局
+  // 丙午年三月为 30 天大月 → 6尾(idx5) 尾簇为 1/2/3/29/30，不得出现 31
+  console.log('------ 完整排盘（用户案例 2026-02-26 阳遁3局）------');
+  const full3 = fullPaiPan(
+    ['丙午', '庚寅', '辛未', '丙申'],
+    '辛',
+    false,
+    { lunarMonth: 1, lunarDay: 10, shiZhi: '申', paiJuMonthDays: 30 }
+  );
+  const userCaseDates = full3.palaces[5].riPaiJu;
+  const ok5 = full3.dun === '阳遁' && full3.ju === 3 && userCaseDates === '1/2/3/29/30';
+  console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}局 | 6尾日排局: ${userCaseDates} ${ok5 ? '✅' : '❌'}`);
+
+  const allOk = ok1 && ok2 && ok3 && ok4 && ok5;
   console.log(`\n====== ${allOk ? '全部验证通过 ✅' : '存在失败 ❌'} ======`);
   process.exit(allOk ? 0 : 1);
 }

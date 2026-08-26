@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>紫微命盘视觉审查（ZiWeiPro）</title>
+<style>
+/* 复制自 index.html 的全局 CSS 变量（审查环境模拟） */
+:root{
+  --bg:#f7f5f0;--card:#fffdf8;--card-2:#faf7f0;--ink:#1c1a17;--ink-2:#4a4743;--sub:#8c877e;
+  --line:#e3ddd2;--accent:#1c1a17;--gold:#b8860b;--gold-soft:#fff8e6;
+  --green:#2e7d32;--green-soft:#e8f5e9;--orange:#d17a00;--orange-soft:#fff3e0;
+  --red:#c62828;--red-soft:#fbe9e7;--plate-bg:#fff;--plate-cell:#fff;
+}
+html.dark{
+  --bg:#15140f;--card:#1f1d18;--card-2:#262420;--ink:#e8e2d0;--ink-2:#b0a89a;--sub:#7a7468;
+  --line:#3a362e;--accent:#e8e2d0;--gold:#d4a64a;--gold-soft:#2a2418;
+  --green:#6ab46a;--green-soft:#1c2818;--orange:#e8a64a;--orange-soft:#2a2018;
+  --red:#e85c5c;--red-soft:#2a1818;--plate-bg:#1a1814;--plate-cell:#1f1d18;
+}
+html,body{margin:0;padding:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei","KaiTi","STKaiti","楷体",serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+.wrap{max-width:480px;margin:0 auto;padding:12px 16px}
+.case{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:16px}
+.case h3{font-size:14px;color:var(--sub);margin:0 0 8px;font-weight:500}
+.toolbar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.toolbar button{padding:8px 16px;border-radius:8px;border:1px solid var(--gold);color:var(--gold);background:var(--card);font-size:14px}
+#status{font-size:12px;color:var(--sub);word-break:break-all}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="toolbar">
+    <button onclick="document.documentElement.classList.toggle('dark')">切换深色模式</button>
+    <span id="status">检测中…</span>
+  </div>
+  <div class="case"><h3>案例① 2000-01-01 12:00 男（命宫午/紫微庙/土五局）—— render(元素, 结果)</h3><div id="c1"></div></div>
+  <div class="case"><h3>案例② 1990-05-15 14:30 女（命宫戌/身宫子）—— render(id字符串, 结果)</h3><div id="c2"></div></div>
+  <div class="case"><h3>案例③ 2000-01-01 00:00 男（早子时 · selfTest 同款案例）—— 旧别名 FeaturesZiwei.render(结果)</h3><div id="c3"></div></div>
+</div>
+<script src="../../vendor/iztro.min.js"></script>
+<script src="../../js/ziwei.js"></script>
+<script>
+  // 状态区：引擎可用性 + selfTest 结果
+  var st = document.getElementById('status');
+  var msg = 'ZiWeiPro.available=' + ZiWeiPro.available + (ZiWeiPro.error ? ' error=' + ZiWeiPro.error : '');
+  try {
+    var t = ZiWeiPro.selfTest();
+    msg += ' | selfTest=' + (t.passed ? 'PASS' : 'FAIL') + '（' + t.cases.length + ' 项）';
+    st.style.color = t.passed ? 'var(--green)' : 'var(--red)';
+  } catch (e) { msg += ' | selfTest 异常：' + e.message; st.style.color = 'var(--red)'; }
+  st.textContent = msg;
+
+  // 案例①：新 API render(el, result)（DOM 元素入参）
+  var r1 = ZiWeiPro.paiPan({ year: 2000, month: 1, day: 1, hour: 12, minute: 0, gender: '男', name: '示例甲' });
+  ZiWeiPro.render(document.getElementById('c1'), r1);
+
+  // 案例②：新 API render('c2', result)（id 字符串入参）
+  var r2 = ZiWeiPro.paiPan({ year: 1990, month: 5, day: 15, hour: 14, minute: 30, gender: '女', name: '示例乙' });
+  ZiWeiPro.render('c2', r2);
+
+  // 案例③：旧别名兼容（FeaturesZiwei.render(result) 单参返回 HTML 字符串）
+  var r3 = FeaturesZiwei.paiPan({ year: 2000, month: 1, day: 1, hour: 0, minute: 0, gender: '男' });
+  document.getElementById('c3').innerHTML = FeaturesZiwei.render(r3);
+</script>
+</body>
+</html>
