@@ -930,3 +930,103 @@
 - 本地预览地址：http://localhost:8090/（验证时间 2026-08-26）。
 - 提交与推送：commit 4d483d6（fix(riPaiJu): 日排局尾簇按农历实际天数截断并优化宫位布局），2026-08-26 推送 GitHub master 成功（fc766d8..4d483d6）；用户案例复验（2026-02-26 16:55）：has31=false、天罡12px、overflow=0，证据 artifacts/visual-audit/user-case-20260226.png。
 **【相关文档】** 项目信息/天罡.docx、algorithm/qimen.js、algorithm/pillars.js、algorithm/reference.js、algorithm/test.js、algorithm.bundle.js、public/index.html、index.html、docs/index.html、tests/qimen-core.test.js、tests/visual-audit.js、tests/paipan-render.test.js、work-flow.md
+
+### 2026-08-27 节气竖版 + 中宫左右三分区 + 二月日局无30
+
+**【时间】** 2026-08-27（Asia/Shanghai）
+**【事件】** 用户提出三项视觉与历法修正：①【二十四节气】呈现别扭，需改为竖版（如立春→立/春纵向排列）；②中宫空白过多，需将【神盘/星盘/门盘】置于左三分之一、【灵盘/天盘/人盘/地盘】置于右三分之一；③【日局】不符合万年历，2026年2月份日局出现30日。
+**【问题来源】**
+- ①原 .pc-jq 使用横向排版，节气字符串（如"白露、秋分"）在窄列内拥挤。
+- ②中宫 .palace-left-mid 使用 auto auto 且 justify-content:center，左/中两列聚在中心，两侧留大量空白。
+- ③原算法虽已增加 paiJuMonthDays 截断，但前端 bundle 与三处入口未同步最新算法；且缺少针对农历小月二月（29天）的集成验证。
+**【执行方向】**
+1. CSS（public/index.html、index.html、docs/index.html 三处同步）：.pc-jq 添加 writing-mode:vertical-rl + text-orientation:upright，实现节气纵向单字排列；PDF 导出 .er-jieqi 同步竖版样式。
+2. 中宫专项布局：#plate-table td.center .palace-tri 改为 justify-content:space-between；.palace-left-mid 在 center 内 flex:1、grid-template-columns:1fr 1fr、column-gap:10px，使神星门列与中列（灵天人地）分别占据左右区域，消除中宫空白。
+3. algorithm/pillars.js 已具备 getPaiJuMonthDays；npm run build:browser 重新打包 algorithm.bundle.js，并同步至根目录与 docs/ 入口，确保浏览器端使用截断逻辑。
+4. 测试补充：tests/paipan-render.test.js 新增节气竖版与中宫 1fr 1fr 断言；tests/qimen-core.test.js 新增 2026-02-01 07:00（阴遁2局，农历二月29天小月）集成测试，断言全盘 riPaiJu 不含"30"且二月宫位为 1/2/3/29；同步修正 ai-client.test.js 过期的错误提示正则。
+5. 视觉审查：运行 tests/visual-audit.js（480×900/360×800）双视口通过；额外使用 Playwright 对 2026-02-01 07:00 排盘截图，确认日排局无 30、节气竖排、中宫无留白。
+**【执行边界】** 不修改神/星/门/天罡/日排局分配算法本体；不动学堂/我的/AI 解读面板；不调整 PDF 以外的导出格式。
+**【执行结果】**
+- ①节气竖排：.pc-jq writing-mode=vertical-rl 已生效，480×900 与 360×800 下 12 个外围宫节气均纵向显示。
+- ②中宫布局：神/星/门居左，灵/天/人/地居右，中心空白消除；双视口 visual-audit overlaps=0、overflow=0。
+- ③二月日局：2026-02-01 07:00（阴遁2局）农历二月为小月29天，对应宫位 riPaiJu=1/2/3/29，全盘古历日期不含"30"。
+- 测试：npm test（algorithm/qimen.js）通过；npm run test:school 46/46 通过；npm run build:browser 成功。
+- 视觉证据：artifacts/visual-audit/plate-480x900.png、plate-360x800.png（标准案例）、user-case-20260201.png（农历二月无30验证）。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-27）。
+**【相关文档】** public/index.html、index.html、docs/index.html、algorithm/pillars.js、algorithm/qimen.js、algorithm.bundle.js、tests/paipan-render.test.js、tests/qimen-core.test.js、tests/ai-client.test.js、tests/visual-audit.js、work-flow.md
+
+### 2026-08-27 节气双竖版 + 中宫 1/3·2/3 + 智能解读结构化
+
+**【时间】** 2026-08-27（Asia/Shanghai）
+**【事件】** 用户再次提出三项调整：①【二十四节气】要改为双竖版，例如"立春、雨水"呈现为左列"立春"、右列"雨水"两列纵排；②【中宫】布局需从"0 和 2/3"改为"1/3 和 2/3"位置；③【智能解读】要求层次清晰、结构分明，选择 A+B（要点列表 + 自动子标题）。
+**【问题来源】**
+- ①原 .pc-jq 为单竖版，把顿号也当作一列，视觉上"立 / 春 / 、 / 雨 / 水"显得细碎。
+- ②上次修改将中宫内容撑满后两端对齐，左组贴边、右组贴近右侧，与用户期望的居中 1/3、2/3 不符。
+- ③智能解读原为一个段落内直接堆叠，缺少段落呼吸与重点标识。
+**【执行方向】**
+1. 节气双竖版：.pc-jq 改为 flex row，内部用 .jq-col 包裹每个节气词并设置 writing-mode:vertical-rl + text-orientation:upright；三处入口（public/index.html、index.html、docs/index.html）同步；PDF 导出 .er-jieqi 同步双列结构。
+2. 中宫 1/3·2/3：#plate-table td.center .palace-tri 改为 justify-content:center；隐藏中宫右侧空标签列；.palace-left-mid 宽度设为 66% 并居中，grid-template-columns:1fr 1fr，使神/星/门列居中于 1/3 处、灵/天/人/地列居中于 2/3 处。
+3. 智能解读结构化：新增 formatInterpretSection() 函数，将每个大段按句子拆分为带金色圆点的要点列表；自动识别"关键宫位一："等短标题并渲染为 .ai-subtitle；高亮日干/用神/格局/九星/八门等核心术语；同步三处入口 CSS（标题背景条、子标题左边框、要点列表样式）。
+4. 测试与同步：更新 tests/paipan-render.test.js 断言；重新执行 npm run build:browser 并同步 algorithm.bundle.js 到根目录与 docs/。
+5. 视觉审查：运行 tests/visual-audit.js（480×900/360×800）通过；额外使用 Playwright 注入示例解读内容截图，验证结构分层与高亮效果。
+**【执行边界】** 仅修改前端渲染与格式化，不调整排盘算法、不更改 AI 提示词 JSON 字段、不动学堂/我的/历史页面。
+**【执行结果】**
+- ①节气：截图显示"白露秋分""立秋处暑"等均按两列纵排显示，无多余顿号列。
+- ②中宫：480×900 与 360×800 截图中，神/星/门与灵/天/人/地分别居中位于约 1/3 与 2/3 处，无贴边或大片空白；overlaps=0、overflow=0。
+- ③智能解读：示例截图显示"① 格局判断""② 关键宫位分析"等金色标题条，内容拆分为带圆点要点，"日干""用神""六合"等关键词金色高亮。
+- 测试：npm test 通过；npm run test:school 46/46 通过；npm run build:browser 成功。
+- 视觉证据：artifacts/visual-audit/plate-480x900.png、plate-360x800.png、ai-interpret-sample.png。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-27）。
+**【相关文档】** public/index.html、index.html、docs/index.html、algorithm.bundle.js、tests/paipan-render.test.js、tests/visual-audit.js、work-flow.md
+
+### 2026-08-27 日局核心规则修正 + 书院更名 + 简繁转换 + 导出历史删除
+
+**【时间】** 2026-08-27（Asia/Shanghai）
+**【事件】** 用户提出问题一与四项完善方向：①【日局】违背核心规则第二条（1/4/7/10月默认拥有3个日期，除非正好处于第N月）；②【学堂】统一更名为【书院】；③书院书籍无法下载阅读；④【我的】-【基础设置】删除【导出历史】、新增【简繁转换】（默认简体，点击切换繁体，再点回简体），方向四优先执行。
+**【问题来源】**
+- 日局原实现未保证 1/4/7/10 月各 3 日，且总天数超限时缩减目标不确定。
+- 简繁转换初版引用 opencc-js 分包库（cn2t/t2cn），全局变量为 window.OpenCC.Converter 而代码误用 window.Converter，导致转换组件加载失败；且 cn2t 包 Locale.from 不含 cn 键（from 只有 hk/hkp/tw/twp/jp），必须用 full 包。
+- 书院下载地址构建在非本地环境下退化为远程 raw 地址，部分环境校验失败。
+**【执行方向】**
+1. algorithm/qimen.js placeRiPaiJu：初始化每月日期数为 1/4/7/10 月 3 日、其余 2 日；总需求超过 25 天（日期 4..28）时，从循环顺序中最后一个普通月份缩减 1 日，优先保证特殊月各 3 日；N 月宫位固定显示完整日期并按农历实际天数截断尾簇。重建 algorithm.bundle.js 并同步三处入口。
+2. 【我的】-【基础设置】：删除【导出历史】ig-item，新增【简繁转换】ig-item（id: trad-icon/trad-label），实现 toggleTraditionalChinese() 全页文本+placeholder/title/aria 转换、localStorage 持久化、MutationObserver 动态内容转换。
+3. OpenCC 修复：引入 opencc-js dist/umd/full.js（opencc-full.js），代码改为 window.OpenCC.Converter / window.OpenCC.HTMLConverter；删除失效的 opencc-cn2t.js / opencc-t2cn.js；full 库支持 cn↔t 双向。
+4. 【学堂】→【书院】全量替换（三处入口 HTML）。
+**【执行边界】** 仅改日排局日期分配逻辑与前端 UI/设置模块，不改神/星/门/盘排布算法，不改智能解读与 AI 接口。
+**【执行结果】**
+- 日局（实盘验证 2026-08-27 12:47 阴遁3局，N月=三月）：四月=4/5/6、七月=11/12/13、十月=18/19/20、正月=25/26/27（四个特殊月均3日）；三月=1/2/3/29/30（N月完整日期）；二月=28（缩减月）；五月=7/8、六月=9/10、八月=14/15、九月=16/17、十一月=21/22、十二月=23/24。完全符合核心规则第二条。
+- 简繁转换：toggle 一次→全页繁体（导航"院書院"、标题"用戶"、图标"簡"）；再 toggle→恢复简体（"院书院"、图标"繁"），localStorage 标志 0/1 正确。
+- 【导出历史】UI 已删除（body 中残留仅为 JS 注释兼容代码）。
+- 书院：8/8 本书离线就绪，点击【阅读】成功打开《奇門遁甲統宗》epub.js 阅读器（iframe 渲染正常、目录/字号面板可用）。
+- 测试：npm test 全部通过（含 2首日排局 1/2/3/29、6尾日排局 1/2/3/29/30 断言）。
+- 视觉证据：artifacts/visual-audit/riju-paipan-20260827.jpg、profile-page-20260827.jpg、school-page-20260827.jpg、school-reader-20260827.jpg。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-27，Express 服务）。
+**【相关文档】** public/index.html、index.html、docs/index.html、algorithm/qimen.js、algorithm.bundle.js、public/opencc-full.js、work-flow.md
+
+### 2026-08-27 四命理功能标准界面重做 + 我的页面视觉升级
+
+**【时间】** 2026-08-27（Asia/Shanghai）
+**【事件】** 用户指出①【我的】界面太低劣；②【四柱八字】【紫微斗数】【梅花易数】【大六壬】四个功能是垃圾；③要求联网搜索四个功能的标准界面，学会后再做好，视觉效果和功能效果都必须做好。
+**【问题来源】**
+- 四个命理功能原为文本卡片式简陋呈现，缺乏命盘/卦象/天地盘等标准图形化界面。
+- 【我的】页面头部为白底简陋横条，工具箱为普通图标格，视觉档次低。
+- features.bundle.js 过期，bazi 引擎在浏览器端报 Cannot read properties of undefined (reading gan) 错误。
+- meihua 引擎导出 timeDivination/numberDivination 而非 paiPan，runMeihua 调用错误。
+- bazi 引擎 startLuck.age 返回对象而非数字，hiddenStems 用 hour 键而渲染用 time。
+**【执行方向】**
+1. 联网研究四柱八字/紫微斗数/梅花易数/大六壬的标准界面、规则算法、功能呈现。
+2. 新增 CSS：bz-tbl（四柱标准命盘表）、zw-chart（紫微4x4命盘）、mh2-board（梅花三卦横排）、dlr-board（大六壬4x4天地盘），统一宣纸白/墨色/暗金/楷体风格。
+3. 重写 renderBazi/renderZiwei/renderMeihua/renderDaliuren 四个渲染函数，字段映射对齐引擎输出。
+4. 【我的】页面头部改为墨金渐变横幅；统计区改为描金卡片；工具箱改为命理工具特色卡。
+5. 重建 features.bundle.js；修复 runMeihua 使用 timeDivination/numberDivination；修复 renderBazi 的 startLuck.age 对象处理与 hiddenStems 键名映射。
+6. 同步三处入口（public/、根目录、docs/）。
+**【执行边界】** 仅改 public/index.html（CSS+HTML+JS 渲染函数）、features.bundle.js 重建；不改 features/ 下源码算法、不改排盘核心 qimen.js、不改 AI 接口。
+**【执行结果】**
+- 四柱八字：标准命盘表+日主信息卡+五行分布柱状图+大运时间轴+流年参考。1990-06-15 12:00 男 排盘正常。
+- 紫微斗数：4x4方位命盘（12宫+中宫）+主星/辅星/煞星/四化分色+大限流年时间轴。排盘正常。
+- 梅花易数：三卦横排（本/互/变，爻象图形化，动爻标红）+体用关系卡+吉凶断语+算式推演。数字3,5起卦正常。
+- 大六壬：4x4天地盘+四课横排+三传竖卡+基础信息。
+- 【我的】页面：墨金渐变头部+描金统计卡+命理工具特色卡（四术标签）+快捷入口+系统分组。
+- npm test 全部通过；features.bundle.js 重建后四引擎输出正确；浏览器验证排盘正常。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-27，Express 服务）。
+**【相关文档】** public/index.html、features.bundle.js、features/bazi/engine/bazi.js、features/ziwei/engine/ziwei.js、features/meihua/engine/meihua.js、features/daliuren/engine/daliuren.js、work-flow.md

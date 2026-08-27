@@ -12200,7 +12200,7 @@ var QiMenAlgorithmBundle = (() => {
         if (total > MAX_DAYS) {
           for (let i = monthOrder.length - 1; i >= 0; i--) {
             const m = monthOrder[i];
-            if (SPECIAL_MONTHS.includes(m) && monthDates[m] > 2) {
+            if (!SPECIAL_MONTHS.includes(m) && monthDates[m] > 1) {
               monthDates[m]--;
               total--;
               break;

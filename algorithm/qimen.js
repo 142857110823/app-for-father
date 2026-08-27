@@ -373,14 +373,14 @@ function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays) {
     monthDates[m] = SPECIAL_MONTHS.includes(m) ? 3 : 2;
   });
 
-  // 日期 4..28 共 25 天；总需求超限时，缩减循环顺序中最后一个特殊月份
-  // （依据更新后天罡.docx 第N月各表逐例验证：N=3 缩正月、N=5 缩四月、N=2 缩正月）
+  // 日期 4..28 共 25 天；总需求超限时，优先保证 1/4/7/10 月各 3 日，
+  // 从循环顺序中最后一个普通月份缩减，使其只保留 1 日。
   const MAX_DAYS = 25;
   let total = Object.values(monthDates).reduce((a, b) => a + b, 0);
   if (total > MAX_DAYS) {
     for (let i = monthOrder.length - 1; i >= 0; i--) {
       const m = monthOrder[i];
-      if (SPECIAL_MONTHS.includes(m) && monthDates[m] > 2) {
+      if (!SPECIAL_MONTHS.includes(m) && monthDates[m] > 1) {
         monthDates[m]--;
         total--;
         break;

@@ -1,4 +1,4 @@
-var Features = (() => {
+var FeaturesBundle = (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __commonJS = (cb, mod) => function __require() {
     try {

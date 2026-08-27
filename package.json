@@ -4,6 +4,7 @@
   "description": "十三宫奇门遁甲排盘 APP",
   "main": "algorithm/qimen.js",
   "scripts": {
+    "start": "node server.js",
     "test": "node algorithm/qimen.js",
     "test:school": "node --test tests/school-library.test.js tests/school-reader.test.js tests/school-integration.test.js tests/paipan-render.test.js tests/ai-client.test.js tests/qimen-core.test.js",
     "test:visual": "node tests/visual-audit.js",
@@ -23,6 +24,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "lunar-javascript": "^1.6.11",
+    "opencc-js": "^1.4.2",
     "pdf-parse": "^2.4.5",
     "sqlite3": "^6.0.1",
     "uuid": "^14.0.2",

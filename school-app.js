@@ -57,7 +57,6 @@
       const state = getDisplayState(book);
       const isReady = state.status === 'ready';
       const isDownloading = state.status === 'downloading';
-      const action = isReady ? '阅读' : isDownloading ? '下载中' : state.status === 'error' ? '重试' : '下载';
       const progress = isReady ? 100 : isDownloading ? 38 : 0;
       return `
         <article class="school-book" data-book-id="${escapeHtml(book.id)}">
@@ -70,8 +69,11 @@
             <div class="school-book-progress" aria-hidden="true"><span style="width:${progress}%"></span></div>
           </div>
           <div class="school-book-controls">
-            <button class="school-book-action" data-action="${isReady ? 'read' : 'download'}" data-status="${state.status}">${action}</button>
-            ${isReady ? '<button class="school-book-remove" data-action="remove" title="删除离线文件" aria-label="删除离线文件">×</button>' : ''}
+            <button class="school-book-read" data-action="read" data-book-id="${escapeHtml(book.id)}">阅读</button>
+            <button class="school-book-download" data-action="download" data-status="${state.status}" data-book-id="${escapeHtml(book.id)}">${
+              isReady ? '已下载' : isDownloading ? '下载中' : state.status === 'error' ? '重试' : '下载离线'
+            }</button>
+            ${isReady ? '<button class="school-book-remove" data-action="remove" data-book-id="' + escapeHtml(book.id) + '" title="删除离线文件" aria-label="删除离线文件">×</button>' : ''}
           </div>
         </article>`;
     }).join('');
@@ -107,12 +109,23 @@
 
   async function handleBookAction(event) {
     const button = event.target.closest('button[data-action]');
-    const card = event.target.closest('[data-book-id]');
-    if (!button || !card) return;
-    const id = card.dataset.bookId;
-    if (button.dataset.action === 'download') await downloadOne(id);
-    if (button.dataset.action === 'read') await openBook(id);
-    if (button.dataset.action === 'remove') await removeBook(id);
+    if (!button) return;
+    const action = button.dataset.action;
+    const bookId = button.dataset.bookId;
+    if (!bookId) return;
+
+    if (action === 'read') {
+      openBook(bookId);
+      return;
+    }
+    if (action === 'download') {
+      await downloadOne(bookId);
+      return;
+    }
+    if (action === 'remove') {
+      await removeBook(bookId);
+      return;
+    }
   }
 
   async function downloadOne(id) {
