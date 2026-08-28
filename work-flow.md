@@ -1111,3 +1111,31 @@
 - 我的页截图：含快捷入口（我的收藏/我的消息/阅读历史/简繁转换）、联系我们+二维码、无命理工具。
 - 提交推送：`ca53850 fix: 四柱瘦身、宫位正方、A+防重叠、我的页与简繁转换验证` 已推至 origin/master。
 **【相关文档】** public/index.html、index.html（根）、docs/index.html、work-flow.md
+
+### 2026-08-29 UI 微调：字号按钮位置、二维码图片、我的页面顶部重叠
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户要求修复三个 UI 问题：① 排盘结果页 A-/A+ 字号按钮调整到【值符】【值使】【驿马】【空亡】之后；②【我的】页面【联系我们】模块二维码图片错误；③【我的】页面顶端重叠异常。
+**【问题来源】** 用户消息及提供的 GitHub Pages 线上【我的】页面截图。
+**【执行方向】**
+1. A-/A+ 位置调整：从结果页 h-actions 中移除 A-/A+ 按钮；在 dun-info-bar 的【值符】【值使】【驿马】【空亡】四 chip 之后追加 A-/A+ chip，调用 changePlateFont(-1/1) 控制盘面字号。
+2. 二维码图片修正：确认本地三处 二维码.jpg（根目录、public/、docs/）均存在，但 GitHub 仓库中未提交导致线上 404；将三处文件加入 Git 版本控制。
+3. 我的页面顶部重叠修正：加大 .profile-header-v2 的 padding-bottom 到 32px，将 .profile-stats 的 margin-top 由 -14px 改为 12px，消除统计卡片与 header 的重叠。
+4. 三处入口同步：将修改后的 public/index.html 复制到根目录 index.html 与 docs/index.html，保持 SHA256 一致。
+**【执行边界】**
+- 未改动排盘算法、四柱计算、宫位渲染逻辑。
+- 未修改 GitHub Pages 部署源设置。
+- 未改变阴阳图、书院、智能解读等其他模块。
+**【执行结果】**
+- 排盘结果页 dun-info-bar 现在按顺序显示：值符、值使、驿马、空亡、A-、A+。
+- 三处 二维码.jpg 已加入 Git 暂存区，待推送后部署到 GitHub Pages。
+- 【我的】页面顶部 header 与统计卡片之间出现正常间距，不再重叠。
+- public/index.html、index.html、docs/index.html 三处入口同步完成。
+**【执行验证】**
+- 本地启动 
+ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar 子元素顺序为值符(0)、值使(1)、驿马(2)、空亡(3)、A-(4)、A+(5)。
+- 【我的】页面顶部 header 与统计卡片无重叠，二维码图片正常加载（naturalWidth=888，naturalHeight=1131）。
+- 三处入口文件 SHA256 一致（23F5F7DE...6E819F）。
+- Git 推送受阻：git push origin master 三次均失败（Recv failure: Connection was reset、curl 55 Send failure: Connection was reset、Connection timed out），最新本地提交 df8602 尚未同步到 origin，线上版本仍为旧代码。
+**【相关文档】** public/index.html、index.html（根）、docs/index.html、二维码.jpg、work-flow.md
+
