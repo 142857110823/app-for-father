@@ -95,3 +95,9 @@ test('reader flushes a pending location to the original book when switching book
   assert.equal(saved[0].bookId, 'book-a');
   assert.equal(saved[0].cfi, 'a-position');
 });
+
+test('SchoolReader exposes openByUrl method', () => {
+  const { SchoolReader } = require('../school-reader.js');
+  const reader = new SchoolReader({ store: {}, catalog: [] });
+  assert.equal(typeof reader.openByUrl, 'function');
+});

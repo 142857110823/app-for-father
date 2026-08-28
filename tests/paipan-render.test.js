@@ -67,4 +67,18 @@ for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html'
       /\.pc-tg\{[^}]*writing-mode:vertical-rl[^}]*text-orientation:upright[^}]*\}/,
     );
   });
+
+  test(`${relativePath} renders Jieqi labels as double vertical columns`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    assert.match(html, /\.pc-jq\{[^}]*display:flex[^}]*\}/);
+    assert.match(html, /\.jq-col\{[^}]*writing-mode:vertical-rl[^}]*text-orientation:upright[^}]*\}/);
+  });
+
+  test(`${relativePath} places center palace content at 1/3 and 2/3`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    assert.match(
+      html,
+      /#plate-table td\.center \.palace-left-mid\{[^}]*width:66%[^}]*grid-template-columns:1fr 1fr[^}]*\}/,
+    );
+  });
 }

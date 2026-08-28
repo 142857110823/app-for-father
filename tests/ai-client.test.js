@@ -23,7 +23,7 @@ test('AI response parser accepts JSON responses', async () => {
 test('AI response parser explains when a static host returns HTML', async () => {
   await assert.rejects(
     () => parseJsonResponse(response('<!doctype html><title>404</title>', 'text/html', 404)),
-    /静态网页未连接 AI 后端服务/,
+    /本地 server\.js 已启动（端口 8090）/,
   );
 });
 

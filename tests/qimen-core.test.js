@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { fullPaiPan } = require('../algorithm/qimen.js');
+const { fullPaiPanFromTime } = require('../algorithm/pillars.js');
 
 test('阴遁五局中宫使用标准三分区完整数据', () => {
   const result = fullPaiPan(
@@ -79,5 +80,18 @@ test('日排局第N月尾簇按农历实际天数截断（2026-02-26 阳遁3局�
   // 全盘不得出现 31 日
   for (const palace of result.palaces) {
     assert.equal(palace.riPaiJu.includes('31'), false);
+  }
+});
+
+test('2026年农历小月二月日排局不出现30日', () => {
+  // 2026-02-01 07:00 → 阴遁2局，第2月（农历二月）为小月29天
+  const result = fullPaiPanFromTime(2026, 2, 1, 7, 0);
+  assert.equal(result.pan.dun, '阴遁');
+  assert.equal(result.pan.ju, 2);
+  assert.equal(result.paiJuMonthDays, 29);
+  // 二月原始宫位 idx6（6首）应只显示 1/2/3/29，不得出现 30
+  assert.equal(result.palaces[6].riPaiJu, '1/2/3/29');
+  for (const palace of result.palaces) {
+    assert.equal(palace.riPaiJu.includes('30'), false, `宫位 ${palace.index} 日排局不应含30: ${palace.riPaiJu}`);
   }
 });

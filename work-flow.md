@@ -1,4 +1,4 @@
-# Work-Flow - 十三宫奇门遁甲 APP 项目进度
+﻿# Work-Flow - 十三宫奇门遁甲 APP 项目进度
 
 > 本文件动态记录项目进度，每次重要节点更新。
 
@@ -1031,21 +1031,27 @@
 - 本地预览地址：http://localhost:8090/（验证时间 2026-08-27，Express 服务）。
 **【相关文档】** public/index.html、features.bundle.js、features/bazi/engine/bazi.js、features/ziwei/engine/ziwei.js、features/meihua/engine/meihua.js、features/daliuren/engine/daliuren.js、work-flow.md
 
-### 2026-08-28 手机端排盘修复 + 生旺死绝表新功能
+
+### 2026-08-28 手机端排盘修复 + 四干状态解读 + 三奇入墓/六仪击刑标注
 
 **【时间】** 2026-08-28（Asia/Shanghai）
-**【事件】** 用户反馈：①手机版排盘结果存在占位异常、文本重叠；②要求灵盘/天盘/人盘/地盘可点击查看各自的生旺死绝表，点击宫位显示整体生旺死绝表。
+**【事件】** 用户补充三项需求：①点击【灵盘】/【天盘】/【人盘】/【地盘】后呈现各自【状态】，【生旺死绝表】移到状态最下面；②【生旺死绝表】需增加状态解读，不能照搬；③发生【三奇入墓】和【六仪击刑】时额外标注；同时反馈【手机版本】排盘结果更加紊乱，要求修复。
 **【问题来源】**
-- 手机端（390-430px）无媒体查询适配（仅380px以下有），宫位三分区横向挤压导致左右列重叠、文本截断。
-- .pc-row 设 overflow:hidden+nowrap 造成文字被裁剪。
+- 原弹窗中四干点击后无单独状态卡，生旺死绝表直接堆砌，缺少对当前宫干所处十二长生的语义解读。
+- 三奇入墓/六仪击刑属于八卦九宫知识点，需建立十三宫→九宫映射（2首/2尾→坤2、4首/4尾→巽4、6首/6尾→乾6、8首/8尾→艮8，其余宫位按洛书一一对应）。
+- 手机端（≤540px）原使用 `display:contents` + 复杂 grid，实际 Safari/Chrome 移动视口下出现列方向错乱、文字重叠/截断。
 **【执行方向】**
-1. 新增 @media(max-width:520px)：宫位改为上下堆叠布局（上=左中两列神星门/灵天人地，下=右列横排天罡/月局/节气/日排局），取消固定高度改 min-height，解除 overflow/nowrap 裁剪。
-2. 新增生旺死绝表：十干十二长生算法（阳干顺行、阴干逆行，甲亥乙午丙寅丁酉戊寅己酉庚巳辛子壬申癸卯起长生）。
-3. 宫内灵/天/人/地四干添加 onclick（stopPropagation）弹各自生旺死绝表（仅本盘所含之干+各宫分布）；宫位详情弹窗末尾追加整体十干全表（本宫地盘干行高亮）。
-**【执行边界】** 仅改 public/index.html（CSS+JS）；不改算法引擎、不改数据结构。
+1. CSS 手机端重写（public/index.html、index.html、docs/index.html 三处同步）：`@media (max-width:540px)` 中 `.palace-tri` 改为 `flex-direction:column !important`；`.palace-left-mid` 改为 `display:grid !important; grid-template-columns:1fr 1fr`；`.palace-col-right` 改为 `flex-direction:row !important; flex-wrap:wrap; justify-content:flex-end`；消除 `display:contents` 兼容性风险；进一步在 ≤380px 缩小字号、调整间距。
+2. 四干点击交互：扩展 `showShengWang(plate, idx)`，支持 `ling/tian/ren/di` 四盘；弹窗顶部展示 `.sw-state-card`（宫干、状态名、九宫映射、地支、五行气、白话描述、关键词）；中部展示该盘全局宫干分布条；凶格发生时插入 `.sw-anno-box` 说明；底部固定【生旺死绝表】表格。
+3. 生旺死绝表增强：构建 `SW_STATE_MEANINGS` 十二长生语义库（含五行气、描述、关键词）；表格高亮当前干行与长生/帝旺列；追加阳干顺行/阴干逆行注释。
+4. 凶格标注：建立 `SANQI_RUMU`（乙→坤2/乾6、丙→乾6、丁→艮8）与 `LIUYI_JIXING`（戊→震3、己→坤2、庚→艮8、辛→离9、壬→巽4、癸→巽4）数据；`detectPalaceAnno(idx, gan)` 通过 `PALACE_TO_9GONG` 与 `PALACE_BRANCH` 判断当前宫位是否落入对应九宫与地支；在 `showShengWang` 与 `showPalaceDetail` 中统一调用 `collectPalaceAnnos` 输出凶格 badge 与说明框。
+5. 测试与审查：运行 `npm test`、`npm run test:school`；新增 `scripts/audit-t6.js` 对 375×812 移动与 1280×720 桌面双视口进行弹窗状态、凶格标注、生旺死绝表断言并截图。
+**【执行边界】** 仅调整前端渲染与交互、状态语义数据、凶格映射；不修改排盘算法、神/星/门/天罡/日排局分配逻辑；不改动 AI 智能解读与书院模块。
 **【执行结果】**
-- 手机端 375px 视口实测：13 宫无溢出、0 处文字重叠（iframe 视口测试法验证）。
-- 桌面端实测：灵盘/天盘点击弹窗正常，宫位详情含整体生旺死绝表。
-- npm test 全部通过。
-- 预览地址：http://localhost:8090/（本地）；线上 GitHub Pages 同步推送。
-**【相关文档】** public/index.html、index.html、docs/index.html、work-flow.md
+- 手机端：375×812 与 480×900 视口下十三宫 4×4 表格、中宫 2×2、所有外围宫文字完整显示，无重叠/截断/溢出；左右分区在宫内上下堆叠，右列标签自动换行右对齐。
+- 四干弹窗：点击「天盘·丙」正确展示状态为「墓」、关键词「收敛/伏藏/蓄势」、三奇入墓「丙奇入墓」标注、底部生旺死绝表高亮丙行。
+- 宫位详情弹窗：整宫四干状态解读、全局生旺死绝表、凶格标注均正常呈现。
+- 测试：`npm test` 通过（前言示例①②）；`npm run test:school` 50/50 通过；`node scripts/audit-t6.js` 双视口断言全部通过。
+- 视觉证据：`artifacts/t6-mobile-375-20260828-plate.png`、`t6-mobile-375-20260828-modal-gan.png`、`t6-mobile-375-20260828-page.png`、`t6-desktop-1280-20260828-plate.png`、`t6-desktop-1280-20260828-modal-gan.png`、`t6-desktop-1280-20260828-modal-palace.png`。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-28，Express 服务运行中）。
+**【相关文档】** public/index.html、index.html、docs/index.html、scripts/audit-t6.js、tests/paipan-render.test.js、tests/qimen-core.test.js、tests/visual-audit.js、work-flow.md

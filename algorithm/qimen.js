@@ -346,7 +346,7 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
 // 2026-08-26 依据【万年历】【阴历】逻辑修正：农历月仅有 29 天（小月）或 30 天（大月），
 // 不存在 31 日；第 N 月原始宫位尾簇按该农历月实际天数截断：
 //   30 天 → 1/2/3/29/30；29 天 → 1/2/3/29。
-function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays) {
+function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays, lunarMonth) {
   palaces.forEach(p => p.riPaiJu = '');
   if (!Number.isInteger(paiJuMonth) || paiJuMonth < 1 || paiJuMonth > 12) return;
 
@@ -373,17 +373,25 @@ function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays) {
     monthDates[m] = SPECIAL_MONTHS.includes(m) ? 3 : 2;
   });
 
-  // 日期 4..28 共 25 天；总需求超限时，优先保证 1/4/7/10 月各 3 日，
-  // 从循环顺序中最后一个普通月份缩减，使其只保留 1 日。
+  // 日期 4..28 共 25 天；总需求超限时，
+  // 若当前农历月恰为 1/4/7/10，则从分配顺序最后一个月直接取余（不再优先保证特殊月），
+  // 否则优先保证 1/4/7/10 月各 3 日，从最后一个普通月份开始减少。
   const MAX_DAYS = 25;
   let total = Object.values(monthDates).reduce((a, b) => a + b, 0);
   if (total > MAX_DAYS) {
-    for (let i = monthOrder.length - 1; i >= 0; i--) {
-      const m = monthOrder[i];
-      if (!SPECIAL_MONTHS.includes(m) && monthDates[m] > 1) {
-        monthDates[m]--;
-        total--;
-        break;
+    const currentIsSpecial = Number.isInteger(lunarMonth) && SPECIAL_MONTHS.includes(lunarMonth);
+    if (currentIsSpecial) {
+      const last = monthOrder[monthOrder.length - 1];
+      monthDates[last]--;
+      total--;
+    } else {
+      for (let i = monthOrder.length - 1; i >= 0; i--) {
+        const m = monthOrder[i];
+        if (!SPECIAL_MONTHS.includes(m) && monthDates[m] > 1) {
+          monthDates[m]--;
+          total--;
+          break;
+        }
       }
     }
   }
@@ -717,7 +725,7 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
     const { lunarMonth, shiZhi, paiJuMonthDays } = extraContext;
     placeTianGang(palaces, lunarMonth, shiZhi);
     const paiJuMonth = pan.ju === 0 ? 10 : pan.ju;
-    placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays);
+    placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays, lunarMonth);
   }
 
   // ===== 5. 不再用 applyReference 覆盖结果；单元测试对 13 宫逐字段比对并报告 diff =====

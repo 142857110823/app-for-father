@@ -470,16 +470,16 @@ a{color:inherit;text-decoration:none}
 /* 2026-08-27 调整：左列左对齐、中列居中对齐、右列右对齐；右列增加月局/节气 */
 .palace-tri{display:flex;flex-direction:row;width:100%;height:100%;box-sizing:border-box;gap:2px;justify-content:center;align-items:stretch}
 /* 左中联合列：grid 两列（左=神星门 / 中=灵天人地），四行等高铺满，整体水平居中 */
-.palace-left-mid{display:grid;grid-template-columns:auto auto;grid-auto-rows:1fr;column-gap:5px;align-items:center;justify-content:center;flex:0 1 auto;min-width:0;height:100%}
+.palace-left-mid{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;column-gap:4px;row-gap:1px;align-items:center;justify-content:stretch;flex:1 1 auto;min-width:0;height:100%}
 .palace-row{display:contents}
-.palace-row .palace-col-left{display:flex;align-items:center;justify-content:flex-start;min-width:0;overflow:hidden;padding:0 1px}
-.palace-row .palace-col-mid{display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden;padding:0 1px}
+.palace-row .palace-col-left{display:flex;align-items:center;justify-content:flex-start;min-width:0;overflow:visible;padding:0 1px}
+.palace-row .palace-col-mid{display:flex;align-items:center;justify-content:center;min-width:0;overflow:visible;padding:0 1px}
 /* 右侧独立列：天罡(上) → 月局 → 节气 → 日排局(下) */
-.palace-col-right{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;width:42px;flex-shrink:0;padding:1px;height:100%}
+.palace-col-right{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;width:40px;flex-shrink:0;padding:1px;height:100%}
 .palace-col-right .pc-right-top{display:flex;flex-direction:column;gap:1px;align-items:flex-end}
 .palace-col-right .pc-right-bottom{display:flex;flex-direction:column;align-items:flex-end}
 /* 列内元素 */
-.pc-row{display:flex;align-items:center;line-height:1.2;white-space:nowrap;min-width:0;overflow:hidden}
+.pc-row{display:flex;align-items:center;line-height:1.25;white-space:nowrap;min-width:0;overflow:visible}
 .pc-row.pc-row-left{justify-content:flex-start}
 .pc-row.pc-row-mid{justify-content:center}
 .pc-row.pc-row-right{justify-content:flex-end}
@@ -521,50 +521,57 @@ a{color:inherit;text-decoration:none}
 #plate-table td.center .palace-left-mid .palace-col-left{justify-content:center}
 #plate-table td.center .palace-left-mid .palace-col-mid{justify-content:center}
 
+/* ===== 手机端宫位自适应（≤540px：上下堆叠，完整显示所有要素） ===== */
+@media (max-width:540px){
+  .traditional-plate{padding:0 4px 12px}
+  #plate-table td{height:auto;min-height:86px;padding:3px 3px}
+  /* 宫内整体上下堆叠：上=左中信息区，下=右列标签区 */
+  .palace-tri{flex-direction:column !important;gap:3px;justify-content:flex-start;align-items:stretch !important}
+  /* 左中信息区：4行 × 2列，简单 grid */
+  .palace-left-mid{display:grid !important;grid-template-columns:1fr 1fr;grid-auto-rows:auto;column-gap:3px;row-gap:2px;width:100% !important;height:auto;flex:none !important;min-width:0}
+  .palace-row{display:contents}
+  .palace-row .palace-col-left{justify-content:flex-start;padding:0}
+  .palace-row .palace-col-mid{justify-content:center;padding:0}
+  .pc-row{line-height:1.2;overflow:visible;white-space:nowrap}
+  .pc-shen{font-size:11px;letter-spacing:0}
+  .pc-xing{font-size:11px}
+  .pc-men{font-size:11px}
+  .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:11px}
+  /* 右列标签区：横排到底 */
+  .palace-col-right{flex-direction:row !important;flex-wrap:wrap;width:100% !important;height:auto;justify-content:flex-end;align-items:flex-end;gap:2px;padding:0}
+  .palace-col-right .pc-right-top{flex-direction:row !important;flex-wrap:wrap;gap:2px;align-items:flex-end}
+  .palace-col-right .pc-right-bottom{flex-direction:row !important;align-items:flex-end}
+  .pc-tg{font-size:9px;padding:1px 3px;writing-mode:horizontal-tb;text-orientation:mixed}
+  .pc-yj{font-size:9px;white-space:normal;text-align:right}
+  .pc-jq{font-size:9px;justify-content:flex-end}
+  .pc-jq .jq-col{writing-mode:horizontal-tb;text-orientation:mixed}
+  .pc-rp{max-width:100%;font-size:9px;text-align:right}
+  /* 中宫 */
+  #plate-table td.center{padding:4px}
+  #plate-table td.center .palace-col-right{display:none}
+  #plate-table td.center .palace-left-mid{width:100% !important;grid-template-columns:1fr 1fr;column-gap:8px}
+  #plate-table td.center .pc-shen{font-size:15px}
+  #plate-table td.center .pc-xing{font-size:15px}
+  #plate-table td.center .pc-men{font-size:15px}
+  #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:14px}
+}
 @media (max-width:380px){
-  #plate-table td{height:100px;padding:2px 3px}
-  .pc-row{line-height:1.05}
+  #plate-table td{height:auto;min-height:78px;padding:2px 3px}
+  .pc-row{line-height:1.15}
   .pc-shen{font-size:10px;letter-spacing:0}
   .pc-xing{font-size:10px}
-  .pc-men{font-size:11px}
+  .pc-men{font-size:10px}
   .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:10px}
-  .palace-col-right{width:34px}
-  .pc-tg{font-size:9px;padding:2px 3px}
-  .pc-rp{max-width:34px;font-size:8px}
+  .pc-tg{font-size:8px;padding:1px 2px}
+  .pc-yj{font-size:8px}
+  .pc-jq{font-size:8px}
+  .pc-rp{font-size:8px}
   .ai-fab{width:46px;height:46px;right:4px;bottom:calc(70px + var(--safe-bottom))}
-  #plate-table td.center .pc-shen{font-size:14px;letter-spacing:1px}
-  #plate-table td.center .pc-xing{font-size:14px;letter-spacing:1px}
-  #plate-table td.center .pc-men{font-size:14px;letter-spacing:1px}
-  #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:13px}
-}
-
-/* ===== 手机端宫位自适应（≤520px：上下堆叠，完整显示所有要素） ===== */
-@media (max-width:520px){
-  .traditional-plate{padding:0 6px 14px}
-  #plate-table td{height:auto;min-height:96px;padding:3px 3px}
-  .palace-tri{flex-direction:column;gap:3px;justify-content:flex-start;align-items:stretch}
-  .palace-left-mid{width:100%;height:auto;flex:none;grid-template-columns:1fr 1fr;grid-auto-rows:auto;column-gap:4px;row-gap:2px;justify-content:stretch}
-  .palace-row .palace-col-left,.palace-row .palace-col-mid{overflow:visible}
-  .pc-row{overflow:visible;white-space:normal;line-height:1.3;word-break:keep-all}
-  .pc-row.pc-row-left{justify-content:flex-start}
-  .pc-row.pc-row-mid{justify-content:center}
-  .pc-shen{font-size:12px;letter-spacing:0}
-  .pc-xing{font-size:11px}
-  .pc-men{font-size:12px}
-  .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:12px}
-  .palace-col-right{flex-direction:row;flex-wrap:wrap;width:100%;height:auto;justify-content:flex-end;align-items:flex-end;gap:3px;padding:0}
-  .palace-col-right .pc-right-top{flex-direction:row;flex-wrap:wrap;gap:3px;align-items:flex-end}
-  .palace-col-right .pc-right-bottom{flex-direction:row;align-items:flex-end}
-  .pc-tg{font-size:10px;padding:2px 3px}
-  .pc-yj{font-size:10px;white-space:normal;text-align:right}
-  .pc-jq{font-size:9px;justify-content:flex-end}
-  .pc-rp{max-width:100%;font-size:9px;text-align:right}
-  #plate-table td.center{padding:4px}
-  #plate-table td.center .palace-left-mid{width:100%;grid-template-columns:1fr 1fr;column-gap:8px}
-  #plate-table td.center .pc-shen{font-size:16px}
-  #plate-table td.center .pc-xing{font-size:16px}
-  #plate-table td.center .pc-men{font-size:16px}
-  #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:15px}
+  #plate-table td.center{padding:3px}
+  #plate-table td.center .pc-shen{font-size:13px}
+  #plate-table td.center .pc-xing{font-size:13px}
+  #plate-table td.center .pc-men{font-size:13px}
+  #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:12px}
 }
 
 /* ===== 生旺死绝表（十二长生） ===== */
@@ -580,9 +587,28 @@ a{color:inherit;text-decoration:none}
 .sw-note{font-size:11px;color:var(--sub);line-height:1.6;margin-top:6px}
 .sw-tip{font-size:10px;color:var(--sub);text-align:center;margin:2px 0 8px;letter-spacing:1px}
 /* 宫内四干可点击 */
-.pc-ling,.pc-tian,.pc-ren,.pc-di{cursor:pointer;border-radius:3px;padding:0 3px;transition:background .15s}
+.pc-ling,.pc-tian,.pc-ren,.pc-di{cursor:pointer;border-radius:3px;padding:2px 5px;transition:background .15s;display:inline-block;min-width:18px;text-align:center;position:relative;z-index:1}
 .pc-ling:hover,.pc-tian:hover,.pc-ren:hover,.pc-di:hover{background:var(--gold-soft)}
 .pc-ling:active,.pc-tian:active,.pc-ren:active,.pc-di:active{background:rgba(184,134,11,.3)}
+
+/* 状态解读卡片 */
+.sw-state-card{background:linear-gradient(180deg,#faf8f3 0%,#f5f0e8 100%);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+.sw-state-card .sw-state-title{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:8px;font-family:"STKaiti","KaiTi","楷体",serif}
+.sw-state-card .sw-state-title .sw-state-name{font-size:20px;margin-right:6px;color:var(--ink)}
+.sw-state-card .sw-state-wx{font-size:11px;color:var(--sub);margin-bottom:8px}
+.sw-state-card .sw-state-desc{font-size:13px;line-height:1.7;color:var(--ink-2);margin-bottom:8px}
+.sw-state-card .sw-state-keywords{display:flex;flex-wrap:wrap;gap:6px}
+.sw-state-card .sw-state-keywords span{font-size:11px;padding:3px 10px;background:var(--gold-soft);color:var(--gold);border-radius:12px;font-family:"STKaiti","KaiTi","楷体",serif}
+/* 凶格标注 */
+.sw-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:600;white-space:nowrap}
+.sw-badge-xiong{background:var(--red-soft);color:var(--red)}
+.sw-badge-ji{background:#e8f5e9;color:#2e7d32}
+.sw-anno-box{border:1px dashed var(--red);background:#fff5f5;border-radius:8px;padding:10px;margin:8px 0}
+.sw-anno-title{font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:"STKaiti","KaiTi","楷体",serif}
+.sw-anno-item{font-size:12px;line-height:1.6;color:var(--ink-2);margin-bottom:4px;padding-left:12px;position:relative}
+.sw-anno-item::before{content:"•";position:absolute;left:0;color:var(--red)}
+/* 弹窗内小标题 */
+.sw-section-title{font-size:12px;color:var(--gold);font-weight:600;margin:10px 0 6px;letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif}
 
 .analysis-hint{text-align:center;color:var(--sub);font-size:11px;padding:6px 16px 16px;font-family:"STKaiti","KaiTi","楷体",serif}
 
@@ -681,7 +707,7 @@ a{color:inherit;text-decoration:none}
 .ai-chat-input-area button:disabled{opacity:.5}
 
 /* 弹窗 */
-.modal-mask{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-mask{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:10002;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-mask.show{opacity:1;pointer-events:auto}
 .modal{background:var(--card);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:8px 20px calc(20px + var(--safe-bottom));max-height:82vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:var(--shadow)}
 .modal-mask.show .modal{transform:translateY(0)}
@@ -2337,19 +2363,19 @@ function renderTraditionalPlate() {
         <div class="palace-left-mid">
           <div class="palace-row">
             <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-shen">${shen}</span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ling ? `<span class="pc-ling" title="点击查看灵盘生旺死绝表" onclick="showShengWang('ling',event)">${ling}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ling ? `<span class="pc-ling" title="点击查看灵盘状态" onclick="event.stopPropagation();showShengWang('ling',${cell.idx})">${ling}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
             <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-xing">${xing || '—'}</span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${tian ? `<span class="pc-tian" title="点击查看天盘生旺死绝表" onclick="showShengWang('tian',event)">${tian}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${tian ? `<span class="pc-tian" title="点击查看天盘状态" onclick="event.stopPropagation();showShengWang('tian',${cell.idx})">${tian}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
             <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}">${men ? men + '门' : '—'}</span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ren ? `<span class="pc-ren" title="点击查看人盘生旺死绝表" onclick="showShengWang('ren',event)">${ren}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ren ? `<span class="pc-ren" title="点击查看人盘状态" onclick="event.stopPropagation();showShengWang('ren',${cell.idx})">${ren}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
             <div class="palace-col-left"><div class="pc-row pc-row-left"><span></span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${di ? `<span class="pc-di" title="点击查看地盘生旺死绝表" onclick="showShengWang('di',event)">${di}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${di ? `<span class="pc-di" title="点击查看地盘状态" onclick="event.stopPropagation();showShengWang('di',${cell.idx})">${di}</span>` : '<span></span>'}</div></div>
           </div>
         </div>
         <div class="palace-col-right">
@@ -2450,6 +2476,63 @@ const SW_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '�
 const SW_START = { '甲': ['亥', 1], '乙': ['午', -1], '丙': ['寅', 1], '丁': ['酉', -1], '戊': ['寅', 1], '己': ['酉', -1], '庚': ['巳', 1], '辛': ['子', -1], '壬': ['申', 1], '癸': ['卯', -1] };
 const SW_GANS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 
+// 十二长生状态解读
+const SW_STATE_MEANINGS = {
+  '长生': { wx: '生发之气', desc: '万物始发，生气萌发。主开创、希望、成长，宜播种新事、奠基立业。', keywords: ['开创', '希望', '成长'] },
+  '沐浴': { wx: '洗濯初成', desc: '如婴儿沐浴，主变化、桃花、不稳定。事多反复，宜审慎观察。', keywords: ['变化', '桃花', '不稳'] },
+  '冠带': { wx: '渐显成长', desc: '如人冠带，仪容渐整。主进取、成长、声誉渐起，宜学习积累。', keywords: ['进取', '成长', '声誉'] },
+  '临官': { wx: '官禄得位', desc: '如人入职得禄，事业可成。主得位、成就、贵人提携，宜谋事就职。', keywords: ['事业', '成就', '得位'] },
+  '帝旺': { wx: '气盛之极', desc: '如日中天，强盛至极。主顶峰、权威、魄力，但盛极将衰，宜防过刚。', keywords: ['强盛', '顶峰', '权威'] },
+  '衰': { wx: '盛极而衰', desc: '气由盛转衰，主退守、收敛、力不从心。宜韬光养晦，不宜冒进。', keywords: ['退守', '收敛', '乏力'] },
+  '病': { wx: '气机不畅', desc: '如人患病，主困顿、阻滞、疾患。宜调养休整，忌急功近利。', keywords: ['困顿', '阻滞', '调养'] },
+  '死': { wx: '生机沉寂', desc: '生气收藏，主结束、沉寂、不利启动。宜总结收尾，不宜开新。', keywords: ['结束', '沉寂', '收藏'] },
+  '墓': { wx: '归藏入库', desc: '吉气收敛，有吉无用。主隐藏、蓄势、闭塞，宜静守伏藏。', keywords: ['收敛', '伏藏', '蓄势'] },
+  '绝': { wx: '气尽之地', desc: '生机断绝，主孤立、绝境。然绝处逢生，转机常在险后。', keywords: ['孤立', '绝境', '转机'] },
+  '胎': { wx: '受气成胎', desc: '如受气成胎，主孕育、萌芽、新开端。宜暗中筹划，待时而动。', keywords: ['孕育', '萌芽', '新机'] },
+  '养': { wx: '滋养成长', desc: '如胚胎受养，主培养、积蓄、成长。宜蓄力待机，循序渐进。', keywords: ['培养', '积蓄', '成长'] }
+};
+
+// 十三宫 → 九宫映射（用于三奇入墓、六仪击刑）
+const PALACE_TO_9GONG = {
+  0: '巽4', 11: '巽4',
+  1: '离9',
+  2: '坤2', 3: '坤2',
+  4: '兑7',
+  5: '乾6', 6: '乾6',
+  7: '坎1',
+  8: '艮8', 9: '艮8',
+  10: '震3',
+  12: '中5'
+};
+const PALACE_BRANCH = {
+  0: '辰', 11: '巳',
+  1: '午',
+  2: '未', 3: '未',
+  4: '酉',
+  5: '戌', 6: '戌',
+  7: '子',
+  8: '丑', 9: '丑',
+  10: '卯',
+  12: null
+};
+
+// 三奇入墓：三奇落墓宫
+const SANQI_RUMU = {
+  '乙': { name: '乙奇入墓', gong: ['坤2', '乾6'], idx: [2, 3, 5, 6], desc: '日奇乙木落入墓宫，木气收敛、生机不足，吉气受制，谋事闭塞。' },
+  '丙': { name: '丙奇入墓', gong: ['乾6'], idx: [5, 6], desc: '月奇丙火落入墓宫，火气潜藏、威势不存，有吉无用。' },
+  '丁': { name: '丁奇入墓', gong: ['艮8'], idx: [8, 9], desc: '星奇丁火落入墓宫，光明隐匿，文书沉滞，谋事难成。' }
+};
+
+// 六仪击刑：六仪落刑宫
+const LIUYI_JIXING = {
+  '戊': { name: '甲子戊击刑', gong: '震3', idx: [10], desc: '子卯无礼之刑，六仪戊受刑，主违规灾祸、父子不和、官非破财。' },
+  '己': { name: '甲戌己击刑', gong: '坤2', idx: [2, 3], desc: '戌未恃势之刑，六仪己受刑，主同事不和、恃强招祸、口舌是非。' },
+  '庚': { name: '甲申庚击刑', gong: '艮8', idx: [8, 9], desc: '申寅无恩之刑，六仪庚受刑，主忘恩负义、出力反被拖累、防小人。' },
+  '辛': { name: '甲午辛击刑', gong: '离9', idx: [1], desc: '午午自刑，六仪辛受刑，主理想空幻、触犯法纪、暗气生病。' },
+  '壬': { name: '甲辰壬击刑', gong: '巽4', idx: [0, 11], desc: '辰辰自刑，六仪壬受刑，主自我纠结、愿望落空、防牢狱伤病。' },
+  '癸': { name: '甲寅癸击刑', gong: '巽4', idx: [0, 11], desc: '寅巳无恩之刑，六仪癸受刑，主施恩反被加害、口舌缠身、防不测。' }
+};
+
 // 生成某一干在十二长生各状态对应的地支
 function swRow(gan) {
   const conf = SW_START[gan];
@@ -2476,15 +2559,69 @@ function buildSwTable(stems, hlGan) {
   return `<div class="sw-wrap"><table class="sw-tbl"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
 }
 
+// 求某干在某地支的十二长生状态
+function swStateOf(gan, branch) {
+  const st = swRow(gan);
+  if (!st || !branch) return null;
+  for (const state of SW_STATES) {
+    if (st[state] === branch) return state;
+  }
+  return null;
+}
+
+// 检测某宫某干是否构成三奇入墓 / 六仪击刑
+function detectPalaceAnno(palaceIdx, gan) {
+  if (!gan) return null;
+  // 三奇入墓
+  const sq = SANQI_RUMU[gan];
+  if (sq && sq.idx.includes(palaceIdx)) {
+    return { type: '三奇入墓', ...sq, class: 'sw-badge-xiong' };
+  }
+  // 六仪击刑
+  const ly = LIUYI_JIXING[gan];
+  if (ly && ly.idx.includes(palaceIdx)) {
+    return { type: '六仪击刑', ...ly, class: 'sw-badge-xiong' };
+  }
+  return null;
+}
+
+// 汇总某宫全部凶格标注（灵/天/人/地）
+function collectPalaceAnnos(palace, idx) {
+  const annos = [];
+  const fields = [
+    { k: 'lingGan', n: '灵盘' },
+    { k: 'tianGan', n: '天盘' },
+    { k: 'renPan', n: '人盘' },
+    { k: 'diGan', n: '地盘' }
+  ];
+  for (const f of fields) {
+    const g = palace[f.k];
+    if (!g) continue;
+    const anno = detectPalaceAnno(idx, g);
+    if (anno) annos.push({ ...anno, field: f.n, gan: g });
+  }
+  return annos;
+}
+
 // 点击灵盘/天盘/人盘/地盘 → 各自的生旺死绝表
-function showShengWang(plate, ev) {
-  if (ev) { ev.stopPropagation(); }
+function showShengWang(plate, idx) {
   if (!curData || !curData.palaces) return;
   const fieldMap = { ling: 'lingGan', tian: 'tianGan', ren: 'renPan', di: 'diGan' };
   const nameMap = { ling: '灵盘', tian: '天盘', ren: '人盘', di: '地盘' };
   const field = fieldMap[plate];
   const name = nameMap[plate];
   if (!field) return;
+
+  // 被点击的宫位与干
+  const palace = curData.palaces[idx];
+  const curGan = palace && palace[field];
+  const gong = (idx != null && PALACE_TO_9GONG[idx]) ? PALACE_TO_9GONG[idx] : '—';
+  const branch = (idx != null) ? PALACE_BRANCH[idx] : null;
+  const state = (curGan && branch) ? swStateOf(curGan, branch) : null;
+  const stateInfo = state ? SW_STATE_MEANINGS[state] : null;
+  const anno = (idx != null && curGan) ? detectPalaceAnno(idx, curGan) : null;
+
+  // 本盘该盘型所含全部干（用于一览）
   const stems = [];
   const stemPos = {};
   curData.palaces.forEach((p, i) => {
@@ -2496,17 +2633,50 @@ function showShengWang(plate, ev) {
   });
   if (!stems.length) return;
   const strip = stems.map(g => `<span class="sps-item">${g} · ${stemPos[g].join('、')}</span>`).join('');
-  document.getElementById('modal-title').textContent = `${name} · 生旺死绝表`;
-  document.getElementById('modal-sub').textContent = `本盘含 ${stems.length} 干 · 阳顺阴逆十二长生`;
+
+  // 状态解读卡片
+  let stateHtml = '';
+  if (curGan && stateInfo) {
+    const annoBadge = anno ? `<span class="sw-badge ${anno.class}">${anno.name}</span>` : '';
+    stateHtml = `
+      <div class="sw-state-card">
+        <div class="sw-state-title"><span class="sw-state-name">${curGan}</span>${name} · ${state}${annoBadge}</div>
+        <div class="sw-state-wx">九宫映射：${gong} · 地支：${branch || '—'} · 五行气：${stateInfo.wx}</div>
+        <div class="sw-state-desc">${stateInfo.desc}</div>
+        <div class="sw-state-keywords">${stateInfo.keywords.map(k => `<span>${k}</span>`).join('')}</div>
+      </div>`;
+  } else if (curGan) {
+    stateHtml = `
+      <div class="sw-state-card">
+        <div class="sw-state-title"><span class="sw-state-name">${curGan}</span>${name} · 状态未明</div>
+        <div class="sw-state-desc">中宫或特殊宫位，长生状态需结合全局判断。</div>
+      </div>`;
+  }
+
+  // 凶格说明
+  let annoHtml = '';
+  if (anno) {
+    annoHtml = `
+      <div class="sw-anno-box">
+        <div class="sw-anno-title">${anno.type}：${anno.name}</div>
+        <div class="sw-anno-item">${anno.desc}</div>
+        <div class="sw-anno-item">当前 ${name} 之「${curGan}」落入${anno.gong ? anno.gong + '（' : ''}${gong}${anno.gong ? '）' : ''}，构成${anno.name}，主凶，宜静守回避。</div>
+      </div>`;
+  }
+
+  document.getElementById('modal-title').textContent = `${name} · ${curGan || '—'}宫状态`;
+  document.getElementById('modal-sub').textContent = `第 ${(idx || 0) + 1} 宫 · 洛${palace ? palace.luoshu : '—'}${palace && palace.label || ''} · 映射${gong}`;
   document.getElementById('modal-content').innerHTML = `
+    ${stateHtml}
+    ${annoHtml}
     <div class="detail-block">
       <div class="type">【${name}各宫之干】</div>
       <div class="sw-plate-strip">${strip}</div>
     </div>
     <div class="detail-block">
       <div class="type">【生旺死绝表】</div>
-      ${buildSwTable(stems)}
-      <div class="sw-note">注：阳干（甲丙戊庚壬）顺行，阴干（乙丁己辛癸）逆行；金底列为长生、帝旺之位。</div>
+      ${buildSwTable(stems, curGan)}
+      <div class="sw-note">注：阳干（甲丙戊庚壬）顺行，阴干（乙丁己辛癸）逆行；金底列为长生、帝旺之位。当前高亮行为「${curGan || '—'}」。</div>
     </div>`;
   document.getElementById('palace-modal').classList.add('show');
 }
@@ -2535,6 +2705,36 @@ function showPalaceDetail(idx) {
   const ganWX = knowledge.ganWuxing && knowledge.ganWuxing[palace.diGan];
   const content = document.getElementById('modal-content');
   let html = '';
+
+  // 四干状态与凶格标注
+  const gong = PALACE_TO_9GONG[idx] || '—';
+  const branch = PALACE_BRANCH[idx];
+  const fourGan = [
+    { k: 'lingGan', n: '灵盘' },
+    { k: 'tianGan', n: '天盘' },
+    { k: 'renPan', n: '人盘' },
+    { k: 'diGan', n: '地盘' }
+  ];
+  const annos = collectPalaceAnnos(palace, idx);
+  let ganStateHtml = '';
+  for (const fg of fourGan) {
+    const g = palace[fg.k];
+    if (!g) continue;
+    const st = branch ? swStateOf(g, branch) : null;
+    const anno = detectPalaceAnno(idx, g);
+    const stText = st ? ` · <span style="color:var(--gold)">${st}</span>` : '';
+    const annoBadge = anno ? `<span class="sw-badge ${anno.class}">${anno.name}</span>` : '';
+    ganStateHtml += `<div class="sw-anno-item" style="margin-bottom:5px"><b>${fg.n}</b>：${g}${stText}${annoBadge}</div>`;
+  }
+
+  html += `<div class="detail-block">
+    <div class="type">【本宫四干 · 映射${gong}】</div>
+    ${ganStateHtml || '<div class="sw-anno-item">本宫暂无四干信息</div>'}
+    ${annos.length ? `<div class="sw-anno-box" style="margin-top:10px">
+      <div class="sw-anno-title">凶格标注</div>
+      ${annos.map(a => `<div class="sw-anno-item"><b>${a.field}·${a.gan}</b>：${a.name} — ${a.desc}</div>`).join('')}
+    </div>` : ''}
+  </div>`;
 
   if (ganWX) {
     html += `<div class="detail-block">

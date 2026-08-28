@@ -71,7 +71,9 @@
       this.progressState = null;
       this.settingsSavePromise = Promise.resolve();
       this.saveProgressSoon = createProgressThrottler((progress) => {
-        this.queueProgressSave(progress).catch(() => {});
+        this.queueProgressSave(progress).catch((err) => {
+          if (typeof console !== 'undefined' && console.error) console.error('[SchoolReader] 保存进度失败', err);
+        });
       });
     }
 
@@ -79,22 +81,26 @@
       return this.catalog.find((book) => book.id === id);
     }
 
-    async open(bookId) {
+    _ensureEnvReady() {
       if (!globalScope.document || typeof globalScope.ePub !== 'function') {
         throw new Error('电子书阅读器未加载');
       }
-      const localBook = await this.store.getBook(bookId);
-      if (!localBook || !localBook.blob) throw new Error('请先下载本书');
-      const metadata = this.findBook(bookId) || { title: '电子书' };
-      const progress = await this.store.getProgress(bookId) || {};
+    }
+
+    async openByUrl(bookId, url) {
+      this._ensureEnvReady();
       this.close();
+      const metadata = this.findBook(bookId) || { title: '电子书' };
+      let progress = {};
+      if (this.store && typeof this.store.getProgress === 'function') {
+        progress = (await this.store.getProgress(bookId)) || {};
+      }
       this.currentBookId = bookId;
       this.progressState = { bookId, ...progress };
       try {
         this.root = this.buildShell(metadata.title, progress);
         globalScope.document.body.appendChild(this.root);
-        const buffer = await readBlobAsArrayBuffer(localBook.blob);
-        this.book = globalScope.ePub(buffer);
+        this.book = globalScope.ePub(url, { openAs: 'epub' });
         this.rendition = this.book.renderTo(this.root.querySelector('.school-reader-stage'), {
           width: '100%',
           height: '100%',
@@ -107,9 +113,28 @@
         await this.rendition.display(progress.cfi || undefined);
         this.bindLocationSaving(progress);
         this.loadNavigation();
+        return this.book;
       } catch (error) {
         this.close();
         throw error;
+      }
+    }
+
+    async open(bookId) {
+      this._ensureEnvReady();
+      let localBook = null;
+      if (this.store && typeof this.store.getBook === 'function') {
+        localBook = await this.store.getBook(bookId);
+      }
+      const bookMeta = this.findBook(bookId);
+      const fallbackUrl = bookMeta && bookMeta.downloadUrls && bookMeta.downloadUrls[0];
+      if (localBook && localBook.blob) {
+        const url = URL.createObjectURL(localBook.blob);
+        return this.openByUrl(bookId, url);
+      } else if (fallbackUrl) {
+        return this.openByUrl(bookId, fallbackUrl);
+      } else {
+        throw new Error('请先下载本书或检查下载地址');
       }
     }
 

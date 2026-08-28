@@ -29,3 +29,14 @@ test('development server exposes the verified remote book directory', () => {
   const server = fs.readFileSync(path.join(root, 'server.js'), 'utf8');
   assert.match(server, /app\.use\('\/books', express\.static\(path\.join\(__dirname, 'docs', 'books'\)/);
 });
+
+for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html']) {
+  test(`${relativePath} featured book cards support both read and download buttons`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    const appJs = fs.readFileSync(path.join(root, 'public', 'school-app.js'), 'utf8');
+    assert.match(appJs, /data-action="read"/);
+    assert.match(appJs, /data-action="download"/);
+    assert.match(appJs, /school-book-read/);
+    assert.match(appJs, /school-book-download/);
+  });
+}

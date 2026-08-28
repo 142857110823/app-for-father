@@ -127,8 +127,14 @@ async function main() {
       if (result.dates.some((d) => d.includes('31'))) {
         throw new Error(`${viewport} 日排局出现农历不存在的 31 日`);
       }
-      if (result.tiangang.some((item) => item.writingMode !== 'vertical-rl')) {
-        throw new Error(`${viewport} 存在未纵排的天罡标签`);
+      // 手机端（≤540px）天罡标签改为横排，便于窄屏阅读
+      const vpWidth = parseInt(viewport.split('x')[0], 10);
+      const expectMobile = vpWidth <= 540;
+      if (expectMobile && result.tiangang.some((item) => item.writingMode !== 'horizontal-tb')) {
+        throw new Error(`${viewport} 手机端天罡标签未改为横排`);
+      }
+      if (!expectMobile && result.tiangang.some((item) => item.writingMode !== 'vertical-rl')) {
+        throw new Error(`${viewport} 桌面端天罡标签未保持纵排`);
       }
       if (!result.yueju.length) {
         throw new Error(`${viewport} 缺少月局标签`);

@@ -1,0 +1,34 @@
+{
+  "url": "http://localhost:8090/",
+  "checkedAt": "2026-08-28T07:48:57.462Z",
+  "mobile": {
+    "ganModal": {
+      "title": "天盘 · 丙宫状态",
+      "sub": "第 6 宫 · 洛6尾 · 映射乾6",
+      "hasStateCard": true,
+      "hasSwTable": true,
+      "hasAnno": true
+    },
+    "palaceModal": {
+      "title": "第 6 宫 · 洛6尾",
+      "hasFourGan": true,
+      "hasWholeTable": true,
+      "hasAnno": true
+    }
+  },
+  "desktop": {
+    "ganModal": {
+      "title": "天盘 · 丙宫状态",
+      "sub": "第 6 宫 · 洛6尾 · 映射乾6",
+      "hasStateCard": true,
+      "hasSwTable": true,
+      "hasAnno": true
+    },
+    "palaceModal": {
+      "title": "第 6 宫 · 洛6尾",
+      "hasFourGan": true,
+      "hasWholeTable": true,
+      "hasAnno": true
+    }
+  }
+}
