@@ -1139,3 +1139,8 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - Git 推送受阻：git push origin master 三次均失败（Recv failure: Connection was reset、curl 55 Send failure: Connection was reset、Connection timed out），最新本地提交 df8602 尚未同步到 origin，线上版本仍为旧代码。
 **【相关文档】** public/index.html、index.html（根）、docs/index.html、二维码.jpg、work-flow.md
 
+
+**【后续状态更新】**
+- 2026-08-29 21:23 再次执行 git push origin master 成功，22c7e96 已同步到 origin/master（包含 df8602 的 UI 修复与二维码图片）。
+- GitHub Pages 部署完成后，浏览器自动化线上验证通过：https://142857110823.github.io/app-for-father/ 上 dun-info-bar 顺序正确、我的页面顶部无重叠、联系我们二维码图片正常加载（888×1131）。
+
