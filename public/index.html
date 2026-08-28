@@ -2178,6 +2178,9 @@ async function paipan() {
     let result;
     if (typeof QiMenAlgorithm !== 'undefined' && QiMenAlgorithm.fullPaiPan) {
       result = QiMenAlgorithm.fullPaiPan(yv, mv, dv, hv, minV);
+      // DEBUG: 打印底层排盘计算数据，便于区分计算错误与UI渲染问题
+      console.log('[DEBUG] 排盘输入:', { y: yv, m: mv, d: dv, h: hv, min: minV, panType: panTypeV });
+      console.log('[DEBUG] 排盘结果:', JSON.parse(JSON.stringify(result || {})));
     } else {
       const r = await fetch(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`).then(r => r.json());
       if (!r.ok) { showToast(r.error || '排盘失败'); return; }
