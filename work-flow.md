@@ -1077,3 +1077,37 @@
 - 视觉证据：`artifacts/t6-mobile-375-20260828-plate.png`、`t6-mobile-375-20260828-page.png`、`t6-mobile-375-20260828-modal-gan.png`、`t6-desktop-1280-20260828-plate.png`。
 - 本地预览地址：http://localhost:8090/（验证时间 2026-08-28，Express 服务运行中）。
 **【相关文档】** public/index.html、index.html、docs/index.html、docs/superpowers/specs/2026-08-28-mobile-paipan-ai-hide-design.md、docs/superpowers/plans/2026-08-28-mobile-paipan-ai-hide.md、scripts/audit-t6.js、work-flow.md
+
+### 2026-08-28 移动端九项细节修复与视觉审查
+
+**【时间】** 2026-08-28
+**【事件】** 用户提出九项细节优化：①四柱模块占比过大 ②标签顺序调整为值符/值使/驿马/空亡 ③A-/A+字号缩放失衡与字符重叠 ④宫位长方形调整为正方形 ⑤删除我的页命理工具与排盘页四柱八字/紫微斗数入口 ⑥修复简繁转换全站生效 ⑦我的页新增联系我们（含二维码） ⑧删除书院模块并精简底部导航 ⑨智能解读重写为通俗结构化输出。
+**【问题来源】** 用户基于当前排盘结果截图与使用体验提出九项具体修改要求。
+**【执行方向】**
+1. 四柱模块：压缩内边距（padding:5px 2px 4px）、字号降至14px、行高1.35，降低非核心信息占比。
+2. 标签顺序：将 `renderResult` 中 dun-chip 顺序改为值符→值使→驿马→空亡。
+3. 字号缩放：`changePlateFont` 使用四档类（sm/md/lg/xl），每档增量1px；窄屏下字号变量同步减小，避免一次放大即重叠。
+4. 宫位正方形：`#plate-table td:not(.center):not(.empty)` 由 `min-aspect-ratio:1/1` 改为 `aspect-ratio:1/1` 强制正方形。
+5. 删除入口：移除我的页 `feature-grid` 命理工具四卡片；删除排盘页「四柱八字」「紫微斗数」两个入口卡片。
+6. 简繁转换：保留基于 OpenCC 的全页转换器，含 MutationObserver 监听动态内容；在「我的」快捷入口提供切换按钮。
+7. 联系我们：我的页新增 `contact-card`，左侧文案 + 右侧 `二维码.jpg`。
+8. 书院删除：删除 `#page-school` 全部 HTML/CSS/JS，底部导航仅保留排盘/记录/我的。
+9. 智能解读：提示词要求「核心结论+编号要点+通俗解释+实用建议」，返回 JSON 三段式；`formatInterpretSection` 解析后渲染小标题+摘要+要点列表，并高亮关键术语。
+**【执行边界】** 仅修改 `public/index.html`（HTML/CSS/JS），并同步到仓库根 `index.html` 与 `docs/index.html`；未改动 algorithm/*、backend/*、server.js。
+**【执行结果】**
+- 四柱模块视觉占比明显缩小。
+- 标签顺序已改为值符/值使/驿马/空亡。
+- A+/A- 在桌面端切换无重叠；窄屏下增量受限并隐藏月局/节气，缓解重叠。
+- 宫位在桌面及700px视口下呈现正方形；窄屏通过 `aspect-ratio:1/1` + 内容裁剪保持方正。
+- 我的页无命理工具；排盘页无四柱八字/紫微斗数入口。
+- 简繁转换按钮可点击切换，我的页、联系我等文案可正常转换。
+- 我的页出现「联系我们」模块，二维码正常显示。
+- 底部导航仅保留排盘/记录/我的，书院入口已删除。
+- 智能解读面板按「①格局判断 ②关键宫位分析 ③吉凶断语」三段渲染，不再显示 `"geju"` 等原始 JSON 字段。
+**【执行验证】**
+- 本地启动 `node server.js` 后，浏览器访问 http://localhost:8090/ 完成即时排盘。
+- 桌面1280px截图：四柱缩小、标签顺序正确、宫位方正、无字符重叠。
+- 700px视口截图：底部三Tab正确、A+放大后未出现严重重叠。
+- 我的页截图：含快捷入口（我的收藏/我的消息/阅读历史/简繁转换）、联系我们+二维码、无命理工具。
+- 提交推送：`ca53850 fix: 四柱瘦身、宫位正方、A+防重叠、我的页与简繁转换验证` 已推至 origin/master。
+**【相关文档】** public/index.html、index.html（根）、docs/index.html、work-flow.md
