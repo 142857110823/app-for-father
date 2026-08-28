@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1a1a1a">
 <title>道家奇门遁甲</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="school.css">
+
 <style>
 :root{
   --bg:#f7f5f0;
@@ -309,6 +309,13 @@ a{color:inherit;text-decoration:none}
 .profile-stats .ps-value{font-size:22px;font-weight:700;color:var(--gold);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;text-shadow:0 1px 0 rgba(184,134,11,.08)}
 .profile-stats .ps-label{font-size:11px;color:var(--ink-2);margin-top:5px;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
 
+/* 联系我们 */
+.contact-card{display:flex;align-items:center;gap:12px;margin:12px 16px;padding:14px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line)}
+.contact-text{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.contact-title{font-size:15px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.contact-desc{font-size:12px;color:var(--ink-2);line-height:1.6}
+.contact-qr{width:72px;height:72px;object-fit:cover;border:1px solid var(--line);border-radius:8px;flex-shrink:0;background:var(--bg)}
+
 /* 我的页面 - 命理工具特色卡 */
 .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 16px 4px}
 .feature-card{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:var(--radius);padding:12px 12px 11px;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow)}
@@ -422,11 +429,11 @@ a{color:inherit;text-decoration:none}
 .info-grid .ig-lbl{font-size:11px;color:var(--sub)}
 .info-grid .ig-val{font-size:14px;font-weight:600;color:var(--ink)}
 
-.pillar-row{display:flex;gap:8px;padding:0 16px;margin-top:14px}
-.pillar-row .pillar{flex:1;min-width:0;text-align:center;padding:14px 2px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--card)}
-.pillar-row .pillar .pos{font-size:11px;color:var(--sub);margin-bottom:6px;letter-spacing:1px}
-.pillar-row .pillar .gz{font-size:20px;font-weight:700;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
-.pillar-row .pillar .gz span{display:block;line-height:1.4}
+.pillar-row{display:flex;gap:6px;padding:0 16px;margin-top:8px}
+.pillar-row .pillar{flex:1;min-width:0;text-align:center;padding:5px 2px 4px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--card)}
+.pillar-row .pillar .pos{font-size:9px;color:var(--sub);margin-bottom:1px;letter-spacing:1px}
+.pillar-row .pillar .gz{font-size:14px;font-weight:700;letter-spacing:2px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pillar-row .pillar .gz span{display:block;line-height:1.35}
 .pillar-row .pillar .gz .gan{color:var(--gold)}
 .pillar-row .pillar .gz .zhi{color:var(--ink)}
 
@@ -460,7 +467,8 @@ a{color:inherit;text-decoration:none}
 /* 三列竖排：左列(神/星/门) + 中列(灵/天/人/地) + 右列(天罡/月局/节气/日排局) */
 .traditional-plate{padding:0 16px 20px}
 #plate-table{width:100%;border-collapse:collapse;border:1.5px solid var(--ink);table-layout:fixed;background:var(--plate-bg)}
-#plate-table td{background:var(--plate-cell);border:1px solid var(--ink-2);padding:3px 4px;vertical-align:top;position:relative;height:110px;cursor:pointer;box-sizing:border-box}
+#plate-table td{background:var(--plate-cell);border:1px solid var(--ink-2);padding:3px 4px;vertical-align:top;position:relative;height:auto;cursor:pointer;box-sizing:border-box}
+#plate-table td:not(.center):not(.empty){aspect-ratio:1/1}
 #plate-table td.empty{background:transparent;border:none;cursor:default}
 #plate-table td.center{height:auto;vertical-align:middle;background:var(--plate-cell)}
 /* 贵神宫浅黄底色（idx8=8首） */
@@ -507,12 +515,12 @@ a{color:inherit;text-decoration:none}
 .pc-rp{max-width:42px;font-size:var(--pf-rp);font-weight:700;color:#8b6914;white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1}
 
 /* 中宫放大字体（跨 2×2）：神/星/门统一规格，四干统一规格 */
-#plate-table td.center .pc-shen{font-size:17px;font-weight:700;letter-spacing:1px}
-#plate-table td.center .pc-xing{font-size:17px;font-weight:700;letter-spacing:1px}
-#plate-table td.center .pc-men{font-size:17px;font-weight:700;letter-spacing:1px}
-#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:17px;font-weight:700;letter-spacing:1px}
-#plate-table td.center .pc-tg{font-size:12px}
-#plate-table td.center .pc-rp{font-size:12px}
+#plate-table td.center .pc-shen{font-size:calc(var(--pf-shen) + 3px);font-weight:700;letter-spacing:1px}
+#plate-table td.center .pc-xing{font-size:calc(var(--pf-xing) + 3px);font-weight:700;letter-spacing:1px}
+#plate-table td.center .pc-men{font-size:calc(var(--pf-men) + 3px);font-weight:700;letter-spacing:1px}
+#plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:calc(var(--pf-ling) + 3px);font-weight:700;letter-spacing:1px}
+#plate-table td.center .pc-tg{font-size:calc(var(--pf-tg) + 2px)}
+#plate-table td.center .pc-rp{font-size:calc(var(--pf-rp) + 2px)}
 #plate-table td.center{padding:0;text-align:center;vertical-align:middle;position:relative}
 /* 中宫消除大片空白：左列（神星门）居中 1/3 处，中列（灵天人地）居中 2/3 处 */
 #plate-table td.center .palace-tri{justify-content:center;width:100%}
@@ -520,59 +528,68 @@ a{color:inherit;text-decoration:none}
 #plate-table td.center .palace-left-mid{flex:0 1 auto;width:66%;grid-template-columns:1fr 1fr;column-gap:10px;justify-content:stretch}
 #plate-table td.center .palace-left-mid .palace-col-left{justify-content:center}
 #plate-table td.center .palace-left-mid .palace-col-mid{justify-content:center}
-#plate-table{--pf-shen:14px;--pf-xing:13px;--pf-men:14px;--pf-ling:13px;--pf-tian:13px;--pf-ren:13px;--pf-di:13px;--pf-tg:12px;--pf-yj:10px;--pf-jq:9px;--pf-rp:9px}
+#plate-table{--pf-shen:12px;--pf-xing:12px;--pf-men:12px;--pf-ling:12px;--pf-tian:12px;--pf-ren:12px;--pf-di:12px;--pf-tg:10px;--pf-yj:9px;--pf-jq:8px;--pf-rp:8px}
 
 /* ===== 手机端宫位自适应（≤540px：严格左/中/右三列） ===== */
 @media (max-width:540px){
   .traditional-plate{padding:0 4px 12px}
-  #plate-table{--pf-shen:10px;--pf-xing:10px;--pf-men:10px;--pf-ling:10px;--pf-tian:10px;--pf-ren:10px;--pf-di:10px;--pf-tg:8px;--pf-yj:8px;--pf-jq:7px;--pf-rp:7px}
-  #plate-table td{height:auto;min-height:86px;padding:2px 2px}
+  #plate-table{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:6px;--pf-jq:5px;--pf-rp:6px}
+  #plate-table td{padding:2px 1px;overflow:hidden}
   /* 宫内严格左/中/右三列 */
-  .palace-tri{flex-direction:row !important;gap:1px;justify-content:space-between;align-items:stretch !important}
-  .palace-left-mid{display:grid !important;grid-template-columns:1fr 1fr;grid-auto-rows:auto;column-gap:2px;row-gap:1px;flex:1 1 auto !important;min-width:0;height:100%}
+  .palace-tri{flex-direction:row !important;gap:0;justify-content:space-between;align-items:stretch !important}
+  .palace-left-mid{display:grid !important;grid-template-columns:1fr 1fr;grid-auto-rows:auto;column-gap:1px;row-gap:0;flex:1 1 auto !important;min-width:0;height:100%}
   .palace-row{display:contents}
   .palace-row .palace-col-left{justify-content:flex-start;padding:0;min-width:0;overflow:hidden}
   .palace-row .palace-col-mid{justify-content:center;padding:0;min-width:0;overflow:hidden}
-  .pc-row{line-height:1.15;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-  /* 右列竖向窄列：天罡/月局/节气/日局 */
-  .palace-col-right{flex-direction:column !important;flex-wrap:nowrap;width:26px !important;height:100%;justify-content:space-between;align-items:flex-end;gap:1px;padding:0 1px;flex-shrink:0}
-  .palace-col-right .pc-right-top{flex-direction:column;gap:1px;align-items:flex-end}
+  .pc-row{line-height:1.1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  /* 窄屏门名去掉"门"后缀以节省宽度 */
+  .pc-men{font-size:var(--pf-men);font-style:normal}
+  .pc-men .men-suffix{display:none;font-style:normal}
+  /* 右列竖向窄列：仅保留天罡/日局，隐藏月局/节气避免重叠 */
+  .palace-col-right{flex-direction:column !important;flex-wrap:nowrap;width:20px !important;height:100%;justify-content:space-between;align-items:flex-end;gap:0;padding:0 1px;flex-shrink:0}
+  .palace-col-right .pc-right-top{flex-direction:column;gap:0;align-items:flex-end}
   .palace-col-right .pc-right-bottom{flex-direction:column;align-items:flex-end}
-  .pc-tg{padding:1px 2px;writing-mode:vertical-rl;text-orientation:upright}
-  .pc-yj{white-space:normal;text-align:right;line-height:1.1}
-  .pc-jq{justify-content:flex-end;gap:1px}
-  .pc-jq .jq-col{writing-mode:vertical-rl;text-orientation:upright}
-  .pc-rp{max-width:26px;text-align:right;line-height:1.1}
+  .pc-tg{padding:1px 1px;writing-mode:vertical-rl;text-orientation:upright;border-radius:2px}
+  .pc-yj,.pc-jq{display:none}
+  .pc-rp{max-width:20px;text-align:right;line-height:1.05;font-size:var(--pf-rp)}
   /* 中宫 */
   #plate-table td.center{padding:4px}
   #plate-table td.center .palace-col-right{display:none}
   #plate-table td.center .palace-left-mid{width:100% !important;grid-template-columns:1fr 1fr;column-gap:8px}
-  #plate-table td.center .pc-shen{font-size:15px}
-  #plate-table td.center .pc-xing{font-size:15px}
-  #plate-table td.center .pc-men{font-size:15px}
-  #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:14px}
 }
-/* 字号切换类（覆盖基础变量） */
-#plate-table.plate-fs-sm{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
-#plate-table.plate-fs-md{--pf-shen:14px;--pf-xing:13px;--pf-men:14px;--pf-ling:13px;--pf-tian:13px;--pf-ren:13px;--pf-di:13px;--pf-tg:12px;--pf-yj:10px;--pf-jq:9px;--pf-rp:9px}
-#plate-table.plate-fs-lg{--pf-shen:16px;--pf-xing:15px;--pf-men:16px;--pf-ling:15px;--pf-tian:15px;--pf-ren:15px;--pf-di:15px;--pf-tg:13px;--pf-yj:11px;--pf-jq:10px;--pf-rp:10px}
+/* 字号切换类（覆盖基础变量）：四档平滑递增，每档仅1px，防止一次放大即重叠 */
+#plate-table.plate-fs-sm{--pf-shen:10px;--pf-xing:10px;--pf-men:10px;--pf-ling:10px;--pf-tian:10px;--pf-ren:10px;--pf-di:10px;--pf-tg:8px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
+#plate-table.plate-fs-md{--pf-shen:12px;--pf-xing:12px;--pf-men:12px;--pf-ling:12px;--pf-tian:12px;--pf-ren:12px;--pf-di:12px;--pf-tg:10px;--pf-yj:9px;--pf-jq:8px;--pf-rp:8px}
+#plate-table.plate-fs-lg{--pf-shen:13px;--pf-xing:13px;--pf-men:13px;--pf-ling:13px;--pf-tian:13px;--pf-ren:13px;--pf-di:13px;--pf-tg:11px;--pf-yj:10px;--pf-jq:9px;--pf-rp:9px}
+#plate-table.plate-fs-xl{--pf-shen:14px;--pf-xing:14px;--pf-men:14px;--pf-ling:14px;--pf-tian:14px;--pf-ren:14px;--pf-di:14px;--pf-tg:12px;--pf-yj:11px;--pf-jq:10px;--pf-rp:10px}
 @media (max-width:540px){
-  #plate-table.plate-fs-md{--pf-shen:10px;--pf-xing:10px;--pf-men:10px;--pf-ling:10px;--pf-tian:10px;--pf-ren:10px;--pf-di:10px;--pf-tg:8px;--pf-yj:8px;--pf-jq:7px;--pf-rp:7px}
+  #plate-table.plate-fs-sm{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:6px;--pf-jq:5px;--pf-rp:5px}
+  #plate-table.plate-fs-md{--pf-shen:10px;--pf-xing:10px;--pf-men:10px;--pf-ling:10px;--pf-tian:10px;--pf-ren:10px;--pf-di:10px;--pf-tg:8px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
+  #plate-table.plate-fs-lg{--pf-shen:11px;--pf-xing:11px;--pf-men:11px;--pf-ling:11px;--pf-tian:11px;--pf-ren:11px;--pf-di:11px;--pf-tg:9px;--pf-yj:8px;--pf-jq:7px;--pf-rp:7px}
+  #plate-table.plate-fs-xl{--pf-shen:12px;--pf-xing:12px;--pf-men:12px;--pf-ling:12px;--pf-tian:12px;--pf-ren:12px;--pf-di:12px;--pf-tg:10px;--pf-yj:9px;--pf-jq:8px;--pf-rp:8px}
 }
 @media (max-width:380px){
-  #plate-table{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
-  #plate-table td{height:auto;min-height:78px;padding:2px 2px}
+  #plate-table{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:6px;--pf-jq:5px;--pf-rp:5px}
+  #plate-table td{height:auto;min-height:auto;padding:2px 2px}
   .pc-row{line-height:1.1}
   .palace-col-right{width:22px !important}
   .ai-fab{width:46px;height:46px;right:4px;bottom:calc(70px + var(--safe-bottom))}
   #plate-table td.center{padding:3px}
-  #plate-table td.center .pc-shen{font-size:13px}
   #plate-table td.center .pc-xing{font-size:13px}
   #plate-table td.center .pc-men{font-size:13px}
   #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:12px}
   #plate-table.plate-fs-md{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
 }
 .rh-actions .font-btn{padding:0 6px;min-width:26px;font-weight:700}
+@media (max-width:380px){
+  .result-header{padding:10px 12px;gap:8px}
+  .result-header .rh-actions{gap:5px;overflow-x:auto;max-width:52vw;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .result-header .rh-actions::-webkit-scrollbar{display:none}
+  .result-header .rh-btn{padding:5px 8px;font-size:11px}
+  .dun-info-bar{gap:6px;padding:10px 12px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .dun-info-bar::-webkit-scrollbar{display:none}
+  .dun-chip{flex-shrink:0;padding:5px 9px;font-size:11px}
+}
 /* ===== 生旺死绝表（十二长生） ===== */
 .sw-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 6px}
 .sw-tbl{width:100%;border-collapse:collapse;font-family:"STKaiti","KaiTi","楷体",serif;background:var(--card);border:1px solid var(--line);table-layout:fixed}
@@ -625,6 +642,7 @@ a{color:inherit;text-decoration:none}
 .ai-interpret-section p{margin:0;font-size:13px;color:var(--ink);line-height:1.8;font-family:"STKaiti","KaiTi","楷体",serif;text-indent:0}
 .ai-interpret-section p+p{margin-top:8px}
 .ai-subtitle{margin:10px 0 4px;font-size:13px;color:#8b6914;font-weight:700;font-family:"STKaiti","KaiTi","楷体",serif;border-left:2px solid #b8860b;padding-left:8px}
+.ai-section-summary{margin:0 0 10px;padding:8px 10px;background:linear-gradient(90deg,rgba(212,175,55,.12) 0%,transparent 100%);border-left:3px solid #d4af37;border-radius:0 6px 6px 0;font-size:13px;color:var(--ink);line-height:1.7;font-family:"STKaiti","KaiTi","楷体",serif;font-weight:600}
 .ai-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
 .ai-list li{position:relative;padding-left:14px;font-size:13px;color:var(--ink);line-height:1.75;font-family:"STKaiti","KaiTi","楷体",serif}
 .ai-list li::before{content:'•';position:absolute;left:0;color:#b8860b;font-weight:700}
@@ -650,28 +668,6 @@ a{color:inherit;text-decoration:none}
 .fav-add-tag input{flex:1;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;font-family:inherit;background:var(--card)}
 .fav-add-tag button{background:var(--ink);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:"STKaiti","KaiTi","楷体",serif}
 .fav-note-input{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;font-family:inherit;background:var(--card);margin-top:4px}
-
-/* ===== 书院/知识库 ===== */
-.school-hero{background:linear-gradient(180deg,var(--ink) 0%,#2c2c2c 100%);color:#fff;padding:28px 20px 24px;text-align:center}
-.school-hero h2{margin:0 0 6px;font-size:20px;font-family:"STKaiti","KaiTi","楷体",serif;letter-spacing:3px}
-.school-hero p{margin:0;font-size:13px;opacity:.8;font-family:"STKaiti","KaiTi","楷体",serif}
-.school-section{margin:16px}
-.school-section-title{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-left:4px}
-.school-section-title .sst-icon{width:24px;height:24px;background:var(--gold);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
-.school-section-title h3{margin:0;font-size:15px;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;letter-spacing:1px}
-.school-book-list{display:flex;flex-direction:column;gap:8px}
-.school-book{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:transform .15s,box-shadow .15s}
-.school-book:active{transform:scale(.98)}
-.school-book-cover{width:44px;height:56px;border-radius:6px;background:linear-gradient(135deg,var(--ink) 0%,#444 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-family:"STKaiti","KaiTi","楷体",serif;flex-shrink:0;border:1px solid rgba(0,0,0,.1)}
-.school-book-info{flex:1;min-width:0}
-.school-book-title{font-size:14px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.school-book-desc{font-size:11px;color:var(--sub);font-family:"STKaiti","KaiTi","楷体",serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.school-book-action{font-size:12px;color:var(--gold);flex-shrink:0}
-.school-tutorial-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.school-tutorial-card{padding:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;text-align:center}
-.school-tutorial-card .stc-icon{font-size:28px;margin-bottom:6px}
-.school-tutorial-card .stc-title{font-size:13px;color:var(--ink);font-weight:600;font-family:"STKaiti","KaiTi","楷体",serif}
-.school-tutorial-card .stc-desc{font-size:11px;color:var(--sub);margin-top:3px;font-family:"STKaiti","KaiTi","楷体",serif}
 
 /* 书院 - 书籍阅读页 */
 .book-reader{position:fixed;inset:0;background:var(--bg);z-index:20000;display:flex;flex-direction:column}
@@ -942,18 +938,6 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
     <button class="hc-btn" onclick="setNow();paipan()">即时排盘</button>
   </div>
 
-  <div class="split-row">
-    <div class="split-card" onclick="showPage('bazi')">
-      <div class="sc-icon dark">八</div>
-      <div class="sc-title">四柱八字</div>
-      <div class="sc-desc">年月日时 · 藏干十神</div>
-    </div>
-    <div class="split-card" onclick="showPage('ziwei')">
-      <div class="sc-icon">紫</div>
-      <div class="sc-title">紫微斗数</div>
-      <div class="sc-desc">命身宫 · 十四主星</div>
-    </div>
-  </div>
 </div>
 
 <div id="page-member" class="page hidden" style="padding-bottom:calc(80px + var(--safe-bottom))">
@@ -1111,30 +1095,6 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
     <div class="ps-item"><div class="ps-value" id="stat-vip">未</div><div class="ps-label">会员</div></div>
   </div>
 
-  <div class="section-title"><span>命理工具</span><span class="st-tag">四术</span></div>
-  <div class="feature-grid">
-    <div class="feature-card" onclick="showPage('bazi')">
-      <div class="fc-head"><div class="fc-icon">八</div><div class="fc-title">四柱八字</div></div>
-      <div class="fc-sub">年月日时四柱 · 藏干十神 · 大运流年</div>
-      <span class="fc-tag">子平术</span>
-    </div>
-    <div class="feature-card" onclick="showPage('ziwei')">
-      <div class="fc-head"><div class="fc-icon">紫</div><div class="fc-title">紫微斗数</div></div>
-      <div class="fc-sub">命身十二宫 · 十四主星 · 四化大限</div>
-      <span class="fc-tag">帝王学</span>
-    </div>
-    <div class="feature-card" onclick="showPage('meihua')">
-      <div class="fc-head"><div class="fc-icon">梅</div><div class="fc-title">梅花易数</div></div>
-      <div class="fc-sub">本互变三卦 · 体用生克 · 动爻断吉</div>
-      <span class="fc-tag">邵子法</span>
-    </div>
-    <div class="feature-card" onclick="showPage('daliuren')">
-      <div class="fc-head"><div class="fc-icon">壬</div><div class="fc-title">大六壬</div></div>
-      <div class="fc-sub">天地盘四课 · 三传神将 · 九宗门</div>
-      <span class="fc-tag">三式首</span>
-    </div>
-  </div>
-
   <div class="section-title"><span>快捷入口</span></div>
   <div class="icon-grid">
     <div class="ig-item" onclick="showPage('favorites')"><div class="ig-icon dark">藏</div><div class="ig-label">我的收藏</div></div>
@@ -1144,6 +1104,15 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
       <div class="ig-icon dark" id="trad-icon">繁</div>
       <div class="ig-label" id="trad-label">简繁转换</div>
     </div>
+  </div>
+
+  <div class="section-title"><span>联系我们</span></div>
+  <div class="contact-card card">
+    <div class="contact-text">
+      <div class="contact-title">扫码关注 / 联系客服</div>
+      <div class="contact-desc">如有使用疑问、技术反馈或商务合作，欢迎扫码添加客服微信，我们将在工作日内尽快回复。</div>
+    </div>
+    <img src="二维码.jpg" alt="客服二维码" class="contact-qr">
   </div>
 
   <div class="section-title"><span>系统</span></div>
@@ -1226,74 +1195,6 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
     <button onclick="saveFavTagNote()">保存</button>
   </div>
   <div id="favorites-list"></div>
-</div>
-
-<div id="page-school" class="page hidden">
-  <div class="school-hero">
-    <h2>道家书院</h2>
-    <p>传承千年智慧 · 奇门遁甲入门</p>
-  </div>
-
-  <!-- 入门教程 -->
-  <div class="school-section">
-    <div class="school-section-title"><span class="sst-icon">教</span><h3>入门教程</h3></div>
-    <div class="school-tutorial-grid">
-      <div class="school-tutorial-card" onclick="openTutorial('tiangan')">
-        <div class="stc-icon">甲乙</div>
-        <div class="stc-title">十天干</div>
-        <div class="stc-desc">基础干支入门</div>
-      </div>
-      <div class="school-tutorial-card" onclick="openTutorial('dizhi')">
-        <div class="stc-icon">子丑</div>
-        <div class="stc-title">十二地支</div>
-        <div class="stc-desc">地支与方位</div>
-      </div>
-      <div class="school-tutorial-card" onclick="openTutorial('bagua')">
-        <div class="stc-icon">☯</div>
-        <div class="stc-title">八卦九宫</div>
-        <div class="stc-desc">洛书与九宫</div>
-      </div>
-      <div class="school-tutorial-card" onclick="openTutorial('paipan')">
-        <div class="stc-icon">局</div>
-        <div class="stc-title">基础排盘</div>
-        <div class="stc-desc">从零学会排盘</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 精选书籍 -->
-  <div class="school-section">
-    <div class="school-section-title"><span class="sst-icon">书</span><h3>精选书籍</h3></div>
-    <div class="school-book-list" id="school-book-list"></div>
-  </div>
-
-  <!-- 阴阳遁详解 -->
-  <div class="school-section">
-    <div class="school-section-title"><span class="sst-icon">遁</span><h3>阴阳遁详解</h3></div>
-    <div class="school-tutorial-grid">
-      <div class="school-tutorial-card" onclick="openTutorial('yangdun')">
-        <div class="stc-icon">阳</div>
-        <div class="stc-title">阳遁九局</div>
-        <div class="stc-desc">主动进攻之势</div>
-      </div>
-      <div class="school-tutorial-card" onclick="openTutorial('yindun')">
-        <div class="stc-icon">阴</div>
-        <div class="stc-title">阴遁九局</div>
-        <div class="stc-desc">主守势待发</div>
-      </div>
-      <div class="school-tutorial-card" onclick="openTutorial('tiangang')">
-        <div class="stc-icon">罡</div>
-        <div class="stc-title">天罡系统</div>
-        <div class="stc-desc">十二天罡详解</div>
-      </div>
-      <div class="school-tutorial-card" onclick="openTutorial('shenxingmen')">
-        <div class="stc-icon">神</div>
-        <div class="stc-title">神星门</div>
-        <div class="stc-desc">吉神凶煞详解</div>
-      </div>
-    </div>
-  </div>
-  <div style="height:20px"></div>
 </div>
 
 <div id="page-messages" class="page hidden">
@@ -1482,9 +1383,6 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
     <span class="ni-icon">录</span><span class="ni-label">记录</span>
     <span class="ni-dot" id="history-dot"></span>
   </div>
-  <div class="nav-item" data-page="school" onclick="showPage('school')">
-    <span class="ni-icon">院</span><span class="ni-label">书院</span>
-  </div>
   <div class="nav-item" data-page="profile" onclick="showPage('profile')">
     <span class="ni-icon">我</span><span class="ni-label">我的</span>
   </div>
@@ -1579,9 +1477,7 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 <script src="regions.js"></script>
 <script src="vendor/jszip.min.js"></script>
 <script src="vendor/epub.min.js"></script>
-<script src="school-library.js"></script>
-<script src="school-reader.js"></script>
-<script src="school-app.js"></script>
+
 <script src="opencc-full.js"></script>
 <script src="ai-client.js"></script>
 <script>
@@ -1604,7 +1500,7 @@ let history = JSON.parse(localStorage.getItem(userKey('history')) || '[]');
 let favorites = JSON.parse(localStorage.getItem(userKey('favorites')) || '[]');
 let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]');
 
-/* ===== 简繁转换 ===== */
+/* ===== 简繁转换（全站生效版） ===== */
 (function initTradConverter(globalScope) {
   'use strict';
 
@@ -1612,10 +1508,12 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
   let s2tConverter = null;
   let t2sConverter = null;
   let isTraditional = localStorage.getItem(TRAD_KEY) === '1';
+  let pendingNodes = new Set();
+  let flushTimer = null;
 
   function ensureConverters() {
-    if (s2tConverter) return true;
-    if (typeof globalScope.OpenCC === 'undefined' || typeof globalScope.OpenCC.Converter === 'undefined' || typeof globalScope.OpenCC.HTMLConverter === 'undefined') {
+    if (s2tConverter && t2sConverter) return true;
+    if (typeof globalScope.OpenCC === 'undefined' || typeof globalScope.OpenCC.Converter === 'undefined') {
       return false;
     }
     try {
@@ -1636,7 +1534,7 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
 
   function convertTextContent(node, toTrad) {
     const converter = toTrad ? s2tConverter : t2sConverter;
-    if (!converter) return;
+    if (!converter || !node) return;
     const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null, false);
     let textNode;
     while ((textNode = walker.nextNode()) !== null) {
@@ -1650,8 +1548,8 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
 
   function convertAttributes(node, toTrad) {
     const converter = toTrad ? s2tConverter : t2sConverter;
-    if (!converter) return;
-    const attrs = ['placeholder', 'title', 'alt', 'aria-label'];
+    if (!converter || !node) return;
+    const attrs = ['placeholder', 'title', 'alt', 'aria-label', 'value'];
     const elements = node.querySelectorAll ? node.querySelectorAll('*') : [];
     for (const el of elements) {
       for (const attr of attrs) {
@@ -1668,18 +1566,76 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
     }
   }
 
+  function convertNode(target, toTrad) {
+    if (!target) return;
+    convertTextContent(target, toTrad);
+    convertAttributes(target, toTrad);
+  }
+
   function convertDocument(toTrad) {
     if (!document.body) return;
-    convertTextContent(document.body, toTrad);
-    convertAttributes(document.body, toTrad);
+    convertNode(document.body, toTrad);
+    if (document.title) {
+      const converter = toTrad ? s2tConverter : t2sConverter;
+      if (converter) {
+        const converted = converter(document.title);
+        if (converted !== document.title) document.title = converted;
+      }
+    }
+  }
+
+  function flushPendingNodes() {
+    flushTimer = null;
+    if (pendingNodes.size === 0) return;
+    const targets = Array.from(pendingNodes);
+    pendingNodes.clear();
+    requestAnimationFrame(() => {
+      targets.forEach(node => convertNode(node, isTraditional));
+    });
+  }
+
+  function observeDynamicContent() {
+    if (!globalScope.MutationObserver || !document.body) return;
+    const observer = new globalScope.MutationObserver((mutations) => {
+      if (!s2tConverter || !t2sConverter) return;
+      let hasNew = false;
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) {
+            const target = node.nodeType === Node.TEXT_NODE ? node.parentNode : node;
+            if (target && (target.nodeType === Node.ELEMENT_NODE || target.nodeType === Node.TEXT_NODE)) {
+              pendingNodes.add(target);
+              hasNew = true;
+            }
+          }
+        }
+      }
+      if (hasNew) {
+        if (flushTimer) clearTimeout(flushTimer);
+        flushTimer = setTimeout(flushPendingNodes, 50);
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   function setTraditional(toTrad) {
+    if (toTrad === isTraditional) return;
     if (!ensureConverters()) {
-      showToast('简繁转换组件加载失败');
+      // 组件可能尚未加载完成，延迟重试一次
+      setTimeout(() => {
+        if (ensureConverters()) {
+          convertDocument(toTrad);
+          isTraditional = toTrad;
+          localStorage.setItem(TRAD_KEY, isTraditional ? '1' : '0');
+          document.documentElement.lang = isTraditional ? 'zh-Hant' : 'zh-Hans';
+          updateTradIcon();
+          showToast(isTraditional ? '已切换为繁体' : '已切换为简体');
+        } else {
+          showToast('简繁转换组件加载失败');
+        }
+      }, 300);
       return;
     }
-    if (toTrad === isTraditional) return;
     convertDocument(toTrad);
     isTraditional = toTrad;
     localStorage.setItem(TRAD_KEY, isTraditional ? '1' : '0');
@@ -1701,47 +1657,24 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
     label.textContent = '简繁转换';
   }
 
-  function observeDynamicContent() {
-    if (!globalScope.MutationObserver) return;
-    const observer = new globalScope.MutationObserver((mutations) => {
-      if (!isTraditional || !s2tConverter) return;
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) {
-            const target = node.nodeType === Node.TEXT_NODE ? node.parentNode : node;
-            if (target) {
-              convertTextContent(target, true);
-              convertAttributes(target, true);
-            }
-          }
-        }
-      }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-
   globalScope.toggleTraditionalChinese = toggleTraditionalChinese;
   globalScope.setTraditional = setTraditional;
   globalScope.isTraditionalChinese = () => isTraditional;
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      updateTradIcon();
-      if (isTraditional) {
-        if (ensureConverters()) {
-          convertDocument(true);
-          document.documentElement.lang = 'zh-Hant';
-        }
-      }
-      observeDynamicContent();
-    });
-  } else {
+  function applyInitial() {
     updateTradIcon();
-    if (isTraditional && ensureConverters()) {
+    if (!ensureConverters()) return;
+    if (isTraditional) {
       convertDocument(true);
       document.documentElement.lang = 'zh-Hant';
     }
     observeDynamicContent();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyInitial);
+  } else {
+    applyInitial();
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this);
 
@@ -2312,10 +2245,10 @@ function renderResult() {
   const valorPalace = curData.palaces.find(pal => pal.shen === '贵神');
 
   document.getElementById('dun-info-bar').innerHTML = `
-    <div class="dun-chip"><span class="dc-label">空亡</span><span class="dc-value">${kw ? kw.join('、') : '—'}</span></div>
-    <div class="dun-chip"><span class="dc-label">驿马</span><span class="dc-value">${ym || '—'}</span></div>
     <div class="dun-chip"><span class="dc-label">值符</span><span class="dc-value">${valorPalace ? valorPalace.diGan : '—'}</span></div>
     <div class="dun-chip"><span class="dc-label">值使</span><span class="dc-value">${valorPalace ? valorPalace.men : '—'}</span></div>
+    <div class="dun-chip"><span class="dc-label">驿马</span><span class="dc-value">${ym || '—'}</span></div>
+    <div class="dun-chip"><span class="dc-label">空亡</span><span class="dc-value">${kw ? kw.join('、') : '—'}</span></div>
   `;
 
   renderTraditionalPlate();
@@ -2371,7 +2304,7 @@ function renderTraditionalPlate() {
             <div class="palace-col-mid"><div class="pc-row pc-row-mid">${tian ? `<span class="pc-tian" title="点击查看天盘状态" onclick="event.stopPropagation();showShengWang('tian',${cell.idx})">${tian}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
-            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}">${men ? men + '门' : '—'}</span></div></div>
+            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}">${men ? men + '<i class="men-suffix">门</i>' : '—'}</span></div></div>
             <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ren ? `<span class="pc-ren" title="点击查看人盘状态" onclick="event.stopPropagation();showShengWang('ren',${cell.idx})">${ren}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
@@ -3834,7 +3767,7 @@ console.log('[APP] script start');
 /* ================================================
     Feature 1: AI 自动解读
    ================================================ */
-/* 智能解读文本结构化为：小标题 + 要点列表/段落，并高亮关键术语 */
+/* 智能解读文本结构化为：小标题 + 核心结论 + 要点列表，并高亮关键术语 */
 function formatInterpretSection(title, text) {
   if (!text) return '';
   const terms = ['日干','月干','年干','时干','用神','忌神','喜神','格局','旺衰','生克','刑冲','合化','贵人','值符','值使','旬空','驿马','天罡','三奇','六仪','九星','八门','九宫','八神','玄武','白虎','太常','六合','勾陈','腾蛇','玄灵','天后','九天','太阴','贵神','青龙','朱雀','贪狼','天梁','巨门','禄存','文曲','天相','廉贞','天同','武曲','破军','左辅','天机','右弼'];
@@ -3843,29 +3776,36 @@ function formatInterpretSection(title, text) {
     terms.forEach(t => { s = s.replace(new RegExp(t, 'g'), `<strong class="ai-term">${t}</strong>`); });
     return s;
   }
-  const blocks = text.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  let cleaned = text.trim().replace(/\n\s*\n/g, '\n').replace(/^\s*[-•]\s*/gm, '');
+  let summary = '';
+  const summaryMatch = cleaned.match(/核心结论[：:]\s*([^。\n]+)/);
+  if (summaryMatch) {
+    summary = summaryMatch[1].trim();
+    cleaned = cleaned.replace(summaryMatch[0], '').trim();
+  } else {
+    const firstBreak = cleaned.search(/[。；]/);
+    if (firstBreak > 5 && firstBreak < 90) {
+      summary = cleaned.substring(0, firstBreak + 1).replace(/^[【】\[\]\s]+/, '').trim();
+      cleaned = cleaned.substring(firstBreak + 1).trim();
+    }
+  }
+  const points = cleaned.split(/(?<=[。；])\s*|\n/).map(s => s.trim()).filter(Boolean);
   let html = `<div class="ai-interpret-section"><h4>${title}</h4>`;
-  blocks.forEach(block => {
-    if (/^[^。；]{1,18}[：:]/.test(block) && !block.includes('。') && block.length < 24) {
-      html += `<h5 class="ai-subtitle">${highlight(block)}</h5>`;
-      return;
-    }
-    const sentences = block.split(/(?<=[。；])\s*/).map(s => s.trim()).filter(Boolean);
-    if (sentences.length > 1) {
-      html += '<ul class="ai-list">';
-      sentences.forEach(s => { html += `<li>${highlight(s)}</li>`; });
-      html += '</ul>';
-    } else {
-      html += `<p>${highlight(block)}</p>`;
-    }
-  });
+  if (summary) {
+    html += `<div class="ai-section-summary">${highlight(summary)}</div>`;
+  }
+  if (points.length) {
+    html += '<ul class="ai-list">';
+    points.forEach(p => { if (p) html += `<li>${highlight(p)}</li>`; });
+    html += '</ul>';
+  }
   html += '</div>';
   return html;
 }
 
 
 let _plateFontIdx = 1;
-const _PLATE_FONT_CLASSES = ['plate-fs-sm', 'plate-fs-md', 'plate-fs-lg'];
+const _PLATE_FONT_CLASSES = ['plate-fs-sm', 'plate-fs-md', 'plate-fs-lg', 'plate-fs-xl'];
 function changePlateFont(delta) {
   const table = document.getElementById('plate-table');
   if (!table) return;
@@ -3915,32 +3855,32 @@ async function generateInterpret(force) {
     return `宫${i}(${p.shen||'—'}|${p.xing||'—'}|${p.men||'—'}): ${parts.join('、')}`;
   }).join('\\n');
 
-  const prompt = `你是一位精通道家奇门遁甲的资深大师，拥有三十年以上的实战经验。请对以下排盘进行详尽、深入的解读，总字数不少于1000字。
+  const prompt = `你是一位擅长把道家奇门遁甲讲明白的解读师。请对以下排盘进行解读，总字数不少于1000字。
 
-请严格按照以下三个部分进行详细解读：
+要求：
+1. 语言现代通俗：用今天普通人能听懂的话写，先给结论，再解释原因；遇到"用神""值符""旬空"等专业术语必须在括号里简单说明。
+2. 禁止古风套话：不要写"阴阳合德""造化媾媾""气机浑然""九天之运""临御玄机"这类骈文式空话；不要使用四字对仗堆砌。
+3. 结构清晰：必须严格分为三个部分，每个部分先写"核心结论：……"，再展开3-5条要点，用"①②③"编号。
+4. 实用导向：每段都要告诉使用者"这代表什么""要注意什么""可以怎么做"，避免纯理论描述。
+5. 具体示例：说"财运"时要讲是利投资、利求职还是宜守不宜攻；说"健康"时要指出可能的身体部位或状态。
 
 **第一部分：格局判断**（300字以上）
-- 首先判定此盘属于吉格、凶格还是平格
-- 分析用神的旺衰状态、与日干的生克关系
-- 分析格局的整体气势和层次
-- 结合阴阳遁、旬空、贵人方等因素综合判断
-- 引用奇门遁甲的经典术语和格局名称
+核心结论：此盘整体是偏吉/偏凶/平和，适合做什么、不适合做什么。
+- 日干旺衰与用神关系
+- 阴阳遁、旬空、贵人方对格局的实际影响
+- 提到的经典格局名称必须括号解释含义
 
 **第二部分：关键宫位深度分析**（400字以上）
-- 找出最关键的2-3个宫位（如贵人宫、用神宫、值符宫、值使宫等）
-- 逐一分析每个关键宫位的：
-  - 神盘含义（该神的五行属性、吉凶性质）
-  - 星盘含义（该星的特点、与宫位的生克关系）
-  - 门盘含义（该门的吉凶、宜忌事项）
-  - 灵盘/天盘/人盘/地盘的干与干之间的生克关系
-  - 天地盘之间的上下叠合关系
-- 分析这些关键宫位之间的相互作用和影响
+核心结论：最重要的2-3个宫位及其代表含义。
+- 按"宫位名 + 一句话总结 + 详细解释"的格式逐一说明
+- 解释神、星、门时先说明是吉是凶，再讲具体影响
+- 天地盘干关系用生活化语言说明
 
-**第三部分：综合吉凶断语**（300字以上）
-- 针对事业、财运、健康、人际、感情等方面分别给出具体断语
-- 指出此盘的优势和劣势
-- 给出具体的行动建议和注意事项
-- 引用具体的奇门遁甲断语和经验法则
+**第三部分：综合吉凶断语与建议**（300字以上）
+核心结论：这件事整体趋势和最关键的注意点。
+- 事业、财运、健康、人际/感情分别给出具体建议
+- 优势与劣势各2-3条
+- 具体行动建议和注意事项
 
 排盘信息：
 - 四柱：${pillars.year}(年) ${pillars.month}(月) ${pillars.day}(日) ${pillars.time}(时)
@@ -3952,12 +3892,12 @@ async function generateInterpret(force) {
 十三宫详细数据：
 ${palaceSummary}
 
-请用以下JSON格式返回，确保每个部分内容详实、分析深入、字数充足：
-{"geju":"格局判断的详细内容（300字以上）","keyPalaces":"关键宫位分析的详细内容（400字以上）","judgment":"综合吉凶断语的详细内容（300字以上）"}`;
+请用以下JSON格式返回，每个字段为字符串：
+{"geju":"第一部分内容（含核心结论和要点）","keyPalaces":"第二部分内容（含核心结论和要点）","judgment":"第三部分内容（含核心结论和要点）"}`;
 
   try {
     const json = await QimenAiClient.requestAiChat([
-        { role: 'system', content: '你是一位精通道家奇门遁甲的资深大师，精通《烟波钓叟歌》《奇门总要诀》等经典，擅长格局判断、用神分析、吉凶断语。请用详实、专业、有深度的道家术语回答，每个部分务必达到规定字数。' },
+        { role: 'system', content: '你是一位擅长把道家奇门遁甲讲明白的解读师。请用现代、通俗、结构化、实用的语言回答：先给结论再给解释，对专业术语加括号说明，严禁使用"阴阳合德""造化媾媾""气机浑然"等古风套话和四字对仗堆砌，让没有基础的读者也能看懂。每个部分务必先写"核心结论"，再展开3-5条编号要点，总字数不少于1000字。' },
         { role: 'user', content: prompt }
     ]);
     let content = '';
@@ -3967,21 +3907,33 @@ ${palaceSummary}
       content = '解读服务暂不可用，请稍后重试。';
     }
 
+    // 清理模型返回：去除 markdown 代码块
+    let cleanContent = content.replace(/```(?:json)?\s*([\s\S]*?)```/g, '$1').trim();
+
     // Try to parse JSON response
     let geju = '', keyPalaces = '', judgment = '';
     try {
-      const match = content.match(/\{[\s\S]*\}/);
+      const match = cleanContent.match(/\{[\s\S]*\}/);
       if (match) {
         const parsed = JSON.parse(match[0]);
         geju = parsed.geju || '';
         keyPalaces = parsed.keyPalaces || '';
         judgment = parsed.judgment || '';
       }
-    } catch(e) {}
+    } catch(e) { console.warn('AI 解读 JSON 解析失败，尝试兜底渲染', e); }
 
-    // If JSON parsing failed, show raw content
+    // If JSON parsing failed, normalize literal \n and render readable paragraphs
     if (!geju && !keyPalaces && !judgment) {
-      body.innerHTML = `<div class="ai-interpret-section"><h4>智能解读</h4><p style="white-space:pre-wrap">${content}</p></div>`;
+      const readable = cleanContent.replace(/\\n/g, '\n').replace(/\\"/g, '"');
+      const paragraphs = readable.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+      let html = '<div class="ai-interpret-section"><h4>智能解读</h4>';
+      if (paragraphs.length) {
+        paragraphs.forEach(p => { html += `<p>${p.replace(/\n/g, '<br>')}</p>`; });
+      } else {
+        html += `<p>${readable.replace(/\n/g, '<br>')}</p>`;
+      }
+      html += '</div>';
+      body.innerHTML = html;
       footer.style.display = 'none';
       return;
     }
@@ -4164,154 +4116,6 @@ function removeFavTag(idx, tag) {
 /* ================================================
    Feature 3: 书院/知识库
    ================================================ */
-const TUTORIALS = {
-  tiangan: {
-    title: '十天干',
-    content: `
-      <h1>十天干</h1>
-      <p>十天干是中国传统历法与奇门遁甲的基础框架，依次为：<b>甲、乙、丙、丁、戊、己、庚、辛、壬、癸</b>。</p>
-      <h2>阴阳五行</h2>
-      <p>十天干分属阴阳：甲丙戊庚壬为阳干，乙丁己辛癸为阴干。</p>
-      <p>甲乙属木（东方），丙丁属火（南方），戊己属土（中央），庚辛属金（西方），壬癸属水（北方）。</p>
-      <h2>天干与奇门</h2>
-      <p>在奇门遁甲中，天干作为地盘干（人盘）循环排布，决定各宫位的基础性质。六仪（戊己庚辛壬癸）与三奇（丁丙乙/乙丙丁）构成完整的十三宫地盘系统。</p>
-      <h2>贵人口诀</h2>
-      <p>甲戊庚牛羊，乙己鼠猴乡，丙丁猪鸡位，壬癸蛇兔藏，六辛逢马虎，此是贵人方。</p>
-    `
-  },
-  dizhi: {
-    title: '十二地支',
-    content: `
-      <h1>十二地支</h1>
-      <p>十二地支依次为：<b>子、丑、寅、卯、辰、巳、午、未、申、酉、戌、亥</b>。</p>
-      <h2>地支与方位</h2>
-      <p>子为正北（坎宫），午为正南（离宫），卯为正东（震宫），酉为正西（兑宫）。</p>
-      <h2>地支与时辰</h2>
-      <p>每个地支对应一个时辰：子时(23-1时)、丑时(1-3时)、寅时(3-5时)、卯时(5-7时)、辰时(7-9时)、巳时(9-11时)、午时(11-13时)、未时(13-15时)、申时(15-17时)、酉时(17-19时)、戌时(19-21时)、亥时(21-23时)。</p>
-      <h2>地支与月建</h2>
-      <p>正月建寅、二月建卯、三月建辰、四月建巳、五月建午、六月建未、七月建申、八月建酉、九月建戌、十月建亥、冬月建子、腊月建丑。</p>
-    `
-  },
-  bagua: {
-    title: '八卦九宫',
-    content: `
-      <h1>八卦与九宫</h1>
-      <h2>先天八卦</h2>
-      <p>乾兑离震巽坎艮坤，对应天泽火雷风水山地。</p>
-      <h2>后天八卦（实用）</h2>
-      <p>离(南)、坎(北)、震(东)、兑(西)、巽(东南)、乾(西北)、坤(西南)、艮(东北)。</p>
-      <h2>洛书九宫</h2>
-      <p>洛书数字：戴九履一，左三右七，二四为肩，六八为足，五居中央。</p>
-      <p>对应宫位：1坎、2坤、3震、4巽、5中、6乾、7兑、8艮、9离。</p>
-      <h2>十三宫</h2>
-      <p>十三宫在传统九宫基础上扩展，外围12宫+中宫1，共13个宫位，用于奇门遁甲阴盘排盘。</p>
-    `
-  },
-  paipan: {
-    title: '基础排盘',
-    content: `
-      <h1>基础排盘步骤</h1>
-      <h2>第一步：确定四柱</h2>
-      <p>根据出生年月日时，计算年柱、月柱、日柱、时柱的天干地支组合。</p>
-      <h2>第二步：定遁</h2>
-      <p>将四柱天干序号相加：奇数为阳遁，偶数为阴遁。</p>
-      <h2>第三步：定局</h2>
-      <p>阳遁：天干和÷9取余为局数；阴遁：地支和÷9取余为局数。</p>
-      <h2>第四步：排神星门</h2>
-      <p>按阳顺阴逆的宫位顺序，依次排列神、星、门到各宫位。</p>
-      <h2>第五步：排地盘干</h2>
-      <p>六仪→三奇→六仪循环，从起局宫位开始排布。</p>
-      <h2>第六步：推导天盘、人盘、灵盘</h2>
-      <p>根据神、星、门的原始宫位映射，推导各盘干值。</p>
-    `
-  },
-  yangdun: {
-    title: '阳遁九局',
-    content: `
-      <h1>阳遁九局</h1>
-      <p>阳遁共分九局，分别以甲子、丙子、戊子、庚子、壬子为旬首（1-5局），及以遁甲布局（6-9局）。</p>
-      <h2>阳遁特点</h2>
-      <p>阳遁为主动进攻之势，宫位按 1→2→3→4→5→6→7→8→9 顺序排列。适合出行、求财、进攻、谈判等主动事项。</p>
-      <h2>阳遁三奇顺序</h2>
-      <p>阳遁三奇为：丁、丙、乙。</p>
-      <h2>阳遁地盘序列</h2>
-      <p>戊 己 庚 辛 壬 癸 丁 丙 乙 戊 己 庚 辛（前13项）</p>
-    `
-  },
-  yindun: {
-    title: '阴遁九局',
-    content: `
-      <h1>阴遁九局</h1>
-      <p>阴遁共分九局，与阳遁相对应。</p>
-      <h2>阴遁特点</h2>
-      <p>阴遁主守势待发，宫位按 9→8→7→6→5→4→3→2→1 逆序排列。适合埋伏、防守、观察、等待时机等被动事项。</p>
-      <h2>阴遁三奇顺序</h2>
-      <p>阴遁三奇为：乙、丙、丁。</p>
-      <h2>阴遁地盘序列</h2>
-      <p>戊 己 庚 辛 壬 癸 乙 丙 丁 戊 己 庚 辛（前13项）</p>
-    `
-  },
-  tiangang: {
-    title: '天罡系统',
-    content: `
-      <h1>天罡十二要素</h1>
-      <p>固定顺序：天罡 → 太乙 → 腾光 → 小吉 → 传送 → 从魁 → 河魁 → 登时 → 神后 → 大吉 → 功曹 → 太冲</p>
-      <h2>起始宫位确定</h2>
-      <p>以农历月份为列（正月=列0），以时辰地支为行，查天罡表得方向地支，再映射到宫位。</p>
-      <h2>排布规则</h2>
-      <p>从起始宫位开始，沿外围顺时针依次填入十二要素，中宫留空。</p>
-      <h2>实战意义</h2>
-      <p>天罡系统用于判断方位吉凶、行动时机，在择吉、出行、军事决策中广泛应用。</p>
-    `
-  },
-  shenxingmen: {
-    title: '神星门详解',
-    content: `
-      <h1>神煞系统</h1>
-      <p>十三神：玄武、白虎、太常、六合、勾陈、腾蛇、玄灵、天后、九天、太阴、贵神、青龙、朱雀</p>
-      <h2>吉凶分类</h2>
-      <p>吉神：贵神、青龙、太阴、六合、太常、天后、九天、玄灵</p>
-      <p>凶神：白虎、勾陈、腾蛇、玄武、朱雀</p>
-      <h2>星煞系统</h2>
-      <p>十三星：贪狼、天梁、巨门、禄存、文曲、天相、廉贞、天同、武曲、破军、左辅、天机、右弼</p>
-      <p>星煞主性质：贪狼吉、巨门凶、禄存凶、文曲半吉、天相吉、廉贞凶、天同吉、武曲半吉、破军凶。</p>
-      <h2>门煞系统</h2>
-      <p>十三门：休、死、吉、伤、杜、天、玄、冲、开、惊、从、生、景</p>
-      <p>开门吉、休门吉、生门吉、伤门凶、杜门凶、景门凶、死门凶、惊门凶。</p>
-    `
-  }
-};
-
-function openTutorial(key) {
-  const tut = TUTORIALS[key];
-  if (!tut) return;
-  const reader = document.createElement('div');
-  reader.className = 'book-reader';
-  reader.innerHTML = `
-    <div class="book-reader-head">
-      <button class="br-back" onclick="this.closest('.book-reader').remove()">← 返回</button>
-      <div class="br-title">${tut.title}</div>
-    </div>
-    <div class="book-reader-content">
-      ${tut.content}
-    </div>`;
-  document.body.appendChild(reader);
-}
-
-// Hook into showPage to initialize school page
-const _origShowPage = window.showPage;
-window.showPage = function(name) {
-  if (name === 'school') {
-    initSchoolPage();
-  }
-  if (name === 'favorites') {
-    renderFavorites();
-  }
-  if (typeof _origShowPage === 'function') {
-    _origShowPage(name);
-  }
-};
-
 initAIAgent();
 console.log('[APP] initAIAgent called');
 initSelects();
