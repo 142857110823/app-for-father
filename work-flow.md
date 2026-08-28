@@ -1030,3 +1030,22 @@
 - npm test 全部通过；features.bundle.js 重建后四引擎输出正确；浏览器验证排盘正常。
 - 本地预览地址：http://localhost:8090/（验证时间 2026-08-27，Express 服务）。
 **【相关文档】** public/index.html、features.bundle.js、features/bazi/engine/bazi.js、features/ziwei/engine/ziwei.js、features/meihua/engine/meihua.js、features/daliuren/engine/daliuren.js、work-flow.md
+
+### 2026-08-28 手机端排盘修复 + 生旺死绝表新功能
+
+**【时间】** 2026-08-28（Asia/Shanghai）
+**【事件】** 用户反馈：①手机版排盘结果存在占位异常、文本重叠；②要求灵盘/天盘/人盘/地盘可点击查看各自的生旺死绝表，点击宫位显示整体生旺死绝表。
+**【问题来源】**
+- 手机端（390-430px）无媒体查询适配（仅380px以下有），宫位三分区横向挤压导致左右列重叠、文本截断。
+- .pc-row 设 overflow:hidden+nowrap 造成文字被裁剪。
+**【执行方向】**
+1. 新增 @media(max-width:520px)：宫位改为上下堆叠布局（上=左中两列神星门/灵天人地，下=右列横排天罡/月局/节气/日排局），取消固定高度改 min-height，解除 overflow/nowrap 裁剪。
+2. 新增生旺死绝表：十干十二长生算法（阳干顺行、阴干逆行，甲亥乙午丙寅丁酉戊寅己酉庚巳辛子壬申癸卯起长生）。
+3. 宫内灵/天/人/地四干添加 onclick（stopPropagation）弹各自生旺死绝表（仅本盘所含之干+各宫分布）；宫位详情弹窗末尾追加整体十干全表（本宫地盘干行高亮）。
+**【执行边界】** 仅改 public/index.html（CSS+JS）；不改算法引擎、不改数据结构。
+**【执行结果】**
+- 手机端 375px 视口实测：13 宫无溢出、0 处文字重叠（iframe 视口测试法验证）。
+- 桌面端实测：灵盘/天盘点击弹窗正常，宫位详情含整体生旺死绝表。
+- npm test 全部通过。
+- 预览地址：http://localhost:8090/（本地）；线上 GitHub Pages 同步推送。
+**【相关文档】** public/index.html、index.html、docs/index.html、work-flow.md
