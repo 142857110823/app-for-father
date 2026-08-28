@@ -1055,3 +1055,25 @@
 - 视觉证据：`artifacts/t6-mobile-375-20260828-plate.png`、`t6-mobile-375-20260828-modal-gan.png`、`t6-mobile-375-20260828-page.png`、`t6-desktop-1280-20260828-plate.png`、`t6-desktop-1280-20260828-modal-gan.png`、`t6-desktop-1280-20260828-modal-palace.png`。
 - 本地预览地址：http://localhost:8090/（验证时间 2026-08-28，Express 服务运行中）。
 **【相关文档】** public/index.html、index.html、docs/index.html、scripts/audit-t6.js、tests/paipan-render.test.js、tests/qimen-core.test.js、tests/visual-audit.js、work-flow.md
+### 2026-08-28 手机端第二轮修复：智能解读隐藏 + 严格三列布局 + 字号调节
+
+**【时间】** 2026-08-28（Asia/Shanghai）
+**【事件】** 用户反馈手机端三个问题：①【智能解读】模块在静态部署下显示“暂不可用”长文本；②【排盘结果】未按「左：神/星/门」「中：灵/天/人/地」「右：天罡/月局/节气/日局」标准呈现；③字号不可调导致字符重叠/显示不全。
+**【问题来源】**
+- GitHub Pages 为纯静态部署，无 AI 后端服务，原面板直接展示长段不可用说明，手机端视觉突兀。
+- 上一版 ≤540px 媒体查询为防重叠，将右列标签区改为底部横排，偏离用户要求的三列标准。
+- 字号固定，在 375px 等小屏上右列竖排标签与中间四干容易挤压。
+**【执行方向】**
+1. 智能解读：新增 `isStaticHost()` 检测 `github.io` / `file:` 协议；静态环境下直接设置 `#ai-interpret { display:none }` 并跳过请求；本地服务仍正常显示。
+2. 手机端宫位布局：重写 `@media (max-width:540px)`，`.palace-tri` 改为 `flex-direction:row`，左列（神星门）与中列（灵天人地）自适应，右列固定 26px 竖向窄列；天罡、节气恢复 `writing-mode:vertical-rl` 竖排；所有列设置 `min-width:0` 与 `overflow:hidden` 防重叠。
+3. 字号调节：将 `.pc-shen/xing/men/ling/tian/ren/di/tg/yj/jq/rp` 的 `font-size` 改为 CSS 变量 `--pf-*`，在 `#plate-table` 上定义默认值；新增 `.plate-fs-sm / .plate-fs-md / .plate-fs-lg` 三档覆盖；在「排盘结果」工具栏增加 `A- / A+` 按钮，调用 `changePlateFont(delta)` 切换。
+4. 同步与测试：public/index.html、根目录 index.html、docs/index.html 三处同步；运行 `npm test`、`npm run test:school`、Playwright 视觉审查。
+**【执行边界】** 仅调整前端渲染与交互，未修改排盘算法、天罡/日排局逻辑、智能解读后端接口。
+**【执行结果】**
+- 手机端 375×812 视口下十三宫恢复严格左/中/右三列，右列天罡/月局/节气/日局竖向排列，无文字重叠、无截断。
+- 字号按钮可在小/默认/大三档间切换，切换后 375px、390px、414px 视口均无重叠。
+- GitHub Pages 静态部署下【智能解读】面板已隐藏；本地 localhost:8090 服务启动后正常显示。
+- `npm test` 通过；`npm run test:school` 50/50 通过；`node scripts/audit-t6.js` 双视口断言通过。
+- 视觉证据：`artifacts/t6-mobile-375-20260828-plate.png`、`t6-mobile-375-20260828-page.png`、`t6-mobile-375-20260828-modal-gan.png`、`t6-desktop-1280-20260828-plate.png`。
+- 本地预览地址：http://localhost:8090/（验证时间 2026-08-28，Express 服务运行中）。
+**【相关文档】** public/index.html、index.html、docs/index.html、docs/superpowers/specs/2026-08-28-mobile-paipan-ai-hide-design.md、docs/superpowers/plans/2026-08-28-mobile-paipan-ai-hide.md、scripts/audit-t6.js、work-flow.md

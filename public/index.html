@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -485,26 +485,26 @@ a{color:inherit;text-decoration:none}
 .pc-row.pc-row-right{justify-content:flex-end}
 
 /* --- 左列元素样式 --- */
-.pc-shen{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-xing{font-size:13px;font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-men{font-size:14px;font-weight:700;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-shen{font-size:var(--pf-shen);font-weight:700;color:var(--gold);letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-xing{font-size:var(--pf-xing);font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-men{font-size:var(--pf-men);font-weight:700;font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-men.m-吉,.pc-men.m-生,.pc-men.m-开,.pc-men.m-玄,.pc-men.m-天,.pc-men.m-从,.pc-men.m-休,.pc-men.m-景{color:#2e7d32}
 .pc-men.m-大凶,.pc-men.m-死,.pc-men.m-伤,.pc-men.m-冲,.pc-men.m-惊{color:#c62828}
 .pc-men.m-杜,.pc-men.m-大吉,.pc-men.m-凶,.pc-men.m-中{color:var(--ink)}
 
 /* --- 中列元素样式 --- */
-.pc-ling{font-size:13px;font-weight:700;color:#6b4e00;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-tian{font-size:13px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-ren{font-size:13px;font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-di{font-size:13px;font-weight:700;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-ling{font-size:var(--pf-ling);font-weight:700;color:#6b4e00;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-tian{font-size:var(--pf-tian);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-ren{font-size:var(--pf-ren);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-di{font-size:var(--pf-di);font-weight:700;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif}
 
 /* --- 右侧标签样式 --- */
 /* 2026-08-27 右列四要素：天罡(纵排)→月局→节气→日排局 */
-.pc-tg{font-size:12px;font-weight:700;color:#b8860b;background:rgba(184,134,11,.12);border:1px solid rgba(184,134,11,.3);border-radius:4px;padding:3px 4px;white-space:nowrap;writing-mode:vertical-rl;text-orientation:upright;font-family:"STKaiti","KaiTi","楷体",serif;text-align:center;line-height:1.1;box-sizing:content-box}
-.pc-yj{font-size:10px;font-weight:700;color:#8b6914;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1;white-space:nowrap}
-.pc-jq{display:flex;flex-direction:row;gap:2px;justify-content:center;align-items:flex-start;font-size:9px;font-weight:600;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;white-space:normal;word-break:break-all}
+.pc-tg{font-size:var(--pf-tg);font-weight:700;color:#b8860b;background:rgba(184,134,11,.12);border:1px solid rgba(184,134,11,.3);border-radius:4px;padding:3px 4px;white-space:nowrap;writing-mode:vertical-rl;text-orientation:upright;font-family:"STKaiti","KaiTi","楷体",serif;text-align:center;line-height:1.1;box-sizing:content-box}
+.pc-yj{font-size:var(--pf-yj);font-weight:700;color:#8b6914;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1;white-space:nowrap}
+.pc-jq{display:flex;flex-direction:row;gap:2px;justify-content:center;align-items:flex-start;font-size:var(--pf-jq);font-weight:600;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;white-space:normal;word-break:break-all}
 .pc-jq .jq-col{writing-mode:vertical-rl;text-orientation:upright;text-align:center}
-.pc-rp{max-width:42px;font-size:9px;font-weight:700;color:#8b6914;white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1}
+.pc-rp{max-width:42px;font-size:var(--pf-rp);font-weight:700;color:#8b6914;white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1}
 
 /* 中宫放大字体（跨 2×2）：神/星/门统一规格，四干统一规格 */
 #plate-table td.center .pc-shen{font-size:17px;font-weight:700;letter-spacing:1px}
@@ -520,32 +520,29 @@ a{color:inherit;text-decoration:none}
 #plate-table td.center .palace-left-mid{flex:0 1 auto;width:66%;grid-template-columns:1fr 1fr;column-gap:10px;justify-content:stretch}
 #plate-table td.center .palace-left-mid .palace-col-left{justify-content:center}
 #plate-table td.center .palace-left-mid .palace-col-mid{justify-content:center}
+#plate-table{--pf-shen:14px;--pf-xing:13px;--pf-men:14px;--pf-ling:13px;--pf-tian:13px;--pf-ren:13px;--pf-di:13px;--pf-tg:12px;--pf-yj:10px;--pf-jq:9px;--pf-rp:9px}
 
-/* ===== 手机端宫位自适应（≤540px：上下堆叠，完整显示所有要素） ===== */
+/* ===== 手机端宫位自适应（≤540px：严格左/中/右三列） ===== */
 @media (max-width:540px){
   .traditional-plate{padding:0 4px 12px}
-  #plate-table td{height:auto;min-height:86px;padding:3px 3px}
-  /* 宫内整体上下堆叠：上=左中信息区，下=右列标签区 */
-  .palace-tri{flex-direction:column !important;gap:3px;justify-content:flex-start;align-items:stretch !important}
-  /* 左中信息区：4行 × 2列，简单 grid */
-  .palace-left-mid{display:grid !important;grid-template-columns:1fr 1fr;grid-auto-rows:auto;column-gap:3px;row-gap:2px;width:100% !important;height:auto;flex:none !important;min-width:0}
+  #plate-table{--pf-shen:10px;--pf-xing:10px;--pf-men:10px;--pf-ling:10px;--pf-tian:10px;--pf-ren:10px;--pf-di:10px;--pf-tg:8px;--pf-yj:8px;--pf-jq:7px;--pf-rp:7px}
+  #plate-table td{height:auto;min-height:86px;padding:2px 2px}
+  /* 宫内严格左/中/右三列 */
+  .palace-tri{flex-direction:row !important;gap:1px;justify-content:space-between;align-items:stretch !important}
+  .palace-left-mid{display:grid !important;grid-template-columns:1fr 1fr;grid-auto-rows:auto;column-gap:2px;row-gap:1px;flex:1 1 auto !important;min-width:0;height:100%}
   .palace-row{display:contents}
-  .palace-row .palace-col-left{justify-content:flex-start;padding:0}
-  .palace-row .palace-col-mid{justify-content:center;padding:0}
-  .pc-row{line-height:1.2;overflow:visible;white-space:nowrap}
-  .pc-shen{font-size:11px;letter-spacing:0}
-  .pc-xing{font-size:11px}
-  .pc-men{font-size:11px}
-  .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:11px}
-  /* 右列标签区：横排到底 */
-  .palace-col-right{flex-direction:row !important;flex-wrap:wrap;width:100% !important;height:auto;justify-content:flex-end;align-items:flex-end;gap:2px;padding:0}
-  .palace-col-right .pc-right-top{flex-direction:row !important;flex-wrap:wrap;gap:2px;align-items:flex-end}
-  .palace-col-right .pc-right-bottom{flex-direction:row !important;align-items:flex-end}
-  .pc-tg{font-size:9px;padding:1px 3px;writing-mode:horizontal-tb;text-orientation:mixed}
-  .pc-yj{font-size:9px;white-space:normal;text-align:right}
-  .pc-jq{font-size:9px;justify-content:flex-end}
-  .pc-jq .jq-col{writing-mode:horizontal-tb;text-orientation:mixed}
-  .pc-rp{max-width:100%;font-size:9px;text-align:right}
+  .palace-row .palace-col-left{justify-content:flex-start;padding:0;min-width:0;overflow:hidden}
+  .palace-row .palace-col-mid{justify-content:center;padding:0;min-width:0;overflow:hidden}
+  .pc-row{line-height:1.15;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  /* 右列竖向窄列：天罡/月局/节气/日局 */
+  .palace-col-right{flex-direction:column !important;flex-wrap:nowrap;width:26px !important;height:100%;justify-content:space-between;align-items:flex-end;gap:1px;padding:0 1px;flex-shrink:0}
+  .palace-col-right .pc-right-top{flex-direction:column;gap:1px;align-items:flex-end}
+  .palace-col-right .pc-right-bottom{flex-direction:column;align-items:flex-end}
+  .pc-tg{padding:1px 2px;writing-mode:vertical-rl;text-orientation:upright}
+  .pc-yj{white-space:normal;text-align:right;line-height:1.1}
+  .pc-jq{justify-content:flex-end;gap:1px}
+  .pc-jq .jq-col{writing-mode:vertical-rl;text-orientation:upright}
+  .pc-rp{max-width:26px;text-align:right;line-height:1.1}
   /* 中宫 */
   #plate-table td.center{padding:4px}
   #plate-table td.center .palace-col-right{display:none}
@@ -555,25 +552,27 @@ a{color:inherit;text-decoration:none}
   #plate-table td.center .pc-men{font-size:15px}
   #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:14px}
 }
+/* 字号切换类（覆盖基础变量） */
+#plate-table.plate-fs-sm{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
+#plate-table.plate-fs-md{--pf-shen:14px;--pf-xing:13px;--pf-men:14px;--pf-ling:13px;--pf-tian:13px;--pf-ren:13px;--pf-di:13px;--pf-tg:12px;--pf-yj:10px;--pf-jq:9px;--pf-rp:9px}
+#plate-table.plate-fs-lg{--pf-shen:16px;--pf-xing:15px;--pf-men:16px;--pf-ling:15px;--pf-tian:15px;--pf-ren:15px;--pf-di:15px;--pf-tg:13px;--pf-yj:11px;--pf-jq:10px;--pf-rp:10px}
+@media (max-width:540px){
+  #plate-table.plate-fs-md{--pf-shen:10px;--pf-xing:10px;--pf-men:10px;--pf-ling:10px;--pf-tian:10px;--pf-ren:10px;--pf-di:10px;--pf-tg:8px;--pf-yj:8px;--pf-jq:7px;--pf-rp:7px}
+}
 @media (max-width:380px){
-  #plate-table td{height:auto;min-height:78px;padding:2px 3px}
-  .pc-row{line-height:1.15}
-  .pc-shen{font-size:10px;letter-spacing:0}
-  .pc-xing{font-size:10px}
-  .pc-men{font-size:10px}
-  .pc-ling,.pc-tian,.pc-ren,.pc-di{font-size:10px}
-  .pc-tg{font-size:8px;padding:1px 2px}
-  .pc-yj{font-size:8px}
-  .pc-jq{font-size:8px}
-  .pc-rp{font-size:8px}
+  #plate-table{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
+  #plate-table td{height:auto;min-height:78px;padding:2px 2px}
+  .pc-row{line-height:1.1}
+  .palace-col-right{width:22px !important}
   .ai-fab{width:46px;height:46px;right:4px;bottom:calc(70px + var(--safe-bottom))}
   #plate-table td.center{padding:3px}
   #plate-table td.center .pc-shen{font-size:13px}
   #plate-table td.center .pc-xing{font-size:13px}
   #plate-table td.center .pc-men{font-size:13px}
   #plate-table td.center .pc-ling,#plate-table td.center .pc-tian,#plate-table td.center .pc-ren,#plate-table td.center .pc-di{font-size:12px}
+  #plate-table.plate-fs-md{--pf-shen:9px;--pf-xing:9px;--pf-men:9px;--pf-ling:9px;--pf-tian:9px;--pf-ren:9px;--pf-di:9px;--pf-tg:7px;--pf-yj:7px;--pf-jq:6px;--pf-rp:6px}
 }
-
+.rh-actions .font-btn{padding:0 6px;min-width:26px;font-weight:700}
 /* ===== 生旺死绝表（十二长生） ===== */
 .sw-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 6px}
 .sw-tbl{width:100%;border-collapse:collapse;font-family:"STKaiti","KaiTi","楷体",serif;background:var(--card);border:1px solid var(--line);table-layout:fixed}
@@ -1037,6 +1036,8 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
       <button class="rh-btn btn-star" id="star-btn" onclick="toggleFavorite()"><span class="star-icon">☆</span>收藏</button>
       <button class="rh-btn" onclick="shiftTime(-1)">上局</button>
       <button class="rh-btn" onclick="shiftTime(1)">下局</button>
+      <button class="rh-btn font-btn" onclick="changePlateFont(-1)" title="缩小字号">A-</button>
+      <button class="rh-btn font-btn" onclick="changePlateFont(1)" title="放大字号">A+</button>
       <button class="rh-btn" onclick="exportPDF()">导出</button>
     </div>
   </div>
@@ -3862,12 +3863,31 @@ function formatInterpretSection(title, text) {
   return html;
 }
 
+
+let _plateFontIdx = 1;
+const _PLATE_FONT_CLASSES = ['plate-fs-sm', 'plate-fs-md', 'plate-fs-lg'];
+function changePlateFont(delta) {
+  const table = document.getElementById('plate-table');
+  if (!table) return;
+  table.classList.remove(..._PLATE_FONT_CLASSES);
+  _plateFontIdx = Math.max(0, Math.min(_PLATE_FONT_CLASSES.length - 1, _plateFontIdx + delta));
+  table.classList.add(_PLATE_FONT_CLASSES[_plateFontIdx]);
+}
+
+function isStaticHost() {
+  const host = typeof location !== 'undefined' ? String(location.hostname || '') : '';
+  return /github\.io$/i.test(host) || (typeof location !== 'undefined' && location.protocol === 'file:');
+}
 async function generateInterpret(force) {
   const panel = document.getElementById('ai-interpret');
   const body = document.getElementById('ai-interpret-body');
   const footer = document.getElementById('ai-interpret-footer');
   const expandBtn = document.getElementById('ai-expand-btn');
   if (!panel || !body || !curData) return;
+  if (isStaticHost()) {
+    panel.style.display = 'none';
+    return;
+  }
 
   panel.style.display = 'block';
   body.classList.remove('expanded');
@@ -4037,7 +4057,7 @@ window.paipan = async function() {
   }
   // Auto-generate interpretation after a short delay
   setTimeout(() => {
-    if (curData && curData.pan) {
+    if (curData && curData.pan && !isStaticHost()) {
       generateInterpret(false);
     }
   }, 800);
