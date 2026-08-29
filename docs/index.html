@@ -426,7 +426,7 @@ a{color:inherit;text-decoration:none}
 .result-header .rh-main{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
 .result-header .back{font-size:14px;color:var(--sub);cursor:pointer;white-space:nowrap;font-family:"STKaiti","KaiTi","楷体",serif}
 .result-header .rh-title{font-size:17px;font-weight:600;line-height:1.3;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.result-header .rh-sub{font-size:12px;color:var(--sub);margin-top:2px}
+.result-header .rh-sub{font-size:11px;color:var(--sub);margin-top:2px}
 .result-header .rh-actions{display:flex;gap:8px;flex-shrink:0}
 .result-header .rh-btn{background:var(--bg);color:var(--ink-2);border:1px solid var(--line);padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer;white-space:nowrap;font-weight:500;font-family:"STKaiti","KaiTi","楷体",serif}
 .result-header .rh-btn:active{background:var(--line)}
@@ -561,15 +561,24 @@ a{color:inherit;text-decoration:none}
   .palace-col-right .pc-right-top{flex-direction:column;gap:0;align-items:flex-end}
   .palace-col-right .pc-right-bottom{flex-direction:column;align-items:flex-end}
   .pc-tg{padding:1px 1px;font-size:var(--pf-tg);writing-mode:vertical-rl;text-orientation:upright;border-radius:2px}
-  .pc-yj,.pc-jq{display:block;font-size:var(--pf-yj);line-height:1.1;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap}
+  .pc-yj,.pc-jq{display:block;font-size:var(--pf-yj);line-height:1.15;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap}
   .pc-jq .jq-col{display:block}
-  .pc-rp{max-width:26px;text-align:right;line-height:1.1;font-size:var(--pf-rp)}
+  .pc-rp{max-width:26px;text-align:right;line-height:1.15;font-size:var(--pf-rp)}
+  /* 手机端 A+ 放大时，右列标签字号上限控制，避免重叠 */
+  #plate-table.plate-fs-lg .pc-tg,
+  #plate-table.plate-fs-xl .pc-tg{font-size:8px}
+  #plate-table.plate-fs-lg .pc-yj,
+  #plate-table.plate-fs-lg .pc-jq,
+  #plate-table.plate-fs-xl .pc-yj,
+  #plate-table.plate-fs-xl .pc-jq{font-size:7px}
+  #plate-table.plate-fs-lg .pc-rp,
+  #plate-table.plate-fs-xl .pc-rp{font-size:7px}
   /* dun-info-bar 手机端不换行并支持横向滚动 */
   .dun-info-bar{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:10px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .dun-info-bar::-webkit-scrollbar{display:none}
   .dun-chip{padding:4px 8px;font-size:11px;white-space:nowrap}
   .dun-chip .dc-label{font-size:10px}
-  .result-header .rh-sub{font-size:11px}
+  .result-header .rh-sub{font-size:10px}
   /* 中宫 */
   #plate-table td.center{padding:4px}
   #plate-table td.center .palace-col-right{display:none}
@@ -1064,7 +1073,7 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
   <div class="analysis-hint">点击宫位查看详细解析</div>
 
   <!-- 智能解读面板 -->
-  <div class="ai-interpret" id="ai-interpret" style="display:none">
+  <div class="ai-interpret" id="ai-interpret">
     <div class="ai-interpret-head">
       <h3>☯ 智能解读</h3>
       <div class="ai-head-actions">
@@ -3998,20 +4007,12 @@ function changePlateFont(delta) {
   table.classList.add(_PLATE_FONT_CLASSES[_plateFontIdx]);
 }
 
-function isStaticHost() {
-  const host = typeof location !== 'undefined' ? String(location.hostname || '') : '';
-  return /github\.io$/i.test(host) || (typeof location !== 'undefined' && location.protocol === 'file:');
-}
 async function generateInterpret(force) {
   const panel = document.getElementById('ai-interpret');
   const body = document.getElementById('ai-interpret-body');
   const footer = document.getElementById('ai-interpret-footer');
   const expandBtn = document.getElementById('ai-expand-btn');
   if (!panel || !body || !curData) return;
-  if (isStaticHost()) {
-    panel.style.display = 'none';
-    return;
-  }
 
   panel.style.display = 'block';
   body.classList.remove('expanded');
@@ -4193,7 +4194,7 @@ window.paipan = async function() {
   }
   // Auto-generate interpretation after a short delay
   setTimeout(() => {
-    if (curData && curData.pan && !isStaticHost()) {
+    if (curData && curData.pan) {
       generateInterpret(false);
     }
   }, 800);
