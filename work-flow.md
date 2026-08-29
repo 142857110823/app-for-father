@@ -1194,3 +1194,9 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 提交 `2c0f0b8` 已推送至 origin/master。
 **【相关文档】** opencc-full.js、public/opencc-full.js、docs/opencc-full.js、work-flow.md
 
+
+**【后续状态更新：线上验证】**
+- 浏览器自动化验证确认：https://142857110823.github.io/app-for-father/ 页面刷新后 `typeof OpenCC === 'object'` 为 true。
+- 进入【我的】页面点击【简繁转换】，"简繁转换"成功变为"簡繁轉換"，再次点击可切回简体，切换可逆。
+- 最终提交 `ecc6dfc` 已推送至 origin/master。
+
