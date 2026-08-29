@@ -1171,3 +1171,26 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 提交 `f4681f0` 已推送至 origin/master。
 **【相关文档】** public/index.html、index.html（根）、docs/index.html、work-flow.md
 
+
+### 2026-08-29 修复简繁转换组件加载 404 错误
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户反馈【简繁转换】加载错误。
+**【问题来源】** 用户消息。
+**【执行方向】**
+1. 排查发现 `public/index.html` 通过 `<script src="opencc-full.js"></script>` 加载 OpenCC 全量库。
+2. 本地 `opencc-full.js`、`public/opencc-full.js`、`docs/opencc-full.js` 三处文件均存在，但均未加入 Git 版本控制，导致 GitHub Pages 线上 404，简繁转换组件初始化失败。
+3. 将三处 `opencc-full.js` 一并 `git add` 并提交推送。
+**【执行边界】**
+- 未修改简繁转换逻辑代码。
+- 未修改 `public/index.html`、`index.html`、`docs/index.html`。
+- 未改动 OpenCC 库文件内容。
+**【执行结果】**
+- 三处 `opencc-full.js` 已加入 Git 并推送至 origin/master。
+- GitHub Pages 线上可正常加载 OpenCC 库，`toggleTraditionalChinese` 不再提示"简繁转换组件加载失败"。
+**【执行验证】**
+- 推送后检查线上 `https://142857110823.github.io/app-for-father/opencc-full.js` 可访问。
+- 本地 `node server.js` 启动后访问 http://localhost:8090/，点击【我的】→【简繁转换】可正常切换繁体/简体。
+- 提交 `2c0f0b8` 已推送至 origin/master。
+**【相关文档】** opencc-full.js、public/opencc-full.js、docs/opencc-full.js、work-flow.md
+
