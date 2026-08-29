@@ -1699,7 +1699,7 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
     const label = document.getElementById('trad-label');
     if (!icon || !label) return;
     icon.textContent = isTraditional ? '简' : '繁';
-    label.textContent = '简繁转换';
+    label.textContent = isTraditional ? '簡繁轉換' : '简繁转换';
   }
 
   globalScope.toggleTraditionalChinese = toggleTraditionalChinese;
