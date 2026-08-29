@@ -1144,3 +1144,30 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 2026-08-29 21:23 再次执行 git push origin master 成功，22c7e96 已同步到 origin/master（包含 df8602 的 UI 修复与二维码图片）。
 - GitHub Pages 部署完成后，浏览器自动化线上验证通过：https://142857110823.github.io/app-for-father/ 上 dun-info-bar 顺序正确、我的页面顶部无重叠、联系我们二维码图片正常加载（888×1131）。
 
+
+### 2026-08-29 联系我们二维码支持点击预览、保存与转发
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户反馈【联系我们】中的二维码点击后不能呈现完整二维码，也无法保存到相册/转发。
+**【问题来源】** 用户消息及截图。
+**【执行方向】**
+1. 给 `.contact-qr` 添加 `onclick=showQrPreview()`，点击后弹出全屏预览层。
+2. 新增 `#qr-preview` 弹窗：居中显示完整二维码（宽度 `min(86vw,360px)`），提示"长按图片可保存到相册"，底部提供【保存图片】与【转发】两个操作按钮。
+3. `saveQrImage`：通过 canvas 绘制二维码为 JPEG，触发 `a[download]` 下载到本地。
+4. `shareQrImage`：优先调用 `navigator.share` 分享图片文件；若环境不支持则 fallback 为分享当前页面链接或提示手动保存后分享。
+5. 同步 `public/index.html` 到根目录 `index.html` 与 `docs/index.html`。
+**【执行边界】**
+- 仅修改 `public/index.html`、`index.html`、`docs/index.html` 的 HTML/CSS/JS。
+- 未改动二维码图片文件本身。
+- 保存/转发能力受运行环境（浏览器/WebView/系统权限）限制，canvas 下载在部分 WebView 中可能被拦截。
+**【执行结果】**
+- 点击【联系我们】二维码可弹出大图预览。
+- 预览层显示"长按图片可保存到相册"提示。
+- 提供【保存图片】按钮尝试下载，【转发】按钮尝试调用系统分享。
+- 三处入口文件同步完成并已推送。
+**【执行验证】**
+- 本地 `node server.js` 启动后访问 http://localhost:8090/，进入【我的】页面点击二维码，预览弹窗正常弹出。
+- GitHub Pages 部署后线上验证：预览层可正常显示完整二维码。
+- 提交 `f4681f0` 已推送至 origin/master。
+**【相关文档】** public/index.html、index.html（根）、docs/index.html、work-flow.md
+
