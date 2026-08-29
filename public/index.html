@@ -578,7 +578,7 @@ a{color:inherit;text-decoration:none}
   .dun-info-bar::-webkit-scrollbar{display:none}
   .dun-chip{padding:4px 8px;font-size:11px;white-space:nowrap}
   .dun-chip .dc-label{font-size:10px}
-  .result-header .rh-sub{font-size:10px}
+  .result-header .rh-sub{font-size:8px;margin-top:0;color:#999}
   /* 中宫 */
   #plate-table td.center{padding:4px}
   #plate-table td.center .palace-col-right{display:none}
@@ -2333,6 +2333,10 @@ function renderResult() {
   showPage('result');
 }
 
+function getMenDisplay(men) {
+  return (typeof QiMenAlgorithm !== 'undefined' && QiMenAlgorithm.MEN_DISPLAY && QiMenAlgorithm.MEN_DISPLAY[men]) || men || '—';
+}
+
 function renderTraditionalPlate() {
   const table = document.getElementById('plate-table');
   const palaces = curData.palaces;
@@ -2382,7 +2386,7 @@ function renderTraditionalPlate() {
             <div class="palace-col-mid"><div class="pc-row pc-row-mid">${tian ? `<span class="pc-tian" title="点击查看天盘状态" onclick="event.stopPropagation();showShengWang('tian',${cell.idx})">${tian}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
-            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}">${men ? men + '<i class="men-suffix">门</i>' : '—'}</span></div></div>
+            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}">${men ? getMenDisplay(men) : '—'}</span></div></div>
             <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ren ? `<span class="pc-ren" title="点击查看人盘状态" onclick="event.stopPropagation();showShengWang('ren',${cell.idx})">${ren}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
@@ -2771,7 +2775,7 @@ function showPalaceDetail(idx) {
     details.push({ type: '九星', name: palace.xing, ...knowledge.xing[palace.xing] });
   }
   if (palace.men && knowledge.men && knowledge.men[palace.men]) {
-    details.push({ type: '八门', name: palace.men + '门', ...knowledge.men[palace.men] });
+    details.push({ type: '八门', name: getMenDisplay(palace.men), ...knowledge.men[palace.men] });
   }
 
   document.getElementById('modal-title').textContent = `第 ${idx + 1} 宫 · 洛${palace.luoshu}${palace.label}`;
@@ -3202,7 +3206,7 @@ function buildPaipanHTML(data, opts) {
               <span class="es-xing">${palace.xing || '—'}</span>
             </div>
             <div style="display:inline-flex;align-items:baseline;gap:2px;line-height:1.3;white-space:nowrap;overflow:hidden">
-              <span class="es-men m-${palace.men || '中'}">${palace.men ? palace.men + '门' : '—'}</span>
+              <span class="es-men m-${palace.men || '中'}">${palace.men ? getMenDisplay(palace.men) : '—'}</span>
             </div>
           </div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:2px;align-items:center">

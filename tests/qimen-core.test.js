@@ -47,25 +47,26 @@ test('日排局按农历月份固定原始宫位且保留完整日期簇', () =>
   );
   const actual = result.palaces.map((palace) => palace.riPaiJu);
 
+  // 第 N 月 = 当天农历月份（七月，小月 29 天）
   assert.deepEqual(actual, [
-    '9/10',
-    '6/7/8',
-    '4/5',
-    '1/2/3/29',
-    '27/28',
-    '25/26',
-    '23/24',
-    '20/21/22',
-    '18/19',
-    '16/17',
-    '13/14/15',
-    '11/12',
-    '',
+    '4/5',       // idx0 八月
+    '1/2/3/29',  // idx1 七月（第 N 月）
+    '27/28',     // idx2 六月
+    '25/26',     // idx3 五月
+    '22/23/24',  // idx4 四月
+    '20/21',     // idx5 三月
+    '18/19',     // idx6 二月
+    '15/16/17',  // idx7 正月
+    '13/14',     // idx8 十二月
+    '11/12',     // idx9 十一月
+    '8/9/10',    // idx10 十月
+    '6/7',       // idx11 九月
+    '',          // idx12 中宫
   ]);
 });
 
 test('日排局第N月尾簇按农历实际天数截断（2026-02-26 阳遁3局）', () => {
-  // 2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局；丙午年三月 30 天
+  // 2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局；当天为农历正月初十，正月大月 30 天
   const result = fullPaiPan(
     ['丙午', '庚寅', '辛未', '丙申'],
     '辛',
@@ -75,22 +76,22 @@ test('日排局第N月尾簇按农历实际天数截断（2026-02-26 阳遁3局�
 
   assert.equal(result.dun, '阳遁');
   assert.equal(result.ju, 3);
-  // 三月原始宫位 idx5（6尾）：30 天大月 → 1/2/3/29/30，不出现 31
-  assert.equal(result.palaces[5].riPaiJu, '1/2/3/29/30');
+  // 第 N 月 = 当天农历月份（正月），原始宫位 idx7（坎宫）：30 天大月 → 1/2/3/29/30，不出现 31
+  assert.equal(result.palaces[7].riPaiJu, '1/2/3/29/30');
   // 全盘不得出现 31 日
   for (const palace of result.palaces) {
     assert.equal(palace.riPaiJu.includes('31'), false);
   }
 });
 
-test('2026年农历小月二月日排局不出现30日', () => {
-  // 2026-02-01 07:00 → 阴遁2局，第2月（农历二月）为小月29天
+test('2026年农历小月腊月日排局不出现30日', () => {
+  // 2026-02-01 07:00 → 阴遁2局，当天为农历腊月（十二月）小月 29 天
   const result = fullPaiPanFromTime(2026, 2, 1, 7, 0);
   assert.equal(result.pan.dun, '阴遁');
   assert.equal(result.pan.ju, 2);
   assert.equal(result.paiJuMonthDays, 29);
-  // 二月原始宫位 idx6（6首）应只显示 1/2/3/29，不得出现 30
-  assert.equal(result.palaces[6].riPaiJu, '1/2/3/29');
+  // 第 N 月 = 当天农历月份（十二月），原始宫位 idx8（8首）应只显示 1/2/3/29，不得出现 30
+  assert.equal(result.palaces[8].riPaiJu, '1/2/3/29');
   for (const palace of result.palaces) {
     assert.equal(palace.riPaiJu.includes('30'), false, `宫位 ${palace.index} 日排局不应含30: ${palace.riPaiJu}`);
   }

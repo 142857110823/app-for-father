@@ -11860,7 +11860,19 @@ var QiMenAlgorithmBundle = (() => {
       var XING = ["\u8D2A\u72FC", "\u5929\u6881", "\u5DE8\u95E8", "\u7984\u5B58", "\u6587\u66F2", "\u5929\u76F8", "\u5EC9\u8D1E", "\u5929\u540C", "\u6B66\u66F2", "\u7834\u519B", "\u5DE6\u8F85", "\u5929\u673A", "\u53F3\u5F3C"];
       var MEN = ["\u4F11", "\u6B7B", "\u5409", "\u4F24", "\u675C", "\u5929", "\u7384", "\u51B2", "\u5F00", "\u60CA", "\u4ECE", "\u751F", "\u666F"];
       var MEN_DISPLAY = {
-        "\u5929": "\u5929\u95E8"
+        "\u4F11": "\u4F11\u95E8",
+        "\u6B7B": "\u6B7B\u95E8",
+        "\u5409": "\u5409\u95E8",
+        "\u4F24": "\u4F24\u95E8",
+        "\u675C": "\u675C\u95E8",
+        "\u5929": "\u5929\u95E8",
+        "\u7384": "\u7384\u95E8",
+        "\u51B2": "\u51B2\u95E8",
+        "\u5F00": "\u5F00\u95E8",
+        "\u60CA": "\u60CA\u95E8",
+        "\u4ECE": "\u4ECE\u95E8",
+        "\u751F": "\u751F\u95E8",
+        "\u666F": "\u666F\u95E8"
       };
       var GONG_LAYOUT = [
         { pos: 4, label: "\u5C3E" },
@@ -12167,9 +12179,9 @@ var QiMenAlgorithmBundle = (() => {
           palaces[gongIdx].tiangang = ELEMS[i];
         }
       }
-      function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays) {
+      function placeRiPaiJu(palaces, riPaiMonth, riPaiMonthDays) {
         palaces.forEach((p) => p.riPaiJu = "");
-        if (!Number.isInteger(paiJuMonth) || paiJuMonth < 1 || paiJuMonth > 12) return;
+        if (!Number.isInteger(riPaiMonth) || riPaiMonth < 1 || riPaiMonth > 12) return;
         const MONTH_TO_GONG_IDX = {
           1: 7,
           2: 6,
@@ -12185,35 +12197,34 @@ var QiMenAlgorithmBundle = (() => {
           12: 8
         };
         const SPECIAL_MONTHS = [1, 4, 7, 10];
-        const tail = paiJuMonthDays === 29 ? "29" : "29/30";
-        palaces[MONTH_TO_GONG_IDX[paiJuMonth]].riPaiJu = "1/2/3/" + tail;
         const monthOrder = [];
-        for (let offset = 1; offset < 12; offset++) {
-          monthOrder.push((paiJuMonth - 1 + offset) % 12 + 1);
+        for (let i = 0; i < 12; i++) {
+          monthOrder.push((riPaiMonth - 1 + i) % 12 + 1);
         }
         const monthDates = {};
         monthOrder.forEach((m) => {
           monthDates[m] = SPECIAL_MONTHS.includes(m) ? 3 : 2;
         });
-        const MAX_DAYS = 25;
-        let total = Object.values(monthDates).reduce((a, b) => a + b, 0);
-        if (total > MAX_DAYS) {
-          for (let i = monthOrder.length - 1; i >= 0; i--) {
-            const m = monthOrder[i];
-            if (!SPECIAL_MONTHS.includes(m) && monthDates[m] > 1) {
-              monthDates[m]--;
-              total--;
-              break;
-            }
+        monthDates[riPaiMonth] = 6;
+        if (!SPECIAL_MONTHS.includes(riPaiMonth)) {
+          let prev = riPaiMonth === 1 ? 12 : riPaiMonth - 1;
+          while (!SPECIAL_MONTHS.includes(prev)) {
+            prev = prev === 1 ? 12 : prev - 1;
           }
+          monthDates[prev] = 2;
         }
+        const tail = riPaiMonthDays === 29 ? "29" : "29/30";
         let nextDay = 4;
-        for (const m of monthOrder) {
-          const count = monthDates[m];
-          const dates = [];
-          for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
-          palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = dates.join("/");
-        }
+        monthOrder.forEach((m, idx) => {
+          if (idx === 0) {
+            palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = "1/2/3/" + tail;
+          } else {
+            const count = monthDates[m];
+            const dates = [];
+            for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
+            palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = dates.join("/");
+          }
+        });
       }
       function getReferenceKey(dun, ju) {
         return `${dun}-${ju}`;
@@ -12389,8 +12400,7 @@ var QiMenAlgorithmBundle = (() => {
         if (extraContext) {
           const { lunarMonth, shiZhi, paiJuMonthDays } = extraContext;
           placeTianGang(palaces, lunarMonth, shiZhi);
-          const paiJuMonth = pan.ju === 0 ? 10 : pan.ju;
-          placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays);
+          placeRiPaiJu(palaces, lunarMonth, paiJuMonthDays);
         }
         const calibrated = false;
         return {
@@ -12524,9 +12534,9 @@ var QiMenAlgorithmBundle = (() => {
     "algorithm/pillars.js"(exports, module) {
       var { Solar, LunarMonth } = require_lunar_javascript();
       var { fullPaiPan: corePaiPan, determinePan, determineGuiShen, SHEN, XING, MEN, GONG_LAYOUT } = require_qimen();
-      function getPaiJuMonthDays(lunarYear, paiJuMonth) {
+      function getRiPaiMonthDays(lunarYear, riPaiMonth) {
         try {
-          const lunarMonthObj = LunarMonth.fromYm(lunarYear, paiJuMonth);
+          const lunarMonthObj = LunarMonth.fromYm(lunarYear, riPaiMonth);
           if (lunarMonthObj) {
             const days = lunarMonthObj.getDayCount();
             if (days === 29 || days === 30) return days;
@@ -12566,10 +12576,9 @@ var QiMenAlgorithmBundle = (() => {
         const lunarMonth = lunar.getMonth();
         const lunarDay = lunar.getDay();
         const shiZhi = pillars.zhi.time;
-        const panInfo = determinePan(pillarArr);
-        const paiJuMonth = panInfo.ju === 0 ? 10 : panInfo.ju;
-        const paiJuMonthDays = getPaiJuMonthDays(lunar.getYear(), paiJuMonth);
-        const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays });
+        const riPaiMonth = lunarMonth;
+        const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
+        const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
         return {
           input: { year, month, day, hour, minute },
           pillars,
@@ -12589,9 +12598,9 @@ var QiMenAlgorithmBundle = (() => {
           lunarMonth,
           lunarDay,
           shiZhi,
-          paiJuMonth,
-          paiJuMonthDays,
-          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays }
+          paiJuMonth: riPaiMonth,
+          paiJuMonthDays: riPaiMonthDays,
+          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }
         };
       }
       function test() {
@@ -12646,12 +12655,12 @@ var QiMenAlgorithmBundle = (() => {
   var require_browser_entry = __commonJS({
     "algorithm/browser-entry.js"(exports, module) {
       var { fullPaiPan, fullPaiPanFromTime, getFourPillars } = require_pillars();
-      var { SHEN, XING, MEN } = require_qimen();
+      var { SHEN, XING, MEN, MEN_DISPLAY } = require_qimen();
       if (typeof window !== "undefined") {
-        window.QiMenAlgorithm = { fullPaiPan, fullPaiPanFromTime, getFourPillars, SHEN, XING, MEN };
+        window.QiMenAlgorithm = { fullPaiPan, fullPaiPanFromTime, getFourPillars, SHEN, XING, MEN, MEN_DISPLAY };
       }
       if (typeof module !== "undefined" && module.exports) {
-        module.exports = { fullPaiPan, fullPaiPanFromTime, getFourPillars, SHEN, XING, MEN };
+        module.exports = { fullPaiPan, fullPaiPanFromTime, getFourPillars, SHEN, XING, MEN, MEN_DISPLAY };
       }
     }
   });

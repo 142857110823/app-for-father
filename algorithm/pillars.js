@@ -4,15 +4,15 @@ const { Solar, LunarMonth } = require('lunar-javascript');
 const { fullPaiPan: corePaiPan, determinePan, determineGuiShen, SHEN, XING, MEN, GONG_LAYOUT } = require('./qimen.js');
 
 /**
- * 排局月（第 N 农历月）在指定农历年的实际天数
+ * 日排局第 N 月（当天农历月份）在指定农历年的实际天数
  * 依据【万年历】【阴历】：农历月仅有 29 天（小月）或 30 天（大月）
  * @param {number} lunarYear 农历年
- * @param {number} paiJuMonth 排局月（局数 N，0 局等价 10）
+ * @param {number} riPaiMonth 日排局第 N 月（当天农历月份 1-12）
  * @returns {number} 29 或 30（查询失败时保底 30）
  */
-function getPaiJuMonthDays(lunarYear, paiJuMonth) {
+function getRiPaiMonthDays(lunarYear, riPaiMonth) {
   try {
-    const lunarMonthObj = LunarMonth.fromYm(lunarYear, paiJuMonth);
+    const lunarMonthObj = LunarMonth.fromYm(lunarYear, riPaiMonth);
     if (lunarMonthObj) {
       const days = lunarMonthObj.getDayCount();
       if (days === 29 || days === 30) return days;
@@ -82,12 +82,11 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
   const lunarDay = lunar.getDay();
   const shiZhi = pillars.zhi.time;
 
-  // 排局月（局数 N）的农历实际天数：用于日排局第 N 月宫位尾簇截断
-  const panInfo = determinePan(pillarArr);
-  const paiJuMonth = panInfo.ju === 0 ? 10 : panInfo.ju;
-  const paiJuMonthDays = getPaiJuMonthDays(lunar.getYear(), paiJuMonth);
+  // 日排局第 N 月 = 当天农历月份；取其农历实际天数用于尾簇截断
+  const riPaiMonth = lunarMonth;
+  const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
 
-  const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays });
+  const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
 
   return {
     input: { year, month, day, hour, minute },
@@ -108,9 +107,9 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     lunarMonth,
     lunarDay,
     shiZhi,
-    paiJuMonth,
-    paiJuMonthDays,
-    extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays }
+    paiJuMonth: riPaiMonth,
+    paiJuMonthDays: riPaiMonthDays,
+    extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }
   };
 }
 

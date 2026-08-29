@@ -31,9 +31,21 @@ const XING = ['贪狼', '天梁', '巨门', '禄存', '文曲', '天相', '廉�
 /** 十三门默认顺序（"天"在渲染时显示为"天门"） */
 const MEN = ['休', '死', '吉', '伤', '杜', '天', '玄', '冲', '开', '惊', '从', '生', '景'];
 
-/** 门渲染名称映射 */
+/** 门渲染完整名称映射（UI 显示用，不改变内部简写逻辑） */
 const MEN_DISPLAY = {
-  '天': '天门'
+  '休': '休门',
+  '死': '死门',
+  '吉': '吉门',
+  '伤': '伤门',
+  '杜': '杜门',
+  '天': '天门',
+  '玄': '玄门',
+  '冲': '冲门',
+  '开': '开门',
+  '惊': '惊门',
+  '从': '从门',
+  '生': '生门',
+  '景': '景门'
 };
 
 // ============ 十三宫空间布局 ============
@@ -340,15 +352,17 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
 }
 
 // ============ 日排局 ============
-// 天罡.docx：第 N 月排局的原始宫位承载 1/2/3 + 月末尾簇，
-// 之后按月份顺序分配 4..28；1/4/7/10 月承载 3 日，其余月承载 2 日。
-// 当总日期数不足时，从最后一个普通月份开始减少，优先保证特殊月份获得 3 日。
-// 2026-08-26 依据【万年历】【阴历】逻辑修正：农历月仅有 29 天（小月）或 30 天（大月），
-// 不存在 31 日；第 N 月原始宫位尾簇按该农历月实际天数截断：
-//   30 天 → 1/2/3/29/30；29 天 → 1/2/3/29。
-function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays, lunarMonth) {
+// 天罡.docx 核心规则：
+// ① 以【当天农历月份】为第 N 月，核对当月的日月排局原始宫位；
+//    第 N 月原始宫位承载 1/2/3 + 月末尾簇，之后按月份递增顺序分配 4..28。
+// ② 1/4/7/10 月为特殊月，默认承载 3 日；其余月默认承载 2 日。
+// ③ 若当前月不是 1/4/7/10，则 4 个特殊月中【紧邻当前月之前的那个】需让出 1 日（变为 2 日），
+//    以保证 4..28 共 25 天恰好分配完毕。
+// ④ 依据【万年历】【阴历】：农历月仅有 29 天（小月）或 30 天（大月），尾簇截断为：
+//    30 天 → 1/2/3/29/30；29 天 → 1/2/3/29。
+function placeRiPaiJu(palaces, riPaiMonth, riPaiMonthDays) {
   palaces.forEach(p => p.riPaiJu = '');
-  if (!Number.isInteger(paiJuMonth) || paiJuMonth < 1 || paiJuMonth > 12) return;
+  if (!Number.isInteger(riPaiMonth) || riPaiMonth < 1 || riPaiMonth > 12) return;
 
   const MONTH_TO_GONG_IDX = {
     1: 7, 2: 6, 3: 5, 4: 4, 5: 3, 6: 2,
@@ -357,53 +371,44 @@ function placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays, lunarMonth) {
 
   const SPECIAL_MONTHS = [1, 4, 7, 10];
 
-  // 尾簇按排局月（第 N 农历月）实际天数截断；未提供天数时按大月 30 天保底
-  const tail = paiJuMonthDays === 29 ? '29' : '29/30';
-  palaces[MONTH_TO_GONG_IDX[paiJuMonth]].riPaiJu = '1/2/3/' + tail;
-
-  // 收集其余 11 个月的分配顺序（从第 N+1 月开始正向循环）
+  // 从第 N 月开始，按月份递增顺序排列 12 个月
   const monthOrder = [];
-  for (let offset = 1; offset < 12; offset++) {
-    monthOrder.push(((paiJuMonth - 1 + offset) % 12) + 1);
+  for (let i = 0; i < 12; i++) {
+    monthOrder.push(((riPaiMonth - 1 + i) % 12) + 1);
   }
 
-  // 初始化每个月的日期数：1/4/7/10 月默认 3 日，其余月 2 日
+  // 初始化每个月的日期数
   const monthDates = {};
   monthOrder.forEach(m => {
     monthDates[m] = SPECIAL_MONTHS.includes(m) ? 3 : 2;
   });
+  // 当前月承载 1/2/3 + 尾簇，计 6 日（含尾簇）
+  monthDates[riPaiMonth] = 6;
 
-  // 日期 4..28 共 25 天；总需求超限时，
-  // 若当前农历月恰为 1/4/7/10，则从分配顺序最后一个月直接取余（不再优先保证特殊月），
-  // 否则优先保证 1/4/7/10 月各 3 日，从最后一个普通月份开始减少。
-  const MAX_DAYS = 25;
-  let total = Object.values(monthDates).reduce((a, b) => a + b, 0);
-  if (total > MAX_DAYS) {
-    const currentIsSpecial = Number.isInteger(lunarMonth) && SPECIAL_MONTHS.includes(lunarMonth);
-    if (currentIsSpecial) {
-      const last = monthOrder[monthOrder.length - 1];
-      monthDates[last]--;
-      total--;
-    } else {
-      for (let i = monthOrder.length - 1; i >= 0; i--) {
-        const m = monthOrder[i];
-        if (!SPECIAL_MONTHS.includes(m) && monthDates[m] > 1) {
-          monthDates[m]--;
-          total--;
-          break;
-        }
-      }
+  // 若当前月不是特殊月，需让紧邻其前的特殊月减少 1 日，保证总日期数为 31
+  if (!SPECIAL_MONTHS.includes(riPaiMonth)) {
+    let prev = riPaiMonth === 1 ? 12 : riPaiMonth - 1;
+    while (!SPECIAL_MONTHS.includes(prev)) {
+      prev = prev === 1 ? 12 : prev - 1;
     }
+    monthDates[prev] = 2;
   }
 
-  // 按顺序分配日期
+  // 尾簇按第 N 农历月实际天数截断；未提供天数时按大月 30 天保底
+  const tail = riPaiMonthDays === 29 ? '29' : '29/30';
+
+  // 按月份顺序分配日期
   let nextDay = 4;
-  for (const m of monthOrder) {
-    const count = monthDates[m];
-    const dates = [];
-    for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
-    palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = dates.join('/');
-  }
+  monthOrder.forEach((m, idx) => {
+    if (idx === 0) {
+      palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = '1/2/3/' + tail;
+    } else {
+      const count = monthDates[m];
+      const dates = [];
+      for (let i = 0; i < count && nextDay <= 28; i++) dates.push(nextDay++);
+      palaces[MONTH_TO_GONG_IDX[m]].riPaiJu = dates.join('/');
+    }
+  });
 }
 
 // ============ 参考校准 ============
@@ -724,8 +729,8 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
   if (extraContext) {
     const { lunarMonth, shiZhi, paiJuMonthDays } = extraContext;
     placeTianGang(palaces, lunarMonth, shiZhi);
-    const paiJuMonth = pan.ju === 0 ? 10 : pan.ju;
-    placeRiPaiJu(palaces, paiJuMonth, paiJuMonthDays, lunarMonth);
+    // 日排局第 N 月 = 当天农历月份（天罡.docx 示例：五月-卯时 核对【第五月】排局）
+    placeRiPaiJu(palaces, lunarMonth, paiJuMonthDays);
   }
 
   // ===== 5. 不再用 applyReference 覆盖结果；单元测试对 13 宫逐字段比对并报告 diff =====
