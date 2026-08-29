@@ -1261,6 +1261,36 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
   - 本地/线上 `.dun-chip` font-size 均为 11px；
   - 本地/线上 `.dun-info-bar` flex-wrap 均为 nowrap；
   - 本地/线上 `.result-header .rh-sub` font-size 均为 11px；
-  - 本地/线上出生地点均为"北京市 东城区"。n- 截图保存：`artifacts/verify-local-playwright.png`、`artifacts/verify-online-playwright.png`。
+  - 本地/线上出生地点均为"北京市 东城区"
+- 截图保存：`artifacts/verify-local-playwright.png`、`artifacts/verify-online-playwright.png`。
 - 线上 GitHub Pages 部署约 2 分钟后验证，与本地结果一致。
 **【相关文档】** `2026-08-29-mobile-paipan-fix-design.md`、`2026-08-29-mobile-paipan-fix.md`、`public/index.html`、`work-flow.md`
+
+
+
+
+
+### 2026-08-29 修复手机端字号、A+ 重叠与智能解读面板显示
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户反馈：①点击 A+ 后字符重叠；②【排盘结果】下方【阴盘·*遁·*局】字号过大；③手机访问 GitHub Pages 时未出现【智能解读】模块，要求真实有效使用。
+**【问题来源】** 用户消息 + 截图。
+**【执行方向】**
+1. 缩小 `.result-header .rh-sub` 字号：默认 12px→11px，手机端（≤540px）11px→10px。
+2. 修复 A+ 放大后右列标签重叠：在手机端媒体查询中，为 `#plate-table.plate-fs-lg/.plate-fs-xl` 下的 `.pc-tg/.pc-yj/.pc-jq/.pc-rp` 设置字号上限（8px/7px/7px），并调整 line-height 为 1.15，避免竖排文字粘连。
+3. 恢复智能解读面板显示：移除 `#ai-interpret` 的 `style="display:none"`；移除 `generateInterpret()` 中 `isStaticHost()` 的提前返回；移除结果页自动调用时的 `!isStaticHost()` 限制；删除不再使用的 `isStaticHost()` 函数。
+4. 同步 `public/index.html` → `index.html`（根目录）→ `docs/index.html` 并推送。
+**【执行边界】**
+- 不修改排盘算法与神星门排布。
+- 不修改 AI 后端接口逻辑（仍通过 `ai-client.js` 智能选择 `/api/chat` 或 `http://localhost:8090/api/chat`）。
+- 不部署公网后端服务。
+**【执行结果】**
+- 本地 `http://localhost:8090/` 与线上 `https://142857110823.github.io/app-for-father/` 在 375px 视口下均验证通过。
+- 【阴盘·阳遁·2局】字号降至 10px，视觉更协调。
+- 点击 A+ 放大后，右列天罡/月局/节气/日排标签未出现重叠。
+- 智能解读面板在 GitHub Pages 上已正常显示，并尝试请求 AI 后端；当本机未启动 `server.js` 时，面板显示操作指引而非空白隐藏。
+- 已推送至 origin/master，提交 `081d7dc`。
+**【执行验证】**
+- Playwright（375×812）验证：`.result-header .rh-sub` font-size 为 10px；A+ 放大后 `.pc-tg` 8px、`.pc-yj/.pc-jq/.pc-rp` 7px，右列各子元素 `overlap` 均为 false；`#ai-interpret` display 为 block 且高度大于 0。
+- 截图保存：`artifacts/verify-local-before-a-plus.png`、`artifacts/verify-local-after-a-plus.png`、`artifacts/verify-online-before-a-plus.png`、`artifacts/verify-online-after-a-plus.png`。
+**【相关文档】** `public/index.html`、`work-flow.md`
