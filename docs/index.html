@@ -613,6 +613,11 @@ a{color:inherit;text-decoration:none}
 .sw-plate-strip .sps-item b{color:var(--gold);font-size:12px}
 .sw-note{font-size:11px;color:var(--sub);line-height:1.6;margin-top:6px}
 .sw-tip{font-size:10px;color:var(--sub);text-align:center;margin:2px 0 8px;letter-spacing:1px}
+.liuhe-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.liuhe-row{display:flex;align-items:center;justify-content:flex-start;gap:12px;font-size:15px;color:var(--ink)}
+.liuhe-label{min-width:70px;color:var(--gold);font-weight:600}
+.liuhe-value{min-width:80px;font-weight:700;letter-spacing:2px;color:var(--ink)}
+.liuhe-desc{color:var(--sub);font-size:13px}
 /* 宫内四干可点击 */
 .pc-ling,.pc-tian,.pc-ren,.pc-di{cursor:pointer;border-radius:3px;padding:2px 5px;transition:background .15s;display:inline-block;min-width:18px;text-align:center;position:relative;z-index:1}
 .pc-ling:hover,.pc-tian:hover,.pc-ren:hover,.pc-di:hover{background:var(--gold-soft)}
@@ -1487,7 +1492,25 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 <script src="vendor/jszip.min.js"></script>
 <script src="vendor/epub.min.js"></script>
 
-<script src="opencc-full.js"></script>
+<script>
+(function() {
+  window.__openccLoaded = false;
+  function loadOpenCC(src) {
+    var s = document.createElement('script');
+    s.src = src || 'opencc-full.js';
+    s.async = false;
+    s.onload = function() { window.__openccLoaded = true; };
+    s.onerror = function() {
+      if (!window.__openccRetry) {
+        window.__openccRetry = true;
+        setTimeout(function() { loadOpenCC('opencc-full.js?t=' + Date.now()); }, 500);
+      }
+    };
+    document.head.appendChild(s);
+  }
+  loadOpenCC();
+})();
+</script>
 <script src="ai-client.js"></script>
 <script>
 let curData = null;
@@ -1628,34 +1651,47 @@ let userMessages = JSON.parse(localStorage.getItem(userKey('messages')) || '[]')
   }
 
   function setTraditional(toTrad) {
-    if (toTrad === isTraditional) return;
-    if (!ensureConverters()) {
-      // 组件可能尚未加载完成，延迟重试一次
-      setTimeout(() => {
-        if (ensureConverters()) {
-          convertDocument(toTrad);
-          isTraditional = toTrad;
-          localStorage.setItem(TRAD_KEY, isTraditional ? '1' : '0');
-          document.documentElement.lang = isTraditional ? 'zh-Hant' : 'zh-Hans';
-          updateTradIcon();
-          showToast(isTraditional ? '已切换为繁体' : '已切换为简体');
-        } else {
-          showToast('简繁转换组件加载失败');
-        }
-      }, 300);
-      return;
-    }
-    convertDocument(toTrad);
-    isTraditional = toTrad;
-    localStorage.setItem(TRAD_KEY, isTraditional ? '1' : '0');
-    document.documentElement.lang = isTraditional ? 'zh-Hant' : 'zh-Hans';
-    updateTradIcon();
+    if (toTrad === isTraditional) return Promise.resolve(false);
+    return new Promise(function(resolve) {
+      function apply() {
+        convertDocument(toTrad);
+        isTraditional = toTrad;
+        localStorage.setItem(TRAD_KEY, isTraditional ? '1' : '0');
+        document.documentElement.lang = isTraditional ? 'zh-Hant' : 'zh-Hans';
+        updateTradIcon();
+        resolve(true);
+      }
+      function fail() {
+        showToast('简繁转换初始化失败，请刷新页面后重试');
+        resolve(false);
+      }
+      if (ensureConverters()) {
+        apply();
+      } else if (typeof globalScope.OpenCC === 'undefined' && !window.__openccLoaded) {
+        showToast('正在初始化简繁转换…');
+        let waited = 0;
+        const timer = setInterval(function() {
+          waited += 200;
+          if (ensureConverters()) {
+            clearInterval(timer);
+            apply();
+          } else if (waited >= 3000) {
+            clearInterval(timer);
+            fail();
+          }
+        }, 200);
+      } else {
+        fail();
+      }
+    });
   }
 
-  function toggleTraditionalChinese() {
+  async function toggleTraditionalChinese() {
     const next = !isTraditional;
-    setTraditional(next);
-    showToast(next ? '已切换为繁体' : '已切换为简体');
+    const ok = await setTraditional(next);
+    if (ok) {
+      showToast(next ? '已切换为繁体' : '已切换为简体');
+    }
   }
 
   function updateTradIcon() {
@@ -2464,6 +2500,40 @@ const PALACE_BRANCH = {
   12: null
 };
 
+// 天干五合：甲己 乙庚 丙辛 丁壬 戊癸
+const TIAN_GAN_WU_HE = {
+  '甲': '己', '己': '甲',
+  '乙': '庚', '庚': '乙',
+  '丙': '辛', '辛': '丙',
+  '丁': '壬', '壬': '丁',
+  '戊': '癸', '癸': '戊'
+};
+const TIAN_GAN_WU_HE_NAME = {
+  '甲': '甲己合土（中正之合）', '己': '甲己合土（中正之合）',
+  '乙': '乙庚合金（仁义之合）', '庚': '乙庚合金（仁义之合）',
+  '丙': '丙辛合水（威制之合）', '辛': '丙辛合水（威制之合）',
+  '丁': '丁壬合木（淫慝之合）', '壬': '丁壬合木（淫慝之合）',
+  '戊': '戊癸合火（无情之合）', '癸': '戊癸合火（无情之合）'
+};
+
+// 地支六合：子丑 寅亥 卯戌 辰酉 巳申 午未
+const DI_ZHI_LIU_HE = {
+  '子': '丑', '丑': '子',
+  '寅': '亥', '亥': '寅',
+  '卯': '戌', '戌': '卯',
+  '辰': '酉', '酉': '辰',
+  '巳': '申', '申': '巳',
+  '午': '未', '未': '午'
+};
+const DI_ZHI_LIU_HE_NAME = {
+  '子': '子丑合土', '丑': '子丑合土',
+  '寅': '寅亥合木', '亥': '寅亥合木',
+  '卯': '卯戌合火', '戌': '卯戌合火',
+  '辰': '辰酉合金', '酉': '辰酉合金',
+  '巳': '巳申合水', '申': '巳申合水',
+  '午': '午未合土', '未': '午未合土'
+};
+
 // 三奇入墓：三奇落墓宫
 const SANQI_RUMU = {
   '乙': { name: '乙奇入墓', gong: ['坤2', '乾6'], idx: [2, 3, 5, 6], desc: '日奇乙木落入墓宫，木气收敛、生机不足，吉气受制，谋事闭塞。' },
@@ -2551,6 +2621,27 @@ function collectPalaceAnnos(palace, idx) {
   return annos;
 }
 
+// 构建六合关系 HTML
+function buildLiuHeHtml(gan, branch) {
+  if (!gan) return '<div class="liuhe-row"><span class="liuhe-value">—</span></div>';
+  let html = '';
+  // 天干五合
+  const heGan = TIAN_GAN_WU_HE[gan];
+  if (heGan) {
+    html += `<div class="liuhe-row"><span class="liuhe-label">天干五合</span><span class="liuhe-value">${gan} ↔ ${heGan}</span><span class="liuhe-desc">${TIAN_GAN_WU_HE_NAME[gan] || ''}</span></div>`;
+  }
+  // 地支六合
+  if (branch) {
+    const heZhi = DI_ZHI_LIU_HE[branch];
+    if (heZhi) {
+      html += `<div class="liuhe-row"><span class="liuhe-label">地支六合</span><span class="liuhe-value">${branch} ↔ ${heZhi}</span><span class="liuhe-desc">${DI_ZHI_LIU_HE_NAME[branch] || ''}</span></div>`;
+    }
+  } else {
+    html += `<div class="liuhe-row"><span class="liuhe-label">地支六合</span><span class="liuhe-value">—</span></div>`;
+  }
+  return html;
+}
+
 // 点击灵盘/天盘/人盘/地盘 → 各自的生旺死绝表
 function showShengWang(plate, idx) {
   if (!curData || !curData.palaces) return;
@@ -2581,6 +2672,9 @@ function showShengWang(plate, idx) {
   });
   if (!stems.length) return;
   const strip = stems.map(g => `<span class="sps-item">${g} · ${stemPos[g].join('、')}</span>`).join('');
+
+  // 六合关系
+  const liuheHtml = buildLiuHeHtml(curGan, branch);
 
   // 状态解读卡片
   let stateHtml = '';
@@ -2617,6 +2711,10 @@ function showShengWang(plate, idx) {
   document.getElementById('modal-content').innerHTML = `
     ${stateHtml}
     ${annoHtml}
+    <div class="detail-block">
+      <div class="type">【六合关系】</div>
+      <div class="liuhe-list">${liuheHtml}</div>
+    </div>
     <div class="detail-block">
       <div class="type">【${name}各宫之干】</div>
       <div class="sw-plate-strip">${strip}</div>
