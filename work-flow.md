@@ -1230,3 +1230,37 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 三处入口文件已重新同步并推送（提交 `e873cf5`）。
 - GitHub Pages 部署后再次验证：六合关系弹窗正常，简繁切换后按钮标签正确显示繁体/简体。
 
+
+
+
+### 2026-08-29 手机端排盘结果页布局与字号修复
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户通过手机打开 https://142857110823.github.io/app-for-father/ 发现排盘结果页存在多处异常，要求至少找出并纠正 4 处问题，同时缩小【值符/值使/驿马/空亡/A-/A+】及【阴盘·*遁·*局】字号。
+**【问题来源】** 用户消息 + 线上移动端实际渲染异常。
+**【执行方向】**
+1. 诊断并确认 6 处问题：十三宫表格在移动端列数解析异常、A-/A+ 按钮换行、出生地点重复、天罡/月局/节气被隐藏、chip 字号过大、遁局信息字号过大。
+2. 在 `public/index.html` 的 `renderTraditionalPlate()` 中生成 `<colgroup>` 明确 4 列等宽（每列 25%）。
+3. 在 `@media (max-width:540px)` 中：将 `.dun-info-bar` 设为 `flex-wrap:nowrap;overflow-x:auto` 并隐藏滚动条；将 `.dun-chip` 降至 11px、`.dc-label` 降至 10px；将 `.result-header .rh-sub` 降至 11px。
+4. 新增 `formatLocation(parts)` 对省/市/区去重，避免"北京市 北京市 东城区"。n5. 恢复 `.pc-yj`、`.pc-jq` 在手机端的显示，使用竖排方式；调整 `.palace-col-right` 宽度为 26px，确保天罡/月局/节气/日排局完整显示。
+6. 同步 `public/index.html` → `index.html`（根目录）→ `docs/index.html`，提交并推送。
+**【执行边界】**
+- 仅修改 `public/index.html` 的 HTML 生成、CSS 媒体查询与地址格式化逻辑。
+- 不修改排盘算法、神星门排布、天罡/日排局计算。
+- 不涉及 AI 智能解读、会员、书院等其他模块。
+**【执行结果】**
+- 本地 `http://localhost:8090/` 与线上 `https://142857110823.github.io/app-for-father/` 在 375px 视口下均验证通过。
+- 十三宫表格保持 4×4 标准布局，中宫 2×2 居中，无错位。
+- dun-info-bar 中 6 个 chip 全部单行显示，支持横向滚动，不换行。
+- 出生地点显示为"北京市 东城区"，无重复。
+- 各宫位右侧完整显示天罡（金色竖排）、月局、节气、日排局。
+- `.dun-chip` 与 `.result-header .rh-sub` 字号均为 11px。
+- 已推送至 origin/master，提交 `5a77989`。
+**【执行验证】**
+- Playwright 自动化测试（375×812 视口，iPhone 比例）获取 computed style：
+  - 本地/线上 `.dun-chip` font-size 均为 11px；
+  - 本地/线上 `.dun-info-bar` flex-wrap 均为 nowrap；
+  - 本地/线上 `.result-header .rh-sub` font-size 均为 11px；
+  - 本地/线上出生地点均为"北京市 东城区"。n- 截图保存：`artifacts/verify-local-playwright.png`、`artifacts/verify-online-playwright.png`。
+- 线上 GitHub Pages 部署约 2 分钟后验证，与本地结果一致。
+**【相关文档】** `2026-08-29-mobile-paipan-fix-design.md`、`2026-08-29-mobile-paipan-fix.md`、`public/index.html`、`work-flow.md`
