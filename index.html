@@ -556,13 +556,20 @@ a{color:inherit;text-decoration:none}
   /* 窄屏门名去掉"门"后缀以节省宽度 */
   .pc-men{font-size:var(--pf-men);font-style:normal}
   .pc-men .men-suffix{display:none;font-style:normal}
-  /* 右列竖向窄列：仅保留天罡/日局，隐藏月局/节气避免重叠 */
-  .palace-col-right{flex-direction:column !important;flex-wrap:nowrap;width:20px !important;height:100%;justify-content:space-between;align-items:flex-end;gap:0;padding:0 1px;flex-shrink:0}
+  /* 右列竖向窄列：完整显示天罡/月局/节气/日局 */
+  .palace-col-right{flex-direction:column !important;flex-wrap:nowrap;width:26px !important;height:100%;justify-content:space-between;align-items:flex-end;gap:2px;padding:0 2px;flex-shrink:0}
   .palace-col-right .pc-right-top{flex-direction:column;gap:0;align-items:flex-end}
   .palace-col-right .pc-right-bottom{flex-direction:column;align-items:flex-end}
-  .pc-tg{padding:1px 1px;writing-mode:vertical-rl;text-orientation:upright;border-radius:2px}
-  .pc-yj,.pc-jq{display:none}
-  .pc-rp{max-width:20px;text-align:right;line-height:1.05;font-size:var(--pf-rp)}
+  .pc-tg{padding:1px 1px;font-size:var(--pf-tg);writing-mode:vertical-rl;text-orientation:upright;border-radius:2px}
+  .pc-yj,.pc-jq{display:block;font-size:var(--pf-yj);line-height:1.1;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap}
+  .pc-jq .jq-col{display:block}
+  .pc-rp{max-width:26px;text-align:right;line-height:1.1;font-size:var(--pf-rp)}
+  /* dun-info-bar 手机端不换行并支持横向滚动 */
+  .dun-info-bar{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:10px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .dun-info-bar::-webkit-scrollbar{display:none}
+  .dun-chip{padding:4px 8px;font-size:11px;white-space:nowrap}
+  .dun-chip .dc-label{font-size:10px}
+  .result-header .rh-sub{font-size:11px}
   /* 中宫 */
   #plate-table td.center{padding:4px}
   #plate-table td.center .palace-col-right{display:none}
@@ -600,6 +607,7 @@ a{color:inherit;text-decoration:none}
   .dun-info-bar{gap:6px;padding:10px 12px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
   .dun-info-bar::-webkit-scrollbar{display:none}
   .dun-chip{flex-shrink:0;padding:5px 9px;font-size:11px}
+  .dun-chip .dc-label{font-size:10px}
 }
 /* ===== 生旺死绝表（十二长生） ===== */
 .sw-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 6px}
@@ -2029,13 +2037,24 @@ function closeLocationPicker() {
   if (mask) mask.style.display = 'none';
 }
 
+function formatLocation(parts) {
+  const arr = parts.filter(Boolean);
+  const result = [];
+  for (const p of arr) {
+    if (result.length === 0 || result[result.length - 1] !== p) {
+      result.push(p);
+    }
+  }
+  return result.join(' ');
+}
+
 function confirmLocationPicker() {
   const prov = wheelState.province.list[wheelState.province.index];
   const city = wheelState.city.list[wheelState.city.index];
   const dist = wheelState.district.list[wheelState.district.index];
   const display = document.getElementById('location-display');
   if (display && prov) {
-    display.textContent = [prov, city, dist].filter(Boolean).join(' ');
+    display.textContent = formatLocation([prov, city, dist]);
   }
   closeLocationPicker();
 }
@@ -2212,9 +2231,9 @@ async function paipan() {
     const dist = wheelState.district && wheelState.district.list
       ? wheelState.district.list[wheelState.district.index]
       : undefined;
-    if (prov) return [prov, city, dist].filter(Boolean).join(' ');
+    if (prov) return formatLocation([prov, city, dist]);
     const disp = document.getElementById('location-display');
-    return disp ? disp.textContent.trim() : '';
+    return disp ? formatLocation(disp.textContent.trim().split(/\s+/)) : '';
   })();
   const panTypeV = getSelectedPanType();
 
@@ -2268,7 +2287,7 @@ function renderResult() {
     ${input.gender ? `<div class="ig-item"><div class="ig-lbl">性别</div><div class="ig-val">${input.gender}</div></div>` : ''}
     <div class="ig-item"><div class="ig-lbl">公历</div><div class="ig-val">${solarText}</div></div>
     <div class="ig-item"><div class="ig-lbl">时辰</div><div class="ig-val">${hourText}</div></div>
-    ${input.location ? `<div class="ig-item full"><div class="ig-lbl">出生地点</div><div class="ig-val">${input.location}</div></div>` : ''}
+    ${input.location ? `<div class="ig-item full"><div class="ig-lbl">出生地点</div><div class="ig-val">${formatLocation(input.location.split(/\s+/))}</div></div>` : ''}
   `;
 
   const p = curData.pillars;
@@ -2378,7 +2397,8 @@ function renderTraditionalPlate() {
     return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
   };
 
-  let html = '';
+  const colgroup = '<colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>';
+  let html = colgroup;
   for (const row of LAYOUT) {
     html += '<tr>';
     for (const cell of row) html += renderCell(cell);
