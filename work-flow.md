@@ -1200,3 +1200,25 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 进入【我的】页面点击【简繁转换】，"简繁转换"成功变为"簡繁轉換"，再次点击可切回简体，切换可逆。
 - 最终提交 `ecc6dfc` 已推送至 origin/master。
 
+
+### 2026-08-29 外围十二宫六合关系 + 简繁转换健壮性修复
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户要求在【灵/天/人/地盘】点击弹窗中增加六合化合关系，并修复每次更新后简繁转换偶发加载失败的问题。
+**【问题来源】** 用户消息。
+**【执行方向】**
+1. 依据 `F:\1\夫\六合\化合关系表.csv` 在 `public/index.html` 中新增天干五合、地支六合数据常量（`TIAN_GAN_WU_HE`、`DI_ZHI_LIU_HE` 及其名称映射）。
+2. 新增 `buildLiuHeHtml(gan, branch)` 辅助函数，在 `showShengWang` 弹窗中插入【六合关系】区块，显示天干五合与地支六合。
+3. 添加 `.liuhe-list`、`.liuhe-row` 等 CSS 样式，保持与现有弹窗暗金/墨色风格一致。
+4. 将 `<script src="opencc-full.js">` 改为显式动态加载，并带 500ms 自动重试；增强 `setTraditional` 为 Promise，支持最长 3 秒等待 OpenCC 就绪，失败时给出友好提示。
+5. 同步三处入口文件（`public/index.html`、`index.html`、`docs/index.html`）并推送到 GitHub Pages。
+**【执行边界】**
+- 不修改排盘算法、四柱计算、神星门排布。
+- 不替换 OpenCC 为 CDN 版本，继续使用本地 `opencc-full.js`。
+- 六合关系仅作用于外围 12 宫点击*盘弹窗，中宫不显示地支六合。
+**【执行结果】**
+- 本地 `http://localhost:8090/` 验证通过：点击外围宫位【地盘】，弹窗出现“六合关系”“天干五合（己 ↔ 甲）”“地支六合（辰 ↔ 酉）”。
+- 简繁转换验证通过：进入【我的】页面点击【简繁转换】，页面成功切换为繁体（“簡繁轉換”），再次点击切回简体，无“加载失败”提示。
+- GitHub Pages 已部署最新提交 `fe40b2e`。
+**【相关文档】** `2026-08-29-liuhe-trad-design.md`、`2026-08-29-liuhe-trad.md`、`work-flow.md`
+
