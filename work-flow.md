@@ -1222,3 +1222,11 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - GitHub Pages 已部署最新提交 `fe40b2e`。
 **【相关文档】** `2026-08-29-liuhe-trad-design.md`、`2026-08-29-liuhe-trad.md`、`work-flow.md`
 
+
+**【后续补充：简繁转换按钮标签修复】**
+- 线上验证发现调用 `toggleTraditionalChinese()` 后，`document.documentElement.lang` 正确切换，但【我的】页面“简繁转换”按钮标签（`#trad-label`）仍显示简体。
+- 根因：`updateTradIcon()` 中硬编码 `label.textContent = '简繁转换'`，在繁体模式下覆盖了转换结果。
+- 修复：`updateTradIcon()` 改为 `label.textContent = isTraditional ? '簡繁轉換' : '简繁转换'`。
+- 三处入口文件已重新同步并推送（提交 `e873cf5`）。
+- GitHub Pages 部署后再次验证：六合关系弹窗正常，简繁切换后按钮标签正确显示繁体/简体。
+
