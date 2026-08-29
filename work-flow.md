@@ -1294,3 +1294,28 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - Playwright（375×812）验证：`.result-header .rh-sub` font-size 为 10px；A+ 放大后 `.pc-tg` 8px、`.pc-yj/.pc-jq/.pc-rp` 7px，右列各子元素 `overlap` 均为 false；`#ai-interpret` display 为 block 且高度大于 0。
 - 截图保存：`artifacts/verify-local-before-a-plus.png`、`artifacts/verify-local-after-a-plus.png`、`artifacts/verify-online-before-a-plus.png`、`artifacts/verify-online-after-a-plus.png`。
 **【相关文档】** `public/index.html`、`work-flow.md`
+
+### 2026-08-29 iPhone 线上版三项修复再确认：遁局字号/门盘全名/丑宫日局
+
+**【时间】** 2026-08-29（Asia/Shanghai）
+**【事件】** 用户反馈苹果手机线上版本三处问题：①"排盘结果"下方"阴盘·阳遁·2局"字号仍显大、不和谐；②门盘当前为简写（如"天"），需显示完整名称；③丑宫位的日局不符合《天罡.docx》核心规则。
+**【问题来源】** 用户消息 + 截图。
+**【执行方向】**
+1. 再次缩小手机端 `.result-header .rh-sub` 字号：由 9px 降至 8px，并微调 margin-top 与颜色，使副标题与"排盘结果"主标题更协调。
+2. 门盘渲染使用 `MEN_DISPLAY` 完整名称映射（休门、死门、吉门、伤门、杜门、天门、玄门、冲门、开门、惊门、从门、生门、景门），保持内部简写不变。
+3. 日排局算法以当天农历月份为第 N 月，按月份递增顺序分配 4–28 日；1/4/7/10 月默认 3 日，其余月默认 2 日；若第 N 月非特殊月，则紧邻其前的特殊月让出 1 日；尾簇按农历实际天数截断。丑宫（十二月，idx8）日局由错误值修正为 13/14。
+4. 同步 `public/index.html` → `index.html`（根目录）→ `docs/index.html`。
+**【执行边界】**
+- 仅修改 `public/index.html` 的 CSS 与门盘显示逻辑，以及 `algorithm/qimen.js`、`algorithm/pillars.js` 的日排局实现。
+- 不改动神、星、门排布核心规则与三奇六仪顺序。
+- 不涉及 AI 后端部署与书院/会员模块。
+**【执行结果】**
+- 单元测试 `tests/qimen-core.test.js` 4/4 通过。
+- 本地 `http://localhost:8090/` Playwright（375×812，iPhone UA）验证：副标题 computed font-size 为 8px；门盘示例显示"玄门"；丑宫（十二月）日局显示 13/14。
+- 线上 GitHub Pages `https://142857110823.github.io/app-for-father/` 已推送并验证副标题字号为 8px、门盘完整名称生效。
+- 已推送至 origin/master，提交 `249384a`。
+**【执行验证】**
+- 本地截图：`artifacts/verify-iphone-20260829.png`、`artifacts/verify-chou-palace.png`。
+- 线上截图：`artifacts/verify-online-iphone-20260829.png`。
+- Playwright 线上访问曾因网络等待 `networkidle` 超时（60s），但 `WebFetch` 可正常获取页面，实际页面可访问；再次运行时正常加载并截图。
+**【相关文档】** `public/index.html`、`algorithm/qimen.js`、`algorithm/pillars.js`、`tests/qimen-core.test.js`、`work-flow.md`
