@@ -12512,9 +12512,9 @@ var QiMenAlgorithmBundle = (() => {
         const ok3 = centerActual === "\u592A\u5E38/\u8D2A\u72FC/\u4F11/\u7678/\u4E59/\u4E59/\u620A";
         console.log(`
   \u4E2D\u5BAB\u6807\u51C6: ${centerActual} ${ok3 ? "\u2705" : "\u274C"}`);
-        const primaryDates = full2.palaces[3].riPaiJu;
+        const primaryDates = full2.palaces[1].riPaiJu;
         const ok4 = primaryDates === "1/2/3/29";
-        console.log(`  2\u9996\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
+        console.log(`  \u4E03\u6708(idx1)\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
         console.log("------ \u5B8C\u6574\u6392\u76D8\uFF08\u7528\u6237\u6848\u4F8B 2026-02-26 \u9633\u90413\u5C40\uFF09------");
         const full3 = fullPaiPan(
           ["\u4E19\u5348", "\u5E9A\u5BC5", "\u8F9B\u672A", "\u4E19\u7533"],
@@ -12522,9 +12522,9 @@ var QiMenAlgorithmBundle = (() => {
           false,
           { lunarMonth: 1, lunarDay: 10, shiZhi: "\u7533", paiJuMonthDays: 30 }
         );
-        const userCaseDates = full3.palaces[5].riPaiJu;
+        const userCaseDates = full3.palaces[7].riPaiJu;
         const ok5 = full3.dun === "\u9633\u9041" && full3.ju === 3 && userCaseDates === "1/2/3/29/30";
-        console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}\u5C40 | 6\u5C3E\u65E5\u6392\u5C40: ${userCaseDates} ${ok5 ? "\u2705" : "\u274C"}`);
+        console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}\u5C40 | \u6B63\u6708(idx7)\u65E5\u6392\u5C40: ${userCaseDates} ${ok5 ? "\u2705" : "\u274C"}`);
         const allOk = ok1 && ok2 && ok3 && ok4 && ok5;
         console.log(`
 ====== ${allOk ? "\u5168\u90E8\u9A8C\u8BC1\u901A\u8FC7 \u2705" : "\u5B58\u5728\u5931\u8D25 \u274C"} ======`);
