@@ -102,4 +102,6 @@ test('同一时辰同时输出阳遁与阴遁两套结果', () => {
   assert.equal(result.yangResult.pan.dun, '阳遁');
   assert.equal(result.yinResult.pan.dun, '阴遁');
   assert.notEqual(result.yangResult.pan.ju, result.yinResult.pan.ju);
+  assert.notDeepEqual(result.yangResult.palaces, result.yinResult.palaces, '两盘宫位内容应不同');
+  assert.equal(result.pan.dun, result.yinResult.pan.dun, 'result.pan 应保持原自然遁');
 });

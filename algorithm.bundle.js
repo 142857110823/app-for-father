@@ -12361,8 +12361,11 @@ var QiMenAlgorithmBundle = (() => {
         const arr = arrangeWithStartPosition(MEN, startIdxInOrder, order);
         palaces.forEach((p, i) => p.men = arr[i]);
       }
-      function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
-        const pan = determinePan(pillarArr);
+      function fullPaiPan(pillarArr, dayGan, isNight, extraContext, forceDun) {
+        const rawPan = determinePan(pillarArr);
+        const finalDun = forceDun === "\u9633\u9041" || forceDun === "\u9634\u9041" ? forceDun : rawPan.dun;
+        const finalJu = forceDun === "\u9633\u9041" || forceDun === "\u9634\u9041" ? determineJu(forceDun, rawPan.ganSum, rawPan.zhiSum) : rawPan.ju;
+        const pan = { ...rawPan, dun: finalDun, ju: finalJu };
         const guiShenZhi = determineGuiShen(dayGan, isNight);
         const palaces = createEmptyPalaces();
         palaces.forEach((p, i) => {
@@ -12508,9 +12511,9 @@ var QiMenAlgorithmBundle = (() => {
         const ok3 = centerActual === "\u592A\u5E38/\u8D2A\u72FC/\u4F11/\u7678/\u4E59/\u4E59/\u620A";
         console.log(`
   \u4E2D\u5BAB\u6807\u51C6: ${centerActual} ${ok3 ? "\u2705" : "\u274C"}`);
-        const primaryDates = full2.palaces[3].riPaiJu;
+        const primaryDates = full2.palaces[1].riPaiJu;
         const ok4 = primaryDates === "1/2/3/29";
-        console.log(`  2\u9996\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
+        console.log(`  \u4E03\u6708(idx1)\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
         console.log("------ \u5B8C\u6574\u6392\u76D8\uFF08\u7528\u6237\u6848\u4F8B 2026-02-26 \u9633\u90413\u5C40\uFF09------");
         const full3 = fullPaiPan(
           ["\u4E19\u5348", "\u5E9A\u5BC5", "\u8F9B\u672A", "\u4E19\u7533"],
@@ -12518,9 +12521,9 @@ var QiMenAlgorithmBundle = (() => {
           false,
           { lunarMonth: 1, lunarDay: 10, shiZhi: "\u7533", paiJuMonthDays: 30 }
         );
-        const userCaseDates = full3.palaces[5].riPaiJu;
+        const userCaseDates = full3.palaces[7].riPaiJu;
         const ok5 = full3.dun === "\u9633\u9041" && full3.ju === 3 && userCaseDates === "1/2/3/29/30";
-        console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}\u5C40 | 6\u5C3E\u65E5\u6392\u5C40: ${userCaseDates} ${ok5 ? "\u2705" : "\u274C"}`);
+        console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}\u5C40 | \u6B63\u6708(idx7)\u65E5\u6392\u5C40: ${userCaseDates} ${ok5 ? "\u2705" : "\u274C"}`);
         const allOk = ok1 && ok2 && ok3 && ok4 && ok5;
         console.log(`
 ====== ${allOk ? "\u5168\u90E8\u9A8C\u8BC1\u901A\u8FC7 \u2705" : "\u5B58\u5728\u5931\u8D25 \u274C"} ======`);
@@ -12566,6 +12569,19 @@ var QiMenAlgorithmBundle = (() => {
         if (hour === 23 || hour === 0) return "\u5B50";
         return zhi[Math.floor((hour + 1) / 2) % 12];
       }
+      function computePan(coreResult) {
+        return {
+          pan: {
+            pan: coreResult.pan,
+            dun: coreResult.dun,
+            ju: coreResult.ju,
+            ganSum: coreResult.ganSum,
+            zhiSum: coreResult.zhiSum
+          },
+          guiShen: coreResult.guiShen,
+          palaces: coreResult.palaces
+        };
+      }
       function fullPaiPanFromTime(year, month, day, hour, minute) {
         const pillars = getFourPillars(year, month, day, hour, minute);
         const pillarArr = [pillars.year, pillars.month, pillars.day, pillars.time];
@@ -12579,19 +12595,13 @@ var QiMenAlgorithmBundle = (() => {
         const riPaiMonth = lunarMonth;
         const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
         const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
+        const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9633\u9041");
+        const yinResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9634\u9041");
         return {
           input: { year, month, day, hour, minute },
           pillars,
           pillarArr,
-          pan: {
-            pan: result.pan,
-            dun: result.dun,
-            ju: result.ju,
-            ganSum: result.ganSum,
-            zhiSum: result.zhiSum
-          },
-          guiShen: result.guiShen,
-          palaces: result.palaces,
+          ...computePan(result),
           layout: result.layout,
           luoshuCoords: result.luoshuCoords,
           calibrated: result.calibrated,
@@ -12600,7 +12610,9 @@ var QiMenAlgorithmBundle = (() => {
           shiZhi,
           paiJuMonth: riPaiMonth,
           paiJuMonthDays: riPaiMonthDays,
-          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }
+          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+          yangResult: computePan(yangResult),
+          yinResult: computePan(yinResult)
         };
       }
       function test() {

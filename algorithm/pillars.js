@@ -62,6 +62,25 @@ function hourZhi(hour) {
 }
 
 /**
+ * 将 corePaiPan 返回结果整理为统一结构
+ * @param {object} coreResult fullPaiPan 原始返回对象
+ * @returns {{ pan: object, guiShen: object, palaces: object[] }}
+ */
+function computePan(coreResult) {
+  return {
+    pan: {
+      pan: coreResult.pan,
+      dun: coreResult.dun,
+      ju: coreResult.ju,
+      ganSum: coreResult.ganSum,
+      zhiSum: coreResult.zhiSum,
+    },
+    guiShen: coreResult.guiShen,
+    palaces: coreResult.palaces,
+  };
+}
+
+/**
  * 完整排盘：公历时间 → 全盘信息
  * @param {number} year
  * @param {number} month
@@ -94,15 +113,7 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     input: { year, month, day, hour, minute },
     pillars,
     pillarArr,
-    pan: {
-      pan: result.pan,
-      dun: result.dun,
-      ju: result.ju,
-      ganSum: result.ganSum,
-      zhiSum: result.zhiSum
-    },
-    guiShen: result.guiShen,
-    palaces: result.palaces,
+    ...computePan(result),
     layout: result.layout,
     luoshuCoords: result.luoshuCoords,
     calibrated: result.calibrated,
@@ -112,8 +123,8 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     paiJuMonth: riPaiMonth,
     paiJuMonthDays: riPaiMonthDays,
     extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
-    yangResult: { pan: { pan: yangResult.pan, dun: yangResult.dun, ju: yangResult.ju, ganSum: yangResult.ganSum, zhiSum: yangResult.zhiSum }, guiShen: yangResult.guiShen, palaces: yangResult.palaces },
-    yinResult: { pan: { pan: yinResult.pan, dun: yinResult.dun, ju: yinResult.ju, ganSum: yinResult.ganSum, zhiSum: yinResult.zhiSum }, guiShen: yinResult.guiShen, palaces: yinResult.palaces }
+    yangResult: computePan(yangResult),
+    yinResult: computePan(yinResult)
   };
 }
 

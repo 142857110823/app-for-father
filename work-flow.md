@@ -1345,3 +1345,29 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 线上截图：`artifacts/verify-online-iphone-20260829.png`。
 - Playwright 线上访问曾因网络等待 `networkidle` 超时（60s），但 `WebFetch` 可正常获取页面，实际页面可访问；再次运行时正常加载并截图。
 **【相关文档】** `public/index.html`、`algorithm/qimen.js`、`algorithm/pillars.js`、`tests/qimen-core.test.js`、`work-flow.md`
+
+
+### 2026-08-30 算法质量修复：优化双遁计算结构并同步 bundle
+
+**【时间】** 2026-08-30
+**【事件】** 基于提交 `5ad2482` 执行质量修复：减少重复拼装、避免修改 determinePan 返回对象、同步三处 algorithm.bundle.js、增强双遁测试断言。
+**【问题来源】** 父级代理委派的质量修复任务。
+**【执行方向】**
+1. 在 `algorithm/pillars.js` 新增 `computePan(coreResult)` 辅助函数，统一整理 `{ pan, guiShen, palaces }` 结构。
+2. 使用 `computePan` 替换 `fullPaiPanFromTime` 中 `result/yangResult/yinResult` 三处重复拼装。
+3. 在 `algorithm/qimen.js` 的 `fullPaiPan` 中不再直接修改 `determinePan` 返回的 `pan` 对象，改为基于 `rawPan` 浅拷贝生成 `finalPan`。
+4. 将 `public/algorithm.bundle.js` 复制覆盖根目录与 `docs/algorithm.bundle.js`，并在 `npm run build:browser` 后再次同步。
+5. 在 `tests/qimen-core.test.js` 双遁测试中增加 `notDeepEqual(palaces)` 与 `equal(pan.dun, yinResult.pan.dun)` 断言。
+**【执行边界】**
+- 仅修改 `algorithm/pillars.js`、`algorithm/qimen.js`、`tests/qimen-core.test.js` 与三处 `algorithm.bundle.js`。
+- 不改动排盘算法核心逻辑与 UI 渲染。
+**【执行结果】**
+- `node algorithm/qimen.js` 全部验证通过 ✅。
+- `node --test tests/qimen-core.test.js` 5/5 通过 ✅。
+- `npm run build:browser` 成功生成 `public/algorithm.bundle.js`（588.9kb）。
+- 三处 `algorithm.bundle.js` SHA256 一致。
+- 已提交 `refactor(algorithm): 优化双遁计算结构并同步所有 algorithm.bundle.js 副本（本次提交）`。
+**【执行验证】**
+- 单元测试覆盖前言示例与自然遁/强制双遁断言。
+- 无 UI 预览任务，未启动本地服务器。
+**【相关文档】** `algorithm/pillars.js`、`algorithm/qimen.js`、`tests/qimen-core.test.js`、`work-flow.md`

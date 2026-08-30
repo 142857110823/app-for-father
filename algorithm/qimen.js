@@ -671,11 +671,10 @@ function placeMen(palaces, startIdxInOrder, order) {
 }
 
 function fullPaiPan(pillarArr, dayGan, isNight, extraContext, forceDun) {
-  const pan = determinePan(pillarArr);
-  if (forceDun === '阳遁' || forceDun === '阴遁') {
-    pan.dun = forceDun;
-    pan.ju = determineJu(forceDun, pan.ganSum, pan.zhiSum);
-  }
+  const rawPan = determinePan(pillarArr);
+  const finalDun = (forceDun === '阳遁' || forceDun === '阴遁') ? forceDun : rawPan.dun;
+  const finalJu  = (forceDun === '阳遁' || forceDun === '阴遁') ? determineJu(forceDun, rawPan.ganSum, rawPan.zhiSum) : rawPan.ju;
+  const pan = { ...rawPan, dun: finalDun, ju: finalJu };
   const guiShenZhi = determineGuiShen(dayGan, isNight);
 
   const palaces = createEmptyPalaces();
