@@ -480,6 +480,32 @@
 
 ---
 
+### 2026-08-30 算法支持强制阳遁/阴遁并返回双遁结果
+
+**【时间】** 2026-08-30
+**【事件】** 按用户计划执行任务1：algorithm/qimen.js 支持可选 forceDun 参数；algorithm/pillars.js 同时返回阳遁/阴遁两套结果；重建 browser bundle；新增双遁单元测试；提交 master。
+**【问题来源】** 用户明确给出分步执行计划，要求 fullPaiPan 支持强制阳遁/阴遁，fullPaiPanFromTime 同时输出双遁结果供前端切换展示。
+**【执行方向】**
+1. 修改 lgorithm/qimen.js：fullPaiPan 增加第 5 个参数 forceDun；determinePan 之后若 forceDun 为阳遁/阴遁，则覆盖 pan.dun 并按 determineJu(forceDun, ganSum, zhiSum) 重新定局。
+2. 修改 lgorithm/pillars.js：fullPaiPanFromTime 在 result 之后分别调用 corePaiPan(..., '阳遁') 与 corePaiPan(..., '阴遁')，并在返回对象中增加 yangResult / yinResult（含 pan/guiShen/palaces）。
+3. 重建浏览器包：
+pm run build:browser → public/algorithm.bundle.js 588.9kb。
+4. 新增测试：	ests/qimen-core.test.js 追加「同一时辰同时输出阳遁与阴遁两套结果」测试，断言 dun 与 ju 不同。
+5. 修正 lgorithm/qimen.js 命令行验证区两处陈旧断言：示例②阴遁5局日排局检查由 idx3(五月) 改为 idx1(七月，当前农历月)；用户案例阳遁3局日排局检查由 idx5(三月) 改为 idx7(正月，当前农历月)，使其与当前以 lunarMonth 为第N月的算法一致。
+6. 提交：git add 4 文件 + commit feat(algorithm): 支持强制阳遁/阴遁并返回双遁结果。
+**【执行边界】** 仅修改 algorithm/qimen.js、algorithm/pillars.js、public/algorithm.bundle.js、tests/qimen-core.test.js 及 work-flow.md；不改动前端 UI、不修改排盘核心规则（仅增加强制遁参数包装）。
+**【执行结果】**
+- 
+ode algorithm/qimen.js → 全部验证通过 ✅（定遁定局/中宫/日排局/用户案例）。
+- 
+ode --test tests/qimen-core.test.js → 5/5 通过，含新增双遁断言。
+- 
+pm run build:browser → public/algorithm.bundle.js 588.9kb，成功。
+- git commit：feat(algorithm): 支持强制阳遁/阴遁并返回双遁结果。
+**【相关文档】** algorithm/qimen.js、algorithm/pillars.js、public/algorithm.bundle.js、tests/qimen-core.test.js、work-flow.md
+
+---
+
 ### 2026-08-24 03:10 排盘9要素三列竖排+智能解读增强修复
 
 【时间】2026-08-24 03:10

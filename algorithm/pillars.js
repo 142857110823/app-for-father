@@ -87,6 +87,8 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
   const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
 
   const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
+  const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, '阳遁');
+  const yinResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, '阴遁');
 
   return {
     input: { year, month, day, hour, minute },
@@ -109,7 +111,9 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     shiZhi,
     paiJuMonth: riPaiMonth,
     paiJuMonthDays: riPaiMonthDays,
-    extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }
+    extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+    yangResult: { pan: { pan: yangResult.pan, dun: yangResult.dun, ju: yangResult.ju, ganSum: yangResult.ganSum, zhiSum: yangResult.zhiSum }, guiShen: yangResult.guiShen, palaces: yangResult.palaces },
+    yinResult: { pan: { pan: yinResult.pan, dun: yinResult.dun, ju: yinResult.ju, ganSum: yinResult.ganSum, zhiSum: yinResult.zhiSum }, guiShen: yinResult.guiShen, palaces: yinResult.palaces }
   };
 }
 

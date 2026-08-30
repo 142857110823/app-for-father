@@ -12361,8 +12361,12 @@ var QiMenAlgorithmBundle = (() => {
         const arr = arrangeWithStartPosition(MEN, startIdxInOrder, order);
         palaces.forEach((p, i) => p.men = arr[i]);
       }
-      function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
+      function fullPaiPan(pillarArr, dayGan, isNight, extraContext, forceDun) {
         const pan = determinePan(pillarArr);
+        if (forceDun === "\u9633\u9041" || forceDun === "\u9634\u9041") {
+          pan.dun = forceDun;
+          pan.ju = determineJu(forceDun, pan.ganSum, pan.zhiSum);
+        }
         const guiShenZhi = determineGuiShen(dayGan, isNight);
         const palaces = createEmptyPalaces();
         palaces.forEach((p, i) => {
@@ -12579,6 +12583,8 @@ var QiMenAlgorithmBundle = (() => {
         const riPaiMonth = lunarMonth;
         const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
         const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
+        const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9633\u9041");
+        const yinResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9634\u9041");
         return {
           input: { year, month, day, hour, minute },
           pillars,
@@ -12600,7 +12606,9 @@ var QiMenAlgorithmBundle = (() => {
           shiZhi,
           paiJuMonth: riPaiMonth,
           paiJuMonthDays: riPaiMonthDays,
-          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }
+          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+          yangResult: { pan: { pan: yangResult.pan, dun: yangResult.dun, ju: yangResult.ju, ganSum: yangResult.ganSum, zhiSum: yangResult.zhiSum }, guiShen: yangResult.guiShen, palaces: yangResult.palaces },
+          yinResult: { pan: { pan: yinResult.pan, dun: yinResult.dun, ju: yinResult.ju, ganSum: yinResult.ganSum, zhiSum: yinResult.zhiSum }, guiShen: yinResult.guiShen, palaces: yinResult.palaces }
         };
       }
       function test() {

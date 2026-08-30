@@ -96,3 +96,10 @@ test('2026年农历小月腊月日排局不出现30日', () => {
     assert.equal(palace.riPaiJu.includes('30'), false, `宫位 ${palace.index} 日排局不应含30: ${palace.riPaiJu}`);
   }
 });
+
+test('同一时辰同时输出阳遁与阴遁两套结果', () => {
+  const result = fullPaiPanFromTime(2026, 8, 14, 12, 22);
+  assert.equal(result.yangResult.pan.dun, '阳遁');
+  assert.equal(result.yinResult.pan.dun, '阴遁');
+  assert.notEqual(result.yangResult.pan.ju, result.yinResult.pan.ju);
+});

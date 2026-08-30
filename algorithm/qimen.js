@@ -670,8 +670,12 @@ function placeMen(palaces, startIdxInOrder, order) {
   palaces.forEach((p, i) => p.men = arr[i]);
 }
 
-function fullPaiPan(pillarArr, dayGan, isNight, extraContext) {
+function fullPaiPan(pillarArr, dayGan, isNight, extraContext, forceDun) {
   const pan = determinePan(pillarArr);
+  if (forceDun === '阳遁' || forceDun === '阴遁') {
+    pan.dun = forceDun;
+    pan.ju = determineJu(forceDun, pan.ganSum, pan.zhiSum);
+  }
   const guiShenZhi = determineGuiShen(dayGan, isNight);
 
   const palaces = createEmptyPalaces();
@@ -825,12 +829,12 @@ if (require.main === module) {
   const ok3 = centerActual === '太常/贪狼/休/癸/乙/乙/戊';
   console.log(`\n  中宫标准: ${centerActual} ${ok3 ? '✅' : '❌'}`);
 
-  const primaryDates = full2.palaces[3].riPaiJu;
+  const primaryDates = full2.palaces[1].riPaiJu;
   const ok4 = primaryDates === '1/2/3/29';
-  console.log(`  2首日排局: ${primaryDates} ${ok4 ? '✅' : '❌'}`);
+  console.log(`  七月(idx1)日排局: ${primaryDates} ${ok4 ? '✅' : '❌'}`);
 
   // 用户案例：2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局
-  // 丙午年三月为 30 天大月 → 6尾(idx5) 尾簇为 1/2/3/29/30，不得出现 31
+  // 当天农历正月初十，正月为 30 天大月 → 坎宫(idx7) 尾簇为 1/2/3/29/30，不得出现 31
   console.log('------ 完整排盘（用户案例 2026-02-26 阳遁3局）------');
   const full3 = fullPaiPan(
     ['丙午', '庚寅', '辛未', '丙申'],
@@ -838,9 +842,9 @@ if (require.main === module) {
     false,
     { lunarMonth: 1, lunarDay: 10, shiZhi: '申', paiJuMonthDays: 30 }
   );
-  const userCaseDates = full3.palaces[5].riPaiJu;
+  const userCaseDates = full3.palaces[7].riPaiJu;
   const ok5 = full3.dun === '阳遁' && full3.ju === 3 && userCaseDates === '1/2/3/29/30';
-  console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}局 | 6尾日排局: ${userCaseDates} ${ok5 ? '✅' : '❌'}`);
+  console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}局 | 正月(idx7)日排局: ${userCaseDates} ${ok5 ? '✅' : '❌'}`);
 
   const allOk = ok1 && ok2 && ok3 && ok4 && ok5;
   console.log(`\n====== ${allOk ? '全部验证通过 ✅' : '存在失败 ❌'} ======`);
