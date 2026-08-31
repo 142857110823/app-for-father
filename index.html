@@ -460,6 +460,9 @@ a{color:inherit;text-decoration:none}
 .dun-chip.dc-yang .dc-value{color:var(--green)}
 .dun-chip.dc-yin{background:var(--orange-soft);border-color:var(--orange)}
 .dun-chip.dc-yin .dc-value{color:var(--orange)}
+.dun-toggle-bar{display:flex;justify-content:center;gap:12px;margin:4px 16px 12px}
+.dun-toggle-btn{background:var(--card);border:1px solid var(--line);color:var(--ink);padding:6px 18px;border-radius:20px;font-size:13px;font-family:"STKaiti","KaiTi","楷体",serif;cursor:pointer}
+.dun-toggle-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
 
 .analysis-card{background:var(--card);border-radius:var(--radius);margin:12px 16px;padding:16px;border:1px solid var(--line)}
 .analysis-card .a-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px;font-family:"STKaiti","KaiTi","楷体",serif}
@@ -504,26 +507,26 @@ a{color:inherit;text-decoration:none}
 .pc-row.pc-row-right{justify-content:flex-end}
 
 /* --- 左列元素样式 --- */
-.pc-shen{font-size:var(--pf-shen);font-weight:700;color:var(--gold);letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-shen{font-size:var(--pf-shen);font-weight:700;color:var(--ink);letter-spacing:1px;font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-xing{font-size:var(--pf-xing);font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-men{font-size:var(--pf-men);font-weight:700;font-family:"STKaiti","KaiTi","楷体",serif}
-.pc-men.m-吉,.pc-men.m-生,.pc-men.m-开,.pc-men.m-玄,.pc-men.m-天,.pc-men.m-从,.pc-men.m-休,.pc-men.m-景{color:#2e7d32}
-.pc-men.m-大凶,.pc-men.m-死,.pc-men.m-伤,.pc-men.m-冲,.pc-men.m-惊{color:#c62828}
+.pc-men.m-吉,.pc-men.m-生,.pc-men.m-开,.pc-men.m-玄,.pc-men.m-天,.pc-men.m-从,.pc-men.m-休,.pc-men.m-景,
+.pc-men.m-大凶,.pc-men.m-死,.pc-men.m-伤,.pc-men.m-冲,.pc-men.m-惊,
 .pc-men.m-杜,.pc-men.m-大吉,.pc-men.m-凶,.pc-men.m-中{color:var(--ink)}
 
 /* --- 中列元素样式 --- */
-.pc-ling{font-size:var(--pf-ling);font-weight:700;color:#6b4e00;font-family:"STKaiti","KaiTi","楷体",serif}
+.pc-ling{font-size:var(--pf-ling);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-tian{font-size:var(--pf-tian);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-ren{font-size:var(--pf-ren);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif}
 .pc-di{font-size:var(--pf-di);font-weight:700;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif}
 
 /* --- 右侧标签样式 --- */
 /* 2026-08-27 右列四要素：天罡(纵排)→月局→节气→日排局 */
-.pc-tg{font-size:var(--pf-tg);font-weight:700;color:#b8860b;background:rgba(184,134,11,.12);border:1px solid rgba(184,134,11,.3);border-radius:4px;padding:3px 4px;white-space:nowrap;writing-mode:vertical-rl;text-orientation:upright;font-family:"STKaiti","KaiTi","楷体",serif;text-align:center;line-height:1.1;box-sizing:content-box}
-.pc-yj{font-size:var(--pf-yj);font-weight:700;color:#8b6914;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1;white-space:nowrap}
-.pc-jq{display:flex;flex-direction:row;gap:2px;justify-content:center;align-items:flex-start;font-size:var(--pf-jq);font-weight:600;color:var(--ink-2);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;white-space:normal;word-break:break-all}
+.pc-tg{font-size:var(--pf-tg);font-weight:700;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:0;padding:3px 4px;white-space:nowrap;writing-mode:vertical-rl;text-orientation:upright;font-family:"STKaiti","KaiTi","楷体",serif;text-align:center;line-height:1.1;box-sizing:content-box}
+.pc-yj{font-size:var(--pf-yj);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1;white-space:nowrap}
+.pc-jq{display:flex;flex-direction:row;gap:2px;justify-content:center;align-items:flex-start;font-size:var(--pf-jq);font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;white-space:normal;word-break:break-all}
 .pc-jq .jq-col{writing-mode:vertical-rl;text-orientation:upright;text-align:center}
-.pc-rp{max-width:42px;font-size:var(--pf-rp);font-weight:700;color:#8b6914;white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1}
+.pc-rp{max-width:42px;font-size:var(--pf-rp);font-weight:700;color:var(--ink);white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1}
 
 /* 中宫放大字体（跨 2×2）：神/星/门统一规格，四干统一规格 */
 #plate-table td.center .pc-shen{font-size:calc(var(--pf-shen) + 3px);font-weight:700;letter-spacing:1px}
@@ -887,6 +890,26 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 </head>
 <body>
 
+<div id="auth-gate" style="position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div style="width:min(380px,100%);background:var(--card);border:1px solid var(--line);padding:28px 22px;box-shadow:var(--shadow);text-align:center">
+    <div style="font-size:24px;font-family:'STKaiti','KaiTi','楷体',serif;letter-spacing:5px">道家奇门遁甲</div>
+    <div style="font-size:12px;color:var(--sub);margin:8px 0 24px">请登录后进入十三宫排盘</div>
+    <input id="auth-username" autocomplete="username" placeholder="账号" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px">
+    <input id="auth-password" type="password" autocomplete="current-password" placeholder="密码（不少于6位）" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:12px">
+    <button onclick="accountLogin()" style="width:100%;padding:12px;background:var(--ink);color:#fff;font-weight:600">账号密码登录</button>
+    <button onclick="guestLogin()" style="width:100%;padding:12px;margin-top:10px;border:1px solid var(--line);color:var(--ink)">游客登录</button>
+    <button onclick="accountRegister()" style="margin-top:16px;color:var(--gold);font-size:12px">注册账号</button>
+    <div id="auth-message" style="min-height:20px;margin-top:12px;font-size:12px;color:var(--red)"></div>
+  </div>
+</div>
+
+<div id="opening-screen" style="display:none;position:fixed;inset:0;z-index:9999;background:#1c1a17;color:#f5efd9;align-items:center;justify-content:center;text-align:center">
+  <div>
+    <div style="font-size:30px;font-family:'STKaiti','KaiTi','楷体',serif;letter-spacing:8px">道家奇门遁甲</div>
+    <div style="margin-top:14px;font-size:12px;letter-spacing:4px;color:#d4a64a">十三宫 · 起局</div>
+  </div>
+</div>
+
 <div id="page-home" class="page">
   <div class="brand-bar">
     <div class="brand-side left" aria-hidden="true">
@@ -1066,27 +1089,17 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 
   <div class="dun-info-bar" id="dun-info-bar"></div>
 
+  <div class="dun-toggle-bar" id="dun-toggle-bar">
+    <button class="dun-toggle-btn" data-dun="阳遁" onclick="setDun('阳遁')">阳遁</button>
+    <button class="dun-toggle-btn" data-dun="阴遁" onclick="setDun('阴遁')">阴遁</button>
+  </div>
+
   <div class="traditional-plate" id="traditional-plate">
     <table id="plate-table"></table>
   </div>
 
   <div class="analysis-hint">点击宫位查看详细解析</div>
 
-  <!-- 智能解读面板 -->
-  <div class="ai-interpret" id="ai-interpret">
-    <div class="ai-interpret-head">
-      <h3>☯ 智能解读</h3>
-      <div class="ai-head-actions">
-        <button class="ai-regen" onclick="generateInterpret(true)">重新解读</button>
-      </div>
-    </div>
-    <div class="ai-interpret-body" id="ai-interpret-body">
-      <div class="ai-interpret-loading">正在分析排盘格局</div>
-    </div>
-    <div class="ai-interpret-footer" id="ai-interpret-footer" style="display:none">
-      <button class="ai-expand-btn" id="ai-expand-btn" onclick="toggleInterpretExpand()">展开全部内容 ▾</button>
-    </div>
-  </div>
 </div>
 
 <div id="page-history" class="page hidden">
@@ -1531,6 +1544,24 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 <script src="ai-client.js"></script>
 <script>
 let curData = null;
+
+function ensureActiveDunData() {
+  if (!curData) return;
+  const activeDun = curData.activeDun || curData.pan?.dun || '阴遁';
+  const result = activeDun === '阳遁' ? curData.yangResult : curData.yinResult;
+  if (!result) return;
+  curData.activeDun = activeDun;
+  curData.pan = result.pan;
+  curData.guiShen = result.guiShen;
+  curData.palaces = result.palaces;
+}
+
+function setDun(dun) {
+  if (!curData || !['阳遁', '阴遁'].includes(dun)) return;
+  curData.activeDun = dun;
+  ensureActiveDunData();
+  renderResult();
+}
 
 /* ===== 用户隔离机制 ===== */
 /* 用户ID：每个用户独立存储收藏/消息等数据，避免混淆 */
@@ -2211,6 +2242,22 @@ function getSelectedPanType() {
 }
 
 async function paipan() {
+  const sessionToken = localStorage.getItem(AUTH_TOKEN_KEY);
+  if (!sessionToken) {
+    document.getElementById('auth-gate').style.display = 'flex';
+    showToast('请先登录');
+    return;
+  }
+  try {
+    const sessionCheck = await fetch('/api/auth/me', { headers: authHeaders() });
+    if (!sessionCheck.ok) throw new Error('登录已失效');
+  } catch (error) {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(USER_INFO_KEY);
+    document.getElementById('auth-gate').style.display = 'flex';
+    showToast(error.message || '登录已失效');
+    return;
+  }
   const y = document.getElementById('y');
   const m = document.getElementById('m');
   const d = document.getElementById('d');
@@ -2249,17 +2296,19 @@ async function paipan() {
   showToast('排盘计算中...');
   try {
     let result;
-    if (typeof QiMenAlgorithm !== 'undefined' && QiMenAlgorithm.fullPaiPan) {
-      result = QiMenAlgorithm.fullPaiPan(yv, mv, dv, hv, minV);
+    if (typeof QiMenAlgorithm !== 'undefined' && QiMenAlgorithm.fullPaiPanFromTime) {
+      result = QiMenAlgorithm.fullPaiPanFromTime(yv, mv, dv, hv, minV);
       // DEBUG: 打印底层排盘计算数据，便于区分计算错误与UI渲染问题
       console.log('[DEBUG] 排盘输入:', { y: yv, m: mv, d: dv, h: hv, min: minV, panType: panTypeV });
       console.log('[DEBUG] 排盘结果:', JSON.parse(JSON.stringify(result || {})));
     } else {
-      const r = await fetch(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`).then(r => r.json());
+      const r = await fetch(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`, { headers: authHeaders() }).then(r => r.json());
       if (!r.ok) { showToast(r.error || '排盘失败'); return; }
       result = r.data;
     }
     curData = result;
+    curData.activeDun = curData.pan && curData.pan.dun ? curData.pan.dun : '阴遁';
+    ensureActiveDunData();
     if (!curData.input) curData.input = {};
     if (!curData.pan) curData.pan = {};
     curData.input.name = nameV;
@@ -2289,15 +2338,27 @@ function renderResult() {
   document.getElementById('r-sub').textContent = `${curData.pan.pan} · ${curData.pan.dun} · ${curData.pan.ju}局`;
 
   const infoGrid = document.getElementById('info-grid');
-  const solarText = `${input.year}年${input.month}月${input.day}日`;
-  const hourText = `${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}`;
   infoGrid.innerHTML = `
     ${input.name ? `<div class="ig-item"><div class="ig-lbl">姓名</div><div class="ig-val">${input.name}</div></div>` : ''}
     ${input.gender ? `<div class="ig-item"><div class="ig-lbl">性别</div><div class="ig-val">${input.gender}</div></div>` : ''}
-    <div class="ig-item"><div class="ig-lbl">公历</div><div class="ig-val">${solarText}</div></div>
-    <div class="ig-item"><div class="ig-lbl">时辰</div><div class="ig-val">${hourText}</div></div>
+    <div class="ig-item full"><div class="ig-lbl">农历</div><div class="ig-val">${curData.lunar ? `${curData.lunar.year}年${curData.lunar.month}月${curData.lunar.day} ${curData.lunar.hourZhi}时` : '—'}</div></div>
+    <div class="ig-item full" id="jieqi-item"><div class="ig-lbl">节气</div><div class="ig-val" id="jieqi-val">—</div></div>
     ${input.location ? `<div class="ig-item full"><div class="ig-lbl">出生地点</div><div class="ig-val">${formatLocation(input.location.split(/\s+/))}</div></div>` : ''}
   `;
+
+  const jieqiVal = document.getElementById('jieqi-val');
+  if (jieqiVal && curData.jieQi) {
+    const formatJieQi = (item) => {
+      if (!item || !item.solar) return '';
+      const s = item.solar;
+      return `${item.name}${s.year}年${String(s.month).padStart(2, '0')}月${String(s.day).padStart(2, '0')}日 ${String(s.hour).padStart(2, '0')}时${String(s.minute).padStart(2, '0')}分`;
+    };
+    jieqiVal.innerHTML = [curData.jieQi.prev, curData.jieQi.next]
+      .map(formatJieQi)
+      .filter(Boolean)
+      .map(text => `<div>${text}</div>`)
+      .join('');
+  }
 
   const p = curData.pillars;
   const pillarArr = [
@@ -2329,6 +2390,9 @@ function renderResult() {
     <div class="dun-chip dc-font" onclick="changePlateFont(1)" title="放大字号"><span class="dc-value">A+</span></div>
   `;
 
+  document.querySelectorAll('.dun-toggle-btn').forEach(button => {
+    button.classList.toggle('active', button.dataset.dun === curData.activeDun);
+  });
   renderTraditionalPlate();
   showPage('result');
 }
@@ -2378,20 +2442,20 @@ function renderTraditionalPlate() {
       <div class="palace-tri">
         <div class="palace-left-mid">
           <div class="palace-row">
-            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-shen">${shen}</span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ling ? `<span class="pc-ling" title="点击查看灵盘状态" onclick="event.stopPropagation();showShengWang('ling',${cell.idx})">${ling}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-shen" title="灵盘">${shen}</span></div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ling ? `<span class="pc-ling" title="神盘">${ling}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
-            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-xing">${xing || '—'}</span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${tian ? `<span class="pc-tian" title="点击查看天盘状态" onclick="event.stopPropagation();showShengWang('tian',${cell.idx})">${tian}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-xing" title="星盘">${xing || '—'}</span></div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${tian ? `<span class="pc-tian" title="天盘">${tian}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
-            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}">${men ? getMenDisplay(men) : '—'}</span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ren ? `<span class="pc-ren" title="点击查看人盘状态" onclick="event.stopPropagation();showShengWang('ren',${cell.idx})">${ren}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-left"><div class="pc-row pc-row-left"><span class="pc-men m-${men || '中'}" title="门盘">${men ? getMenDisplay(men) : '—'}</span></div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${ren ? `<span class="pc-ren" title="人盘">${ren}</span>` : '<span></span>'}</div></div>
           </div>
           <div class="palace-row">
             <div class="palace-col-left"><div class="pc-row pc-row-left"><span></span></div></div>
-            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${di ? `<span class="pc-di" title="点击查看地盘状态" onclick="event.stopPropagation();showShengWang('di',${cell.idx})">${di}</span>` : '<span></span>'}</div></div>
+            <div class="palace-col-mid"><div class="pc-row pc-row-mid">${di ? `<span class="pc-di" title="地盘">${di}</span>` : '<span></span>'}</div></div>
           </div>
         </div>
         <div class="palace-col-right">
@@ -2640,7 +2704,7 @@ function detectPalaceAnno(palaceIdx, gan) {
 function collectPalaceAnnos(palace, idx) {
   const annos = [];
   const fields = [
-    { k: 'lingGan', n: '灵盘' },
+    { k: 'lingGan', n: '神盘' },
     { k: 'tianGan', n: '天盘' },
     { k: 'renPan', n: '人盘' },
     { k: 'diGan', n: '地盘' }
@@ -2769,13 +2833,13 @@ function showPalaceDetail(idx) {
   const isValor = valorGan && palace.diGan === valorGan.diGan;
 
   if (palace.shen && knowledge.shen && knowledge.shen[palace.shen]) {
-    details.push({ type: '八神', name: palace.shen, ...knowledge.shen[palace.shen] });
+    details.push({ type: '十三神', name: palace.shen, ...knowledge.shen[palace.shen] });
   }
   if (palace.xing && knowledge.xing && knowledge.xing[palace.xing]) {
-    details.push({ type: '九星', name: palace.xing, ...knowledge.xing[palace.xing] });
+    details.push({ type: '十三星', name: palace.xing, ...knowledge.xing[palace.xing] });
   }
   if (palace.men && knowledge.men && knowledge.men[palace.men]) {
-    details.push({ type: '八门', name: getMenDisplay(palace.men), ...knowledge.men[palace.men] });
+    details.push({ type: '十三门', name: getMenDisplay(palace.men), ...knowledge.men[palace.men] });
   }
 
   document.getElementById('modal-title').textContent = `第 ${idx + 1} 宫 · 洛${palace.luoshu}${palace.label}`;
@@ -2784,36 +2848,6 @@ function showPalaceDetail(idx) {
   const ganWX = knowledge.ganWuxing && knowledge.ganWuxing[palace.diGan];
   const content = document.getElementById('modal-content');
   let html = '';
-
-  // 四干状态与凶格标注
-  const gong = PALACE_TO_9GONG[idx] || '—';
-  const branch = PALACE_BRANCH[idx];
-  const fourGan = [
-    { k: 'lingGan', n: '灵盘' },
-    { k: 'tianGan', n: '天盘' },
-    { k: 'renPan', n: '人盘' },
-    { k: 'diGan', n: '地盘' }
-  ];
-  const annos = collectPalaceAnnos(palace, idx);
-  let ganStateHtml = '';
-  for (const fg of fourGan) {
-    const g = palace[fg.k];
-    if (!g) continue;
-    const st = branch ? swStateOf(g, branch) : null;
-    const anno = detectPalaceAnno(idx, g);
-    const stText = st ? ` · <span style="color:var(--gold)">${st}</span>` : '';
-    const annoBadge = anno ? `<span class="sw-badge ${anno.class}">${anno.name}</span>` : '';
-    ganStateHtml += `<div class="sw-anno-item" style="margin-bottom:5px"><b>${fg.n}</b>：${g}${stText}${annoBadge}</div>`;
-  }
-
-  html += `<div class="detail-block">
-    <div class="type">【本宫四干 · 映射${gong}】</div>
-    ${ganStateHtml || '<div class="sw-anno-item">本宫暂无四干信息</div>'}
-    ${annos.length ? `<div class="sw-anno-box" style="margin-top:10px">
-      <div class="sw-anno-title">凶格标注</div>
-      ${annos.map(a => `<div class="sw-anno-item"><b>${a.field}·${a.gan}</b>：${a.name} — ${a.desc}</div>`).join('')}
-    </div>` : ''}
-  </div>`;
 
   if (ganWX) {
     html += `<div class="detail-block">
@@ -2844,13 +2878,6 @@ function showPalaceDetail(idx) {
     <div class="type">【综合判定】</div>
     <div class="dname">此宫综合: <span class="dclass dclass-${totalCls}">${totalCls}</span></div>
     <div class="dadvice">${generateAdvice(palace, totalCls)}</div>
-  </div>`;
-
-  // 整体生旺死绝表（十干十二长生全表）
-  html += `<div class="detail-block">
-    <div class="type">【生旺死绝表 · 整体】</div>
-    ${buildSwTable(SW_GANS, palace.diGan)}
-    <div class="sw-note">注：十干十二长生全表；本宫地盘之干（${palace.diGan || '—'}）所在行已淡金高亮。阳干顺行、阴干逆行；金底列为长生、帝旺之位。</div>
   </div>`;
 
   content.innerHTML = html;
@@ -3163,8 +3190,14 @@ function buildPaipanHTML(data, opts) {
   if (input.name) baseInfoRows.push(`<div class="label">姓名</div><div class="value">${input.name}</div>`);
   if (input.gender) baseInfoRows.push(`<div class="label">性别</div><div class="value">${input.gender}</div>`);
   if (input.location) baseInfoRows.push(`<div class="label">出生地</div><div class="value">${input.location}</div>`);
-  baseInfoRows.push(`<div class="label">公历</div><div class="value">${input.year}年${input.month}月${input.day}日</div>`);
-  baseInfoRows.push(`<div class="label">时辰</div><div class="value">${String(input.hour).padStart(2,'0')}:${String(input.minute||0).padStart(2,'0')}</div>`);
+  if (data.lunar) baseInfoRows.push(`<div class="label">农历</div><div class="value">${data.lunar.year}年${data.lunar.month}月${data.lunar.day} ${data.lunar.hourZhi}时</div>`);
+  if (data.jieQi) {
+    const formatJieQi = item => item && item.solar
+      ? `${item.name}${item.solar.year}年${String(item.solar.month).padStart(2, '0')}月${String(item.solar.day).padStart(2, '0')}日 ${String(item.solar.hour).padStart(2, '0')}时${String(item.solar.minute).padStart(2, '0')}分`
+      : '';
+    const jieQiText = [data.jieQi.prev, data.jieQi.next].map(formatJieQi).filter(Boolean).join('；');
+    if (jieQiText) baseInfoRows.push(`<div class="label">节气</div><div class="value">${jieQiText}</div>`);
+  }
 
   const LAYOUT = [
     [{idx:0,pos:4,label:'尾'},{idx:1,pos:9,label:''},{idx:2,pos:2,label:'尾'},{idx:3,pos:2,label:'首'}],
@@ -3867,9 +3900,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // P1: 清除本地偏好（退出游客状态）——清除 localStorage 中昵称/头像/排盘输入偏好等
 function confirmLogout() {
   openConfirm('清除本地偏好', '确定要清除全部本地偏好数据吗？<br>将清除：当前昵称、头像、主题偏好、上次排盘输入、收藏标记等。<br>排盘历史记录如需一并清除，请在【排盘历史】页面操作。', function() {
-    // 本地游客模式：无 auth_token / user_info 概念，仅清除本地偏好
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_info');
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
+    if (token) fetch('/api/auth/logout', { method:'POST', headers:authHeaders() }).catch(() => {});
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(USER_INFO_KEY);
     // P1: 额外清除本地游客存储的昵称/头像/性别/生日/偏好
     localStorage.removeItem('profile_nickname');
     localStorage.removeItem('profile_avatar');
@@ -3960,6 +3994,97 @@ function refreshProfile() {
 }
 
 console.log('[APP] script start');
+
+const AUTH_TOKEN_KEY = 'auth_token';
+const USER_INFO_KEY = 'user_info';
+function authHeaders(extra) {
+  const headers = Object.assign({}, extra || {});
+  const token = localStorage.getItem(AUTH_TOKEN_KEY);
+  if (token) headers.Authorization = `Bearer ${token}`;
+  let device = localStorage.getItem('qimen_device_id');
+  if (!device) {
+    device = 'web-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
+    localStorage.setItem('qimen_device_id', device);
+  }
+  headers['X-Device-Id'] = device;
+  return headers;
+}
+function setAuthSession(data) {
+  localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+  localStorage.setItem(USER_INFO_KEY, JSON.stringify(data.user || {}));
+}
+function authMessage(text) {
+  const el = document.getElementById('auth-message');
+  if (el) el.textContent = text || '';
+}
+async function completeLogin(data) {
+  setAuthSession(data);
+  const gate = document.getElementById('auth-gate');
+  const opening = document.getElementById('opening-screen');
+  if (gate) gate.style.display = 'none';
+  if (opening) {
+    opening.style.display = 'flex';
+    await new Promise(resolve => setTimeout(resolve, 900));
+    opening.style.display = 'none';
+  }
+  renderProfile();
+  showPage('home');
+}
+async function accountLogin() {
+  const username = (document.getElementById('auth-username').value || '').trim();
+  const password = document.getElementById('auth-password').value || '';
+  if (!username || !password) return authMessage('请输入账号和密码');
+  authMessage('登录中...');
+  try {
+    const response = await fetch('/api/auth/account/login', {
+      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ username, password })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error || '登录失败');
+    await completeLogin(result.data);
+  } catch (error) { authMessage(error.message); }
+}
+async function accountRegister() {
+  const username = (document.getElementById('auth-username').value || '').trim();
+  const password = document.getElementById('auth-password').value || '';
+  if (!username || !password) return authMessage('请先输入要注册的账号和密码');
+  authMessage('注册中...');
+  try {
+    const response = await fetch('/api/auth/account/register', {
+      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ username, password })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error || '注册失败');
+    await completeLogin(result.data);
+  } catch (error) { authMessage(error.message); }
+}
+async function guestLogin() {
+  authMessage('正在进入游客模式...');
+  try {
+    const response = await fetch('/api/auth/guest', {
+      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error || '游客登录失败');
+    await completeLogin(result.data);
+  } catch (error) { authMessage(error.message); }
+}
+async function initAuth() {
+  const token = localStorage.getItem(AUTH_TOKEN_KEY);
+  if (!token) return;
+  try {
+    const response = await fetch('/api/auth/me', { headers: authHeaders() });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error('session expired');
+    localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data));
+    document.getElementById('auth-gate').style.display = 'none';
+  } catch (error) {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(USER_INFO_KEY);
+  }
+}
 
 /* ================================================
     Feature 1: AI 自动解读
@@ -4190,20 +4315,6 @@ function toggleInterpretExpand() {
   }
 }
 
-// Auto-trigger interpretation after paipan
-const _origPaipan = window.paipan;
-window.paipan = async function() {
-  if (typeof _origPaipan === 'function') {
-    await _origPaipan();
-  }
-  // Auto-generate interpretation after a short delay
-  setTimeout(() => {
-    if (curData && curData.pan) {
-      generateInterpret(false);
-    }
-  }, 800);
-};
-
 /* ================================================
    Feature 2: 收藏夹增强（标签/备注）
    ================================================ */
@@ -4310,6 +4421,7 @@ console.log('[APP] initAIAgent called');
 initSelects();
 initFeatureSelects();
 showPage('home');
+initAuth();
 
 /* ========================================================
  * 其他工具：四柱八字 / 紫微斗数 / 梅花易数 / 大六壬

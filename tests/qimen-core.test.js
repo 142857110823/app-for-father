@@ -105,3 +105,22 @@ test('同一时辰同时输出阳遁与阴遁两套结果', () => {
   assert.notDeepEqual(result.yangResult.palaces, result.yinResult.palaces, '两盘宫位内容应不同');
   assert.equal(result.pan.dun, result.yinResult.pan.dun, 'result.pan 应保持原自然遁');
 });
+
+test('完整排盘返回农历中文时间与前后节气', () => {
+  const result = fullPaiPanFromTime(2026, 8, 14, 12, 22);
+  assert.deepEqual(result.lunar, {
+    year: 2026,
+    yearGZ: '丙午',
+    month: '七',
+    day: '初二',
+    hourZhi: '午',
+    isLeap: false,
+  });
+  assert.equal(result.jieQi.prev.name, '立秋');
+  assert.equal(result.jieQi.prev.solar.year, 2026);
+  assert.equal(result.jieQi.prev.solar.hour, 19);
+  assert.equal(result.jieQi.prev.solar.minute, 42);
+  assert.equal(result.jieQi.next.name, '处暑');
+  assert.equal(result.jieQi.next.solar.hour, 10);
+  assert.equal(result.jieQi.next.solar.minute, 18);
+});

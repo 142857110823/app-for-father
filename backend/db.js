@@ -80,6 +80,16 @@ async function init() {
     )
   `);
 
+  await run(`
+    CREATE TABLE IF NOT EXISTS device_sessions (
+      device_id TEXT PRIMARY KEY,
+      user_id INTEGER,
+      first_login_at INTEGER NOT NULL,
+      last_seen_at INTEGER NOT NULL,
+      created_at INTEGER DEFAULT (strftime('%s','now'))
+    )
+  `);
+
   // 排盘历史记录
   await run(`
     CREATE TABLE IF NOT EXISTS history (
@@ -199,6 +209,9 @@ async function init() {
   const safeAlter = async (sql) => { try { await run(sql); } catch(e){} };
   await safeAlter(`ALTER TABLE users ADD COLUMN email_verified INTEGER DEFAULT 0`);
   await safeAlter(`ALTER TABLE users ADD COLUMN status INTEGER DEFAULT 1`);
+  await safeAlter(`ALTER TABLE users ADD COLUMN username TEXT`);
+  await safeAlter(`ALTER TABLE users ADD COLUMN is_guest INTEGER DEFAULT 0`);
+  await safeAlter(`CREATE UNIQUE INDEX IF NOT EXISTS users_username_unique ON users(username)`);
 
   console.log('数据库表初始化完成');
 }

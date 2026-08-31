@@ -80,6 +80,17 @@ function computePan(coreResult) {
   };
 }
 
+function serializeSolar(solar) {
+  if (!solar) return null;
+  return {
+    year: solar.getYear(),
+    month: solar.getMonth(),
+    day: solar.getDay(),
+    hour: solar.getHour(),
+    minute: solar.getMinute(),
+  };
+}
+
 /**
  * 完整排盘：公历时间 → 全盘信息
  * @param {number} year
@@ -104,6 +115,8 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
   // 日排局第 N 月 = 当天农历月份；取其农历实际天数用于尾簇截断
   const riPaiMonth = lunarMonth;
   const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
+  const prevJieQi = lunar.getPrevJieQi();
+  const nextJieQi = lunar.getNextJieQi();
 
   const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
   const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, '阳遁');
@@ -123,6 +136,18 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     paiJuMonth: riPaiMonth,
     paiJuMonthDays: riPaiMonthDays,
     extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+    lunar: {
+      year: lunar.getYear(),
+      yearGZ: lunar.getYearInGanZhi(),
+      month: lunar.getMonthInChinese(),
+      day: lunar.getDayInChinese(),
+      hourZhi: lunar.getTimeZhi(),
+      isLeap: lunar.getMonth() < 0,
+    },
+    jieQi: {
+      prev: prevJieQi ? { name: prevJieQi.getName(), solar: serializeSolar(prevJieQi.getSolar()) } : null,
+      next: nextJieQi ? { name: nextJieQi.getName(), solar: serializeSolar(nextJieQi.getSolar()) } : null,
+    },
     yangResult: computePan(yangResult),
     yinResult: computePan(yinResult)
   };

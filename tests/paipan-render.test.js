@@ -81,4 +81,29 @@ for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html'
       /#plate-table td\.center \.palace-left-mid\{[^}]*width:66%[^}]*grid-template-columns:1fr 1fr[^}]*\}/,
     );
   });
+
+  test(`${relativePath} exposes the new dual-dun result UI contract`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    const resultPage = html.slice(html.indexOf('<div id="page-result"'), html.indexOf('<div id="page-history"'));
+    const plateRenderer = html.slice(html.indexOf('function renderTraditionalPlate()'), html.indexOf('function getKongWang'));
+    const exportRenderer = html.slice(html.indexOf('function buildPaipanHTML'), html.indexOf('function buildPaipanHTML') + 16000);
+    assert.match(html, /class="dun-toggle-bar"/);
+    assert.match(html, /data-dun="阳遁"/);
+    assert.match(html, /data-dun="阴遁"/);
+    assert.match(html, /fullPaiPanFromTime/);
+    assert.match(html, /神盘/);
+    assert.match(html, /title="神盘"/);
+    assert.match(html, /title="灵盘"/);
+    assert.doesNotMatch(resultPage, /id="ai-interpret"/);
+    assert.doesNotMatch(plateRenderer, /showShengWang\(/);
+    assert.doesNotMatch(plateRenderer, /【六合关系】|【生旺死绝表|【天盘各宫之干】/);
+    assert.doesNotMatch(resultPage, /<div class="ig-lbl">公历<\/div>|<div class="ig-lbl">时辰<\/div>/);
+    assert.doesNotMatch(html.slice(html.indexOf('function renderResult'), html.indexOf('function getMenDisplay')), /ig-lbl">公历|ig-lbl">时辰/);
+    assert.doesNotMatch(exportRenderer, /baseInfoRows\.push\([^;]*公历|baseInfoRows\.push\([^;]*时辰/);
+    assert.match(html, /type: '十三神'/);
+    assert.match(html, /type: '十三星'/);
+    assert.match(html, /type: '十三门'/);
+    assert.match(html, /\.pc-shen\{[^}]*color:var\(--ink\)/);
+    assert.match(html, /\.pc-ling\{[^}]*color:var\(--ink\)/);
+  });
 }

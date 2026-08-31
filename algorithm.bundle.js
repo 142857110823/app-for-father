@@ -12582,6 +12582,16 @@ var QiMenAlgorithmBundle = (() => {
           palaces: coreResult.palaces
         };
       }
+      function serializeSolar(solar) {
+        if (!solar) return null;
+        return {
+          year: solar.getYear(),
+          month: solar.getMonth(),
+          day: solar.getDay(),
+          hour: solar.getHour(),
+          minute: solar.getMinute()
+        };
+      }
       function fullPaiPanFromTime(year, month, day, hour, minute) {
         const pillars = getFourPillars(year, month, day, hour, minute);
         const pillarArr = [pillars.year, pillars.month, pillars.day, pillars.time];
@@ -12594,6 +12604,8 @@ var QiMenAlgorithmBundle = (() => {
         const shiZhi = pillars.zhi.time;
         const riPaiMonth = lunarMonth;
         const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
+        const prevJieQi = lunar.getPrevJieQi();
+        const nextJieQi = lunar.getNextJieQi();
         const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
         const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9633\u9041");
         const yinResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9634\u9041");
@@ -12611,6 +12623,18 @@ var QiMenAlgorithmBundle = (() => {
           paiJuMonth: riPaiMonth,
           paiJuMonthDays: riPaiMonthDays,
           extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+          lunar: {
+            year: lunar.getYear(),
+            yearGZ: lunar.getYearInGanZhi(),
+            month: lunar.getMonthInChinese(),
+            day: lunar.getDayInChinese(),
+            hourZhi: lunar.getTimeZhi(),
+            isLeap: lunar.getMonth() < 0
+          },
+          jieQi: {
+            prev: prevJieQi ? { name: prevJieQi.getName(), solar: serializeSolar(prevJieQi.getSolar()) } : null,
+            next: nextJieQi ? { name: nextJieQi.getName(), solar: serializeSolar(nextJieQi.getSolar()) } : null
+          },
           yangResult: computePan(yangResult),
           yinResult: computePan(yinResult)
         };

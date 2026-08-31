@@ -113,6 +113,26 @@ tr:hover { background: #f9f9f9; }
 .login-box button:hover { background: #a0750a; }
 
 .empty-state { text-align: center; padding: 40px; color: #888; }
+@media (max-width: 700px) {
+  .sidebar { width: 64px; padding-top: 12px; }
+  .sidebar-logo { padding: 0 8px 12px; font-size: 0; text-align: center; }
+  .sidebar-logo::before { content: "道"; font-size: 18px; color: #fff; }
+  .sidebar-logo span { display: none; }
+  .sidebar-menu li { justify-content: center; padding: 12px 4px; }
+  .sidebar-menu li .icon { width: auto; font-size: 17px; }
+  .sidebar-menu li { font-size: 0; }
+  .header { padding: 12px 14px; }
+  .header h1 { font-size: 18px; }
+  .header-right { gap: 8px; }
+  .header-right .user span { display: none; }
+  .header-right .avatar { width: 28px; height: 28px; }
+  .content { padding: 14px 10px; min-width: 0; }
+  .stats-grid, .charts-grid { grid-template-columns: 1fr; gap: 10px; }
+  .stat-card, .chart-card { padding: 14px; }
+  .stat-card .value { font-size: 24px; }
+  .table-container { overflow-x: auto; }
+  .table-container table { min-width: 720px; }
+}
 </style>
 </head>
 <body>
@@ -122,11 +142,18 @@ tr:hover { background: #f9f9f9; }
     <h1>🔮 管理后台</h1>
     <p class="subtitle">道家奇门遁甲排盘系统</p>
     <div class="form-group">
+      <label>访问密钥</label>
+      <input type="password" id="admin-access-key" placeholder="请输入访问密钥" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>管理员账号</label>
+      <input type="text" id="admin-username" placeholder="请输入管理员账号" autocomplete="username">
+    </div>
+    <div class="form-group">
       <label>管理员密码</label>
-      <input type="password" id="admin-password" placeholder="请输入管理员密码">
+      <input type="password" id="admin-password" placeholder="请输入管理员密码" autocomplete="current-password">
     </div>
     <button onclick="adminLogin()">登 录</button>
-    <p style="margin-top:16px;font-size:12px;color:#999;text-align:center">默认密码：admin888</p>
   </div>
 </div>
 
@@ -185,6 +212,26 @@ tr:hover { background: #f9f9f9; }
             <div class="value" id="stat-vip-users">0</div>
             <div class="change">近7日活跃 <span id="stat-active-7d">0</span></div>
           </div>
+          <div class="stat-card">
+            <div class="label">阳遁排盘</div>
+            <div class="value" id="stat-yang-paipan">0</div>
+            <div class="change">历史累计</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">阴遁排盘</div>
+            <div class="value" id="stat-yin-paipan">0</div>
+            <div class="change">历史累计</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">有效会员</div>
+            <div class="value" id="stat-active-members">0</div>
+            <div class="change">7日内到期 <span id="stat-expiring-members">0</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="label">订单与收入</div>
+            <div class="value" id="stat-paid-orders">0</div>
+            <div class="change">待支付 <span id="stat-pending-orders">0</span> · ¥<span id="stat-revenue">0.00</span></div>
+          </div>
         </div>
 
         <div class="charts-grid">
@@ -195,6 +242,16 @@ tr:hover { background: #f9f9f9; }
           <div class="chart-card">
             <h3>活跃用户排行</h3>
             <div id="active-users-list" style="max-height: 200px; overflow-y: auto;"></div>
+          </div>
+        </div>
+        <div class="charts-grid" style="margin-top:16px">
+          <div class="chart-card">
+            <h3>最近排盘</h3>
+            <div id="recent-history-list"></div>
+          </div>
+          <div class="chart-card">
+            <h3>最近订单</h3>
+            <div id="recent-orders-list"></div>
           </div>
         </div>
       </div>
@@ -428,7 +485,7 @@ tr:hover { background: #f9f9f9; }
 </div>
 
 <script>
-let adminToken = localStorage.getItem('admin_token');
+let adminToken = sessionStorage.getItem('admin_token');
 
 async function api(url, options = {}) {
   const headers = { 'Content-Type': 'application/json' };
@@ -444,18 +501,20 @@ async function api(url, options = {}) {
 }
 
 async function adminLogin() {
+  const accessKey = document.getElementById('admin-access-key').value.trim();
+  const username = document.getElementById('admin-username').value.trim();
   const password = document.getElementById('admin-password').value.trim();
-  if (!password) { alert('请输入密码'); return; }
+  if (!accessKey || !username || !password) { alert('请输入访问密钥、账号和密码'); return; }
   try {
     const res = await fetch('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
+      body: JSON.stringify({ accessKey, username, password })
     });
     const data = await res.json();
     if (data.ok) {
       adminToken = data.data.token;
-      localStorage.setItem('admin_token', adminToken);
+      sessionStorage.setItem('admin_token', adminToken);
       document.getElementById('login-page').style.display = 'none';
       document.getElementById('admin-layout').style.display = 'flex';
       loadDashboard();
@@ -469,7 +528,7 @@ async function adminLogin() {
 
 function adminLogout() {
   adminToken = null;
-  localStorage.removeItem('admin_token');
+  sessionStorage.removeItem('admin_token');
   document.getElementById('login-page').style.display = 'flex';
   document.getElementById('admin-layout').style.display = 'none';
 }
@@ -549,9 +608,16 @@ async function loadDashboard() {
   document.getElementById('stat-today-users').textContent = d.users.today;
   document.getElementById('stat-total-paipan').textContent = d.paipan.total;
   document.getElementById('stat-today-paipan').textContent = d.paipan.today;
+  document.getElementById('stat-yang-paipan').textContent = d.paipan.yang;
+  document.getElementById('stat-yin-paipan').textContent = d.paipan.yin;
   document.getElementById('stat-total-ai').textContent = d.ai.total;
   document.getElementById('stat-today-ai').textContent = d.ai.today;
   document.getElementById('stat-vip-users').textContent = d.vip_users;
+  document.getElementById('stat-active-members').textContent = d.membership.active;
+  document.getElementById('stat-expiring-members').textContent = d.membership.expiring_7d;
+  document.getElementById('stat-paid-orders').textContent = d.orders.paid;
+  document.getElementById('stat-pending-orders').textContent = d.orders.pending;
+  document.getElementById('stat-revenue').textContent = (d.orders.revenue_cent / 100).toFixed(2);
   document.getElementById('stat-active-7d').textContent = d.active_7d;
 
   // Trend chart
@@ -575,6 +641,19 @@ async function loadDashboard() {
   } else {
     document.getElementById('active-users-list').innerHTML = '<div class="empty-state">暂无数据</div>';
   }
+
+  document.getElementById('recent-history-list').innerHTML = (d.recent_history || []).map(h => `
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px">
+      <span>${h.title || '未命名排盘'} · ${h.user_nickname || '游客'}</span>
+      <strong>${h.dun || '-'}${h.ju || '-'}局</strong>
+    </div>
+  `).join('') || '<div class="empty-state">暂无数据</div>';
+  document.getElementById('recent-orders-list').innerHTML = (d.recent_orders || []).map(o => `
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px">
+      <span>${o.order_no} · ${o.user_nickname || '游客'}</span>
+      <strong>¥${(o.amount_cent / 100).toFixed(2)}</strong>
+    </div>
+  `).join('') || '<div class="empty-state">暂无数据</div>';
 }
 
 async function loadUsers(page = 1) {

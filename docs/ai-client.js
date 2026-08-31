@@ -72,9 +72,15 @@
 
     const endpoint = settings.endpoint || getDefaultEndpoint();
     try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('auth_token') : '';
+      const deviceId = typeof localStorage !== 'undefined' ? localStorage.getItem('qimen_device_id') : '';
       const response = await fetchImpl(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: Object.assign(
+          { 'Content-Type': 'application/json' },
+          token ? { Authorization: `Bearer ${token}` } : {},
+          deviceId ? { 'X-Device-Id': deviceId } : {}
+        ),
         body: JSON.stringify({ messages }),
       });
       return parseJsonResponse(response);

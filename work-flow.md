@@ -4,6 +4,39 @@
 
 ---
 
+## 2026-08-31｜账号登录、游客模式与设备 1 天限制
+
+**【时间】** 2026-08-31（Asia/Shanghai）  
+**【事件】** 按用户最新要求完善账号密码登录、游客登录、登录后开场界面、核心接口认证和设备 1 天试用限制。  
+**【问题来源】** 用户要求登录后使用全部功能；无 VIP/管理员身份的设备仅允许使用 1 天；十三宫页面删除八门、九星、八神错误分类表述。  
+**【执行方向】**
+1. 新增独立账号 `username + password` 注册/登录和游客登录接口。
+2. 统一使用服务端 JWT + SQLite 会话，核心排盘与 AI 接口要求登录。
+3. 新增 `device_sessions` 记录设备首次登录时间，普通用户/游客超过 24 小时拒绝继续使用；有效 VIP 与管理员等级不受限。
+4. 首页增加登录闸门与登录后的“道家奇门遁甲 · 十三宫 · 起局”开场过渡。
+5. 同步根目录、`public/`、`docs/` 静态首页资源。
+6. 将 2026-08-29 设备锁定设计修订为 1 天，并以服务端判定为准。
+**【执行边界】**
+- 不打印、不提交管理员明文凭据、API 密钥和本地凭据文件。
+- 保留十三宫真实十三神、十三星、十三门数据，只删除错误的八门/九星/八神分类文案。
+- 不回滚用户原有未提交改动。
+**【执行结果】**
+- 新增 `/api/auth/account/register`、`/api/auth/account/login`、`/api/auth/guest`。
+- `/api/paipan`、`/api/chat` 与既有用户路由统一接入会话和设备期限检查。
+- `public/index.html` 增加登录闸门、游客入口和登录后开场界面。
+- `backend/db.js` 增加 `device_sessions`，用户表兼容 `username`、`is_guest` 字段。
+- 设备设计文档已从 3 天修订为 1 天。
+**【执行验证】**
+- `server.js`、`backend/middleware.js`、`backend/routes/auth.js` 语法检查通过。
+- 未携带令牌访问 `/api/paipan` 返回 HTTP 401。
+- 游客登录成功，`isGuest=True`；游客会话访问 `/api/auth/me` 与 `/api/paipan` 均成功。
+- 账号注册和账号密码登录均成功返回令牌。
+- 页面静态检查确认存在 `auth-gate`、`opening-screen`、`账号密码登录`、`游客登录`，且不含八门/九星/八神分类 type。
+- Node 内置测试隔离进程在当前 Windows 环境返回 `spawn EPERM`，故未将其伪报为通过；已使用直接模块检查和真实 HTTP 请求替代验证。
+**【相关文档】** `backend/db.js`、`backend/middleware.js`、`backend/routes/auth.js`、`server.js`、`public/index.html`、`ai-client.js`、`docs/superpowers/specs/2026-08-29-device-trial-lock-design.md`、`work-flow.md`
+
+---
+
 ## 项目信息
 
 | 项目 | 内容 |
@@ -1371,3 +1404,82 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 单元测试覆盖前言示例与自然遁/强制双遁断言。
 - 无 UI 预览任务，未启动本地服务器。
 **【相关文档】** `algorithm/pillars.js`、`algorithm/qimen.js`、`tests/qimen-core.test.js`、`work-flow.md`
+
+
+### 2026-08-30 排盘结果 UI/算法调整：双遁切换、农历节气与黑色统一
+
+**【时间】** 2026-08-30 19:20（Asia/Shanghai）
+**【事件】** 按用户最新要求完成排盘结果页 7 项调整，并确认 `docs/superpowers/specs/2026-08-29-device-trial-lock-design.md` 不受影响。
+**【问题来源】** 用户消息及 `docs/superpowers/plans/2026-08-29-paipan-ui-overhaul.md`；权威依据为排盘文档、阴遁 5 局文档、天罡文档和 AGENTS。
+**【执行方向】**
+1. `fullPaiPanFromTime` 同时返回阳遁/阴遁结果，保留三奇顺序差异和正逆排布。
+2. 基础信息增加农历年月日时与前后节气的公历日期、时分。
+3. 结果页增加阳遁/阴遁切换条，按当前选择渲染对应宫位。
+4. 删除结果页智能解读面板及自动触发包装；宫位字段点击不再打开生旺死绝、六合或各宫之干内容。
+5. 中列标签统一为神盘/天盘/人盘/地盘，左列语义统一为灵盘/星盘/门盘；排盘表文字改为黑色。
+6. 同步根目录、`public/`、`docs/` 三处 HTML 和算法 bundle。
+**【执行边界】**
+- 不改设备试用锁、URL、会员、AI 对话浮窗、天罡算法和日排局核心规则。
+- 不覆盖工作区中与本次无关的未提交文件。
+**【执行结果】**
+- 修改 `algorithm/pillars.js`、`public/index.html`、`tests/qimen-core.test.js`、`tests/paipan-render.test.js`，并同步三处页面入口和 bundle。
+- 同一时辰 2026-08-14 12:22 同时输出阳遁 4 局和阴遁 5 局；示例①仍为阳遁 5 局，示例②仍为阴遁 5 局。
+- 结果页显示“2026年七月初二 午时”、立秋 2026年08月07日 19时42分、处暑 2026年08月23日 10时18分。
+**【执行验证】**
+- `node algorithm/qimen.js` 通过；`node tests/qimen-core.test.js` 直接执行 6/6 通过；`node tests/paipan-render.test.js` 18/18 通过；`node --check` 通过；`npm run build:browser` 通过。
+- 真实页面 `http://localhost:8090/` 于 2026-08-30 19:20 验证：桌面 1280×1000 与窄屏 375×812；13 宫完整、无横向溢出、宫位边界无越界；切换按钮可由阴遁 5 局切换到阳遁 4 局；弹窗不含被删除的三类内容。
+- 截图证据：`artifacts/paipan-overhaul-desktop-20260830-final.png`、`artifacts/paipan-overhaul-mobile-20260830-final.png`。
+- Node `--test` 在当前 Windows 沙箱中因 `spawn EPERM` 无法运行；改为直接执行测试文件后结果正常。
+- 现有 `node algorithm/test.js` 仍报告 12 个历史日排局参考差异，属于本次改造前已存在的参考文件不一致，未将其伪报为通过。
+**【相关文档】** `AGENTS.md`、`排盘-【阴盘-阳遁-5局】.docx`、`排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`天罡.docx`、`docs/superpowers/specs/2026-08-29-device-trial-lock-design.md`、`docs/superpowers/plans/2026-08-29-paipan-ui-overhaul.md`、`algorithm/pillars.js`、`public/index.html`、`tests/qimen-core.test.js`、`tests/paipan-render.test.js`、`work-flow.md`
+
+### 2026-08-30 管理员后台认证与仪表盘完善、十三宫文案修订
+
+**【时间】** 2026-08-30
+**【事件】** 执行用户确认的管理员后台与十三宫页面改造。
+**【问题来源】** 用户要求删除结果页基础信息中的公历/时辰、修正八门/九星/八神分类表述、完善后端仪表盘、管理员登录必须弹窗输入密钥。
+**【执行方向】**
+1. 排盘结果及导出基础信息保留农历和节气，删除公历、时辰。
+2. 宫位详情分类改为十三神、十三星、十三门。
+3. 新增管理员访问密钥、账号、密码三项认证；后端使用哈希凭据和签名 JWT。
+4. 仪表盘增加阳遁/阴遁、有效会员、即将到期会员、订单收入、最近排盘、最近订单和系统状态统计。
+5. 移动端后台收窄侧栏，避免 375px 视口横向溢出。
+**【执行边界】**
+- 管理入口保持 `/admin`；设备试用锁设计、普通用户认证和页面 URL 不改。
+- 凭据文件 `admin-credentials.local.json` 已加入忽略规则，不进入前端和 Git。
+- 保留工作区已有的无关未提交文件，不执行回滚或清理。
+**【执行结果】**
+- 管理员账号配置为 `admin`，认证流程要求访问密钥、账号、密码同时正确。
+- 管理员令牌改为 8 小时有效的 `role=admin` JWT，并使用 `sessionStorage` 保存。
+- `/api/admin/stats` 返回用户、排盘、会员、订单、趋势、最近活动和系统状态数据。
+- 根目录、`public/`、`docs/` 三处首页和后台页面已同步。
+**【执行验证】**
+- `npm test` 通过；新增管理员认证 2/2、后台页面 3/3、仪表盘 1/1、排盘页面 18/18 测试通过。
+- 接口验证：无令牌 401，错误凭据 401，正确凭据 200，统计接口 200。
+- 真实页面验证时间：2026-08-30；桌面 1280×900，窄屏 375×812；排盘结果无公历/时辰，后台登录弹窗三字段完整，仪表盘 8 张统计卡片加载成功，窄屏无横向溢出。
+- 截图证据：`artifacts/verify-admin-redesign-result-desktop.png`、`artifacts/verify-admin-dashboard-desktop.png`、`artifacts/verify-admin-login-mobile.png`、`artifacts/verify-admin-dashboard-mobile.png`。
+- 当前提交号：`bd07db3`；本次改动未创建新提交。
+**【相关文档】** `docs/superpowers/specs/2026-08-30-admin-dashboard-security-design.md`、`docs/superpowers/plans/2026-08-30-admin-dashboard-security.md`、`backend/admin-auth.js`、`backend/routes/admin.js`、`public/admin.html`、`public/index.html`、`tests/admin-auth.test.js`、`tests/admin-page.test.js`、`tests/admin-dashboard.test.js`、`tests/paipan-render.test.js`、`work-flow.md`
+
+### 2026-08-30 联系我们二维码替换
+
+**【时间】** 2026-08-30（Asia/Shanghai）
+**【事件】** 按用户确认，将【我的】→【联系我们】中的旧二维码替换为本次提供的新二维码。
+**【问题来源】** 用户提供的二维码图片及替换要求。
+**【执行方向】**
+1. 保持现有文件名 `二维码.jpg`、页面引用、文案、布局、预览、保存和转发逻辑不变。
+2. 将新二维码同步写入根目录、`public/`、`docs/` 三处资源位置。
+3. 启动本地页面，在桌面端和窄屏端进入【我的】检查二维码实际加载与显示。
+**【执行边界】**
+- 仅替换二维码图片资源并追加本次工作流记录。
+- 不修改【联系我们】以外的页面、算法、接口和交互。
+**【执行结果】**
+- 三处 `二维码.jpg` 已替换为用户提供图片，图片尺寸为 `737×1027`。
+- 三处页面仍统一引用 `二维码.jpg`，未改变现有功能代码。
+**【执行验证】**
+- 替换前三处旧资源哈希一致；替换后三处新资源 SHA256 均为 `1B04C29B30C3D787DD996686A0D8CF77C1E58EEF062D7CCF16F792270B3770C7`。
+- 本地资源请求 `http://localhost:8090/二维码.jpg` 返回 HTTP `200`，`Content-Type=image/jpeg`，响应长度 `95521` 字节。
+- 真实 Edge 页面验证时间：2026-08-30；桌面窗口截图确认进入【我的】后【联系我们】模块位置、文案和布局保持不变，新二维码正常显示，截图为 `artifacts/contact-qr-local-profile.png`。
+- 窄屏自动化因当前 Windows 沙箱阻止无头浏览器启动（`spawn EPERM`），且 Edge 启动参数未能改变现有窗口尺寸，无法确认 375×812 独立视口截图；未将其伪报为通过。
+- 当前提交号：`bd07db3`；本次改动未创建新提交。
+**【相关文档】** `index.html`、`public/index.html`、`docs/index.html`、`二维码.jpg`、`public/二维码.jpg`、`docs/二维码.jpg`、`work-flow.md`

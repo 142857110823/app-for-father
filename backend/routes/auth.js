@@ -4,11 +4,54 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { get, run } = require('../db');
-const { JWT_SECRET, authDb } = require('../middleware');
+const { JWT_SECRET, authDb, checkDeviceAccess } = require('../middleware');
 
 const router = express.Router();
 const SALT_ROUNDS = 10;
 const TOKEN_DAYS = 30;
+
+function validateUsername(username) {
+  return typeof username === 'string' && /^[a-zA-Z0-9_]{3,32}$/.test(username);
+}
+
+async function loginResponse(user, req, res) {
+  const access = await checkDeviceAccess(req, user.id);
+  if (!access.ok) return res.status(403).json({ ok: false, error: access.error, code: access.code });
+  const token = await createSession(user.id, req);
+  await run('UPDATE users SET last_login_at = ? WHERE id = ?', [Date.now() / 1000, user.id]);
+  return res.json({ ok: true, data: { user: publicUser(user), token, isGuest: !!user.is_guest } });
+}
+
+router.post('/guest', async (req, res) => {
+  try {
+    const result = await run('INSERT INTO users (nickname, ai_quota, is_guest) VALUES (?, ?, 1)', ['游客', 10]);
+    const user = await get('SELECT * FROM users WHERE id = ?', [result.lastID]);
+    return loginResponse(user, req, res);
+  } catch (e) { return res.status(500).json({ ok: false, error: e.message }); }
+});
+
+router.post('/account/register', async (req, res) => {
+  try {
+    const { username, password } = req.body || {};
+    if (!validateUsername(username)) return res.status(400).json({ ok: false, error: '账号需为3-32位字母、数字或下划线' });
+    if (typeof password !== 'string' || password.length < 6) return res.status(400).json({ ok: false, error: '密码不少于6位' });
+    if (await get('SELECT id FROM users WHERE username = ?', [username])) return res.status(409).json({ ok: false, error: '账号已存在' });
+    const hash = await bcrypt.hash(password, SALT_ROUNDS);
+    const result = await run('INSERT INTO users (username, password_hash, nickname, ai_quota) VALUES (?, ?, ?, ?)', [username, hash, username, 10]);
+    return loginResponse(await get('SELECT * FROM users WHERE id = ?', [result.lastID]), req, res);
+  } catch (e) { return res.status(500).json({ ok: false, error: e.message }); }
+});
+
+router.post('/account/login', async (req, res) => {
+  try {
+    const { username, password } = req.body || {};
+    const user = await get('SELECT * FROM users WHERE username = ?', [username]);
+    if (!user || !user.password_hash || !(await bcrypt.compare(password || '', user.password_hash))) {
+      return res.status(401).json({ ok: false, error: '账号或密码错误' });
+    }
+    return loginResponse(user, req, res);
+  } catch (e) { return res.status(500).json({ ok: false, error: e.message }); }
+});
 
 // 发送短信验证码（占位：实际接入短信服务商）
 router.post('/sms-code', async (req, res) => {
@@ -158,6 +201,8 @@ function publicUser(user) {
     member_level: user.member_level,
     member_expire_at: user.member_expire_at,
     ai_quota: user.ai_quota,
+    username: user.username,
+    is_guest: !!user.is_guest,
     created_at: user.created_at,
     last_login_at: user.last_login_at
   };

@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { fullPaiPan } = require('./algorithm/pillars');
 const { init } = require('./backend/db');
+const { authDb } = require('./backend/middleware');
 const authRouter = require('./backend/routes/auth');
 const userRouter = require('./backend/routes/user');
 const historyRouter = require('./backend/routes/history');
@@ -69,7 +70,7 @@ app.use('/api/notification', notificationRouter);
 app.use('/api/admin', adminRouter);
 
 // 排盘 API（兼容旧版，无需登录）
-app.get('/api/paipan', (req, res) => {
+app.get('/api/paipan', authDb, (req, res) => {
   try {
     const y = parseInt(req.query.y);
     const m = parseInt(req.query.m);
@@ -87,7 +88,7 @@ app.get('/api/paipan', (req, res) => {
 });
 
 // AI 对话代理 API（兼容旧版，无需登录）
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', authDb, async (req, res) => {
   try {
     if (!AI_API_KEY) {
       return res.status(500).json({ ok: false, error: 'AI API 密钥未配置' });

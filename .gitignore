@@ -29,6 +29,7 @@ server.log
 
 # Secrets
 API密钥.txt
+admin-credentials.local.json
 
 # Temporary / local
 .superpowers/

@@ -1,43 +1,30 @@
 // 管理与统计路由
 const express = require('express');
 const { get, all, run } = require('../db');
-const { authDb } = require('../middleware');
+const { adminOnly, loginAdmin } = require('../admin-auth');
 
 const router = express.Router();
-const ADMIN_PASSWORD = 'admin888';
 
-// 管理员登录（固定密码）
-router.post('/login', async (req, res) => {
-  const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    const token = Buffer.from(`admin_${Date.now()}`).toString('base64');
-    res.json({ ok: true, data: { token } });
-  } else {
-    res.status(401).json({ ok: false, error: '密码错误' });
-  }
-});
-
-// 管理员校验：固定密码验证
-async function adminOnly(req, res, next) {
-  const header = req.headers.authorization || '';
-  const token = header.startsWith('Bearer ') ? header.slice(7) : '';
-  if (!token) return res.status(401).json({ ok: false, error: '未登录' });
-  if (!token.startsWith('YWRtaW5f')) {
-    return res.status(403).json({ ok: false, error: '无权限' });
-  }
-  next();
-}
+router.post('/login', loginAdmin);
 
 // ========== 数据统计总览 ==========
-router.get('/stats', authDb, adminOnly, async (req, res) => {
+router.get('/stats', adminOnly, async (req, res) => {
   try {
     const totalUsers = await get('SELECT COUNT(*) as c FROM users');
     const todayUsers = await get('SELECT COUNT(*) as c FROM users WHERE created_at > ?', [Date.now() / 1000 - 86400]);
     const totalPaipan = await get('SELECT COUNT(*) as c FROM history WHERE deleted = 0');
     const todayPaipan = await get('SELECT COUNT(*) as c FROM history WHERE deleted = 0 AND created_at > ?', [Date.now() / 1000 - 86400]);
+    const yangPaipan = await get("SELECT COUNT(*) as c FROM history WHERE deleted = 0 AND dun LIKE '%阳遁%'", []);
+    const yinPaipan = await get("SELECT COUNT(*) as c FROM history WHERE deleted = 0 AND dun LIKE '%阴遁%'", []);
     const totalAi = await get('SELECT COUNT(*) as c FROM ai_chats WHERE role = "assistant"');
     const todayAi = await get('SELECT COUNT(*) as c FROM ai_chats WHERE role = "assistant" AND created_at > ?', [Date.now() / 1000 - 86400]);
     const active7d = await get('SELECT COUNT(DISTINCT user_id) as c FROM operation_logs WHERE created_at > ?', [Date.now() / 1000 - 7 * 86400]);
+    const now = Math.floor(Date.now() / 1000);
+    const activeMembers = await get("SELECT COUNT(*) as c FROM users WHERE member_level != 'free' AND member_expire_at > ?", [now]);
+    const expiringMembers = await get("SELECT COUNT(*) as c FROM users WHERE member_level != 'free' AND member_expire_at > ? AND member_expire_at <= ?", [now, now + 7 * 86400]);
+    const pendingOrders = await get("SELECT COUNT(*) as c FROM orders WHERE status = 'pending'");
+    const paidOrders = await get("SELECT COUNT(*) as c FROM orders WHERE status = 'paid'");
+    const revenue = await get("SELECT COALESCE(SUM(amount_cent), 0) as c FROM orders WHERE status = 'paid'");
 
     // 近 7 天排盘趋势
     const trend = [];
@@ -50,16 +37,31 @@ router.get('/stats', authDb, adminOnly, async (req, res) => {
 
     // 会员统计
     const vipUsers = await get("SELECT COUNT(*) as c FROM users WHERE member_level != 'free'");
+    const recentHistory = await all(`
+      SELECT h.id, h.title, h.solar_date, h.dun, h.ju, h.created_at, u.nickname as user_nickname
+      FROM history h LEFT JOIN users u ON u.id = h.user_id
+      WHERE h.deleted = 0 ORDER BY h.created_at DESC LIMIT 8
+    `);
+    const recentOrders = await all(`
+      SELECT o.order_no, o.plan_code, o.amount_cent, o.status, o.created_at, u.nickname as user_nickname
+      FROM orders o LEFT JOIN users u ON u.id = o.user_id
+      ORDER BY o.created_at DESC LIMIT 8
+    `);
 
     res.json({
       ok: true,
       data: {
         users: { total: totalUsers.c, today: todayUsers.c },
-        paipan: { total: totalPaipan.c, today: todayPaipan.c },
+        paipan: { total: totalPaipan.c, today: todayPaipan.c, yang: yangPaipan.c, yin: yinPaipan.c },
         ai: { total: totalAi.c, today: todayAi.c },
         active_7d: active7d.c,
         vip_users: vipUsers.c,
-        trend
+        membership: { active: activeMembers.c, expiring_7d: expiringMembers.c },
+        orders: { pending: pendingOrders.c, paid: paidOrders.c, revenue_cent: revenue.c },
+        trend,
+        recent_history: recentHistory,
+        recent_orders: recentOrders,
+        system: { uptime_seconds: Math.floor(process.uptime()), database: 'SQLite', status: 'running' },
       }
     });
   } catch (e) {
@@ -68,7 +70,7 @@ router.get('/stats', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 用户管理 ==========
-router.get('/users', authDb, adminOnly, async (req, res) => {
+router.get('/users', adminOnly, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.page_size) || 20;
@@ -96,7 +98,7 @@ router.get('/users', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.get('/users/:id', authDb, adminOnly, async (req, res) => {
+router.get('/users/:id', adminOnly, async (req, res) => {
   try {
     const user = await get('SELECT * FROM users WHERE id = ?', [req.params.id]);
     if (!user) return res.status(404).json({ ok: false, error: '用户不存在' });
@@ -111,7 +113,7 @@ router.get('/users/:id', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.put('/users/:id', authDb, adminOnly, async (req, res) => {
+router.put('/users/:id', adminOnly, async (req, res) => {
   try {
     const { nickname, member_level, member_expire_at, ai_quota } = req.body;
     const updates = [];
@@ -130,7 +132,7 @@ router.put('/users/:id', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.delete('/users/:id', authDb, adminOnly, async (req, res) => {
+router.delete('/users/:id', adminOnly, async (req, res) => {
   try {
     // 软删除 - 清除敏感信息
     await run('UPDATE users SET phone = NULL, email = NULL, wx_openid = NULL, qq_openid = NULL WHERE id = ?', [req.params.id]);
@@ -141,7 +143,7 @@ router.delete('/users/:id', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 排盘记录管理 ==========
-router.get('/history', authDb, adminOnly, async (req, res) => {
+router.get('/history', adminOnly, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.page_size) || 20;
@@ -169,7 +171,7 @@ router.get('/history', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.delete('/history/:id', authDb, adminOnly, async (req, res) => {
+router.delete('/history/:id', adminOnly, async (req, res) => {
   try {
     await run('UPDATE history SET deleted = 1 WHERE id = ?', [req.params.id]);
     res.json({ ok: true });
@@ -179,7 +181,7 @@ router.delete('/history/:id', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 订单管理 ==========
-router.get('/orders', authDb, adminOnly, async (req, res) => {
+router.get('/orders', adminOnly, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.page_size) || 20;
@@ -208,7 +210,7 @@ router.get('/orders', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 会员套餐管理 ==========
-router.get('/plans', authDb, adminOnly, async (req, res) => {
+router.get('/plans', adminOnly, async (req, res) => {
   try {
     const plans = await all('SELECT * FROM membership_plans WHERE enabled = 1 ORDER BY price_cent');
     res.json({ ok: true, data: plans });
@@ -217,7 +219,7 @@ router.get('/plans', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.post('/plans', authDb, adminOnly, async (req, res) => {
+router.post('/plans', adminOnly, async (req, res) => {
   try {
     const { code, name, duration_days, ai_quota, price_cent } = req.body;
     await run('INSERT INTO membership_plans (code, name, duration_days, ai_quota, price_cent) VALUES (?, ?, ?, ?, ?)',
@@ -228,7 +230,7 @@ router.post('/plans', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.put('/plans/:id', authDb, adminOnly, async (req, res) => {
+router.put('/plans/:id', adminOnly, async (req, res) => {
   try {
     const { name, duration_days, ai_quota, price_cent, enabled } = req.body;
     const updates = [];
@@ -249,7 +251,7 @@ router.put('/plans/:id', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 公告管理 ==========
-router.get('/announcements', authDb, adminOnly, async (req, res) => {
+router.get('/announcements', adminOnly, async (req, res) => {
   try {
     const list = await all('SELECT * FROM announcements ORDER BY published_at DESC');
     res.json({ ok: true, data: list });
@@ -258,7 +260,7 @@ router.get('/announcements', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.post('/announcements', authDb, adminOnly, async (req, res) => {
+router.post('/announcements', adminOnly, async (req, res) => {
   try {
     const { title, content, type, priority } = req.body;
     await run('INSERT INTO announcements (title, content, type, priority) VALUES (?, ?, ?, ?)',
@@ -269,7 +271,7 @@ router.post('/announcements', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.put('/announcements/:id', authDb, adminOnly, async (req, res) => {
+router.put('/announcements/:id', adminOnly, async (req, res) => {
   try {
     const { title, content, type, priority } = req.body;
     const updates = [];
@@ -288,7 +290,7 @@ router.put('/announcements/:id', authDb, adminOnly, async (req, res) => {
   }
 });
 
-router.delete('/announcements/:id', authDb, adminOnly, async (req, res) => {
+router.delete('/announcements/:id', adminOnly, async (req, res) => {
   try {
     await run('DELETE FROM announcements WHERE id = ?', [req.params.id]);
     res.json({ ok: true });
@@ -298,7 +300,7 @@ router.delete('/announcements/:id', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 操作日志 ==========
-router.get('/logs', authDb, adminOnly, async (req, res) => {
+router.get('/logs', adminOnly, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.page_size) || 50;
@@ -325,7 +327,7 @@ router.get('/logs', authDb, adminOnly, async (req, res) => {
 });
 
 // ========== 活跃用户排行 ==========
-router.get('/active-users', authDb, adminOnly, async (req, res) => {
+router.get('/active-users', adminOnly, async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 50;
     const rows = await all(`
