@@ -1483,3 +1483,25 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 窄屏自动化因当前 Windows 沙箱阻止无头浏览器启动（`spawn EPERM`），且 Edge 启动参数未能改变现有窗口尺寸，无法确认 375×812 独立视口截图；未将其伪报为通过。
 - 当前提交号：`bd07db3`；本次改动未创建新提交。
 **【相关文档】** `index.html`、`public/index.html`、`docs/index.html`、`二维码.jpg`、`public/二维码.jpg`、`docs/二维码.jpg`、`work-flow.md`
+
+
+### 2026-08-31 代码同步：推送本地修改至 GitHub master-doc
+
+**【时间】** 2026-08-31
+**【事件】** 将本地工作区已跟踪修改提交，并同步到 GitHub 远程 `master-doc` 分支。
+**【问题来源】** 用户要求推送并更新 GitHub `master-doc` 分支。
+**【执行方向】**
+1. 在 `master` 分支执行 `git add -u` 提交 26 个已跟踪文件的修改。
+2. 切换至 `master-doc` 分支，将 `master` 最新改动 fast-forward 合并到 `master-doc`。
+3. 多次重试 `git push origin master-doc`，直至网络恢复并成功推送。
+**【执行边界】**
+- 仅提交已跟踪文件的修改，未处理未跟踪临时文件与截图。
+- 不修改任何算法、UI 或业务逻辑。
+**【执行结果】**
+- 本地提交 `83d9f03` 已成功推送至 `origin/master-doc`（`f51faa6..83d9f03`）✅。
+- 当前 `master-doc` 与远程保持一致。
+- `master` 分支仍领先 `origin/master` 5 个提交，未推送。
+**【执行验证】**
+- `git branch -vv` 确认 `master-doc [origin/master-doc]` 同步。
+- 推送曾因中国区 HTTPS 链路偶发抖动失败，重试后成功。
+**【相关文档】** `work-flow.md`
