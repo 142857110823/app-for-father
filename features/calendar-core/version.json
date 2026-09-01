@@ -1,0 +1,24 @@
+{
+  "name": "calendar-core",
+  "version": "1.0.0",
+  "description": "公共历法核心：公历、农历、节气、干支、时区、真太阳时、子时边界",
+  "createdAt": "2026-08-24",
+  "dependencies": {
+    "lunar-javascript": "^1.6.11"
+  },
+  "defaultOptions": {
+    "dayBoundary": "23:00",
+    "trueSolarTime": false,
+    "timezone": "Asia/Shanghai"
+  },
+  "boundaries": [
+    "立春",
+    "节令",
+    "23:00",
+    "00:00",
+    "闰月",
+    "闰日",
+    "跨时区",
+    "真太阳时"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "bazi-ruleset",
+  "version": "v1",
+  "createdAt": "2026-08-24",
+  "sources": [
+    "《子平真诠》（公版）",
+    "《滴天髓》（公版）",
+    "lunar-javascript ^1.6.11（黑盒回归）"
+  ],
+  "controversies": [
+    "大运顺逆：阳年男/阴年女顺行；阴年男/阳年女逆行",
+    "起运岁数：三天折一岁，可精确到年/月/日",
+    "早晚子时：默认子初 23:00 换日（来自 calendar-core）",
+    "综合旺衰分数：v1 不输出，仅给出可审计的计数/月令/通根/透干/生克关系"
+  ],
+  "defaults": {
+    "dayBoundary": "23:00",
+    "trueSolarTime": false,
+    "yearBoundary": "立春",
+    "monthBoundary": "节令",
+    "luckDirection": "阳年男阴年女顺，阴年男阳年女逆",
+    "luckStartAgeMethod": "3天折1岁，保留原始时间差",
+    "showShenSha": false,
+    "showWangShuaiScore": false
+  }
+}

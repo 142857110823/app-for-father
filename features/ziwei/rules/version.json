@@ -1,0 +1,22 @@
+{
+  "name": "ziwei-ruleset",
+  "version": "v1",
+  "createdAt": "2026-08-24",
+  "sources": [
+    "《紫微斗数全书》（公版）",
+    "iztro 公开实现（仅交叉核验）",
+    "https://github.com/SylarLong/iztro"
+  ],
+  "controversies": [
+    "闰月处理：按前月、后月或分日（v1 采用整月归前月）",
+    "晚子时换日：v1 采用 calendar-core 默认子初 23:00 换日",
+    "四化表：v1 采用中州派基础四化表",
+    "大限起岁：v1 按五行局起岁（水二局2岁，木三局3岁，金四局4岁，土五局5岁，火六局6岁）"
+  ],
+  "defaults": {
+    "dayBoundary": "23:00",
+    "leapMonthRule": "归前月",
+    "transformationsVersion": "中州派基础",
+    "starBrightnessVersion": "v1-基础版"
+  }
+}

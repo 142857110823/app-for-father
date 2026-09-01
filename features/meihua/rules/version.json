@@ -1,0 +1,22 @@
+{
+  "name": "meihua-ruleset",
+  "version": "v1",
+  "createdAt": "2026-08-24",
+  "sources": [
+    "《梅花易数》（公版，邵雍）",
+    "https://zh.wikisource.org/wiki/梅花易數"
+  ],
+  "controversies": [
+    "时间起卦：年支数 vs 公历年份",
+    "动爻上下卦口径",
+    "体用判定（动爻所在卦为用，另一为体）"
+  ],
+  "defaults": {
+    "timeMethod": "lunar",        // 农历年月日时
+    "yearNumber": "yearZhi",     // 年支数（子1丑2...）
+    "modZeroUpper": 8,           // 上卦余0→8（坤）
+    "modZeroLower": 8,           // 下卦余0→8（坤）
+    "modZeroMoving": 6,          // 动爻余0→6
+    "noJiXiongPromise": true    // 不输出确定性吉凶
+  }
+}

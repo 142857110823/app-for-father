@@ -106,4 +106,28 @@ for (const relativePath of ['index.html', 'public/index.html', 'docs/index.html'
     assert.match(html, /\.pc-shen\{[^}]*color:var\(--ink\)/);
     assert.match(html, /\.pc-ling\{[^}]*color:var\(--ink\)/);
   });
+
+  test(`${relativePath} keeps the thirteen-palace plate monochrome and separates day chart`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    assert.match(html, /#plate-table td\.gui-shen\{background:var\(--plate-cell\);?\}/);
+    assert.match(html, /\.pc-jq\{[^}]*margin-bottom:\s*[^;]+/);
+    assert.match(html, /\.pc-rp\{[^}]*margin-top:\s*[^;]+/);
+    assert.doesNotMatch(html, /#plate-table td\.gui-shen\{background:linear-gradient/);
+  });
+
+  test(`${relativePath} distinguishes split palaces and removes the four-pillars calendar option`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    assert.match(html, /split-palace/);
+    assert.match(html, /data-palace-index/);
+    assert.doesNotMatch(html, /id="cal-pillar"/);
+    assert.doesNotMatch(html, /map = \{[^}]*['"]四柱['"]/);
+  });
+
+  test(`${relativePath} contains solar and lunar calendar conversion state`, () => {
+    const html = fs.readFileSync(path.join(root, relativePath), 'utf8');
+    assert.match(html, /calendarMode/);
+    assert.match(html, /solarToLunar/);
+    assert.match(html, /lunarToSolar/);
+    assert.match(html, /setCalendar\('农历'\)/);
+  });
 }

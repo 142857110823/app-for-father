@@ -1,6 +1,6 @@
 // 四柱干支计算（公历时间 → 年月日时四柱）
 // 基于 lunar-javascript 农历库
-const { Solar, LunarMonth } = require('lunar-javascript');
+const { Solar, Lunar, LunarMonth } = require('lunar-javascript');
 const { fullPaiPan: corePaiPan, determinePan, determineGuiShen, SHEN, XING, MEN, GONG_LAYOUT } = require('./qimen.js');
 
 /**
@@ -89,6 +89,24 @@ function serializeSolar(solar) {
     hour: solar.getHour(),
     minute: solar.getMinute(),
   };
+}
+
+function solarToLunar(year, month, day, hour, minute) {
+  const solar = Solar.fromYmdHms(year, month, day, hour || 0, minute || 0, 0);
+  const lunar = solar.getLunar();
+  return {
+    year: lunar.getYear(),
+    month: Math.abs(lunar.getMonth()),
+    day: lunar.getDay(),
+    hour: solar.getHour(),
+    minute: solar.getMinute(),
+    isLeap: lunar.getMonth() < 0,
+  };
+}
+
+function lunarToSolar(year, month, day, hour, minute, isLeap = false) {
+  const lunar = Lunar.fromYmdHms(year, isLeap ? -Math.abs(month) : Math.abs(month), day, hour || 0, minute || 0, 0);
+  return serializeSolar(lunar.getSolar());
 }
 
 /**
@@ -197,7 +215,9 @@ module.exports = {
   fullPaiPan, 
   isNightHour, 
   hourZhi,
-  fullPaiPanFromTime 
+  fullPaiPanFromTime,
+  solarToLunar,
+  lunarToSolar
 };
 
 if (require.main === module) {

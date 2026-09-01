@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { fullPaiPan } = require('../algorithm/qimen.js');
-const { fullPaiPanFromTime } = require('../algorithm/pillars.js');
+const { fullPaiPanFromTime, solarToLunar, lunarToSolar } = require('../algorithm/pillars.js');
 
 test('阴遁五局中宫使用标准三分区完整数据', () => {
   const result = fullPaiPan(
@@ -123,4 +123,20 @@ test('完整排盘返回农历中文时间与前后节气', () => {
   assert.equal(result.jieQi.next.name, '处暑');
   assert.equal(result.jieQi.next.solar.hour, 10);
   assert.equal(result.jieQi.next.solar.minute, 18);
+});
+
+test('公历与农历日期切换保持同一时刻', () => {
+  const lunar = solarToLunar(2026, 8, 31, 13, 46);
+  assert.deepEqual(lunar, {
+    year: 2026,
+    month: 7,
+    day: 19,
+    hour: 13,
+    minute: 46,
+    isLeap: false,
+  });
+  assert.deepEqual(
+    lunarToSolar(lunar.year, lunar.month, lunar.day, lunar.hour, lunar.minute, lunar.isLeap),
+    { year: 2026, month: 8, day: 31, hour: 13, minute: 46 },
+  );
 });

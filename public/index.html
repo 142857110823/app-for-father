@@ -485,8 +485,9 @@ a{color:inherit;text-decoration:none}
 #plate-table td:not(.center):not(.empty){aspect-ratio:1/1}
 #plate-table td.empty{background:transparent;border:none;cursor:default}
 #plate-table td.center{height:auto;vertical-align:middle;background:var(--plate-cell)}
+#plate-table td.split-palace{border:2.5px solid var(--ink)}
 /* 贵神宫浅黄底色（idx8=8首） */
-#plate-table td.gui-shen{background:linear-gradient(180deg,#fff8e1 0%,#fef3d0 100%)}
+#plate-table td.gui-shen{background:var(--plate-cell)}
 
 /* === 跨行对齐布局（文档规范：4行×左中 + 右独立列） === */
 /* 2026-08-27 调整：左列左对齐、中列居中对齐、右列右对齐；右列增加月局/节气 */
@@ -524,9 +525,9 @@ a{color:inherit;text-decoration:none}
 /* 2026-08-27 右列四要素：天罡(纵排)→月局→节气→日排局 */
 .pc-tg{font-size:var(--pf-tg);font-weight:700;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:0;padding:3px 4px;white-space:nowrap;writing-mode:vertical-rl;text-orientation:upright;font-family:"STKaiti","KaiTi","楷体",serif;text-align:center;line-height:1.1;box-sizing:content-box}
 .pc-yj{font-size:var(--pf-yj);font-weight:700;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1;white-space:nowrap}
-.pc-jq{display:flex;flex-direction:row;gap:2px;justify-content:center;align-items:flex-start;font-size:var(--pf-jq);font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;white-space:normal;word-break:break-all}
+.pc-jq{display:flex;flex-direction:row;gap:2px;justify-content:center;align-items:flex-start;font-size:var(--pf-jq);font-weight:600;color:var(--ink);font-family:"STKaiti","KaiTi","楷体",serif;line-height:1.2;white-space:normal;word-break:break-all;margin-bottom:8px}
 .pc-jq .jq-col{writing-mode:vertical-rl;text-orientation:upright;text-align:center}
-.pc-rp{max-width:42px;font-size:var(--pf-rp);font-weight:700;color:var(--ink);white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1}
+.pc-rp{max-width:42px;font-size:var(--pf-rp);font-weight:700;color:var(--ink);white-space:normal;word-break:break-all;overflow-wrap:anywhere;font-family:"STKaiti","KaiTi","楷体",serif;text-align:right;line-height:1.1;margin-top:8px}
 
 /* 中宫放大字体（跨 2×2）：神/星/门统一规格，四干统一规格 */
 #plate-table td.center .pc-shen{font-size:calc(var(--pf-shen) + 3px);font-weight:700;letter-spacing:1px}
@@ -565,8 +566,9 @@ a{color:inherit;text-decoration:none}
   .palace-col-right .pc-right-bottom{flex-direction:column;align-items:flex-end}
   .pc-tg{padding:1px 1px;font-size:var(--pf-tg);writing-mode:vertical-rl;text-orientation:upright;border-radius:2px}
   .pc-yj,.pc-jq{display:block;font-size:var(--pf-yj);line-height:1.15;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap}
+  .pc-jq{margin-bottom:5px}
   .pc-jq .jq-col{display:block}
-  .pc-rp{max-width:26px;text-align:right;line-height:1.15;font-size:var(--pf-rp)}
+  .pc-rp{max-width:26px;text-align:right;line-height:1.15;font-size:var(--pf-rp);margin-top:5px}
   /* 手机端 A+ 放大时，右列标签字号上限控制，避免重叠 */
   #plate-table.plate-fs-lg .pc-tg,
   #plate-table.plate-fs-xl .pc-tg{font-size:8px}
@@ -943,7 +945,6 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
         <div class="seg-underline">
           <button id="cal-solar" class="active" onclick="setCalendar('公历')">公历</button>
           <button id="cal-lunar" onclick="setCalendar('农历')">农历</button>
-          <button id="cal-pillar" onclick="setCalendar('四柱')">四柱</button>
         </div>
       </div>
     </div>
@@ -1832,17 +1833,22 @@ function setGender(g) {
   }
 }
 
+let calendarMode = '公历';
+
 function setCalendar(type) {
-  ['solar','lunar','pillar'].forEach(k => {
+  if (!['公历', '农历'].includes(type)) return;
+  calendarMode = type;
+  ['solar','lunar'].forEach(k => {
     const b = document.getElementById('cal-' + k);
     if (b) b.classList.remove('active');
   });
-  const map = {'公历':'solar','农历':'lunar','四柱':'pillar'};
+  const map = {'公历':'solar','农历':'lunar'};
   const key = map[type];
   if (key) {
     const b = document.getElementById('cal-' + key);
     if (b) b.classList.add('active');
   }
+  updateTimeDisplay();
 }
 
 function selectPkg(idx) {
@@ -1865,15 +1871,19 @@ function openTimePicker() {
   const d = parseInt(document.getElementById('d').value) || now.getDate();
   const h = parseInt(document.getElementById('h').value) || now.getHours();
   const mi = parseInt(document.getElementById('min').value) || now.getMinutes();
+  let pickerDate = { year: y, month: m, day: d, hour: h, minute: mi };
+  if (calendarMode === '农历' && window.QiMenAlgorithm && QiMenAlgorithm.solarToLunar) {
+    pickerDate = QiMenAlgorithm.solarToLunar(y, m, d, h, mi);
+  }
   ['rp-y','rp-m','rp-d','rp-h','rp-min'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
-  document.getElementById('rp-y').value = y;
-  document.getElementById('rp-m').value = m;
-  document.getElementById('rp-d').value = d;
-  document.getElementById('rp-h').value = h;
-  document.getElementById('rp-min').value = mi;
+  document.getElementById('rp-y').value = pickerDate.year;
+  document.getElementById('rp-m').value = pickerDate.month;
+  document.getElementById('rp-d').value = pickerDate.day;
+  document.getElementById('rp-h').value = pickerDate.hour;
+  document.getElementById('rp-min').value = pickerDate.minute;
   tp.classList.add('show');
   mask.style.display = 'block';
 }
@@ -1891,11 +1901,21 @@ function confirmTimePicker() {
   const d = parseInt(document.getElementById('rp-d').value);
   const h = parseInt(document.getElementById('rp-h').value);
   const mi = parseInt(document.getElementById('rp-min').value);
-  document.getElementById('y').value = y;
-  document.getElementById('m').value = m;
-  document.getElementById('d').value = d;
-  document.getElementById('h').value = h;
-  document.getElementById('min').value = mi;
+  let solarDate = { year: y, month: m, day: d, hour: h, minute: mi };
+  try {
+    if (calendarMode === '农历') {
+      if (!window.QiMenAlgorithm || !QiMenAlgorithm.lunarToSolar) throw new Error('农历转换组件未加载');
+      solarDate = QiMenAlgorithm.lunarToSolar(y, m, d, h, mi, false);
+    }
+  } catch (error) {
+    showToast('农历日期无效：' + error.message);
+    return;
+  }
+  document.getElementById('y').value = solarDate.year;
+  document.getElementById('m').value = solarDate.month;
+  document.getElementById('d').value = solarDate.day;
+  document.getElementById('h').value = solarDate.hour;
+  document.getElementById('min').value = solarDate.minute;
   updateHourZhi();
   updateTimeDisplay();
   renderHome();
@@ -1903,15 +1923,26 @@ function confirmTimePicker() {
 }
 
 function updateTimeDisplay() {
-  const y = document.getElementById('y').value;
-  const m = String(document.getElementById('m').value).padStart(2,'0');
-  const d = String(document.getElementById('d').value).padStart(2,'0');
-  const h = String(document.getElementById('h').value).padStart(2,'0');
-  const mi = String(document.getElementById('min').value).padStart(2,'0');
+  const y = parseInt(document.getElementById('y').value);
+  const mNum = parseInt(document.getElementById('m').value);
+  const dNum = parseInt(document.getElementById('d').value);
+  const hNum = parseInt(document.getElementById('h').value);
+  const miNum = parseInt(document.getElementById('min').value);
+  const m = String(mNum).padStart(2,'0');
+  const d = String(dNum).padStart(2,'0');
+  const h = String(hNum).padStart(2,'0');
+  const mi = String(miNum).padStart(2,'0');
+  let displayText = `公历 ${y}年${mNum}月${dNum}日 ${h}:${mi}`;
+  let cardText = displayText;
+  if (calendarMode === '农历' && window.QiMenAlgorithm && QiMenAlgorithm.solarToLunar) {
+    const lunar = QiMenAlgorithm.solarToLunar(y, mNum, dNum, hNum, miNum);
+    displayText = `农历 ${lunar.year}年${lunar.isLeap ? '闰' : ''}${lunar.month}月${lunar.day}日 ${h}:${mi}`;
+    cardText = displayText;
+  }
   const el = document.getElementById('time-display');
-  if (el) el.textContent = `${y}-${m}-${d} ${h}:${mi}`;
+  if (el) el.textContent = displayText;
   const dateEl = document.getElementById('hc-date');
-  if (dateEl) dateEl.textContent = `农历：${y}年${parseInt(m)}月${parseInt(d)}日  ${h}:${mi}`;
+  if (dateEl) dateEl.textContent = cardText;
   const solarTimeEl = document.getElementById('meta-solar-time');
   if (solarTimeEl) solarTimeEl.textContent = `${y}-${m}-${d} ${h}:${mi}`;
 }
@@ -2468,10 +2499,11 @@ function renderTraditionalPlate() {
         </div>
       </div>`;
 
+    const isSplitPalace = [0, 2, 3, 5, 6, 8, 9, 11].includes(cell.idx);
     if (isCenter) {
-      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
+      return `<td class="center ${isGuiShen ? 'gui-shen' : ''}" data-palace-index="${cell.idx}" colspan="2" rowspan="2" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
     }
-    return `<td class="${isGuiShen ? 'gui-shen' : ''}" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
+    return `<td class="${isGuiShen ? 'gui-shen ' : ''}${isSplitPalace ? 'split-palace' : ''}" data-palace-index="${cell.idx}" onclick="showPalaceDetail(${cell.idx})">${buildInner()}</td>`;
   };
 
   const colgroup = '<colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>';
@@ -3266,7 +3298,8 @@ function buildPaipanHTML(data, opts) {
           </div>
         </div>`;
 
-      plateRows += `<td class="${isCenter ? 'center ' : ''}${isGuiShen ? 'gui-shen' : ''}" ${isCenter ? 'colspan="2" rowspan="2"' : ''}>${inner}</td>`;
+      const isSplitPalace = [0, 2, 3, 5, 6, 8, 9, 11].includes(cell.idx);
+      plateRows += `<td class="${isCenter ? 'center ' : ''}${isGuiShen ? 'gui-shen ' : ''}${isSplitPalace ? 'split-palace' : ''}" data-palace-index="${cell.idx}" ${isCenter ? 'colspan="2" rowspan="2"' : ''}>${inner}</td>`;
     }
     plateRows += '</tr>';
   }
@@ -3320,7 +3353,8 @@ const EXPORT_STYLE = `
   .plate td { border: 1px solid #4a4743; padding: 4px 5px; vertical-align: top; height: 64px; font-size: 11px; background: #fff; position: relative; box-sizing: border-box; }
   .plate td.empty { background: transparent; border: none; }
   .plate td.center { height: auto; vertical-align: middle; }
-  .plate td.gui-shen { background: linear-gradient(180deg,#fff8e1 0%,#fef3d0 100%); }
+  .plate td.gui-shen { background: #fff; }
+  .plate td.split-palace { border: 2.5px solid #1c1a17; }
   /* PDF 三行横排宽松布局（与前端渲染端一致） */
   .plate .exp-tri { padding-right: 38px; }
   /* 左：神 / 星 / 门 */

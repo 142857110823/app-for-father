@@ -12535,7 +12535,7 @@ var QiMenAlgorithmBundle = (() => {
   // algorithm/pillars.js
   var require_pillars = __commonJS({
     "algorithm/pillars.js"(exports, module) {
-      var { Solar, LunarMonth } = require_lunar_javascript();
+      var { Solar, Lunar, LunarMonth } = require_lunar_javascript();
       var { fullPaiPan: corePaiPan, determinePan, determineGuiShen, SHEN, XING, MEN, GONG_LAYOUT } = require_qimen();
       function getRiPaiMonthDays(lunarYear, riPaiMonth) {
         try {
@@ -12591,6 +12591,22 @@ var QiMenAlgorithmBundle = (() => {
           hour: solar.getHour(),
           minute: solar.getMinute()
         };
+      }
+      function solarToLunar(year, month, day, hour, minute) {
+        const solar = Solar.fromYmdHms(year, month, day, hour || 0, minute || 0, 0);
+        const lunar = solar.getLunar();
+        return {
+          year: lunar.getYear(),
+          month: Math.abs(lunar.getMonth()),
+          day: lunar.getDay(),
+          hour: solar.getHour(),
+          minute: solar.getMinute(),
+          isLeap: lunar.getMonth() < 0
+        };
+      }
+      function lunarToSolar(year, month, day, hour, minute, isLeap = false) {
+        const lunar = Lunar.fromYmdHms(year, isLeap ? -Math.abs(month) : Math.abs(month), day, hour || 0, minute || 0, 0);
+        return serializeSolar(lunar.getSolar());
       }
       function fullPaiPanFromTime(year, month, day, hour, minute) {
         const pillars = getFourPillars(year, month, day, hour, minute);
@@ -12676,7 +12692,9 @@ var QiMenAlgorithmBundle = (() => {
         fullPaiPan,
         isNightHour,
         hourZhi,
-        fullPaiPanFromTime
+        fullPaiPanFromTime,
+        solarToLunar,
+        lunarToSolar
       };
       if (__require.main === module) {
         const ok = test();
@@ -12690,13 +12708,13 @@ var QiMenAlgorithmBundle = (() => {
   // algorithm/browser-entry.js
   var require_browser_entry = __commonJS({
     "algorithm/browser-entry.js"(exports, module) {
-      var { fullPaiPan, fullPaiPanFromTime, getFourPillars } = require_pillars();
+      var { fullPaiPan, fullPaiPanFromTime, getFourPillars, solarToLunar, lunarToSolar } = require_pillars();
       var { SHEN, XING, MEN, MEN_DISPLAY } = require_qimen();
       if (typeof window !== "undefined") {
-        window.QiMenAlgorithm = { fullPaiPan, fullPaiPanFromTime, getFourPillars, SHEN, XING, MEN, MEN_DISPLAY };
+        window.QiMenAlgorithm = { fullPaiPan, fullPaiPanFromTime, getFourPillars, solarToLunar, lunarToSolar, SHEN, XING, MEN, MEN_DISPLAY };
       }
       if (typeof module !== "undefined" && module.exports) {
-        module.exports = { fullPaiPan, fullPaiPanFromTime, getFourPillars, SHEN, XING, MEN, MEN_DISPLAY };
+        module.exports = { fullPaiPan, fullPaiPanFromTime, getFourPillars, solarToLunar, lunarToSolar, SHEN, XING, MEN, MEN_DISPLAY };
       }
     }
   });
