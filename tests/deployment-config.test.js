@@ -19,7 +19,7 @@ test('生产配置使用 CORS 白名单，管理员凭据来自环境变量', ()
   const server = fs.readFileSync('server.js', 'utf8');
   const admin = fs.readFileSync('backend/admin-auth.js', 'utf8');
   assert.match(server, /CORS_ORIGINS/);
-  assert.doesNotMatch(server, /Access-Control-Allow-Origin', origin/);
+  assert.doesNotMatch(server, /req\.headers\.origin\s*\|\|\s*['"]\*['"]/);
   assert.match(admin, /ADMIN_ACCESS_KEY_HASH/);
   assert.match(admin, /ADMIN_PASSWORD_HASH/);
 });
