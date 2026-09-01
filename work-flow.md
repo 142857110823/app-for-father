@@ -4,6 +4,31 @@
 
 ---
 
+## 2026-09-01｜master-doc 推送与公网地址更新
+
+**【时间】** 2026-09-01（Asia/Shanghai）
+**【事件】** 将当前 `master-doc` 已提交项目更新推送至 GitHub，并验证 GitHub Pages 公网地址。
+**【问题来源】** 用户要求推送并更新 GitHub 及公网网址。
+**【执行方向】**
+1. 核对当前分支、远程仓库和待推送提交。
+2. 仅推送已提交内容，不纳入工作区未跟踪的临时截图、临时脚本和研究目录。
+3. 验证远程 `master-doc` 提交号和 GitHub Pages HTTP 状态。
+**【执行边界】**
+- 远程仓库：`https://github.com/142857110823/app-for-father`
+- 推送分支：`master-doc`
+- 不提交管理员明文凭据、API 密钥和无关未跟踪文件。
+**【执行结果】**
+- `master-doc` 已从 `5ad9fee` 推送到 `2ddf732`。
+- GitHub 远程分支已确认指向 `2ddf732a26ebe9741e014b4b80b934ed06696afa`。
+- GitHub Pages 已更新并可访问。
+**【执行验证】**
+- 公网地址：`https://142857110823.github.io/app-for-father/`
+- 验证结果：HTTP 200，`Content-Type: text/html; charset=utf-8`，页面包含“道家奇门遁甲”。
+- 验证时间：2026-09-01（Asia/Shanghai）。
+**【相关文档】** `master-doc`、`work-flow.md`
+
+---
+
 ## 2026-09-01｜推送 master-doc 并登记公网地址
 
 **【时间】** 2026-09-01（Asia/Shanghai）
