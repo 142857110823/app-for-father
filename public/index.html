@@ -2295,7 +2295,7 @@ async function paipan() {
     return;
   }
   try {
-    const sessionCheck = await fetch('/api/auth/me', { headers: authHeaders() });
+    const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
     if (!sessionCheck.ok) throw new Error('登录已失效');
   } catch (error) {
     localStorage.removeItem(AUTH_TOKEN_KEY);
@@ -2348,7 +2348,7 @@ async function paipan() {
       console.log('[DEBUG] 排盘输入:', { y: yv, m: mv, d: dv, h: hv, min: minV, panType: panTypeV });
       console.log('[DEBUG] 排盘结果:', JSON.parse(JSON.stringify(result || {})));
     } else {
-      const r = await fetch(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`, { headers: authHeaders() }).then(r => r.json());
+      const r = await fetch(apiUrl(`/api/paipan?y=${yv}&m=${mv}&d=${dv}&h=${hv}&min=${minV}`), { headers: authHeaders() }).then(r => r.json());
       if (!r.ok) { showToast(r.error || '排盘失败'); return; }
       result = r.data;
     }
@@ -3056,7 +3056,7 @@ function loadHistoryDirect(id) {
     luoshuCoords: rec.luoshuCoords || {}
   };
   if (!curData.palaces || curData.palaces.length === 0) {
-    fetch(`/api/paipan?y=${rec.input.year}&m=${rec.input.month}&d=${rec.input.day}&h=${rec.input.hour}&min=${rec.input.minute||0}`)
+    fetch(apiUrl(`/api/paipan?y=${rec.input.year}&m=${rec.input.month}&d=${rec.input.day}&h=${rec.input.hour}&min=${rec.input.minute||0}`), { headers: authHeaders() })
       .then(r => r.json())
       .then(r => {
         if (r.ok) {
@@ -3950,7 +3950,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function confirmLogout() {
   openConfirm('清除本地偏好', '确定要清除全部本地偏好数据吗？<br>将清除：当前昵称、头像、主题偏好、上次排盘输入、收藏标记等。<br>排盘历史记录如需一并清除，请在【排盘历史】页面操作。', function() {
     const token = localStorage.getItem(AUTH_TOKEN_KEY);
-    if (token) fetch('/api/auth/logout', { method:'POST', headers:authHeaders() }).catch(() => {});
+    if (token) fetch(apiUrl('/api/auth/logout'), { method:'POST', headers:authHeaders() }).catch(() => {});
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(USER_INFO_KEY);
     // P1: 额外清除本地游客存储的昵称/头像/性别/生日/偏好
@@ -4046,6 +4046,13 @@ console.log('[APP] script start');
 
 const AUTH_TOKEN_KEY = 'auth_token';
 const USER_INFO_KEY = 'user_info';
+const RENDER_API_ORIGIN = 'https://qimen-shisan-gong-api.onrender.com';
+window.QIMEN_API_BASE = window.QIMEN_API_BASE
+  || (/github\.io$/i.test(location.hostname || '') ? RENDER_API_ORIGIN : '');
+function apiUrl(path) {
+  const base = String(window.QIMEN_API_BASE || '').replace(/\/+$/, '');
+  return base ? `${base}${path}` : path;
+}
 function authHeaders(extra) {
   const headers = Object.assign({}, extra || {});
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
@@ -4146,7 +4153,7 @@ async function accountLogin() {
   if (!username || !password) return authMessage('请输入账号和密码');
   authMessage('登录中...');
   try {
-    const response = await fetch('/api/auth/account/login', {
+    const response = await fetch(apiUrl('/api/auth/account/login'), {
       method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ username, password })
     });
@@ -4162,7 +4169,7 @@ async function accountRegister() {
   if (password !== passwordConfirm) return registerMessage('两次输入的密码不一致');
   registerMessage('注册中...');
   try {
-    const response = await fetch('/api/auth/account/register', {
+    const response = await fetch(apiUrl('/api/auth/account/register'), {
       method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ username, password })
     });
@@ -4174,7 +4181,7 @@ async function accountRegister() {
 async function guestLogin() {
   authMessage('正在进入游客模式...');
   try {
-    const response = await fetch('/api/auth/guest', {
+    const response = await fetch(apiUrl('/api/auth/guest'), {
       method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' })
     });
     const result = await parseAuthResponse(response);
@@ -4185,7 +4192,7 @@ async function initAuth() {
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (!token) return;
   try {
-    const response = await fetch('/api/auth/me', { headers: authHeaders() });
+    const response = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
     const result = await parseAuthResponse(response);
     localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data));
     document.getElementById('auth-gate').style.display = 'none';
