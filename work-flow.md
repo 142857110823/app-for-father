@@ -25,6 +25,20 @@
 - Node 测试运行器在当前 Windows 沙箱触发 `spawn EPERM`，已改用直接断言和真实浏览器验证；公网旧版本待本次推送后复核。
 **【相关文档】** `public/index.html`、`index.html`、`docs/index.html`、`tests/auth-device.test.js`、`work-flow.md`
 
+## 2026-09-01｜登录修复发布复核
+
+**【时间】** 2026-09-01 22:27（Asia/Shanghai）
+**【事件】** 完成本次登录页面修复的 GitHub 推送与公网复核。
+**【问题来源】** 前一条登录修复记录中的公网待复核项。
+**【执行方向】** 等待 GitHub Pages 构建后，分别检查远程分支、页面特征和真实登录交互。
+**【执行边界】** 仅复核本次提交，不纳入工作区未跟踪文件。
+**【执行结果】** `master-doc` 与 `master` 均已更新至 `840fadf`；公网页面已包含认证安全解析和注册弹窗。
+**【执行验证】**
+- GitHub Pages：HTTP 200，页面包含 `parseAuthResponse`、`register-modal` 和公网提示文案。
+- 公网真实页面点击登录：显示“公网预览不提供账号服务，请打开本地完整服务：http://localhost:8090/”，不再显示 `Unexpected token '<'`。
+- 本地真实页面：错误账号显示“账号或密码错误”；375×812 视口注册弹窗完整，无横向溢出。
+**【相关文档】** `work-flow.md`、`public/index.html`、`index.html`、`docs/index.html`
+
 ---
 
 ## 2026-09-01｜修复 GitHub Pages 发布分支错误
