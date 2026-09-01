@@ -54,6 +54,23 @@
 - 待 Render Blueprint 创建并填写管理员哈希、JWT secret 后，再进行公网登录和设备期限验收。
 **【相关文档】** `render.yaml`、`README.md`、`docs/superpowers/specs/2026-09-01-public-auth-backend-design.md`、`docs/superpowers/plans/2026-09-01-public-auth-backend.md`
 
+## 2026-09-01｜公网后端外部部署阻塞记录
+
+**【时间】** 2026-09-01（Asia/Shanghai）
+**【事件】** 完成本地代码交付准备，尝试推送 GitHub 和打开 Render 部署控制台。
+**【问题来源】** 用户确认直接执行公网登录后端方案。
+**【执行方向】** 发布本地提交 `d157683` 到 `master-doc` 与 `master`，并创建 Render Blueprint。
+**【执行边界】** 不伪造远程推送结果，不输入或猜测用户的 Render 账户密码，不提交任何 secret。
+**【执行结果】**
+- 本地提交 `d157683` 已包含 Render Blueprint、持久 SQLite、CORS 白名单、管理员环境变量和前端公网 API 基址。
+- GitHub HTTPS 443 当前连续连接失败，提交尚未确认到远程。
+- Render 当前重定向到登录页，服务尚未创建。
+**【执行验证】**
+- 本地部署测试 4/4 通过，服务语法和内联脚本解析通过。
+- 本地 `/api/health` 返回 HTTP 200；允许来源返回 CORS 头，未授权来源不返回 CORS 头。
+- Render API 地址 `https://qimen-shisan-gong-api.onrender.com/api/health` 当前 HTTP 404。
+**【相关文档】** `render.yaml`、`README.md`、`work-flow.md`
+
 ---
 
 ## 2026-09-01｜修复 GitHub Pages 发布分支错误
