@@ -39,6 +39,21 @@
 - 本地真实页面：错误账号显示“账号或密码错误”；375×812 视口注册弹窗完整，无横向溢出。
 **【相关文档】** `work-flow.md`、`public/index.html`、`index.html`、`docs/index.html`
 
+## 2026-09-01｜公网后端部署准备
+
+**【时间】** 2026-09-01（Asia/Shanghai）
+**【事件】** 按确认方案完成 Render 公网后端的代码侧准备。
+**【问题来源】** GitHub Pages 无法运行 Express，登录只能显示后端不可用提示。
+**【执行方向】** 新增 Render Blueprint、SQLite 持久磁盘、生产 CORS 白名单、管理员环境变量和前端公网 API 基址。
+**【执行边界】** 不伪造 Render 已上线状态，不提交任何密钥；外部 Render 账户授权由部署控制台完成。
+**【执行结果】** 代码已具备 Render 部署配置，GitHub Pages 默认请求 `https://qimen-shisan-gong-api.onrender.com`；本地继续使用 `8090`。
+**【执行验证】**
+- 部署配置测试 4/4 通过。
+- `server.js`、`backend/db.js` 语法检查通过。
+- Render 地址当前返回 HTTP 404，确认服务实例尚未创建，不能宣称公网账号已可用。
+- 待 Render Blueprint 创建并填写管理员哈希、JWT secret 后，再进行公网登录和设备期限验收。
+**【相关文档】** `render.yaml`、`README.md`、`docs/superpowers/specs/2026-09-01-public-auth-backend-design.md`、`docs/superpowers/plans/2026-09-01-public-auth-backend.md`
+
 ---
 
 ## 2026-09-01｜修复 GitHub Pages 发布分支错误

@@ -43,8 +43,7 @@
    * 智能默认端点：
    * 1) 如果用户显式配置了 window.QIMEN_API_BASE，使用该值
    * 2) 否则如果页面在 localhost / 127.0.0.1 访问，使用同源 /api/chat
-   * 3) 否则（GitHub Pages、file://、内网 IP 等静态部署），尝试 http://localhost:8090/api/chat
-   *    （用户需要在本机启动 server.js 才能使用 AI 功能）
+   * 3) 否则（GitHub Pages 等静态部署）使用 Render HTTPS 后端
    */
   function getDefaultEndpoint() {
     if (typeof window !== 'undefined' && window.QIMEN_API_BASE) {
@@ -58,8 +57,7 @@
     if (isLocal) {
       return '/api/chat';
     }
-    // 静态部署（GitHub Pages 等）：默认指向本机 8090
-    return 'http://localhost:8090/api/chat';
+    return 'https://qimen-shisan-gong-api.onrender.com/api/chat';
   }
 
   async function requestAiChat(messages, options) {
