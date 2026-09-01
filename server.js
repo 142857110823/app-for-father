@@ -14,6 +14,17 @@ const adminRouter = require('./backend/routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 8090;
+const DEFAULT_CORS_ORIGINS = [
+  'https://142857110823.github.io',
+  'http://localhost:8090',
+  'http://127.0.0.1:8090',
+];
+const CORS_ORIGINS = new Set(
+  String(process.env.CORS_ORIGINS || DEFAULT_CORS_ORIGINS.join(','))
+    .split(',')
+    .map(origin => origin.trim())
+    .filter(Boolean)
+);
 
 // 读取 AI API 密钥
 let AI_API_KEY = process.env.AI_API_KEY || '';
@@ -35,13 +46,19 @@ app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
-  // CORS：允许 GitHub Pages 等静态站点跨域调用本机 AI 接口
-  const origin = req.headers.origin || '*';
-  res.setHeader('Access-Control-Allow-Origin', origin);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  const origin = String(req.headers.origin || '');
+  if (origin && CORS_ORIGINS.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-Device-Id');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
   if (req.method === 'OPTIONS') {
+    if (origin && !CORS_ORIGINS.has(origin)) {
+      res.status(403).json({ ok: false, error: '来源未被允许' });
+      return;
+    }
     res.status(204).end();
     return;
   }
