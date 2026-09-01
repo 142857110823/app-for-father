@@ -900,8 +900,23 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
     <input id="auth-password" type="password" autocomplete="current-password" placeholder="密码（不少于6位）" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:12px">
     <button onclick="accountLogin()" style="width:100%;padding:12px;background:var(--ink);color:#fff;font-weight:600">账号密码登录</button>
     <button onclick="guestLogin()" style="width:100%;padding:12px;margin-top:10px;border:1px solid var(--line);color:var(--ink)">游客登录</button>
-    <button onclick="accountRegister()" style="margin-top:16px;color:var(--gold);font-size:12px">注册账号</button>
+    <button onclick="openRegisterModal()" style="margin-top:16px;color:var(--gold);font-size:12px">注册账号</button>
     <div id="auth-message" style="min-height:20px;margin-top:12px;font-size:12px;color:var(--red)"></div>
+  </div>
+</div>
+
+<div id="register-modal" role="dialog" aria-modal="true" aria-labelledby="register-title" style="display:none;position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:24px">
+  <div style="width:min(360px,100%);background:var(--card);border:1px solid var(--line);padding:24px 20px;box-shadow:var(--shadow)">
+    <div id="register-title" style="font-size:20px;font-family:'STKaiti','KaiTi','楷体',serif;letter-spacing:4px;text-align:center">注册账号</div>
+    <div style="font-size:12px;color:var(--sub);margin:8px 0 20px;text-align:center">账号使用字母、数字或下划线，密码不少于6位</div>
+    <input id="register-username" autocomplete="username" placeholder="设置账号" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px">
+    <input id="register-password" type="password" autocomplete="new-password" placeholder="设置密码（不少于6位）" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px">
+    <input id="register-password-confirm" type="password" autocomplete="new-password" placeholder="再次输入密码" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:12px">
+    <div style="display:flex;gap:10px">
+      <button onclick="closeRegisterModal()" style="flex:1;padding:12px;border:1px solid var(--line);color:var(--ink)">取消</button>
+      <button onclick="accountRegister()" style="flex:1;padding:12px;background:var(--ink);color:#fff;font-weight:600">确认注册</button>
+    </div>
+    <div id="register-message" style="min-height:20px;margin-top:12px;font-size:12px;color:var(--red);text-align:center"></div>
   </div>
 </div>
 
@@ -4051,6 +4066,67 @@ function authMessage(text) {
   const el = document.getElementById('auth-message');
   if (el) el.textContent = text || '';
 }
+function registerMessage(text) {
+  const el = document.getElementById('register-message');
+  if (el) el.textContent = text || '';
+}
+function openRegisterModal() {
+  const modal = document.getElementById('register-modal');
+  const loginUsername = document.getElementById('auth-username');
+  const registerUsername = document.getElementById('register-username');
+  if (registerUsername && loginUsername) registerUsername.value = loginUsername.value.trim();
+  registerMessage('');
+  if (modal) modal.style.display = 'flex';
+  setTimeout(() => {
+    const target = registerUsername && !registerUsername.value
+      ? registerUsername
+      : document.getElementById('register-password');
+    if (target) target.focus();
+  }, 0);
+}
+function closeRegisterModal() {
+  const modal = document.getElementById('register-modal');
+  if (modal) modal.style.display = 'none';
+  registerMessage('');
+}
+async function parseAuthResponse(response) {
+  const contentType = response.headers && typeof response.headers.get === 'function'
+    ? String(response.headers.get('content-type') || '').toLowerCase()
+    : '';
+  const body = await response.text();
+  const normalizedBody = body.trim().toLowerCase();
+  const isHtml = contentType.includes('text/html')
+    || normalizedBody.startsWith('<!doctype html')
+    || normalizedBody.startsWith('<html');
+
+  if (isHtml) {
+    const isPublicPreview = /github\.io$/i.test(location.hostname || '');
+    throw new Error(isPublicPreview
+      ? '公网预览不提供账号服务，请打开本地完整服务：http://localhost:8090/'
+      : '登录服务未正确响应，请确认后端服务已启动后重试');
+  }
+
+  let result;
+  try {
+    result = JSON.parse(body);
+  } catch (error) {
+    throw new Error('登录服务返回异常，请稍后重试');
+  }
+  if (!response.ok || !result.ok) {
+    throw new Error(result.error || `登录请求失败（HTTP ${response.status}）`);
+  }
+  return result;
+}
+function normalizeAuthError(error) {
+  const message = String(error && error.message || '');
+  if (/Failed to fetch|NetworkError|network|连接被拒绝|拒绝连接|CORS|blocked|mixed content/i.test(message)
+      || error && error.name === 'TypeError') {
+    return /github\.io$/i.test(location.hostname || '')
+      ? '公网预览无法连接账号服务，请打开本地完整服务：http://localhost:8090/'
+      : '无法连接登录服务，请确认本地服务已启动';
+  }
+  return message || '登录失败，请稍后重试';
+}
 async function completeLogin(data) {
   setAuthSession(data);
   const gate = document.getElementById('auth-gate');
@@ -4074,25 +4150,26 @@ async function accountLogin() {
       method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ username, password })
     });
-    const result = await response.json();
-    if (!response.ok || !result.ok) throw new Error(result.error || '登录失败');
+    const result = await parseAuthResponse(response);
     await completeLogin(result.data);
-  } catch (error) { authMessage(error.message); }
+  } catch (error) { authMessage(normalizeAuthError(error)); }
 }
 async function accountRegister() {
-  const username = (document.getElementById('auth-username').value || '').trim();
-  const password = document.getElementById('auth-password').value || '';
-  if (!username || !password) return authMessage('请先输入要注册的账号和密码');
-  authMessage('注册中...');
+  const username = (document.getElementById('register-username').value || '').trim();
+  const password = document.getElementById('register-password').value || '';
+  const passwordConfirm = document.getElementById('register-password-confirm').value || '';
+  if (!username || !password || !passwordConfirm) return registerMessage('请完整填写账号、密码和确认密码');
+  if (password !== passwordConfirm) return registerMessage('两次输入的密码不一致');
+  registerMessage('注册中...');
   try {
     const response = await fetch('/api/auth/account/register', {
       method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ username, password })
     });
-    const result = await response.json();
-    if (!response.ok || !result.ok) throw new Error(result.error || '注册失败');
+    const result = await parseAuthResponse(response);
+    closeRegisterModal();
     await completeLogin(result.data);
-  } catch (error) { authMessage(error.message); }
+  } catch (error) { registerMessage(normalizeAuthError(error)); }
 }
 async function guestLogin() {
   authMessage('正在进入游客模式...');
@@ -4100,18 +4177,16 @@ async function guestLogin() {
     const response = await fetch('/api/auth/guest', {
       method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' })
     });
-    const result = await response.json();
-    if (!response.ok || !result.ok) throw new Error(result.error || '游客登录失败');
+    const result = await parseAuthResponse(response);
     await completeLogin(result.data);
-  } catch (error) { authMessage(error.message); }
+  } catch (error) { authMessage(normalizeAuthError(error)); }
 }
 async function initAuth() {
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (!token) return;
   try {
     const response = await fetch('/api/auth/me', { headers: authHeaders() });
-    const result = await response.json();
-    if (!response.ok || !result.ok) throw new Error('session expired');
+    const result = await parseAuthResponse(response);
     localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data));
     document.getElementById('auth-gate').style.display = 'none';
   } catch (error) {
