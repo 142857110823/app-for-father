@@ -1,9 +1,14 @@
 {
   "analysis_bounds": {
-    "start_date": "2007-01-01",
+    "start_date": "2006-01-01",
     "end_date": "2026-07-31",
     "training_start": "2007-01-01",
     "training_end": "2015-12-31"
+  },
+  "coverage_bounds": {
+    "frozen_start_date": "2006-01-01",
+    "actual_start_date": "2007-01-02",
+    "actual_end_date": "2026-07-31"
   },
   "record_count": 2157,
   "row_count": 105693,

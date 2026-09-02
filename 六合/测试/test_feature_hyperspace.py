@@ -23,6 +23,10 @@ class FeatureHyperspaceTests(unittest.TestCase):
         with CSV_PATH.open(encoding="utf-8-sig") as handle:
             cls.rows = list(csv.DictReader(handle))
         cls.topology = json.loads(JSON_PATH.read_text(encoding="utf-8"))
+        cls.draws = builder.parse_rows(
+            start_date="2006-01-01",
+            end_date="2026-07-31",
+        )
 
     def test_hypergeometric_baseline_is_exact(self):
         self.assertTrue(
@@ -36,6 +40,25 @@ class FeatureHyperspaceTests(unittest.TestCase):
 
     def test_row_count_matches_frozen_long_table(self):
         self.assertEqual(len(self.rows), 2157 * 49)
+
+    def test_analysis_bounds_match_frozen_range(self):
+        self.assertEqual(
+            self.topology["analysis_bounds"],
+            {
+                "start_date": "2006-01-01",
+                "end_date": "2026-07-31",
+                "training_start": "2007-01-01",
+                "training_end": "2015-12-31",
+            },
+        )
+        self.assertEqual(
+            self.topology["coverage_bounds"],
+            {
+                "frozen_start_date": "2006-01-01",
+                "actual_start_date": "2007-01-02",
+                "actual_end_date": "2026-07-31",
+            },
+        )
 
     def test_first_period_history_features_are_zero(self):
         first_date = min(row["draw_date"] for row in self.rows)
@@ -98,6 +121,50 @@ class FeatureHyperspaceTests(unittest.TestCase):
 
     def test_august_2026_is_excluded(self):
         self.assertTrue(all(not row["draw_date"].startswith("2026-08") for row in self.rows))
+
+    def test_mi_weights_recompute_from_training_subset_only(self):
+        rows, _, _, _ = builder.build_feature_rows(self.draws)
+        training_rows = [
+            row
+            for row in rows
+            if "2007-01-01" <= row["draw_date"] <= "2015-12-31"
+        ]
+        recomputed = builder.compute_mutual_information(
+            training_rows,
+            [
+                "jiazi_index",
+                "stem_index",
+                "branch_index",
+                "he_partner_stem",
+                "he_partner_branch",
+                "he_sum",
+                "luoshu_palace",
+                "wuxing_bin",
+            ],
+        )
+        self.assertEqual(set(recomputed), set(self.topology["mi_weights"]))
+        for name, payload in recomputed.items():
+            artifact = self.topology["mi_weights"][name]
+            self.assertTrue(
+                math.isclose(payload["raw_mi"], artifact["raw_mi"], rel_tol=0.0, abs_tol=1e-15),
+                name,
+            )
+            self.assertTrue(
+                math.isclose(payload["normalized_mi"], artifact["normalized_mi"], rel_tol=0.0, abs_tol=1e-15),
+                name,
+            )
+            self.assertTrue(
+                math.isclose(payload["weight"], artifact["weight"], rel_tol=0.0, abs_tol=1e-15),
+                name,
+            )
+
+    def test_spacing_matrix_totals_match_expected_counts(self):
+        spacing = self.topology["spacing_transition"]
+        matrix = spacing["transition_matrix"]
+        matrix_sum = sum(sum(row) for row in matrix)
+        self.assertEqual(matrix_sum, spacing["row_total"])
+        self.assertEqual(matrix_sum, (self.topology["record_count"] - 1) * 4)
+        self.assertEqual(sum(spacing["distribution"].values()), matrix_sum)
 
     def test_is_drawn_matches_source_numbers(self):
         with RAW_PATH.open(encoding="utf-8-sig") as handle:

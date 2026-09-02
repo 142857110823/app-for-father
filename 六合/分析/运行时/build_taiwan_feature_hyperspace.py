@@ -14,7 +14,7 @@ MID_PATH = ROOT / "分析" / "中间数据" / "台湾_特征超空间.csv"
 JSON_PATH = ROOT / "分析" / "统计结果" / "台湾_第一轮特征拓扑.json"
 REPORT_PATH = ROOT / "分析" / "报告" / "科研循环简报_第01轮.md"
 
-ANALYSIS_START = date(2007, 1, 1)
+ANALYSIS_START = date(2006, 1, 1)
 ANALYSIS_END = date(2026, 7, 31)
 TRAINING_START = date(2007, 1, 1)
 TRAINING_END = date(2015, 12, 31)
@@ -352,7 +352,8 @@ def build_report(draws, rows, mi_weights, spacing_summary, relation_rows):
 
 ## 本轮特征组合图谱
 
-- 数据范围：{date_min} 至 {date_max}
+- 冻结目标范围：2006-01-01 至 2026-07-31
+- 实际覆盖范围：{date_min} 至 {date_max}
 - 基础开奖期数：{len(draws)}
 - 长表数据行数：{len(rows)}
 - 2026-08：未进入结果
@@ -382,6 +383,8 @@ def build_report(draws, rows, mi_weights, spacing_summary, relation_rows):
 
 ## 当前发现
 
+- 冻结目标范围自 2006-01-01 起算。
+- 由于 2006 年无 `verified` 记录，实际覆盖从 2007-01-02 开始。
 - 首期历史动量特征已固定为 0。
 - 同一期 49 个号码共享同一期之前的历史特征。
 - 训练窗口仅覆盖 2007-01-01 至 2015-12-31。
@@ -418,6 +421,11 @@ def main():
             "end_date": ANALYSIS_END.isoformat(),
             "training_start": TRAINING_START.isoformat(),
             "training_end": TRAINING_END.isoformat(),
+        },
+        "coverage_bounds": {
+            "frozen_start_date": ANALYSIS_START.isoformat(),
+            "actual_start_date": draws[0]["draw_date"].isoformat(),
+            "actual_end_date": draws[-1]["draw_date"].isoformat(),
         },
         "record_count": len(draws),
         "row_count": len(rows),
