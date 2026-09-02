@@ -1,0 +1,19 @@
+E
+======================================================================
+ERROR: test_feature_hyperspace (unittest.loader._FailedTest.test_feature_hyperspace)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_feature_hyperspace
+Traceback (most recent call last):
+  File "F:\Python312\Lib\unittest\loader.py", line 129, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\1\��\����\����\test_feature_hyperspace.py", line 12, in <module>
+    import build_taiwan_feature_hyperspace as builder  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'build_taiwan_feature_hyperspace'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

@@ -1,0 +1,163 @@
+{
+  "analysis_bounds": {
+    "start_date": "2007-01-01",
+    "end_date": "2026-07-31",
+    "training_start": "2007-01-01",
+    "training_end": "2015-12-31"
+  },
+  "record_count": 2157,
+  "row_count": 105693,
+  "date_min": "2007-01-02",
+  "date_max": "2026-07-31",
+  "random_baseline": {
+    "population": 49,
+    "successes": 6,
+    "selected": 15,
+    "threshold": 3,
+    "hit_at_least": 0.2571252367737104
+  },
+  "field_groups": {
+    "momentum": [
+      "momentum_freq_1",
+      "momentum_freq_5",
+      "momentum_freq_10",
+      "momentum_freq_30",
+      "momentum_freq_100",
+      "exp_decay_30",
+      "misses"
+    ],
+    "time": [
+      "year_sin",
+      "year_cos",
+      "month_sin",
+      "month_cos",
+      "day_sin",
+      "day_cos",
+      "weekday_sin",
+      "weekday_cos",
+      "iso_week_sin",
+      "iso_week_cos"
+    ],
+    "esoteric": [
+      "jiazi_index",
+      "stem_index",
+      "branch_index",
+      "he_partner_stem",
+      "he_partner_branch",
+      "he_sum",
+      "luoshu_palace",
+      "wuxing_bin"
+    ],
+    "spacing": [
+      "previous_spacing_1",
+      "previous_spacing_2",
+      "previous_spacing_3",
+      "previous_spacing_4",
+      "previous_spacing_5"
+    ]
+  },
+  "mi_weights": {
+    "jiazi_index": {
+      "raw_mi": 0.000601493333258496,
+      "normalized_mi": 0.0005000502495927903,
+      "weight": 0.010001004991855805,
+      "cardinality": 49
+    },
+    "stem_index": {
+      "raw_mi": 0.00016391978753275353,
+      "normalized_mi": 0.00017724345848017643,
+      "weight": 0.0035448691696035282,
+      "cardinality": 10
+    },
+    "branch_index": {
+      "raw_mi": 0.00016641737227861958,
+      "normalized_mi": 0.0001732171319649395,
+      "weight": 0.0034643426392987897,
+      "cardinality": 12
+    },
+    "he_partner_stem": {
+      "raw_mi": 0.00016391978753275353,
+      "normalized_mi": 0.00017724345848017643,
+      "weight": 0.0035448691696035282,
+      "cardinality": 10
+    },
+    "he_partner_branch": {
+      "raw_mi": 0.00016641737227861958,
+      "normalized_mi": 0.0001732171319649395,
+      "weight": 0.0034643426392987897,
+      "cardinality": 12
+    },
+    "he_sum": {
+      "raw_mi": 0.0003138395869023806,
+      "normalized_mi": 0.00028715991417895253,
+      "weight": 0.005743198283579051,
+      "cardinality": 25
+    },
+    "luoshu_palace": {
+      "raw_mi": 4.569480692225979e-05,
+      "normalized_mi": 5.060560577866128e-05,
+      "weight": 0.0010121121155732254,
+      "cardinality": 9
+    },
+    "wuxing_bin": {
+      "raw_mi": 6.625307626531419e-05,
+      "normalized_mi": 8.567280221827323e-05,
+      "weight": 0.0017134560443654646,
+      "cardinality": 5
+    }
+  },
+  "spacing_transition": {
+    "transition_matrix": [
+      [
+        108,
+        98,
+        111,
+        82,
+        693
+      ],
+      [
+        88,
+        85,
+        84,
+        80,
+        603
+      ],
+      [
+        74,
+        72,
+        62,
+        50,
+        515
+      ],
+      [
+        97,
+        87,
+        64,
+        62,
+        440
+      ],
+      [
+        701,
+        606,
+        478,
+        515,
+        2769
+      ]
+    ],
+    "row_total": 8624,
+    "distribution": {
+      "1": 1068,
+      "2": 948,
+      "3": 799,
+      "4": 789,
+      "5": 5020
+    }
+  },
+  "relation_table": {
+    "rows": 11,
+    "types": [
+      "地支六合",
+      "天干五合"
+    ]
+  }
+}
