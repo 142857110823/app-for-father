@@ -703,6 +703,28 @@
 - Task 1 报告已写入指定目录。
 **【相关文档】** `分析/运行时/model_eval.py`、`测试/test_model_eval.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-1-report.md`、`work-flow.md`
 
+## 2026-09-02 Task 2 线性、树模型和条件马尔可夫近似
+
+**【时间】** 2026-09-02 12:08:10（Asia/Shanghai）  
+**【事件】** 完成阶段二模型工厂 Task 2，实现线性、树模型和条件马尔可夫近似，并补齐对应单测与任务报告。  
+**【问题来源】** 阶段二计划要求在统一 `train_split` 契约上实现 `fit_logistic_baseline`、`fit_lightgbm_baseline`、`fit_conditional_markov_approximation` 和 `predict_model`，同时严格排除 `draw_id`、`draw_index`、`draw_date`、`number`、`is_drawn` 的泄漏。  
+**【执行方向】**
+1. 先补失败测试，覆盖 49 候选输出、有限值、范围、可复现性和条件马尔可夫元数据约束。
+2. 实现 L2 LogisticRegression、LightGBM 二分类基座和透明条件马尔可夫近似。
+3. 统一 `predict_model` 入口并对空 split、缺失特征列和未知模型类型给出明确异常。
+4. 追加任务报告与工作流记录。
+**【执行边界】**
+- 不修改原始数据、Task 1 文件和 XLSX。
+- 不把 LightGBM 包装成 LambdaRank。
+- 不把条件马尔可夫近似冒充正式 CRF。
+**【执行结果】**
+- 已新增 `分析/运行时/model_baselines.py`。
+- 已新增 `测试/test_model_baselines.py`，并通过 5 项单测。
+- `fit_logistic_baseline`、`fit_lightgbm_baseline`、`fit_conditional_markov_approximation` 均可稳定返回每期 49 个有限分数。
+- `predict_model` 已能识别三种模型并按期返回概率矩阵。
+- 已写入 `task-2-report.md`。
+**【相关文档】** `分析/运行时/model_baselines.py`、`测试/test_model_baselines.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-2-report.md`、`work-flow.md`
+
 ## 2026-09-02 Task 1 修复轮次 1/5
 
 **【时间】** 2026-09-02 11:40:55（Asia/Shanghai）  
