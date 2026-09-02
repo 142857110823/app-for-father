@@ -702,3 +702,24 @@
 - 已确认 2026-08 被过滤，训练/验证/测试三段按日期切分，Top-K 平局按号码升序，置换检验使用固定种子。
 - Task 1 报告已写入指定目录。
 **【相关文档】** `分析/运行时/model_eval.py`、`测试/test_model_eval.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-1-report.md`、`work-flow.md`
+
+## 2026-09-02 Task 1 修复轮次 1/5
+
+**【时间】** 2026-09-02 11:40:55（Asia/Shanghai）  
+**【事件】** 按审查意见修正置换检验定义，并补充概率指标与配对强弱回归测试。  
+**【问题来源】** 审查发现原实现把 `permutation_p_value` 写成逐期随机抽号的 Monte Carlo 基线，不符合配对置换定义；同时 `Brier` 与 `Log Loss` 只有有限值检查，没有手算真值断言。  
+**【执行方向】**
+1. 将置换检验改为固定集合内容与大小，仅打乱 `truth_sets` 的期次配对顺序。
+2. 增加集合合法性、重复号码和 `1..49` 范围校验。
+3. 在测试里补入 Brier / Log Loss 手算真值和强配对 vs 打乱配对的回归断言。
+4. 重新运行单测并追加任务报告。
+**【执行边界】**
+- 只修改 Task 1 允许文件。
+- 不派生其他智能体。
+- 不修改台湾或澳门原始数据和现有 XLSX。
+**【执行结果】**
+- `permutation_p_value` 已改为配对置换，期数小于 2 时返回 `1.0`。
+- 已补充 `Brier=0.1405612244897958` 与 `Log Loss=0.4337291937982477` 的手算断言。
+- 已补充强配对与打乱配对的回归测试，固定 seed 可复现。
+- `F:\Python312\python.exe -m unittest 测试\\test_model_eval.py` 通过，`Ran 9 tests in 8.221s`。
+**【相关文档】** `分析/运行时/model_eval.py`、`测试/test_model_eval.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-1-report.md`、`work-flow.md`

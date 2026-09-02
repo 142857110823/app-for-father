@@ -284,22 +284,47 @@ def evaluate_predictions(probabilities, truth, numbers, k=15, threshold=3):
     }
 
 
+def _normalize_number_set(values, name):
+    normalized = tuple(int(value) for value in values)
+    if len(set(normalized)) != len(normalized):
+        raise ValueError(f"{name} contains duplicate numbers")
+    for value in normalized:
+        if value < 1 or value > 49:
+            raise ValueError(f"{name} contains numbers outside 1..49")
+    return frozenset(normalized)
+
+
 def permutation_p_value(predicted_sets, truth_sets, threshold=3, permutations=2000, seed=20260902):
     if len(predicted_sets) != len(truth_sets):
         raise ValueError("predicted_sets and truth_sets must have the same length")
     if permutations < 0:
         raise ValueError("permutations must be non-negative")
-    rng = random.Random(seed)
-    observed = sum(1 for predicted, truth in zip(predicted_sets, truth_sets) if len(set(predicted) & set(truth)) >= threshold)
-    if not predicted_sets:
+    normalized_predicted = [
+        _normalize_number_set(predicted, f"predicted_sets[{index}]")
+        for index, predicted in enumerate(predicted_sets)
+    ]
+    normalized_truth = [
+        _normalize_number_set(truth, f"truth_sets[{index}]")
+        for index, truth in enumerate(truth_sets)
+    ]
+    if len(normalized_predicted) < 2:
         return 1.0
-    candidate_numbers = list(range(1, 50))
+    predicted_sizes = {len(values) for values in normalized_predicted}
+    if len(predicted_sizes) != 1:
+        raise ValueError("predicted_sets must have a consistent set size")
+    rng = random.Random(seed)
+    observed = sum(
+        1
+        for predicted, truth in zip(normalized_predicted, normalized_truth)
+        if len(predicted & truth) >= threshold
+    )
     ge_count = 0
     for _ in range(permutations):
+        permuted_truth = list(normalized_truth)
+        rng.shuffle(permuted_truth)
         simulated = 0
-        for predicted, truth in zip(predicted_sets, truth_sets):
-            sampled = set(rng.sample(candidate_numbers, len(set(predicted))))
-            if len(sampled & set(truth)) >= threshold:
+        for predicted, truth in zip(normalized_predicted, permuted_truth):
+            if len(predicted & truth) >= threshold:
                 simulated += 1
         if simulated >= observed:
             ge_count += 1

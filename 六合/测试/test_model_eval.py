@@ -115,6 +115,8 @@ class ModelEvalTests(unittest.TestCase):
         self.assertIn("brier_score", result)
         self.assertIn("log_loss", result)
         self.assertEqual(len(result["hit_counts"]), 2)
+        self.assertAlmostEqual(result["brier_score"], 0.1405612244897958, places=15)
+        self.assertAlmostEqual(result["log_loss"], 0.4337291937982477, places=15)
         self.assertTrue(0 <= result["hit_at_least_threshold_rate"] <= 1)
         self.assertTrue(0 <= result["mean_recall"] <= 1)
         self.assertTrue(math.isfinite(result["brier_score"]))
@@ -125,13 +127,22 @@ class ModelEvalTests(unittest.TestCase):
             model_eval.evaluate_predictions([[0.1, 0.2]], [[1, 0]], [[1, 2]])
 
     def test_permutation_p_value_is_deterministic_and_bounded(self):
-        predicted_sets = [{1, 2, 3}, {4, 5, 6}]
-        truth_sets = [{1, 7, 8}, {4, 9, 10}]
+        predicted_sets = [{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}]
+        truth_sets = [{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}]
         first = model_eval.permutation_p_value(predicted_sets, truth_sets, threshold=2, permutations=50, seed=20260902)
         second = model_eval.permutation_p_value(predicted_sets, truth_sets, threshold=2, permutations=50, seed=20260902)
         self.assertEqual(first, second)
         self.assertGreaterEqual(first, 0.0)
         self.assertLessEqual(first, 1.0)
+
+    def test_permutation_p_value_distinguishes_pairing_strength(self):
+        strong_predicted = [{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}]
+        strong_truth = [{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}]
+        weak_truth = [{4, 5, 6}, {7, 8, 9}, {10, 11, 12}, {1, 2, 3}]
+        strong = model_eval.permutation_p_value(strong_predicted, strong_truth, threshold=2, permutations=50, seed=20260902)
+        weak = model_eval.permutation_p_value(strong_predicted, weak_truth, threshold=2, permutations=50, seed=20260902)
+        self.assertLess(strong, weak)
+        self.assertEqual(model_eval.permutation_p_value([{1, 2, 3}], [{1, 2, 3}], threshold=2), 1.0)
 
 
 if __name__ == "__main__":
