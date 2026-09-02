@@ -179,7 +179,7 @@ def _recent_count(history_draws, number, window):
 def fit_conditional_markov_approximation(train_split):
     _require_split(train_split)
     history_draws = [tuple(sorted(int(number) for number in draw["truth_numbers"])) for draw in train_split["draws"]]
-    last_seen, _ = _history_state(history_draws)
+    last_seen = {number: None for number in range(1, 50)}
     conditional_totals = defaultdict(lambda: Counter())
     candidate_totals = Counter()
     candidate_positives = Counter()

@@ -56,3 +56,19 @@
 - `theoretical_random_baseline.hit_at_least_probability=0.2571252367737104`
 - `data_summary.record_count=2157`
 - `data_summary.row_count=105693`
+
+## 修复轮次 2/5
+
+**Fix**
+- 在阶段二简报的限制部分明确披露冻结评分模式：`conditional_markov_approximation` 使用 `frozen_history=true`，`tcn` 和 `bpr` 使用 `holdout_update_mode=frozen_train_history`。
+- 保持“冻结后一次性 final holdout 评估”的表述，不把静态冻结分数描述成滚动在线预测。
+
+**Command**
+- `F:\Python312\python.exe .\分析\运行时\run_taiwan_model_factory.py`
+- `F:\Python312\python.exe -m unittest test_model_eval test_model_baselines test_model_sequence test_model_factory_integration`
+
+**Output**
+- `selected_model_slot=conditional_markov_approximation`
+- `test_evaluation_calls=1`
+- `Ran 26 tests in 169.962s`
+- `OK`

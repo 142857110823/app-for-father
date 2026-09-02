@@ -285,6 +285,8 @@ def _build_report(payload):
             "",
             "## 限制与结论",
             "- 正式 CRF 未实现，当前仅保留透明的 conditional_markov_approximation。",
+            "- conditional_markov_approximation 使用 frozen_history=true，条件表只来自训练历史快照，不做持有集滚动更新。",
+            "- tcn 与 bpr 使用 holdout_update_mode=frozen_train_history，验证/测试不回写历史，不是滚动在线预测。",
             "- 澳门仍无逐期官方数据，因此不生成澳门号码级模型。",
             f"- 结论：{payload['conclusion']}",
             "",

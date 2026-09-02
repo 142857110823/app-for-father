@@ -814,3 +814,24 @@
 - 运行脚本输出 `selected_model_slot=conditional_markov_approximation`、`test_evaluation_calls=1`。
 - 全量回归通过：`Ran 25 tests in 163.131s`，`OK`。
 **【相关文档】** `分析/运行时/run_taiwan_model_factory.py`、`测试/test_model_factory_integration.py`、`分析/统计结果/台湾_第一轮模型回测.json`、`分析/报告/科研循环简报_第01轮_阶段二.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-4-report.md`、`work-flow.md`
+
+## 2026-09-02 阶段二终审修复轮次 1/1
+
+**【时间】** 2026-09-02 14:13:20（+08:00）  
+**【事件】** 修复阶段二全分支终审指出的条件马尔可夫训练状态回看问题，并补充阶段二简报的冻结评分披露。  
+**【问题来源】** 终审发现 `fit_conditional_markov_approximation` 先用完整训练历史初始化 `last_seen`，导致早期训练样本的 gap_bin 可能读取到未来训练期信息；同时阶段二简报未明确说明 TCN/BPR/Markov 的冻结评分模式，容易被误读为滚动在线预测。  
+**【执行方向】**
+1. 将条件马尔可夫训练状态改为从空 `last_seen` 起步，并在每个训练期统计后再更新。
+2. 补一条能独立复算 `conditional_table` 的因果单测，直接拦截未来历史回看回归。
+3. 在阶段二简报限制部分明确披露 `frozen_history=true` 与 `holdout_update_mode=frozen_train_history`。
+4. 重跑模型工厂和四文件合并单测。
+**【执行边界】**
+- 只修改必要文件，不动澳门数据、原始 CSV、既有 XLSX，也不改已通过的模型评估协议。
+- 不派生智能体，不扩展到其他任务。
+**【执行结果】**
+- `分析/运行时/model_baselines.py` 已改为从空 `last_seen` 计算条件马尔可夫训练统计，保留 `history_draws` 训练快照和预测接口不变。
+- `测试/test_model_baselines.py` 新增独立因果回归测试，逐项比对 `conditional_table` 的 `total`、`positive` 与 `probability`。
+- `分析/运行时/run_taiwan_model_factory.py` 与阶段二简报已写明冻结评分模式：Markov 使用 `frozen_history=true`，TCN/BPR 使用 `holdout_update_mode=frozen_train_history`。
+- 重新运行脚本输出 `selected_model_slot=conditional_markov_approximation`、`test_evaluation_calls=1`。
+- 合并单测通过：`Ran 26 tests in 169.962s`，`OK`。
+**【相关文档】** `分析/运行时/model_baselines.py`、`分析/运行时/run_taiwan_model_factory.py`、`测试/test_model_baselines.py`、`分析/报告/科研循环简报_第01轮_阶段二.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-2-report.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-4-report.md`、`work-flow.md`

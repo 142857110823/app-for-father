@@ -33,3 +33,17 @@
 **Output**
 - `Ran 6 tests in 45.266s`
 - `OK`
+
+## Task 2 修复轮次 2/5
+
+**Fix**
+- 将 `fit_conditional_markov_approximation` 的 `last_seen` 改为从空状态开始，训练期的 gap 只依赖此前期次。
+- 新增独立回归测试，按顺序从空 `last_seen` 复算 `conditional_table`，逐项比对 `total`、`positive` 和 `probability`，防止未来历史污染早期 gap bin。
+- 保留 `history_draws` 训练快照和 `predict_model` 接口不变。
+
+**Command**
+- `F:\Python312\python.exe -m unittest test_model_eval test_model_baselines test_model_sequence test_model_factory_integration`
+
+**Output**
+- `Ran 26 tests in 169.962s`
+- `OK`
