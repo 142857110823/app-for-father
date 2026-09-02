@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import json
 import random
 from copy import deepcopy
@@ -93,8 +94,34 @@ def _random_probabilities(draw_count, seed):
     return [[rng.random() for _ in range(49)] for _ in range(draw_count)]
 
 
-def _random_baseline(split, seed):
+def _empirical_random_baseline(split, seed):
     return _evaluate_probabilities(_random_probabilities(int(split["draw_count"]), seed), split)
+
+
+def _hypergeometric_hit_at_least_probability(population, successes, selected, threshold):
+    population = int(population)
+    successes = int(successes)
+    selected = int(selected)
+    threshold = int(threshold)
+    numerator = 0
+    for hits in range(threshold, min(successes, selected) + 1):
+        numerator += math.comb(successes, hits) * math.comb(population - successes, selected - hits)
+    denominator = math.comb(population, selected)
+    return numerator / denominator if denominator else 0.0
+
+
+def _theoretical_random_baseline():
+    population = 49
+    successes = 6
+    selected = TOP_K
+    threshold = THRESHOLD
+    return {
+        "population": population,
+        "successes": successes,
+        "selected": selected,
+        "threshold": threshold,
+        "hit_at_least_probability": _hypergeometric_hit_at_least_probability(population, successes, selected, threshold),
+    }
 
 
 def _model_metadata(model):
@@ -178,12 +205,16 @@ def _predict_model(slot, model, split):
     raise ValueError(f"unsupported model slot: {slot}")
 
 
-def _evaluate_final_holdout_once(model_entries, test_split):
+def _evaluate_final_holdout_once(model_entries, test_split, empirical_random_seed):
     holdout_results = {}
+    test_split_touch_order = []
     for slot, entry in model_entries.items():
+        test_split_touch_order.append(slot)
         probabilities = _predict_model(slot, entry["_model"], test_split)
         holdout_results[slot] = _evaluate_probabilities(probabilities, test_split)
-    return holdout_results
+    test_split_touch_order.append("empirical_random_baseline")
+    empirical_random_final_holdout = _empirical_random_baseline(test_split, empirical_random_seed)
+    return holdout_results, empirical_random_final_holdout, test_split_touch_order
 
 
 def _rank_models(model_results):
@@ -209,8 +240,8 @@ def _build_report(payload):
         "## 数据边界",
         f"- 冻结目标范围：{payload['analysis_bounds']['analysis_start']} 至 {payload['analysis_bounds']['analysis_end']}",
         f"- 实际覆盖范围：{payload['analysis_bounds']['actual_coverage_start']} 至 {payload['analysis_bounds']['actual_coverage_end']}",
-        f"- 解析后记录数：{payload['data_summary']['record_count']}",
-        f"- 基础开奖期数：{payload['data_summary']['draw_count']}",
+        f"- 开奖期数：{payload['data_summary']['record_count']}",
+        f"- 长表行数：{payload['data_summary']['row_count']}",
         f"- 2026-08：{'未进入结果' if payload['analysis_bounds']['excluded_august_2026'] else '仍在结果中'}",
         "",
         "## 时间切分与冻结",
@@ -219,6 +250,7 @@ def _build_report(payload):
         f"- 测试区：{payload['split_bounds']['test']['start']} 至 {payload['split_bounds']['test']['end']}，期数 {payload['split_bounds']['test']['draw_count']}",
         f"- configuration_frozen_before_test：{str(payload['configuration_frozen_before_test']).lower()}",
         f"- test_evaluation_calls：{payload['test_evaluation_calls']}",
+        f"- test_split_touch_count：{payload['test_split_touch_count']}",
         "",
         "## 模型结果",
     ]
@@ -231,17 +263,21 @@ def _build_report(payload):
                 f"  - 验证：mean_recall={model['validation']['mean_recall']:.6f}，hit_rate={model['validation']['hit_at_least_threshold_rate']:.6f}，Brier={model['validation']['brier_score']:.6f}，LogLoss={model['validation']['log_loss']:.6f}，p={model['validation']['permutation_p_value']:.6f}，rank={model['validation_rank']}",
                 f"  - 测试：mean_recall={model['final_holdout']['mean_recall']:.6f}，hit_rate={model['final_holdout']['hit_at_least_threshold_rate']:.6f}，Brier={model['final_holdout']['brier_score']:.6f}，LogLoss={model['final_holdout']['log_loss']:.6f}，p={model['final_holdout']['permutation_p_value']:.6f}",
                 f"  - 训练/验证差距：Δmean_recall={model['validation_minus_train']['mean_recall']:.6f}，Δhit_rate={model['validation_minus_train']['hit_at_least_threshold_rate']:.6f}，ΔBrier={model['validation_minus_train']['brier_score']:.6f}，ΔLogLoss={model['validation_minus_train']['log_loss']:.6f}",
-                f"  - 相对随机基线：验证Δmean_recall={model['validation_vs_random']['mean_recall']:.6f}，测试Δmean_recall={model['final_holdout_vs_random']['mean_recall']:.6f}",
+                f"  - 相对经验随机基线：验证Δmean_recall={model['validation_vs_empirical_random']['mean_recall']:.6f}，测试Δmean_recall={model['final_holdout_vs_empirical_random']['mean_recall']:.6f}",
             ]
         )
 
     lines.extend(
         [
             "",
-            "## 随机基线",
-            f"- 生成方式：{payload['random_baseline']['generator']}，seed={payload['random_baseline']['seed']}",
-            f"- 验证集：mean_recall={payload['random_baseline']['validation']['mean_recall']:.6f}，hit_rate={payload['random_baseline']['validation']['hit_at_least_threshold_rate']:.6f}，Brier={payload['random_baseline']['validation']['brier_score']:.6f}，LogLoss={payload['random_baseline']['validation']['log_loss']:.6f}",
-            f"- 测试集：mean_recall={payload['random_baseline']['final_holdout']['mean_recall']:.6f}，hit_rate={payload['random_baseline']['final_holdout']['hit_at_least_threshold_rate']:.6f}，Brier={payload['random_baseline']['final_holdout']['brier_score']:.6f}，LogLoss={payload['random_baseline']['final_holdout']['log_loss']:.6f}",
+            "## 经验随机基线",
+            f"- 生成方式：{payload['empirical_random_baseline']['generator']}，seed={payload['empirical_random_baseline']['seed']}",
+            f"- 验证集：mean_recall={payload['empirical_random_baseline']['validation']['mean_recall']:.6f}，hit_rate={payload['empirical_random_baseline']['validation']['hit_at_least_threshold_rate']:.6f}，Brier={payload['empirical_random_baseline']['validation']['brier_score']:.6f}，LogLoss={payload['empirical_random_baseline']['validation']['log_loss']:.6f}",
+            f"- 测试集：mean_recall={payload['empirical_random_baseline']['final_holdout']['mean_recall']:.6f}，hit_rate={payload['empirical_random_baseline']['final_holdout']['hit_at_least_threshold_rate']:.6f}，Brier={payload['empirical_random_baseline']['final_holdout']['brier_score']:.6f}，LogLoss={payload['empirical_random_baseline']['final_holdout']['log_loss']:.6f}",
+            "",
+            "## 理论随机基线",
+            f"- population={payload['theoretical_random_baseline']['population']}，successes={payload['theoretical_random_baseline']['successes']}，selected={payload['theoretical_random_baseline']['selected']}，threshold={payload['theoretical_random_baseline']['threshold']}",
+            f"- hit_at_least_probability={payload['theoretical_random_baseline']['hit_at_least_probability']:.16f}",
             "",
             "## 选择规则",
             f"- {payload['selection_rule']['description']}",
@@ -273,16 +309,16 @@ def build_model_factory_result(force=False):
     test_split = splits["test"]
 
     fitted_models = _fit_models(train_split)
-    random_baseline_payload = {
+    empirical_random_baseline_payload = {
         "seed": RANDOM_SEED,
         "generator": "uniform_random_scores",
         "top_k": TOP_K,
         "threshold": THRESHOLD,
         "permutation_iterations": P_VALUE_PERMUTATIONS,
-        "training": _random_baseline(train_split, RANDOM_SEED + 1),
-        "validation": _random_baseline(validation_split, RANDOM_SEED + 2),
-        "final_holdout": _random_baseline(test_split, RANDOM_SEED + 3),
+        "training": _empirical_random_baseline(train_split, RANDOM_SEED + 1),
+        "validation": _empirical_random_baseline(validation_split, RANDOM_SEED + 2),
     }
+    theoretical_random_baseline_payload = _theoretical_random_baseline()
 
     model_results = {}
     for slot in MODEL_ORDER:
@@ -301,7 +337,11 @@ def build_model_factory_result(force=False):
     ranking = _rank_models(model_results)
     selected_slot = ranking[0]
 
-    holdout_results = _evaluate_final_holdout_once(model_results, test_split)
+    holdout_results, empirical_random_final_holdout, test_split_touch_order = _evaluate_final_holdout_once(
+        model_results,
+        test_split,
+        RANDOM_SEED + 3,
+    )
     for slot in MODEL_ORDER:
         model_results[slot]["final_holdout"] = holdout_results[slot]
         model_results[slot]["validation_minus_train"] = _validation_gap(
@@ -309,17 +349,17 @@ def build_model_factory_result(force=False):
             model_results[slot]["validation"],
         )
         model_results[slot]["selection_gap"] = dict(model_results[slot]["validation_minus_train"])
-        model_results[slot]["random_baseline"] = {
-            "validation": random_baseline_payload["validation"],
-            "final_holdout": random_baseline_payload["final_holdout"],
+        model_results[slot]["empirical_random_baseline"] = {
+            "validation": empirical_random_baseline_payload["validation"],
+            "final_holdout": empirical_random_final_holdout,
         }
-        model_results[slot]["validation_vs_random"] = _random_gap(
+        model_results[slot]["validation_vs_empirical_random"] = _random_gap(
             model_results[slot]["validation"],
-            random_baseline_payload["validation"],
+            empirical_random_baseline_payload["validation"],
         )
-        model_results[slot]["final_holdout_vs_random"] = _random_gap(
+        model_results[slot]["final_holdout_vs_empirical_random"] = _random_gap(
             model_results[slot]["final_holdout"],
-            random_baseline_payload["final_holdout"],
+            empirical_random_final_holdout,
         )
         del model_results[slot]["_model"]
 
@@ -335,7 +375,8 @@ def build_model_factory_result(force=False):
         },
         "data_summary": {
             "csv_path": str(CSV_PATH),
-            "record_count": len(rows),
+            "record_count": len(dataset["draws"]),
+            "row_count": len(rows),
             "draw_count": len(dataset["draws"]),
             "verified_only": True,
             "candidate_count": len(dataset["candidate_numbers"]),
@@ -347,12 +388,17 @@ def build_model_factory_result(force=False):
         },
         "configuration_frozen_before_test": True,
         "test_evaluation_calls": 1,
+        "test_split_touch_count": len(test_split_touch_order),
+        "final_evaluation_order": test_split_touch_order,
         "selection_rule": {
             "description": "按 validation.mean_recall 选优，平局依次比较 validation.hit_at_least_threshold_rate、validation.log_loss、validation.brier_score；测试集只在冻结后统一评估一次。",
             "selected_model_slot": selected_slot,
             "ranking": ranking,
         },
-        "random_baseline": random_baseline_payload,
+        "empirical_random_baseline": empirical_random_baseline_payload | {
+            "final_holdout": empirical_random_final_holdout,
+        },
+        "theoretical_random_baseline": theoretical_random_baseline_payload,
         "models": model_results,
         "macau": {
             "status": "not_generated",
@@ -363,7 +409,7 @@ def build_model_factory_result(force=False):
     payload["conclusion"] = (
         "未发现可复现、可泛化的开奖预测证据"
         if max(
-            payload["models"][slot]["final_holdout"]["mean_recall"] - payload["random_baseline"]["final_holdout"]["mean_recall"]
+            payload["models"][slot]["final_holdout"]["mean_recall"] - payload["empirical_random_baseline"]["final_holdout"]["mean_recall"]
             for slot in MODEL_ORDER
         ) <= 0.0
         else "样本外提升未稳定超过随机基线，未发现可复现、可泛化的开奖预测证据"

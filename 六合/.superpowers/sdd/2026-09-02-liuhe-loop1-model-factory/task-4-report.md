@@ -27,3 +27,32 @@
 - 当前正式 CRF 仍未实现，`conditional_markov_approximation` 只是透明近似。
 - 结果未显示稳定超越随机基线的可复现证据，结论仍应保守。
 - `unittest` 在中文路径下对模块名解析不稳，回归优先在 `F:\1\夫\六合\测试` 目录下直接跑模块名。
+
+---
+
+## 修复轮次 1/5
+
+**Status:** PASS
+
+**修复内容**
+- 将测试集 final holdout 统一后移到配置冻结之后，经验随机基线也只在冻结后补做一次 final holdout。
+- 新增 `test_split_touch_count=6` 与 `final_evaluation_order`，明确五个模型加经验随机基线的最终评估顺序。
+- 将旧的 `random_baseline` 改为 `empirical_random_baseline`，并新增精确 `theoretical_random_baseline`。
+- 修正 `data_summary.record_count=2157`、`data_summary.row_count=105693`。
+
+**测试命令**
+- `F:\Python312\python.exe .\分析\运行时\run_taiwan_model_factory.py`
+- `F:\Python312\python.exe -m unittest test_model_eval test_model_baselines test_model_sequence test_model_factory_integration`
+
+**实际输出**
+- 脚本输出：`selected_model_slot=conditional_markov_approximation`
+- 脚本输出：`test_evaluation_calls=1`
+- 单测输出：`Ran 25 tests in 163.131s`
+- 单测输出：`OK`
+
+**新增校验**
+- `test_split_touch_count=6`
+- `final_evaluation_order=[logistic_l2, lightgbm_ranker, conditional_markov_approximation, tcn, bpr, empirical_random_baseline]`
+- `theoretical_random_baseline.hit_at_least_probability=0.2571252367737104`
+- `data_summary.record_count=2157`
+- `data_summary.row_count=105693`

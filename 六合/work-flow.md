@@ -791,3 +791,26 @@
 - 工厂脚本输出的选中槽位为 `conditional_markov_approximation`。
 - 阶段二简报已写明正式 CRF 未实现、澳门无号码级模型以及未发现稳定超越随机基线的可复现证据。
 **【相关文档】** `分析/运行时/run_taiwan_model_factory.py`、`测试/test_model_factory_integration.py`、`分析/统计结果/台湾_第一轮模型回测.json`、`分析/报告/科研循环简报_第01轮_阶段二.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-4-report.md`、`work-flow.md`
+
+## 2026-09-02 Task 4 修复轮次 1/5
+
+**【时间】** 2026-09-02 13:31:22（Asia/Shanghai）  
+**【事件】** 修复阶段二 Task 4 模型工厂的测试集冻结顺序、随机基线命名和数据计数口径。  
+**【问题来源】** 上次审查确认 `random_baseline_payload["final_holdout"]` 在配置冻结前触碰测试集、经验随机分数与理论随机基线命名混淆、`data_summary.record_count` 误写为长表行数。  
+**【执行方向】**
+1. 将五个模型训练/验证和经验随机训练/验证放在配置冻结前。
+2. 依据 validation 排名冻结 `selected_model_slot` 后，再统一执行一次最终测试阶段。
+3. 将最终测试阶段记录为五个模型加经验随机基线共 `test_split_touch_count=6`。
+4. 拆分 `empirical_random_baseline` 与 `theoretical_random_baseline`，并修正 `record_count` 与 `row_count`。
+**【执行边界】**
+- 只修改 Task 4 允许文件。
+- 不修改 Task 1-3 文件、台湾/澳门原始数据或现有 XLSX。
+- 不派生智能体，不输出下一期号码、投注组合或收益承诺。
+**【执行结果】**
+- `分析/运行时/run_taiwan_model_factory.py` 已改为冻结后一次性评估五模型 final holdout 与经验随机 final holdout。
+- `分析/统计结果/台湾_第一轮模型回测.json` 已刷新：`configuration_frozen_before_test=true`、`test_evaluation_calls=1`、`test_split_touch_count=6`、`record_count=2157`、`row_count=105693`。
+- 已新增理论超几何随机基线：`population=49`、`successes=6`、`selected=15`、`threshold=3`、`hit_at_least_probability=0.2571252367737104`。
+- 阶段二简报已明确区分经验随机基线和理论随机基线，并继续披露正式 CRF 未实现、澳门无号码级模型、未发现可复现预测证据。
+- 运行脚本输出 `selected_model_slot=conditional_markov_approximation`、`test_evaluation_calls=1`。
+- 全量回归通过：`Ran 25 tests in 163.131s`，`OK`。
+**【相关文档】** `分析/运行时/run_taiwan_model_factory.py`、`测试/test_model_factory_integration.py`、`分析/统计结果/台湾_第一轮模型回测.json`、`分析/报告/科研循环简报_第01轮_阶段二.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-4-report.md`、`work-flow.md`

@@ -29,9 +29,28 @@ class ModelFactoryIntegrationTests(unittest.TestCase):
         )
         self.assertTrue(result["configuration_frozen_before_test"])
         self.assertEqual(result["test_evaluation_calls"], 1)
+        self.assertEqual(result["test_split_touch_count"], 6)
+        self.assertEqual(
+            result["final_evaluation_order"],
+            [
+                "logistic_l2",
+                "lightgbm_ranker",
+                "conditional_markov_approximation",
+                "tcn",
+                "bpr",
+                "empirical_random_baseline",
+            ],
+        )
         self.assertEqual(result["analysis_bounds"]["analysis_end"], "2026-07-31")
         self.assertLessEqual(result["split_bounds"]["test"]["end"], "2026-07-31")
         self.assertEqual(result["macau"]["number_level_models"], [])
+        self.assertEqual(result["data_summary"]["record_count"], 2157)
+        self.assertEqual(result["data_summary"]["row_count"], 105693)
+        self.assertAlmostEqual(
+            result["theoretical_random_baseline"]["hit_at_least_probability"],
+            0.2571252367737104,
+            places=16,
+        )
 
         for slot, model in result["models"].items():
             with self.subTest(slot=slot):
@@ -39,10 +58,13 @@ class ModelFactoryIntegrationTests(unittest.TestCase):
                 self.assertIn("validation", model)
                 self.assertIn("final_holdout", model)
                 self.assertIn("selection_gap", model)
-                self.assertIn("random_baseline", model)
+                self.assertIn("empirical_random_baseline", model)
+                self.assertIn("validation_vs_empirical_random", model)
+                self.assertIn("final_holdout_vs_empirical_random", model)
                 self.assertIn("permutation_p_value", model["validation"])
                 self.assertIn("permutation_p_value", model["final_holdout"])
                 self.assertLessEqual(model["final_holdout"]["date_end"], "2026-07-31")
+                self.assertIn("final_holdout", model["empirical_random_baseline"])
 
         self.assertEqual(result["models"]["lightgbm_ranker"]["actual_model_type"], "lightgbm_binary_classifier")
 
@@ -58,6 +80,25 @@ class ModelFactoryIntegrationTests(unittest.TestCase):
         self.assertEqual(persisted["test_evaluation_calls"], 1)
         self.assertTrue(persisted["configuration_frozen_before_test"])
         self.assertEqual(persisted["split_bounds"]["test"]["end"], "2026-07-31")
+        self.assertEqual(persisted["test_split_touch_count"], 6)
+        self.assertEqual(
+            persisted["final_evaluation_order"],
+            [
+                "logistic_l2",
+                "lightgbm_ranker",
+                "conditional_markov_approximation",
+                "tcn",
+                "bpr",
+                "empirical_random_baseline",
+            ],
+        )
+        self.assertEqual(persisted["data_summary"]["record_count"], 2157)
+        self.assertEqual(persisted["data_summary"]["row_count"], 105693)
+        self.assertAlmostEqual(
+            persisted["theoretical_random_baseline"]["hit_at_least_probability"],
+            0.2571252367737104,
+            places=16,
+        )
         self.assertEqual(result["models"]["lightgbm_ranker"]["actual_model_type"], "lightgbm_binary_classifier")
 
         brief_text = OUTPUT_BRIEF.read_text(encoding="utf-8")
@@ -66,6 +107,8 @@ class ModelFactoryIntegrationTests(unittest.TestCase):
             self.assertNotIn(phrase, brief_text)
         self.assertIn("未发现可复现、可泛化的开奖预测证据", brief_text)
         self.assertIn("正式 CRF 未实现", brief_text)
+        self.assertIn("理论随机基线", brief_text)
+        self.assertIn("经验随机基线", brief_text)
 
 
 if __name__ == "__main__":

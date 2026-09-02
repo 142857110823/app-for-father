@@ -1,6 +1,6 @@
 {
   "task": "phase2_model_factory",
-  "generated_at": "2026-09-02T13:06:58+08:00",
+  "generated_at": "2026-09-02T13:30:15+08:00",
   "analysis_bounds": {
     "analysis_start": "2006-01-01",
     "analysis_end": "2026-07-31",
@@ -10,7 +10,8 @@
   },
   "data_summary": {
     "csv_path": "F:\\1\\夫\\六合\\分析\\中间数据\\台湾_特征超空间.csv",
-    "record_count": 105693,
+    "record_count": 2157,
+    "row_count": 105693,
     "draw_count": 2157,
     "verified_only": true,
     "candidate_count": 49
@@ -37,6 +38,15 @@
   },
   "configuration_frozen_before_test": true,
   "test_evaluation_calls": 1,
+  "test_split_touch_count": 6,
+  "final_evaluation_order": [
+    "logistic_l2",
+    "lightgbm_ranker",
+    "conditional_markov_approximation",
+    "tcn",
+    "bpr",
+    "empirical_random_baseline"
+  ],
   "selection_rule": {
     "description": "按 validation.mean_recall 选优，平局依次比较 validation.hit_at_least_threshold_rate、validation.log_loss、validation.brier_score；测试集只在冻结后统一评估一次。",
     "selected_model_slot": "conditional_markov_approximation",
@@ -48,7 +58,7 @@
       "logistic_l2"
     ]
   },
-  "random_baseline": {
+  "empirical_random_baseline": {
     "seed": 20260902,
     "generator": "uniform_random_scores",
     "top_k": 15,
@@ -2259,6 +2269,13 @@
         2
       ]
     }
+  },
+  "theoretical_random_baseline": {
+    "population": 49,
+    "successes": 6,
+    "selected": 15,
+    "threshold": 3,
+    "hit_at_least_probability": 0.2571252367737104
   },
   "models": {
     "logistic_l2": {
@@ -4493,7 +4510,7 @@
         "log_loss": 0.0002615842327628459,
         "permutation_p_value": 0.7290836653386454
       },
-      "random_baseline": {
+      "empirical_random_baseline": {
         "validation": {
           "draw_count": 551,
           "sample_count": 26999,
@@ -5733,7 +5750,7 @@
           ]
         }
       },
-      "validation_vs_random": {
+      "validation_vs_empirical_random": {
         "mean_recall": 0.005142165759225548,
         "hit_at_least_threshold_rate": 0.005444646098003658,
         "mean_hit_count": 0.030852994555353952,
@@ -5741,7 +5758,7 @@
         "log_loss": -0.6296321199249842,
         "permutation_p_value": 0.11952191235059761
       },
-      "final_holdout_vs_random": {
+      "final_holdout_vs_empirical_random": {
         "mean_recall": 0.016284987277353613,
         "hit_at_least_threshold_rate": 0.051908396946564905,
         "mean_hit_count": 0.09770992366412234,
@@ -7983,7 +8000,7 @@
         "log_loss": 0.0420096152328453,
         "permutation_p_value": 0.03187250996015936
       },
-      "random_baseline": {
+      "empirical_random_baseline": {
         "validation": {
           "draw_count": 551,
           "sample_count": 26999,
@@ -9223,7 +9240,7 @@
           ]
         }
       },
-      "validation_vs_random": {
+      "validation_vs_empirical_random": {
         "mean_recall": 0.00907441016333943,
         "hit_at_least_threshold_rate": 0.03992740471869333,
         "mean_hit_count": 0.05444646098003636,
@@ -9231,7 +9248,7 @@
         "log_loss": -0.6264407310229685,
         "permutation_p_value": -0.6175298804780877
       },
-      "final_holdout_vs_random": {
+      "final_holdout_vs_empirical_random": {
         "mean_recall": 0.011450381679389166,
         "hit_at_least_threshold_rate": 0.02748091603053432,
         "mean_hit_count": 0.06870229007633588,
@@ -11476,7 +11493,7 @@
         "log_loss": 0.0003894396937449973,
         "permutation_p_value": 0.0
       },
-      "random_baseline": {
+      "empirical_random_baseline": {
         "validation": {
           "draw_count": 551,
           "sample_count": 26999,
@@ -12716,7 +12733,7 @@
           ]
         }
       },
-      "validation_vs_random": {
+      "validation_vs_empirical_random": {
         "mean_recall": 0.014216575922564978,
         "hit_at_least_threshold_rate": 0.019963702359346636,
         "mean_hit_count": 0.08529945553539031,
@@ -12724,7 +12741,7 @@
         "log_loss": -0.6258148367841394,
         "permutation_p_value": 0.3466135458167331
       },
-      "final_holdout_vs_random": {
+      "final_holdout_vs_empirical_random": {
         "mean_recall": 0.007633587786259333,
         "hit_at_least_threshold_rate": 0.03358778625954195,
         "mean_hit_count": 0.04580152671755733,
@@ -14971,7 +14988,7 @@
         "log_loss": 0.0007037682130736078,
         "permutation_p_value": 0.0
       },
-      "random_baseline": {
+      "empirical_random_baseline": {
         "validation": {
           "draw_count": 551,
           "sample_count": 26999,
@@ -16211,7 +16228,7 @@
           ]
         }
       },
-      "validation_vs_random": {
+      "validation_vs_empirical_random": {
         "mean_recall": 0.007562008469449544,
         "hit_at_least_threshold_rate": 0.03266787658802178,
         "mean_hit_count": 0.04537205081669704,
@@ -16219,7 +16236,7 @@
         "log_loss": -0.6268249987823991,
         "permutation_p_value": 0.3466135458167331
       },
-      "final_holdout_vs_random": {
+      "final_holdout_vs_empirical_random": {
         "mean_recall": 0.014758269720101358,
         "hit_at_least_threshold_rate": 0.05343511450381677,
         "mean_hit_count": 0.0885496183206107,
@@ -18468,7 +18485,7 @@
         "log_loss": 0.0011981777865240906,
         "permutation_p_value": 0.0
       },
-      "random_baseline": {
+      "empirical_random_baseline": {
         "validation": {
           "draw_count": 551,
           "sample_count": 26999,
@@ -19708,7 +19725,7 @@
           ]
         }
       },
-      "validation_vs_random": {
+      "validation_vs_empirical_random": {
         "mean_recall": 0.005444646098003714,
         "hit_at_least_threshold_rate": 0.023593466424682408,
         "mean_hit_count": 0.03266787658802173,
@@ -19716,7 +19733,7 @@
         "log_loss": -0.28262796594206374,
         "permutation_p_value": 0.3466135458167331
       },
-      "final_holdout_vs_random": {
+      "final_holdout_vs_empirical_random": {
         "mean_recall": 0.007888040712468125,
         "hit_at_least_threshold_rate": 0.02442748091603053,
         "mean_hit_count": 0.047328244274809306,
