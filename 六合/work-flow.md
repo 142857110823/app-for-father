@@ -767,3 +767,27 @@
 - `predict_sequence_model` 已能识别两种模型并返回每期 49 个 `[0,1]` 概率。
 - 已生成 `task-3-report.md` 并追加本条工作流记录。
 **【相关文档】** `分析/运行时/model_sequence.py`、`测试/test_model_sequence.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-3-report.md`、`work-flow.md`
+
+## 2026-09-02 阶段二模型工厂、回测结果与简报
+
+**【时间】** 2026-09-02 13:07:57（Asia/Shanghai）  
+**【事件】** 完成阶段二统一模型工厂、严格时间回测结果和阶段二简报写入。  
+**【问题来源】** Task 4 要求把 Task 1-3 的统一评估、线性/树/马尔可夫、TCN/BPR 候选模型整合为单次冻结后的测试集评估，并输出 JSON 与阶段二简报。  
+**【执行方向】**
+1. 先补 `test_model_factory_integration.py`，锁定五个固定槽位、冻结标记、测试集日期上限和澳门边界。
+2. 实现 `run_taiwan_model_factory.py`，统一训练、验证、随机基线、一次性测试集评估和结果写入。
+3. 生成 `分析/统计结果/台湾_第一轮模型回测.json` 与 `分析/报告/科研循环简报_第01轮_阶段二.md`。
+4. 运行全量回归并补写任务报告。
+**【执行边界】**
+- 只使用台湾第一轮 `verified` 特征长表，分析范围声明为 `2006-01-01 至 2026-07-31`，并明确排除 2026-08。
+- 测试集仅在配置冻结后评估一次，不用测试集调参。
+- 保留五个模型槽位和随机基线，不只写最优结果。
+- 澳门不生成号码级模型，不改澳门数据。
+**【执行结果】**
+- 已创建统一工厂脚本、集成测试、模型回测 JSON、阶段二简报和任务报告。
+- JSON 中五个槽位均保留，`lightgbm_ranker` 实际模型类型标注为 `lightgbm_binary_classifier`。
+- `configuration_frozen_before_test=true`，`test_evaluation_calls=1`。
+- 全量回归通过：`Ran 25 tests in 132.215s`，`OK`。
+- 工厂脚本输出的选中槽位为 `conditional_markov_approximation`。
+- 阶段二简报已写明正式 CRF 未实现、澳门无号码级模型以及未发现稳定超越随机基线的可复现证据。
+**【相关文档】** `分析/运行时/run_taiwan_model_factory.py`、`测试/test_model_factory_integration.py`、`分析/统计结果/台湾_第一轮模型回测.json`、`分析/报告/科研循环简报_第01轮_阶段二.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-4-report.md`、`work-flow.md`
