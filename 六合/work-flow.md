@@ -878,3 +878,25 @@
 - 任务报告已写入 `.superpowers/sdd/2026-09-02-liuhe-loop2-pruning-ensemble/task-1-report.md`。
 - 回归通过：`Ran 23 tests in 134.525s`，`OK`；新模块单测 `Ran 7 tests in 67.234s`，`OK`。
 **【相关文档】** `task-1-brief.md`、`loop2_pruning.py`、`test_loop2_pruning.py`、`task-1-report.md`、`work-flow.md`
+
+## 2026-09-02 阶段五集成与残差候选
+
+**【时间】** 2026-09-02 15:22:57 +08:00  
+**【事件】** 实现第二轮循环阶段五的 soft voting、前三槽位抽取、XGBoost 残差候选接口与单元测试，并生成任务报告。  
+**【问题来源】** `task-2-brief.md` 要求只实现通用集成/残差工具，不生成第二轮最终 JSON，不修改原始 CSV/XLSX/第一轮 JSON。  
+**【执行方向】**
+1. 新增 `分析/运行时/loop2_ensemble.py`，提供 soft voting、前三槽位抽取、残差拟合/预测和概率融合接口。
+2. 新增 `测试/test_loop2_ensemble.py`，覆盖形状、权重归一化、概率边界、验证排序边界、残差训练边界、非法输入和固定 seed 可复现。
+3. 在 `xgboost` 缺失时明确返回 `not_implemented`，不伪造采用结果。
+4. 将本次实现、测试命令、输出、残差状态和风险写入任务报告。
+**【执行边界】**
+- 不修改原始 CSV、XLSX、第一轮回测 JSON、Task 1/Task 2 既有实现或其他智能体文件。
+- 不生成第二轮最终 JSON，不输出下一期号码、投注组合或收益结论。
+- 残差模型只允许使用训练期特征和训练期基模型预测。
+**【执行结果】**
+- 已创建 `分析/运行时/loop2_ensemble.py`。
+- 已创建 `测试/test_loop2_ensemble.py`。
+- 已完成回归：`Ran 38 tests in 215.158s`，`OK`。
+- 当前环境 `xgboost` 不可用，因此残差候选返回 `status=not_implemented`、`reason=xgboost_unavailable`；采用分支由 fake 回归器测试覆盖。
+- 任务报告已写入 `F:\1\夫\六合\.superpowers\sdd\2026-09-02-liuhe-loop2-pruning-ensemble\task-2-report.md`。
+**【相关文档】** `task-2-brief.md`、`loop2_ensemble.py`、`test_loop2_ensemble.py`、`task-2-report.md`、`work-flow.md`
