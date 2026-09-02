@@ -22,3 +22,22 @@ TCN 采用小型因果一维卷积，BPR 采用 49 号码隐向量 + 上下文�
 
 **说明**  
 这是候选基线实现，不宣称生产级深度模型性能。
+
+## 修复轮次 1/5
+
+**时间** 2026-09-02 12:43:54（Asia/Shanghai）
+
+**修复内容**  
+- 将 `predict_sequence_model` 的 TCN/BPR 持有集预测改为严格 `frozen_train_history` 模式，只读取 `fit` 时冻结保存的 `history_states`，不再拼接 validation/test 的前序标签或真值。
+- 为 TCN/BPR 模型元数据补充 `holdout_update_mode='frozen_train_history'`。
+- 新增带放回负样本采样辅助函数，保证 BPR 每个训练期的配对数精确等于 positives 数量，即使 negatives 不足也不下溢。
+- 将泄漏测试从“只改最后一期”补强为“改中间期合法标签”，覆盖旧实现读取前序持有集标签的情况；并新增负样本补齐不变量测试。
+- 额外补充 BPR 中间期持有集标签不变性测试，和 TCN 一起验证预测不随 validation/test 真值变化而变化。
+
+**执行命令**  
+`F:\Python312\python.exe "F:\1\夫\六合\测试\test_model_sequence.py"`
+
+**输出**  
+`........`  
+`Ran 8 tests in 48.377s`  
+`OK`

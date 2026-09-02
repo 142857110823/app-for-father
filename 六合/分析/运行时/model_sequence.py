@@ -1,9 +1,6 @@
 from __future__ import annotations
 
-import math
 import random
-from dataclasses import dataclass
-from typing import Iterable, Sequence
 
 import numpy as np
 import torch
@@ -146,11 +143,14 @@ def _last_window(draw_states, window_size):
     return np.asarray(draw_states[-window_size:], dtype=np.float32)
 
 
-def _split_history_states(model, split):
+def _frozen_history_window(model, split):
     draws = _require_split(split)
-    observed_states = _build_draw_states(draws)
     history_states = np.asarray(model["history_states"], dtype=np.float32)
-    return draws, observed_states, history_states
+    if history_states.ndim != 2 or history_states.shape[1] != NUM_CANDIDATES:
+        raise ValueError("model history_states must be a frozen 2D window")
+    if len(history_states) < WINDOW_SIZE:
+        raise ValueError("model history_states must contain a full window")
+    return draws, history_states
 
 
 def fit_tcn_baseline(train_split, seed=20260902):
@@ -181,6 +181,7 @@ def fit_tcn_baseline(train_split, seed=20260902):
         "train_steps": TCN_TRAIN_STEPS,
         "learning_rate": TCN_LEARNING_RATE,
         "hidden_dim": TCN_HIDDEN_DIM,
+        "holdout_update_mode": "frozen_train_history",
         "network": model,
         "history_states": draw_states[-WINDOW_SIZE:].tolist(),
         "metadata": {
@@ -189,6 +190,7 @@ def fit_tcn_baseline(train_split, seed=20260902):
             "train_steps": TCN_TRAIN_STEPS,
             "learning_rate": TCN_LEARNING_RATE,
             "hidden_dim": TCN_HIDDEN_DIM,
+            "holdout_update_mode": "frozen_train_history",
             "train_draw_count": int(train_split["draw_count"]),
         },
     }
@@ -212,11 +214,7 @@ def fit_bpr_baseline(train_split, seed=20260902):
         negatives = [index for index, value in enumerate(target) if value < 0.5]
         if not positives or not negatives:
             raise ValueError("each training draw must contain both positive and negative labels")
-        sampled_negatives = negatives[:]
-        rng.shuffle(sampled_negatives)
-        sampled_negatives = sampled_negatives[: len(positives)]
-        if len(sampled_negatives) < len(positives):
-            sampled_negatives.extend(sampled_negatives[: len(positives) - len(sampled_negatives)])
+        sampled_negatives = _sample_negatives_with_replacement(rng, negatives, len(positives))
         for positive, negative in zip(positives, sampled_negatives):
             pair_contexts.append(context.reshape(-1))
             pair_positives.append(positive)
@@ -244,6 +242,7 @@ def fit_bpr_baseline(train_split, seed=20260902):
         "learning_rate": BPR_LEARNING_RATE,
         "context_dim": BPR_CONTEXT_DIM,
         "embedding_dim": BPR_CONTEXT_DIM,
+        "holdout_update_mode": "frozen_train_history",
         "network": model,
         "history_states": draw_states[-WINDOW_SIZE:].tolist(),
         "metadata": {
@@ -253,42 +252,51 @@ def fit_bpr_baseline(train_split, seed=20260902):
             "learning_rate": BPR_LEARNING_RATE,
             "context_dim": BPR_CONTEXT_DIM,
             "embedding_dim": BPR_CONTEXT_DIM,
+            "holdout_update_mode": "frozen_train_history",
             "train_draw_count": int(train_split["draw_count"]),
             "pair_count": len(pair_contexts),
         },
     }
 
 
+def _sample_negatives_with_replacement(rng, negatives, count):
+    if count < 0:
+        raise ValueError("count must be non-negative")
+    if not negatives:
+        raise ValueError("negatives must not be empty")
+    pool = list(negatives)
+    sampled = []
+    while len(sampled) < count:
+        sampled.append(pool[rng.randrange(len(pool))])
+    return sampled
+
+
 def _predict_tcn(model, split):
-    draws, observed_states, history_states = _split_history_states(model, split)
+    draws, history_states = _frozen_history_window(model, split)
     if len(draws) < 2:
         raise ValueError("split must contain at least two draws")
     network = model["network"]
     network.eval()
-    combined = list(history_states.tolist())
     predictions = []
     with torch.no_grad():
-        for index, _draw in enumerate(draws):
-            window = combined + observed_states[:index].tolist()
-            context = _last_window(window, WINDOW_SIZE)
-            logits = network(torch.tensor(context[None, :, :], dtype=torch.float32))
-            row = torch.sigmoid(logits).squeeze(0).clamp(0.0, 1.0).tolist()
+        context = torch.tensor(history_states[None, :, :], dtype=torch.float32)
+        logits = network(context)
+        row = torch.sigmoid(logits).squeeze(0).clamp(0.0, 1.0).tolist()
+        for _draw in draws:
             predictions.append([float(value) for value in row])
     return predictions
 
 
 def _predict_bpr(model, split):
-    draws, observed_states, history_states = _split_history_states(model, split)
+    draws, history_states = _frozen_history_window(model, split)
     if len(draws) < 2:
         raise ValueError("split must contain at least two draws")
     network = model["network"]
     network.eval()
     predictions = []
     with torch.no_grad():
-        for index, _draw in enumerate(draws):
-            window = list(history_states.tolist()) + observed_states[:index].tolist()
-            context = _last_window(window, WINDOW_SIZE).reshape(1, -1)
-            context_tensor = torch.tensor(context, dtype=torch.float32)
+        context_tensor = torch.tensor(history_states.reshape(1, -1), dtype=torch.float32)
+        for _draw in draws:
             item_indices = torch.arange(NUM_CANDIDATES, dtype=torch.long)
             scores = network.score(context_tensor.repeat(NUM_CANDIDATES, 1), item_indices)
             row = torch.sigmoid(scores).clamp(0.0, 1.0).tolist()

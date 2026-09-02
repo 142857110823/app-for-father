@@ -1,4 +1,5 @@
 import math
+import random
 import sys
 import unittest
 from copy import deepcopy
@@ -49,19 +50,19 @@ class ModelSequenceTests(unittest.TestCase):
             sliced["date_end"] = None
         return sliced
 
-    def _mutate_tail_labels(self, split):
+    def _mutate_labels_at_index(self, split, draw_index):
         mutated = deepcopy(split)
-        draw = mutated["draws"][-1]
+        draw = mutated["draws"][draw_index]
         draw["truth_numbers"] = tuple(range(1, 7))
         draw["labels"] = [1 if number <= 6 else 0 for number in range(1, 50)]
         for candidate in draw["candidates"]:
             candidate["label"] = 1 if candidate["number"] <= 6 else 0
-        tail_draw_index = mutated["draws"][-1]["draw_index"]
+        target_draw_index = draw["draw_index"]
         for sample in mutated["samples"]:
-            if sample["draw_index"] == tail_draw_index:
+            if sample["draw_index"] == target_draw_index:
                 sample["label"] = 1 if sample["number"] <= 6 else 0
-        tail_offset = (len(mutated["draws"]) - 1) * 49
-        mutated["labels"][tail_offset : tail_offset + 49] = draw["labels"][:]
+        offset = draw_index * 49
+        mutated["labels"][offset : offset + 49] = draw["labels"][:]
         return mutated
 
     def test_tcn_reproducible_and_probabilities_are_bounded(self):
@@ -72,13 +73,15 @@ class ModelSequenceTests(unittest.TestCase):
 
         self.assertEqual(model["model_type"], "tcn_baseline")
         self.assertEqual(model["seed"], 20260902)
+        self.assertEqual(model["holdout_update_mode"], "frozen_train_history")
         self._assert_probability_rows(validation_probabilities, self.validation_split["draw_count"])
         self.assertEqual(validation_probabilities, repeat_probabilities)
 
     def test_tcn_window_does_not_use_target_period_labels(self):
         model = model_sequence.fit_tcn_baseline(self.train_split, seed=20260902)
         original = model_sequence.predict_sequence_model(model, self.validation_split)
-        mutated = model_sequence.predict_sequence_model(model, self._mutate_tail_labels(self.validation_split))
+        mutated_split = self._mutate_labels_at_index(self.validation_split, 9)
+        mutated = model_sequence.predict_sequence_model(model, mutated_split)
         self.assertEqual(original, mutated)
 
     def test_bpr_reproducible_and_probabilities_are_bounded(self):
@@ -89,14 +92,28 @@ class ModelSequenceTests(unittest.TestCase):
 
         self.assertEqual(model["model_type"], "bpr_baseline")
         self.assertEqual(model["seed"], 20260902)
+        self.assertEqual(model["holdout_update_mode"], "frozen_train_history")
         self._assert_probability_rows(validation_probabilities, self.validation_split["draw_count"])
         self.assertEqual(validation_probabilities, repeat_probabilities)
+
+    def test_bpr_window_does_not_use_holdout_period_labels(self):
+        model = model_sequence.fit_bpr_baseline(self.train_split, seed=20260902)
+        original = model_sequence.predict_sequence_model(model, self.validation_split)
+        mutated_split = self._mutate_labels_at_index(self.validation_split, 9)
+        mutated = model_sequence.predict_sequence_model(model, mutated_split)
+        self.assertEqual(original, mutated)
 
     def test_bpr_rejects_inconsistent_training_boundary(self):
         bogus_train = deepcopy(self.train_split)
         bogus_train["draws"].append(deepcopy(self.validation_split["draws"][0]))
         with self.assertRaises(ValueError):
             model_sequence.fit_bpr_baseline(bogus_train, seed=20260902)
+
+    def test_negative_sampler_keeps_exact_pair_count_with_replacement(self):
+        rng = random.Random(20260902)
+        sampled = model_sequence._sample_negatives_with_replacement(rng, [7], 5)
+        self.assertEqual(len(sampled), 5)
+        self.assertEqual(sampled, [7, 7, 7, 7, 7])
 
     def test_predict_sequence_model_rejects_empty_short_and_single_period_input(self):
         empty_split = self._slice_split(self.train_split, 0)
