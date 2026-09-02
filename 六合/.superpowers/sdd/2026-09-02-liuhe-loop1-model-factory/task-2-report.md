@@ -18,3 +18,18 @@
 
 **Concerns**
 - `unittest discover` 在当前中文路径下不稳定，回归时优先使用直接脚本执行。
+
+## Task 2 修复轮次 1/5
+
+**Fix**
+- 已移除 `_markov_predict` 的隐式在线更新，不再把验证/测试 split 的 `truth_numbers` 追加进历史。
+- Markov 预测现仅使用 `fit_conditional_markov_approximation` 保存的训练历史快照，默认纯 train-only。
+- 补充了持有集真值替换回归测试，确认同一 Markov 模型对原 validation 与伪造 validation 的预测完全一致。
+- 补充了训练边界元数据断言：`train_draw_count`、`train_sample_count` 与训练 split 对齐，且 `feature_names` 不含元数据列。
+
+**Command**
+- `F:\Python312\python.exe F:/1/夫/六合/测试/test_model_baselines.py`
+
+**Output**
+- `Ran 6 tests in 45.266s`
+- `OK`

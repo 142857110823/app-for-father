@@ -2,6 +2,7 @@ import math
 import sys
 import unittest
 from pathlib import Path
+from copy import deepcopy
 
 
 ROOT = Path(r"F:\1\夫\六合")
@@ -40,10 +41,16 @@ class ModelBaselineTests(unittest.TestCase):
         self.assertNotIn("draw_date", feature_names)
         self.assertNotIn("number", feature_names)
 
+    def _assert_training_metadata(self, model):
+        self.assertEqual(model["train_draw_count"], self.train_split["draw_count"])
+        self.assertEqual(model["train_sample_count"], self.train_split["sample_count"])
+        self.assertTrue(model["feature_names"])
+        self._assert_no_leakage(model)
+
     def test_logistic_baseline_shape_and_reproducibility(self):
         model = model_baselines.fit_logistic_baseline(self.train_split, random_state=20260902)
         repeat = model_baselines.fit_logistic_baseline(self.train_split, random_state=20260902)
-        self._assert_no_leakage(model)
+        self._assert_training_metadata(model)
         self._assert_probability_rows(model_baselines.predict_model(model, self.validation_split), self.validation_split["draw_count"])
         self.assertEqual(
             model_baselines.predict_model(model, self.validation_split),
@@ -53,7 +60,7 @@ class ModelBaselineTests(unittest.TestCase):
     def test_lightgbm_baseline_shape_and_reproducibility(self):
         model = model_baselines.fit_lightgbm_baseline(self.train_split, random_state=20260902)
         repeat = model_baselines.fit_lightgbm_baseline(self.train_split, random_state=20260902)
-        self._assert_no_leakage(model)
+        self._assert_training_metadata(model)
         self._assert_probability_rows(model_baselines.predict_model(model, self.test_split), self.test_split["draw_count"])
         self.assertEqual(
             model_baselines.predict_model(model, self.test_split),
@@ -64,8 +71,18 @@ class ModelBaselineTests(unittest.TestCase):
         model = model_baselines.fit_conditional_markov_approximation(self.train_split)
         self.assertEqual(model["formal_crf_status"], "not_implemented")
         self.assertEqual(model["model_type"], "conditional_markov_approximation")
-        self._assert_no_leakage(model)
+        self._assert_training_metadata(model)
         self._assert_probability_rows(model_baselines.predict_model(model, self.validation_split), self.validation_split["draw_count"])
+
+    def test_conditional_markov_predictions_ignore_holdout_truth_numbers(self):
+        model = model_baselines.fit_conditional_markov_approximation(self.train_split)
+        altered_validation = deepcopy(self.validation_split)
+        for index, draw in enumerate(altered_validation["draws"]):
+            start = (index % 44) + 1
+            draw["truth_numbers"] = tuple(range(start, start + 6))
+        original = model_baselines.predict_model(model, self.validation_split)
+        altered = model_baselines.predict_model(model, altered_validation)
+        self.assertEqual(original, altered)
 
     def test_predict_model_rejects_empty_split(self):
         model = model_baselines.fit_logistic_baseline(self.train_split, random_state=20260902)

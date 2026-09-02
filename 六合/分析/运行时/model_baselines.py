@@ -179,7 +179,7 @@ def _recent_count(history_draws, number, window):
 def fit_conditional_markov_approximation(train_split):
     _require_split(train_split)
     history_draws = [tuple(sorted(int(number) for number in draw["truth_numbers"])) for draw in train_split["draws"]]
-    last_seen, exposure_counts = _history_state(history_draws)
+    last_seen, _ = _history_state(history_draws)
     conditional_totals = defaultdict(lambda: Counter())
     candidate_totals = Counter()
     candidate_positives = Counter()
@@ -237,6 +237,7 @@ def fit_conditional_markov_approximation(train_split):
             "momentum_bin_names": momentum_bin_names,
             "window": MARKOV_WINDOW,
             "smoothing": SMOOTHING,
+            "frozen_history": True,
         },
     )
     return model
@@ -257,37 +258,33 @@ def _predict_estimator(estimator, split):
 
 def _markov_predict(model, split):
     _require_split(split)
-    history = [tuple(draw) for draw in model["history_draws"]]
-    probabilities = []
     candidate_totals = model["candidate_totals"]
     candidate_positives = model["candidate_positives"]
     overall_rate = float(model["overall_rate"])
     conditional_table = model["conditional_table"]
     smoothing = float(model["smoothing"])
-    for draw in split["draws"]:
-        row = []
-        for number in range(1, 50):
-            past_draws = history[-MARKOV_WINDOW:]
-            last_seen_index = None
-            for reverse_index, truth_numbers in enumerate(reversed(history)):
-                if number in truth_numbers:
-                    last_seen_index = len(history) - reverse_index - 1
-                    break
-            gap = len(history) if last_seen_index is None else len(history) - last_seen_index - 1
-            gap_bin = _gap_bin(gap)
-            momentum_count = sum(1 for truth_numbers in past_draws if number in truth_numbers)
-            momentum_bin = _momentum_bin(momentum_count)
-            table_prob = conditional_table[(gap_bin, momentum_bin)]["probability"]
-            candidate_total = candidate_totals.get(number, 0)
-            candidate_positive = candidate_positives.get(number, 0)
-            candidate_rate = (candidate_positive + smoothing * overall_rate) / (candidate_total + smoothing)
-            omission_score = 1.0 / (1.0 + gap)
-            momentum_score = min(momentum_count / max(1, MARKOV_WINDOW), 1.0)
-            score = 0.55 * table_prob + 0.30 * candidate_rate + 0.15 * (0.65 * omission_score + 0.35 * momentum_score)
-            row.append(min(max(score, 0.0), 1.0))
-        probabilities.append(row)
-        history.append(tuple(sorted(int(number) for number in draw["truth_numbers"])))
-    return probabilities
+    history = [tuple(draw) for draw in model["history_draws"]]
+    last_seen = {number: None for number in range(1, 50)}
+    for draw_index, truth_numbers in enumerate(history):
+        for number in truth_numbers:
+            last_seen[number] = draw_index
+
+    row = []
+    for number in range(1, 50):
+        last_seen_index = last_seen[number]
+        gap = len(history) if last_seen_index is None else len(history) - last_seen_index - 1
+        gap_bin = _gap_bin(gap)
+        momentum_count = sum(1 for truth_numbers in history[-MARKOV_WINDOW:] if number in truth_numbers)
+        momentum_bin = _momentum_bin(momentum_count)
+        table_prob = conditional_table[(gap_bin, momentum_bin)]["probability"]
+        candidate_total = candidate_totals.get(number, 0)
+        candidate_positive = candidate_positives.get(number, 0)
+        candidate_rate = (candidate_positive + smoothing * overall_rate) / (candidate_total + smoothing)
+        omission_score = 1.0 / (1.0 + gap)
+        momentum_score = min(momentum_count / max(1, MARKOV_WINDOW), 1.0)
+        score = 0.55 * table_prob + 0.30 * candidate_rate + 0.15 * (0.65 * omission_score + 0.35 * momentum_score)
+        row.append(min(max(score, 0.0), 1.0))
+    return [row[:] for _ in split["draws"]]
 
 
 def predict_model(model, split):
