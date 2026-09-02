@@ -745,3 +745,25 @@
 - 已补充强配对与打乱配对的回归测试，固定 seed 可复现。
 - `F:\Python312\python.exe -m unittest 测试\\test_model_eval.py` 通过，`Ran 9 tests in 8.221s`。
 **【相关文档】** `分析/运行时/model_eval.py`、`测试/test_model_eval.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-1-report.md`、`work-flow.md`
+
+## 2026-09-02 Task 3 TCN 与 BPR 候选模型
+
+**【时间】** 2026-09-02 12:33:27（Asia/Shanghai）  
+**【事件】** 完成阶段二模型工厂 Task 3 的序列模型候选实现、失败测试补写、回归验证与任务报告。  
+**【问题来源】** 阶段二计划要求在既有 draw-level 数据集和 Task 2 模型契约上，新增 TCN 与 BPR 两个候选序列模型，并验证窗口不泄漏目标期标签、训练边界仅来自 train split、固定种子可复现，以及空窗口/短训练集/单期输入给出明确异常。  
+**【执行方向】**
+1. 先补 `测试/test_model_sequence.py`，覆盖 TCN/BPR 输出形状、概率边界、泄漏检查、训练边界和异常分支。
+2. 实现 `分析/运行时/model_sequence.py`，用小型 PyTorch 因果卷积与 pairwise BPR 作为候选基线。
+3. 写入 Task 3 报告并保留候选基线说明。
+4. 复跑单测确认固定 seed 可复现并输出 49 个有限概率。
+**【执行边界】**
+- 不修改 Task 1/2 文件、原始数据、XLSX 或模型结果。
+- 不把 `draw_id`、`draw_index`、`draw_date`、`number` 当作训练特征，不把 `is_drawn` 当作输入特征。
+- 不宣称生产级性能，只记录为可审计候选基线。
+**【执行结果】**
+- 已新增 `分析/运行时/model_sequence.py`。
+- 已新增 `测试/test_model_sequence.py`，6 项测试全部通过。
+- 已记录 TCN/BPR 的窗口长度、seed、训练步数、学习率和维度元数据。
+- `predict_sequence_model` 已能识别两种模型并返回每期 49 个 `[0,1]` 概率。
+- 已生成 `task-3-report.md` 并追加本条工作流记录。
+**【相关文档】** `分析/运行时/model_sequence.py`、`测试/test_model_sequence.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-3-report.md`、`work-flow.md`
