@@ -109,14 +109,29 @@ class ModelEvalTests(unittest.TestCase):
         ]
         numbers = [list(range(1, 50)), list(range(1, 50))]
         result = model_eval.evaluate_predictions(probabilities, truth, numbers, k=2, threshold=1)
+        expected_brier = sum(
+            (p - y) ** 2
+            for prob_row, truth_row in zip(probabilities, truth)
+            for p, y in zip(prob_row, truth_row)
+        ) / (2 * 49)
+        expected_log_loss = sum(
+            -(
+                y * math.log(p)
+                + (1 - y) * math.log(1 - p)
+            )
+            for prob_row, truth_row in zip(probabilities, truth)
+            for p, y in zip(prob_row, truth_row)
+        ) / (2 * 49)
         self.assertIn("hit_counts", result)
         self.assertIn("hit_at_least_threshold_rate", result)
         self.assertIn("mean_recall", result)
         self.assertIn("brier_score", result)
         self.assertIn("log_loss", result)
         self.assertEqual(len(result["hit_counts"]), 2)
-        self.assertAlmostEqual(result["brier_score"], 0.1405612244897958, places=15)
-        self.assertAlmostEqual(result["log_loss"], 0.4337291937982477, places=15)
+        self.assertAlmostEqual(result["brier_score"], expected_brier, places=12)
+        self.assertAlmostEqual(result["log_loss"], expected_log_loss, places=12)
+        self.assertAlmostEqual(expected_brier, 0.1405612244897958, places=15)
+        self.assertAlmostEqual(expected_log_loss, 0.4337291937982477, places=12)
         self.assertTrue(0 <= result["hit_at_least_threshold_rate"] <= 1)
         self.assertTrue(0 <= result["mean_recall"] <= 1)
         self.assertTrue(math.isfinite(result["brier_score"]))

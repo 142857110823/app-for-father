@@ -68,3 +68,24 @@ F:\Python312\python.exe -m unittest 测试\test_model_eval.py
 
 - `Ran 9 tests in 8.221s`
 - `OK`
+
+## Repair Round 2/5
+
+### Fixes
+
+- 将 `test_evaluate_predictions_returns_expected_metrics` 的 Brier / Log Loss 断言改为独立公式计算。
+- 公式使用测试样本的逐单元 `p/y`，不调用 `evaluate_predictions` 反推期望值。
+- 保留常数交叉断言，仅作为辅助核验。
+
+### Verification
+
+命令：
+
+```powershell
+F:\Python312\python.exe -m unittest 测试\test_model_eval.py
+```
+
+结果：
+
+- `Ran 9 tests in 8.057s`
+- `OK`
