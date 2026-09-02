@@ -5,11 +5,10 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
-from analyze_taiwan import parse_rows
-
 
 ROOT = Path(r"F:\1\夫\六合")
 RAW_RELATION_PATH = ROOT / "化合关系表.csv"
+RAW_PATH = ROOT / "台湾" / "原始" / "台湾大乐透_开奖历史.csv"
 MID_PATH = ROOT / "分析" / "中间数据" / "台湾_特征超空间.csv"
 JSON_PATH = ROOT / "分析" / "统计结果" / "台湾_第一轮特征拓扑.json"
 REPORT_PATH = ROOT / "分析" / "报告" / "科研循环简报_第01轮.md"
@@ -59,6 +58,38 @@ BRANCH_PARTNER_INDEX = {
     10: 3,
     11: 2,
 }
+
+
+def parse_rows(
+    raw_path=RAW_PATH,
+    start_date=date(2006, 1, 1),
+    end_date=date(2026, 7, 31),
+):
+    if isinstance(start_date, str):
+        start_date = date.fromisoformat(start_date)
+    if isinstance(end_date, str):
+        end_date = date.fromisoformat(end_date)
+    with raw_path.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    draws = []
+    for row in rows:
+        if row.get("record_status") != "verified":
+            continue
+        draw_date = date.fromisoformat(row["draw_date"])
+        if draw_date < start_date or draw_date > end_date:
+            continue
+        numbers = tuple(int(value) for value in row["numbers"].split("|"))
+        draws.append(
+            {
+                "draw_id": row["draw_id"],
+                "draw_date": draw_date,
+                "numbers": numbers,
+                "special_number": int(row["special_number"]),
+                "source_id": row["source_id"],
+            }
+        )
+    draws.sort(key=lambda item: (item["draw_date"], int(item["draw_id"])))
+    return draws
 
 
 def hypergeometric_hit_at_least(population, successes, selected, threshold):

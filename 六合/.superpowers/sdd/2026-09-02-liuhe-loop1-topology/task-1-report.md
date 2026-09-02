@@ -94,3 +94,41 @@ F:\Python312\python.exe -m unittest 测试/test_feature_hyperspace.py
 - `date_max=2026-07-31`
 - `Ran 10 tests in 31.433s`
 - `OK`
+
+## Repair Round 2/5
+
+### Dependency Fix
+
+- 将 `build_taiwan_feature_hyperspace.py` 改为自含 `parse_rows` 实现。
+- 删除 `from analyze_taiwan import parse_rows`。
+- 测试仍从 builder 调用 `parse_rows`，未引入新的外部脚本依赖。
+
+### Verification
+
+命令：
+
+```powershell
+F:\Python312\python.exe 分析/运行时/build_taiwan_feature_hyperspace.py
+F:\Python312\python.exe -m unittest 测试/test_feature_hyperspace.py
+```
+
+结果：
+
+- `record_count=2157`
+- `row_count=105693`
+- `Ran 10 tests in 31.319s`
+- `OK`
+
+清洁副本验证：
+
+```powershell
+F:\Python312\python.exe -c "import build_taiwan_feature_hyperspace as b; print('IMPORT_OK')"
+```
+
+输出：
+
+- `IMPORT_OK`
+
+### Limitation
+
+- 清洁副本只验证模块导入，不把原始 CSV 视为提交边界内资产；原始 CSV 仍属于外部输入。

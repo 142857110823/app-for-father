@@ -616,3 +616,24 @@
 - 测试新增冻结范围、训练期 MI 复算和间距矩阵计数断言。
 - 重新生成脚本后，`F:\Python312\python.exe -m unittest 测试/test_feature_hyperspace.py` 通过，`Ran 10 tests in 31.433s`。
 **【相关文档】** `分析/运行时/build_taiwan_feature_hyperspace.py`、`测试/test_feature_hyperspace.py`、`分析/中间数据/台湾_特征超空间.csv`、`分析/统计结果/台湾_第一轮特征拓扑.json`、`分析/报告/科研循环简报_第01轮.md`、`项目指南.md`、`work-flow.md`
+
+## 2026-09-02 Task 1 修复轮次 2/5
+
+**【时间】** 2026-09-02 11:15:30（Asia/Shanghai）  
+**【事件】** 解除阶段一脚本和测试对外部 `analyze_taiwan` 的运行时导入依赖，并完成清洁副本导入验证。  
+**【问题来源】** 全分支终审指出清洁检出时 `build_taiwan_feature_hyperspace.py` 会因缺失 `analyze_taiwan` 导入失败。  
+**【执行方向】**
+1. 在 `build_taiwan_feature_hyperspace.py` 内补入本任务所需的 `parse_rows` 纯函数与读取逻辑。
+2. 删除 `from analyze_taiwan import parse_rows`。
+3. 保持测试继续从 builder 调用 `parse_rows`，不引入额外文件。
+4. 在当前环境重跑阶段一脚本和单测，并在临时清洁副本里验证 `import build_taiwan_feature_hyperspace` 不再因 `analyze_taiwan` 缺失而失败。
+**【执行边界】**
+- 只修改任务简报允许的文件。
+- 不复制整份统计脚本。
+- 不把原始 CSV 伪装成提交边界内资产；清洁副本仅验证模块导入。
+**【执行结果】**
+- `build_taiwan_feature_hyperspace.py` 已改为本地自含的 `parse_rows` 实现。
+- 当前环境 `F:\Python312\python.exe -m unittest 测试/test_feature_hyperspace.py` 通过，`Ran 10 tests in 31.319s`。
+- 清洁副本验证输出 `IMPORT_OK`，确认导入不再依赖 `analyze_taiwan`。
+- 原始 CSV 仍是外部输入，不纳入清洁副本提交边界。
+**【相关文档】** `分析/运行时/build_taiwan_feature_hyperspace.py`、`测试/test_feature_hyperspace.py`、`work-flow.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-topology/task-1-report.md`
