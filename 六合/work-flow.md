@@ -835,3 +835,46 @@
 - 重新运行脚本输出 `selected_model_slot=conditional_markov_approximation`、`test_evaluation_calls=1`。
 - 合并单测通过：`Ran 26 tests in 169.962s`，`OK`。
 **【相关文档】** `分析/运行时/model_baselines.py`、`分析/运行时/run_taiwan_model_factory.py`、`测试/test_model_baselines.py`、`分析/报告/科研循环简报_第01轮_阶段二.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-2-report.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-4-report.md`、`work-flow.md`
+
+## 2026-09-02 阶段二结果同步至独立 XLSX
+
+**【时间】** 2026-09-02 14:54:51 +08:00（Asia/Shanghai）  
+**【事件】** 将冻结研究范围、阶段二五模型工厂、阶段一互信息权重和澳门阻塞审计字段同步到两本独立 XLSX，并完成导出、结构读取、公式扫描和渲染抽查。  
+**【问题来源】** 上一轮阶段二 JSON 与简报已完成，但工作簿仍保留旧范围文案和阶段一前的回测摘要；澳门工作簿未显式展示 `not_generated`、`no_verified_draw_level_data` 和空模型列表。  
+**【执行方向】**
+1. 将两本工作簿统一为冻结范围 `2006-01-01 至 2026-07-31`，明确排除 2026 年 8 月。
+2. 台湾“时间回测”页新增五个模型槽位、验证/测试指标、置换 p 值、经验随机基线、精确理论随机概率、配置冻结次数和测试集触碰分支数。
+3. 台湾“玄学特征”页新增阶段一互信息权重和阶段二输入排除、冻结模式、候选变量边界。
+4. 澳门保持 `BLOCKED`，补充号码级模型未生成、阻塞原因和空模型列表。
+5. 使用 `@oai/artifact-tool` 重新导出两本 XLSX，并保存全部工作表渲染证据。
+**【执行边界】**
+- 不修改台湾或澳门原始开奖 CSV、来源登记 CSV 和既有统计 JSON。
+- 不把经验随机模拟改写为理论概率，不把条件马尔可夫近似改写为正式 CRF。
+- 不输出下一期号码、投注组合、收益预测或虚构的 70% 命中率。
+**【执行结果】**
+- 台湾工作簿：2157 条 verified 记录、26 条来源登记、10 个页签；阶段二选中槽位仍为 `conditional_markov_approximation`。
+- 澳门工作簿：0 条逐期记录、10 条来源登记、10 个页签；`status=not_generated`、`reason=no_verified_draw_level_data`、`number_level_models=[]` 已写入。
+- 两本工作簿均完成公式错误扫描，结果为 0 条匹配；台湾生成 12 份渲染证据，澳门生成 10 份渲染证据。
+- 验证通过：`test_liuhe_workbooks: PASS`、范围冻结检查 `PASS`、Python 回归 `Ran 43 tests ... OK`。
+- 视觉抽查案例：台湾 README/时间回测/玄学特征/结论与限制，澳门 README/质量检查/时间回测/结论与限制；长文本、模型表、互信息表和阻塞字段可读，未发现关键内容重叠或截断。
+**【相关文档】** `分析/运行时/build_blocked_workbooks.mjs`、`输出/台湾大乐透_2006-2026_历史与统计分析.xlsx`、`输出/澳门白鸽票_2006-2026_历史与统计分析.xlsx`、`分析/统计结果/工作簿验证.json`、`分析/统计结果/工作簿渲染证据/`
+
+## 2026-09-02 阶段四特征修剪
+
+**【时间】** 2026-09-02 15:22:57 +08:00  
+**【事件】** 实现第二轮循环阶段四特征修剪接口，补齐单测，并生成任务报告。  
+**【问题来源】** `task-1-brief.md` 要求在既有 `model_eval.py` 和 `model_baselines.py` 契约上完成四组特征修剪、精确 Shapley、前向选择与后向修剪，且不能触碰测试 split。  
+**【执行方向】**
+1. 新增 `分析/运行时/loop2_pruning.py`，只读第一轮拓扑 JSON，按 `momentum/time/esoteric/spacing` 组装训练与验证 split。
+2. 用现有 logistic baseline + `mean_recall` 完成组集评分，并在模块内部为 Shapley 提供空集哑基线。
+3. 新增 `测试/test_loop2_pruning.py`，覆盖空组、未知组、元数据列、空 split、Shapley 可复现、选择路径记录和不触碰 test split。
+4. 运行 `python -m unittest 测试.test_model_eval 测试.test_model_baselines 测试.test_loop2_pruning`。
+**【执行边界】**
+- 不修改原始 CSV、XLSX、阶段二 JSON 或其他智能体文件。
+- 不派生其他智能体。
+- 不把测试集纳入任何评分或特征选择流程。
+**【执行结果】**
+- `loop2_pruning.py` 已可返回 JSON-ready 结果，Shapley、前向选择、后向修剪均只用验证集 `mean_recall`。
+- 任务报告已写入 `.superpowers/sdd/2026-09-02-liuhe-loop2-pruning-ensemble/task-1-report.md`。
+- 回归通过：`Ran 23 tests in 134.525s`，`OK`；新模块单测 `Ran 7 tests in 67.234s`，`OK`。
+**【相关文档】** `task-1-brief.md`、`loop2_pruning.py`、`test_loop2_pruning.py`、`task-1-report.md`、`work-flow.md`
