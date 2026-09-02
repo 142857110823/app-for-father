@@ -637,3 +637,68 @@
 - 清洁副本验证输出 `IMPORT_OK`，确认导入不再依赖 `analyze_taiwan`。
 - 原始 CSV 仍是外部输入，不纳入清洁副本提交边界。
 **【相关文档】** `分析/运行时/build_taiwan_feature_hyperspace.py`、`测试/test_feature_hyperspace.py`、`work-flow.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-topology/task-1-report.md`
+
+## 2026-09-02 第一轮阶段一终审与独立回归验证
+
+**【时间】** 2026-09-02 11:22:55（Asia/Shanghai）  
+**【事件】** 完成第一轮阶段一终审修复后的独立回归验证并封账。  
+**【问题来源】** 全分支终审曾发现阶段一脚本依赖未纳入本提交的 `analyze_taiwan`，修复后需重新验证清洁导入、数据产物、测试和既有工作簿边界。  
+**【执行方向】**
+1. 重建台湾第一轮特征超空间产物。
+2. 运行阶段一与既有台湾统计测试。
+3. 运行范围冻结和两本独立工作簿回归检查。
+4. 独立核对行数、日期上限、2026-08 排除、随机基线和澳门记录数。
+**【执行边界】**
+- 不修改台湾或澳门原始数据、来源登记和现有 XLSX。
+- 不将阶段一统计结果包装为未来预测或投注建议。
+- 保留澳门官方逐期数据阻塞状态。
+**【执行结果】**
+- 阶段一生成脚本成功。
+- Python 测试 `17/17` 通过。
+- 范围冻结测试通过；工作簿测试通过。
+- 台湾特征长表 `105693` 行，基础开奖 `2157` 期，实际覆盖 `2007-01-02 至 2026-07-31`。
+- 精确随机基线 `0.25712523677371`，2026-08 匹配行 `0`。
+- 澳门官方逐期记录仍为 `0`，未生成澳门号码级特征。
+- 当前提交号：`20c63fb`。
+**【相关文档】** `分析/运行时/build_taiwan_feature_hyperspace.py`、`测试/test_feature_hyperspace.py`、`分析/中间数据/台湾_特征超空间.csv`、`分析/统计结果/台湾_第一轮特征拓扑.json`、`分析/报告/科研循环简报_第01轮.md`、`work-flow.md`
+
+## 2026-09-02 阶段二模型工厂前置可行性探针
+
+**【时间】** 2026-09-02（Asia/Shanghai）  
+**【事件】** 对阶段二模型工厂进行只读依赖、样本规模和输入契约探针。  
+**【问题来源】** 阶段二计划要求五类候选模型在严格时间切分下统一回测，需要先确认现有特征长表和本地运行环境是否可支撑。  
+**【执行方向】**
+1. 检查 Python 模型依赖可用性。
+2. 检查台湾长表按日期切分后的训练、验证和测试规模。
+3. 试拟合线性与树模型，确认统一排序指标可计算。
+4. 审查输入列，识别标识列误入模型的风险。
+**【执行边界】**
+- 只读探针，不生成正式模型结果、不改原始数据和 XLSX。
+- 不使用测试集调参，不把探针分数写成正式结论。
+**【执行结果】**
+- `numpy`、`scipy`、`sklearn`、`lightgbm`、`xgboost`、`torch`、`tensorflow` 可用；专用 CRF 包不可用。
+- 长表共 `105693` 行、`2157` 期；按冻结时间切分为训练 `951` 期、验证 `551` 期、测试 `655` 期。
+- LogisticRegression 与 LightGBM 可拟合，按每期 49 候选排序计算 `Recall@15≥3` 可行。
+- 探针发现 `draw_id`、`draw_index`、`number` 等标识列若直接进入模型，会造成训练分数虚高；已在阶段二计划中明确排除。
+**【相关文档】** `docs/superpowers/plans/2026-09-02-liuhe-loop1-model-factory.md`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/progress.md`
+
+## 2026-09-02 Task 1 时间切分与统一评估核心
+
+**【时间】** 2026-09-02 11:40:55（Asia/Shanghai）  
+**【事件】** 按阶段二模型工厂 Task 1 实现时间切分、49 候选重组、统一评估、置换检验与对应单测。  
+**【问题来源】** 用户要求先写失败测试，再实现 `分析/运行时/model_eval.py` 和 `测试/test_model_eval.py`，并确保 `draw_id`、`draw_index`、`draw_date`、`number` 只能作为元数据，`is_drawn` 只能作为标签，且 2026-08 必须排除。  
+**【执行方向】**
+1. 先补红测，锁定 49 候选重组、时间切分、Top-K 平局、Brier、Log Loss、Recall 和置换检验契约。
+2. 实现 `load_feature_rows`、`build_draw_dataset`、`split_by_date`、`evaluate_predictions`、`permutation_p_value`。
+3. 复核未来信息泄漏、日期边界和固定随机种子。
+4. 写入 Task 1 报告并追加工作流记录。
+**【执行边界】**
+- 不修改台湾或澳门原始数据，不改现有 XLSX。
+- 不把标识列放进特征矩阵，不把 `is_drawn` 作为输入特征。
+- 不派生其他智能体。
+**【执行结果】**
+- 已创建 `分析/运行时/model_eval.py` 与 `测试/test_model_eval.py`。
+- `F:\Python312\python.exe -m unittest 测试\\test_model_eval.py` 先失败于 `ModuleNotFoundError: No module named 'model_eval'`，随后通过并返回 `Ran 8 tests in 8.281s`、`OK`。
+- 已确认 2026-08 被过滤，训练/验证/测试三段按日期切分，Top-K 平局按号码升序，置换检验使用固定种子。
+- Task 1 报告已写入指定目录。
+**【相关文档】** `分析/运行时/model_eval.py`、`测试/test_model_eval.py`、`.superpowers/sdd/2026-09-02-liuhe-loop1-model-factory/task-1-report.md`、`work-flow.md`
