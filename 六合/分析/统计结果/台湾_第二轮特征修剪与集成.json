@@ -1,0 +1,2457 @@
+{
+  "task": "phase2_loop2_pruning_ensemble",
+  "generated_at": "2026-09-02T18:16:41+08:00",
+  "analysis_bounds": {
+    "analysis_start": "2006-01-01",
+    "analysis_end": "2026-07-31",
+    "excluded_august_2026": true
+  },
+  "data_summary": {
+    "csv_path": "F:\\1\\夫\\六合\\分析\\中间数据\\台湾_特征超空间.csv",
+    "record_count": 2157,
+    "row_count": 105693,
+    "draw_count": 2157,
+    "verified_only": true,
+    "candidate_count": 49,
+    "first_round_json": "F:\\1\\夫\\六合\\分析\\统计结果\\台湾_第一轮模型回测.json",
+    "first_round_model_ranking": [
+      "conditional_markov_approximation",
+      "lightgbm_ranker",
+      "tcn",
+      "bpr",
+      "logistic_l2"
+    ]
+  },
+  "split_bounds": {
+    "train": {
+      "draw_count": 951,
+      "sample_count": 46599,
+      "start": "2007-01-02",
+      "end": "2015-12-29",
+      "feature_names": [
+        "momentum_freq_1",
+        "momentum_freq_5",
+        "momentum_freq_10",
+        "momentum_freq_30",
+        "momentum_freq_100",
+        "exp_decay_30",
+        "misses",
+        "jiazi_index",
+        "stem_index",
+        "branch_index",
+        "he_partner_stem",
+        "he_partner_branch",
+        "he_sum",
+        "luoshu_palace",
+        "wuxing_bin__木",
+        "wuxing_bin__火",
+        "wuxing_bin__土",
+        "wuxing_bin__金",
+        "wuxing_bin__水",
+        "previous_spacing_1",
+        "previous_spacing_2",
+        "previous_spacing_3",
+        "previous_spacing_4",
+        "previous_spacing_5"
+      ]
+    },
+    "validation": {
+      "draw_count": 551,
+      "sample_count": 26999,
+      "start": "2016-01-01",
+      "end": "2020-12-29",
+      "feature_names": [
+        "momentum_freq_1",
+        "momentum_freq_5",
+        "momentum_freq_10",
+        "momentum_freq_30",
+        "momentum_freq_100",
+        "exp_decay_30",
+        "misses",
+        "jiazi_index",
+        "stem_index",
+        "branch_index",
+        "he_partner_stem",
+        "he_partner_branch",
+        "he_sum",
+        "luoshu_palace",
+        "wuxing_bin__木",
+        "wuxing_bin__火",
+        "wuxing_bin__土",
+        "wuxing_bin__金",
+        "wuxing_bin__水",
+        "previous_spacing_1",
+        "previous_spacing_2",
+        "previous_spacing_3",
+        "previous_spacing_4",
+        "previous_spacing_5"
+      ]
+    },
+    "test": {
+      "draw_count": 655,
+      "sample_count": 32095,
+      "start": "2021-01-01",
+      "end": "2026-07-31",
+      "feature_names": [
+        "momentum_freq_1",
+        "momentum_freq_5",
+        "momentum_freq_10",
+        "momentum_freq_30",
+        "momentum_freq_100",
+        "exp_decay_30",
+        "misses",
+        "jiazi_index",
+        "stem_index",
+        "branch_index",
+        "he_partner_stem",
+        "he_partner_branch",
+        "he_sum",
+        "luoshu_palace",
+        "wuxing_bin__木",
+        "wuxing_bin__火",
+        "wuxing_bin__土",
+        "wuxing_bin__金",
+        "wuxing_bin__水",
+        "previous_spacing_1",
+        "previous_spacing_2",
+        "previous_spacing_3",
+        "previous_spacing_4",
+        "previous_spacing_5"
+      ]
+    }
+  },
+  "configuration_frozen_before_test": true,
+  "test_evaluation_calls": 1,
+  "test_split_touch_count": 2,
+  "final_evaluation_order": [
+    "soft_vote_top3",
+    "empirical_random_baseline"
+  ],
+  "evaluation_trace": [
+    "train:soft_vote_top3",
+    "validation:soft_vote_top3",
+    "train:residual_candidate",
+    "validation:residual_candidate",
+    "train:empirical_random_baseline",
+    "validation:empirical_random_baseline",
+    "freeze_configuration",
+    "test:soft_vote_top3",
+    "test:empirical_random_baseline"
+  ],
+  "selection_rule": {
+    "description": "组选择和模型选择只使用训练/验证集；选定特征 split 和最终配置冻结后，测试集只在单一 final evaluation 阶段评估。",
+    "group_selection": {
+      "basis": "validation_mean_recall",
+      "selected_method": "backward_prune_groups",
+      "selected_groups": [
+        "momentum",
+        "esoteric",
+        "spacing"
+      ],
+      "selected_feature_names": [
+        "momentum_freq_1",
+        "momentum_freq_5",
+        "momentum_freq_10",
+        "momentum_freq_30",
+        "momentum_freq_100",
+        "exp_decay_30",
+        "misses",
+        "jiazi_index",
+        "stem_index",
+        "branch_index",
+        "he_partner_stem",
+        "he_partner_branch",
+        "he_sum",
+        "luoshu_palace",
+        "wuxing_bin__木",
+        "wuxing_bin__火",
+        "wuxing_bin__土",
+        "wuxing_bin__金",
+        "wuxing_bin__水",
+        "previous_spacing_1",
+        "previous_spacing_2",
+        "previous_spacing_3",
+        "previous_spacing_4",
+        "previous_spacing_5"
+      ],
+      "selected_validation_mean_recall": 0.32183908045977
+    },
+    "model_selection": {
+      "basis": "selected_feature_validation_ranking_only",
+      "ranking": [
+        "logistic_l2",
+        "conditional_markov_approximation",
+        "tcn",
+        "bpr",
+        "lightgbm_ranker"
+      ],
+      "selected_model_slots": [
+        "logistic_l2",
+        "conditional_markov_approximation",
+        "tcn"
+      ]
+    },
+    "final_configuration": "soft_vote_top3",
+    "final_configuration_metrics": {
+      "draw_count": 551,
+      "sample_count": 26999,
+      "date_start": "2016-01-01",
+      "date_end": "2020-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.26497277676951,
+      "mean_recall": 0.32153660012099233,
+      "mean_hit_count": 1.9292196007259528,
+      "brier_score": 0.1075763803975264,
+      "log_loss": 0.3723117399506913,
+      "permutation_p_value": 0.7689243027888446
+    }
+  },
+  "feature_pruning": {
+    "groups": [
+      "momentum",
+      "time",
+      "esoteric",
+      "spacing"
+    ],
+    "shapley": {
+      "groups": [
+        "momentum",
+        "time",
+        "esoteric",
+        "spacing"
+      ],
+      "subset_scores": [
+        {
+          "groups": [],
+          "validation_mean_recall": 0.30490018148820314
+        },
+        {
+          "groups": [
+            "momentum"
+          ],
+          "validation_mean_recall": 0.30459770114942497
+        },
+        {
+          "groups": [
+            "time"
+          ],
+          "validation_mean_recall": 0.30550514216575914
+        },
+        {
+          "groups": [
+            "esoteric"
+          ],
+          "validation_mean_recall": 0.3182093163944341
+        },
+        {
+          "groups": [
+            "spacing"
+          ],
+          "validation_mean_recall": 0.30490018148820314
+        },
+        {
+          "groups": [
+            "momentum",
+            "time"
+          ],
+          "validation_mean_recall": 0.30036297640653326
+        },
+        {
+          "groups": [
+            "momentum",
+            "esoteric"
+          ],
+          "validation_mean_recall": 0.3176043557168784
+        },
+        {
+          "groups": [
+            "momentum",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.304597701149425
+        },
+        {
+          "groups": [
+            "time",
+            "esoteric"
+          ],
+          "validation_mean_recall": 0.3182093163944341
+        },
+        {
+          "groups": [
+            "time",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.30490018148820314
+        },
+        {
+          "groups": [
+            "esoteric",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.3182093163944341
+        },
+        {
+          "groups": [
+            "momentum",
+            "time",
+            "esoteric"
+          ],
+          "validation_mean_recall": 0.31518451300665407
+        },
+        {
+          "groups": [
+            "momentum",
+            "time",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.3006654567453114
+        },
+        {
+          "groups": [
+            "momentum",
+            "esoteric",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.32183908045977
+        },
+        {
+          "groups": [
+            "time",
+            "esoteric",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.3182093163944341
+        },
+        {
+          "groups": [
+            "momentum",
+            "time",
+            "esoteric",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.318209316394434
+        }
+      ],
+      "shapley_values": {
+        "momentum": -0.0008822343214358688,
+        "time": -0.001638435168380803,
+        "esoteric": 0.014745916515426402,
+        "spacing": 0.0010838878806211372
+      },
+      "permutations": [
+        {
+          "order": [
+            "momentum",
+            "time",
+            "esoteric",
+            "spacing"
+          ],
+          "marginal_contributions": {
+            "momentum": -0.00030248033877816605,
+            "time": -0.004234724742891716,
+            "esoteric": 0.01482153660012081,
+            "spacing": 0.0030248033877799396
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "groups": [
+                "momentum",
+                "time"
+              ],
+              "validation_mean_recall": 0.30036297640653326
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "momentum",
+            "time",
+            "spacing",
+            "esoteric"
+          ],
+          "marginal_contributions": {
+            "momentum": -0.00030248033877816605,
+            "time": -0.004234724742891716,
+            "spacing": 0.00030248033877816605,
+            "esoteric": 0.017543859649122584
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "groups": [
+                "momentum",
+                "time"
+              ],
+              "validation_mean_recall": 0.30036297640653326
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "momentum",
+            "esoteric",
+            "time",
+            "spacing"
+          ],
+          "marginal_contributions": {
+            "momentum": -0.00030248033877816605,
+            "esoteric": 0.013006654567453424,
+            "time": -0.002419842710224329,
+            "spacing": 0.0030248033877799396
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3176043557168784
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "momentum",
+            "esoteric",
+            "spacing",
+            "time"
+          ],
+          "marginal_contributions": {
+            "momentum": -0.00030248033877816605,
+            "esoteric": 0.013006654567453424,
+            "spacing": 0.004234724742891605,
+            "time": -0.003629764065335994
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3176043557168784
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "momentum",
+            "spacing",
+            "time",
+            "esoteric"
+          ],
+          "marginal_contributions": {
+            "momentum": -0.00030248033877816605,
+            "spacing": 5.551115123125783e-17,
+            "time": -0.003932244404113605,
+            "esoteric": 0.017543859649122584
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "groups": [
+                "momentum",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.304597701149425
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "momentum",
+            "spacing",
+            "esoteric",
+            "time"
+          ],
+          "marginal_contributions": {
+            "momentum": -0.00030248033877816605,
+            "spacing": 5.551115123125783e-17,
+            "esoteric": 0.017241379310344973,
+            "time": -0.003629764065335994
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "groups": [
+                "momentum",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.304597701149425
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "time",
+            "momentum",
+            "esoteric",
+            "spacing"
+          ],
+          "marginal_contributions": {
+            "time": 0.000604960677555999,
+            "momentum": -0.005142165759225881,
+            "esoteric": 0.01482153660012081,
+            "spacing": 0.0030248033877799396
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "groups": [
+                "momentum",
+                "time"
+              ],
+              "validation_mean_recall": 0.30036297640653326
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "time",
+            "momentum",
+            "spacing",
+            "esoteric"
+          ],
+          "marginal_contributions": {
+            "time": 0.000604960677555999,
+            "momentum": -0.005142165759225881,
+            "spacing": 0.00030248033877816605,
+            "esoteric": 0.017543859649122584
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "groups": [
+                "momentum",
+                "time"
+              ],
+              "validation_mean_recall": 0.30036297640653326
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "time",
+            "esoteric",
+            "momentum",
+            "spacing"
+          ],
+          "marginal_contributions": {
+            "time": 0.000604960677555999,
+            "esoteric": 0.01270417422867498,
+            "momentum": -0.0030248033877800506,
+            "spacing": 0.0030248033877799396
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "time",
+            "esoteric",
+            "spacing",
+            "momentum"
+          ],
+          "marginal_contributions": {
+            "time": 0.000604960677555999,
+            "esoteric": 0.01270417422867498,
+            "spacing": 0.0,
+            "momentum": -1.1102230246251565e-16
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "time",
+            "spacing",
+            "momentum",
+            "esoteric"
+          ],
+          "marginal_contributions": {
+            "time": 0.000604960677555999,
+            "spacing": -0.000604960677555999,
+            "momentum": -0.004234724742891716,
+            "esoteric": 0.017543859649122584
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "groups": [
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "time",
+            "spacing",
+            "esoteric",
+            "momentum"
+          ],
+          "marginal_contributions": {
+            "time": 0.000604960677555999,
+            "spacing": -0.000604960677555999,
+            "esoteric": 0.01330913490623098,
+            "momentum": -1.1102230246251565e-16
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "groups": [
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "esoteric",
+            "momentum",
+            "time",
+            "spacing"
+          ],
+          "marginal_contributions": {
+            "esoteric": 0.01330913490623098,
+            "momentum": -0.0006049606775557215,
+            "time": -0.002419842710224329,
+            "spacing": 0.0030248033877799396
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3176043557168784
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "esoteric",
+            "momentum",
+            "spacing",
+            "time"
+          ],
+          "marginal_contributions": {
+            "esoteric": 0.01330913490623098,
+            "momentum": -0.0006049606775557215,
+            "spacing": 0.004234724742891605,
+            "time": -0.003629764065335994
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3176043557168784
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "esoteric",
+            "time",
+            "momentum",
+            "spacing"
+          ],
+          "marginal_contributions": {
+            "esoteric": 0.01330913490623098,
+            "time": 0.0,
+            "momentum": -0.0030248033877800506,
+            "spacing": 0.0030248033877799396
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "esoteric",
+            "time",
+            "spacing",
+            "momentum"
+          ],
+          "marginal_contributions": {
+            "esoteric": 0.01330913490623098,
+            "time": 0.0,
+            "spacing": 0.0,
+            "momentum": -1.1102230246251565e-16
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "esoteric",
+            "spacing",
+            "momentum",
+            "time"
+          ],
+          "marginal_contributions": {
+            "esoteric": 0.01330913490623098,
+            "spacing": 0.0,
+            "momentum": 0.003629764065335883,
+            "time": -0.003629764065335994
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "esoteric",
+            "spacing",
+            "time",
+            "momentum"
+          ],
+          "marginal_contributions": {
+            "esoteric": 0.01330913490623098,
+            "spacing": 0.0,
+            "time": 0.0,
+            "momentum": -1.1102230246251565e-16
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "spacing",
+            "momentum",
+            "time",
+            "esoteric"
+          ],
+          "marginal_contributions": {
+            "spacing": 0.0,
+            "momentum": -0.00030248033877811054,
+            "time": -0.003932244404113605,
+            "esoteric": 0.017543859649122584
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "momentum",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.304597701149425
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "spacing",
+            "momentum",
+            "esoteric",
+            "time"
+          ],
+          "marginal_contributions": {
+            "spacing": 0.0,
+            "momentum": -0.00030248033877811054,
+            "esoteric": 0.017241379310344973,
+            "time": -0.003629764065335994
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "momentum",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.304597701149425
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "spacing",
+            "time",
+            "momentum",
+            "esoteric"
+          ],
+          "marginal_contributions": {
+            "spacing": 0.0,
+            "time": 0.0,
+            "momentum": -0.004234724742891716,
+            "esoteric": 0.017543859649122584
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "spacing",
+            "time",
+            "esoteric",
+            "momentum"
+          ],
+          "marginal_contributions": {
+            "spacing": 0.0,
+            "time": 0.0,
+            "esoteric": 0.01330913490623098,
+            "momentum": -1.1102230246251565e-16
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "spacing",
+            "esoteric",
+            "momentum",
+            "time"
+          ],
+          "marginal_contributions": {
+            "spacing": 0.0,
+            "esoteric": 0.01330913490623098,
+            "momentum": 0.003629764065335883,
+            "time": -0.003629764065335994
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        },
+        {
+          "order": [
+            "spacing",
+            "esoteric",
+            "time",
+            "momentum"
+          ],
+          "marginal_contributions": {
+            "spacing": 0.0,
+            "esoteric": 0.01330913490623098,
+            "time": 0.0,
+            "momentum": -1.1102230246251565e-16
+          },
+          "prefix_scores": [
+            {
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            },
+            {
+              "groups": [
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.318209316394434
+            }
+          ]
+        }
+      ],
+      "baseline_score": 0.30490018148820314
+    },
+    "forward_selection": {
+      "method": "forward_select_groups",
+      "initial_groups": [],
+      "initial_validation_mean_recall": 0.30490018148820314,
+      "steps": [
+        {
+          "candidates": [
+            {
+              "group": "momentum",
+              "groups": [
+                "momentum"
+              ],
+              "validation_mean_recall": 0.30459770114942497
+            },
+            {
+              "group": "time",
+              "groups": [
+                "time"
+              ],
+              "validation_mean_recall": 0.30550514216575914
+            },
+            {
+              "group": "esoteric",
+              "groups": [
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "group": "spacing",
+              "groups": [
+                "spacing"
+              ],
+              "validation_mean_recall": 0.30490018148820314
+            }
+          ],
+          "chosen_group": "esoteric",
+          "selected_groups": [
+            "esoteric"
+          ],
+          "validation_mean_recall": 0.3182093163944341
+        }
+      ],
+      "final_groups": [
+        "esoteric"
+      ],
+      "final_validation_mean_recall": 0.3182093163944341
+    },
+    "backward_pruning": {
+      "method": "backward_prune_groups",
+      "initial_groups": [
+        "momentum",
+        "time",
+        "esoteric",
+        "spacing"
+      ],
+      "initial_validation_mean_recall": 0.318209316394434,
+      "steps": [
+        {
+          "candidates": [
+            {
+              "group": "momentum",
+              "groups": [
+                "time",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3182093163944341
+            },
+            {
+              "group": "time",
+              "groups": [
+                "momentum",
+                "esoteric",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.32183908045977
+            },
+            {
+              "group": "esoteric",
+              "groups": [
+                "momentum",
+                "time",
+                "spacing"
+              ],
+              "validation_mean_recall": 0.3006654567453114
+            },
+            {
+              "group": "spacing",
+              "groups": [
+                "momentum",
+                "time",
+                "esoteric"
+              ],
+              "validation_mean_recall": 0.31518451300665407
+            }
+          ],
+          "removed_group": "time",
+          "selected_groups": [
+            "momentum",
+            "esoteric",
+            "spacing"
+          ],
+          "validation_mean_recall": 0.32183908045977
+        }
+      ],
+      "final_groups": [
+        "momentum",
+        "esoteric",
+        "spacing"
+      ],
+      "final_validation_mean_recall": 0.32183908045977
+    },
+    "selected_method": "backward_prune_groups",
+    "selected_groups": [
+      "momentum",
+      "esoteric",
+      "spacing"
+    ],
+    "selected_validation_mean_recall": 0.32183908045977,
+    "selected_feature_names": [
+      "momentum_freq_1",
+      "momentum_freq_5",
+      "momentum_freq_10",
+      "momentum_freq_30",
+      "momentum_freq_100",
+      "exp_decay_30",
+      "misses",
+      "jiazi_index",
+      "stem_index",
+      "branch_index",
+      "he_partner_stem",
+      "he_partner_branch",
+      "he_sum",
+      "luoshu_palace",
+      "wuxing_bin__木",
+      "wuxing_bin__火",
+      "wuxing_bin__土",
+      "wuxing_bin__金",
+      "wuxing_bin__水",
+      "previous_spacing_1",
+      "previous_spacing_2",
+      "previous_spacing_3",
+      "previous_spacing_4",
+      "previous_spacing_5"
+    ],
+    "selected_group_feature_map": {
+      "momentum": [
+        "momentum_freq_1",
+        "momentum_freq_5",
+        "momentum_freq_10",
+        "momentum_freq_30",
+        "momentum_freq_100",
+        "exp_decay_30",
+        "misses"
+      ],
+      "esoteric": [
+        "jiazi_index",
+        "stem_index",
+        "branch_index",
+        "he_partner_stem",
+        "he_partner_branch",
+        "he_sum",
+        "luoshu_palace",
+        "wuxing_bin__木",
+        "wuxing_bin__火",
+        "wuxing_bin__土",
+        "wuxing_bin__金",
+        "wuxing_bin__水"
+      ],
+      "spacing": [
+        "previous_spacing_1",
+        "previous_spacing_2",
+        "previous_spacing_3",
+        "previous_spacing_4",
+        "previous_spacing_5"
+      ]
+    },
+    "selection_split_bounds": {
+      "train": {
+        "draw_count": 951,
+        "sample_count": 46599,
+        "start": "2007-01-02",
+        "end": "2015-12-29"
+      },
+      "validation": {
+        "draw_count": 551,
+        "sample_count": 26999,
+        "start": "2016-01-01",
+        "end": "2020-12-29"
+      }
+    }
+  },
+  "model_candidates": {
+    "logistic_l2": {
+      "slot": "logistic_l2",
+      "actual_model_type": "logistic_l2",
+      "fit_metadata": {
+        "model_type": "logistic_l2",
+        "actual_model_type": "logistic_l2",
+        "feature_names": [
+          "momentum_freq_1",
+          "momentum_freq_5",
+          "momentum_freq_10",
+          "momentum_freq_30",
+          "momentum_freq_100",
+          "exp_decay_30",
+          "misses",
+          "jiazi_index",
+          "stem_index",
+          "branch_index",
+          "he_partner_stem",
+          "he_partner_branch",
+          "he_sum",
+          "luoshu_palace",
+          "wuxing_bin__木",
+          "wuxing_bin__火",
+          "wuxing_bin__土",
+          "wuxing_bin__金",
+          "wuxing_bin__水",
+          "previous_spacing_1",
+          "previous_spacing_2",
+          "previous_spacing_3",
+          "previous_spacing_4",
+          "previous_spacing_5"
+        ],
+        "feature_count": 24,
+        "train_draw_count": 951,
+        "train_sample_count": 46599,
+        "random_state": 20260902
+      },
+      "training": {
+        "draw_count": 951,
+        "sample_count": 46599,
+        "date_start": "2007-01-02",
+        "date_end": "2015-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.2807570977917981,
+        "mean_recall": 0.3229933403434979,
+        "mean_hit_count": 1.9379600420609884,
+        "brier_score": 0.1074258693655387,
+        "log_loss": 0.3716400636193871,
+        "permutation_p_value": 0.21912350597609562
+      },
+      "validation": {
+        "draw_count": 551,
+        "sample_count": 26999,
+        "date_start": "2016-01-01",
+        "date_end": "2020-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.27223230490018147,
+        "mean_recall": 0.32183908045977,
+        "mean_hit_count": 1.9310344827586208,
+        "brier_score": 0.10745784602282255,
+        "log_loss": 0.3717905540940239,
+        "permutation_p_value": 0.2749003984063745
+      },
+      "validation_rank": 1
+    },
+    "lightgbm_ranker": {
+      "slot": "lightgbm_ranker",
+      "actual_model_type": "lightgbm_binary_classifier",
+      "fit_metadata": {
+        "model_type": "lightgbm_binary_classifier",
+        "actual_model_type": "lightgbm_binary_classifier",
+        "feature_names": [
+          "momentum_freq_1",
+          "momentum_freq_5",
+          "momentum_freq_10",
+          "momentum_freq_30",
+          "momentum_freq_100",
+          "exp_decay_30",
+          "misses",
+          "jiazi_index",
+          "stem_index",
+          "branch_index",
+          "he_partner_stem",
+          "he_partner_branch",
+          "he_sum",
+          "luoshu_palace",
+          "wuxing_bin__木",
+          "wuxing_bin__火",
+          "wuxing_bin__土",
+          "wuxing_bin__金",
+          "wuxing_bin__水",
+          "previous_spacing_1",
+          "previous_spacing_2",
+          "previous_spacing_3",
+          "previous_spacing_4",
+          "previous_spacing_5"
+        ],
+        "feature_count": 24,
+        "train_draw_count": 951,
+        "train_sample_count": 46599,
+        "random_state": 20260902,
+        "slot_note": "lightgbm_ranker_slot_implemented_as_binary_classifier"
+      },
+      "training": {
+        "draw_count": 951,
+        "sample_count": 46599,
+        "date_start": "2007-01-02",
+        "date_end": "2015-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.9674027339642481,
+        "mean_recall": 0.758850332982825,
+        "mean_hit_count": 4.553101997896951,
+        "brier_score": 0.0988353058588427,
+        "log_loss": 0.3378365345262669,
+        "permutation_p_value": 0.00398406374501992
+      },
+      "validation": {
+        "draw_count": 551,
+        "sample_count": 26999,
+        "date_start": "2016-01-01",
+        "date_end": "2020-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.22867513611615245,
+        "mean_recall": 0.3067150635208713,
+        "mean_hit_count": 1.840290381125227,
+        "brier_score": 0.10830148997718313,
+        "log_loss": 0.3751589203400867,
+        "permutation_p_value": 0.9601593625498008
+      },
+      "validation_rank": 5
+    },
+    "conditional_markov_approximation": {
+      "slot": "conditional_markov_approximation",
+      "actual_model_type": "conditional_markov_approximation",
+      "fit_metadata": {
+        "model_type": "conditional_markov_approximation",
+        "actual_model_type": "conditional_markov_approximation",
+        "feature_names": [
+          "momentum_freq_1",
+          "momentum_freq_5",
+          "momentum_freq_10",
+          "momentum_freq_30",
+          "momentum_freq_100",
+          "exp_decay_30",
+          "misses",
+          "jiazi_index",
+          "stem_index",
+          "branch_index",
+          "he_partner_stem",
+          "he_partner_branch",
+          "he_sum",
+          "luoshu_palace",
+          "wuxing_bin__木",
+          "wuxing_bin__火",
+          "wuxing_bin__土",
+          "wuxing_bin__金",
+          "wuxing_bin__水",
+          "previous_spacing_1",
+          "previous_spacing_2",
+          "previous_spacing_3",
+          "previous_spacing_4",
+          "previous_spacing_5"
+        ],
+        "feature_count": 24,
+        "train_draw_count": 951,
+        "train_sample_count": 46599,
+        "random_state": null,
+        "formal_crf_status": "not_implemented",
+        "window": 10,
+        "smoothing": 1.0,
+        "frozen_history": true
+      },
+      "training": {
+        "draw_count": 951,
+        "sample_count": 46599,
+        "date_start": "2007-01-02",
+        "date_end": "2015-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.26498422712933756,
+        "mean_recall": 0.31615842972309843,
+        "mean_hit_count": 1.896950578338591,
+        "brier_score": 0.10848091240409795,
+        "log_loss": 0.3753362724197078,
+        "permutation_p_value": 1.0
+      },
+      "validation": {
+        "draw_count": 551,
+        "sample_count": 26999,
+        "date_start": "2016-01-01",
+        "date_end": "2020-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.27223230490018147,
+        "mean_recall": 0.321234119782214,
+        "mean_hit_count": 1.927404718693285,
+        "brier_score": 0.10856995181552687,
+        "log_loss": 0.37568053076957436,
+        "permutation_p_value": 1.0
+      },
+      "validation_rank": 2
+    },
+    "tcn": {
+      "slot": "tcn",
+      "actual_model_type": "tcn_baseline",
+      "fit_metadata": {
+        "model_type": "tcn_baseline",
+        "actual_model_type": "tcn_baseline",
+        "feature_names": [
+          "momentum_freq_1",
+          "momentum_freq_5",
+          "momentum_freq_10",
+          "momentum_freq_30",
+          "momentum_freq_100",
+          "exp_decay_30",
+          "misses",
+          "jiazi_index",
+          "stem_index",
+          "branch_index",
+          "he_partner_stem",
+          "he_partner_branch",
+          "he_sum",
+          "luoshu_palace",
+          "wuxing_bin__木",
+          "wuxing_bin__火",
+          "wuxing_bin__土",
+          "wuxing_bin__金",
+          "wuxing_bin__水",
+          "previous_spacing_1",
+          "previous_spacing_2",
+          "previous_spacing_3",
+          "previous_spacing_4",
+          "previous_spacing_5"
+        ],
+        "feature_count": 24,
+        "train_draw_count": 951,
+        "train_sample_count": 0,
+        "random_state": null,
+        "seed": 20260902,
+        "window_size": 30,
+        "train_steps": 24,
+        "learning_rate": 0.01,
+        "holdout_update_mode": "frozen_train_history"
+      },
+      "training": {
+        "draw_count": 951,
+        "sample_count": 46599,
+        "date_start": "2007-01-02",
+        "date_end": "2015-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.29337539432176657,
+        "mean_recall": 0.3242201191728002,
+        "mean_hit_count": 1.9453207150368033,
+        "brier_score": 0.10782903823861241,
+        "log_loss": 0.3739919682665946,
+        "permutation_p_value": 1.0
+      },
+      "validation": {
+        "draw_count": 551,
+        "sample_count": 26999,
+        "date_start": "2016-01-01",
+        "date_end": "2020-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.2849364791288566,
+        "mean_recall": 0.31457955232909857,
+        "mean_hit_count": 1.8874773139745917,
+        "brier_score": 0.10797004800348237,
+        "log_loss": 0.3746957364796682,
+        "permutation_p_value": 1.0
+      },
+      "validation_rank": 3
+    },
+    "bpr": {
+      "slot": "bpr",
+      "actual_model_type": "bpr_baseline",
+      "fit_metadata": {
+        "model_type": "bpr_baseline",
+        "actual_model_type": "bpr_baseline",
+        "feature_names": [
+          "momentum_freq_1",
+          "momentum_freq_5",
+          "momentum_freq_10",
+          "momentum_freq_30",
+          "momentum_freq_100",
+          "exp_decay_30",
+          "misses",
+          "jiazi_index",
+          "stem_index",
+          "branch_index",
+          "he_partner_stem",
+          "he_partner_branch",
+          "he_sum",
+          "luoshu_palace",
+          "wuxing_bin__木",
+          "wuxing_bin__火",
+          "wuxing_bin__土",
+          "wuxing_bin__金",
+          "wuxing_bin__水",
+          "previous_spacing_1",
+          "previous_spacing_2",
+          "previous_spacing_3",
+          "previous_spacing_4",
+          "previous_spacing_5"
+        ],
+        "feature_count": 24,
+        "train_draw_count": 951,
+        "train_sample_count": 0,
+        "random_state": null,
+        "seed": 20260902,
+        "window_size": 30,
+        "train_steps": 18,
+        "learning_rate": 0.02,
+        "holdout_update_mode": "frozen_train_history"
+      },
+      "training": {
+        "draw_count": 951,
+        "sample_count": 46599,
+        "date_start": "2007-01-02",
+        "date_end": "2015-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.2912723449001052,
+        "mean_recall": 0.31756046267087285,
+        "mean_hit_count": 1.9053627760252365,
+        "brier_score": 0.26077029827901405,
+        "log_loss": 0.7176945915334794,
+        "permutation_p_value": 1.0
+      },
+      "validation": {
+        "draw_count": 551,
+        "sample_count": 26999,
+        "date_start": "2016-01-01",
+        "date_end": "2020-12-29",
+        "top_k": 15,
+        "threshold": 3,
+        "hit_at_least_threshold_rate": 0.27586206896551724,
+        "mean_recall": 0.31246218995765274,
+        "mean_hit_count": 1.8747731397459164,
+        "brier_score": 0.2613424051605857,
+        "log_loss": 0.7188927693200035,
+        "permutation_p_value": 1.0
+      },
+      "validation_rank": 4
+    }
+  },
+  "top_three_models": {
+    "ranking_source": "selected_feature_validation_ranking",
+    "ranking": [
+      "logistic_l2",
+      "conditional_markov_approximation",
+      "tcn",
+      "bpr",
+      "lightgbm_ranker"
+    ],
+    "top_three_models": [
+      {
+        "slot": "logistic_l2",
+        "rank": 1,
+        "basis": "selected_feature_validation_ranking",
+        "actual_model_type": "logistic_l2",
+        "fit_metadata": {
+          "model_type": "logistic_l2",
+          "actual_model_type": "logistic_l2",
+          "feature_names": [
+            "momentum_freq_1",
+            "momentum_freq_5",
+            "momentum_freq_10",
+            "momentum_freq_30",
+            "momentum_freq_100",
+            "exp_decay_30",
+            "misses",
+            "jiazi_index",
+            "stem_index",
+            "branch_index",
+            "he_partner_stem",
+            "he_partner_branch",
+            "he_sum",
+            "luoshu_palace",
+            "wuxing_bin__木",
+            "wuxing_bin__火",
+            "wuxing_bin__土",
+            "wuxing_bin__金",
+            "wuxing_bin__水",
+            "previous_spacing_1",
+            "previous_spacing_2",
+            "previous_spacing_3",
+            "previous_spacing_4",
+            "previous_spacing_5"
+          ],
+          "feature_count": 24,
+          "train_draw_count": 951,
+          "train_sample_count": 46599,
+          "random_state": 20260902
+        },
+        "training": {
+          "draw_count": 951,
+          "sample_count": 46599,
+          "date_start": "2007-01-02",
+          "date_end": "2015-12-29",
+          "top_k": 15,
+          "threshold": 3,
+          "hit_at_least_threshold_rate": 0.2807570977917981,
+          "mean_recall": 0.3229933403434979,
+          "mean_hit_count": 1.9379600420609884,
+          "brier_score": 0.1074258693655387,
+          "log_loss": 0.3716400636193871,
+          "permutation_p_value": 0.21912350597609562
+        },
+        "validation": {
+          "draw_count": 551,
+          "sample_count": 26999,
+          "date_start": "2016-01-01",
+          "date_end": "2020-12-29",
+          "top_k": 15,
+          "threshold": 3,
+          "hit_at_least_threshold_rate": 0.27223230490018147,
+          "mean_recall": 0.32183908045977,
+          "mean_hit_count": 1.9310344827586208,
+          "brier_score": 0.10745784602282255,
+          "log_loss": 0.3717905540940239,
+          "permutation_p_value": 0.2749003984063745
+        }
+      },
+      {
+        "slot": "conditional_markov_approximation",
+        "rank": 2,
+        "basis": "selected_feature_validation_ranking",
+        "actual_model_type": "conditional_markov_approximation",
+        "fit_metadata": {
+          "model_type": "conditional_markov_approximation",
+          "actual_model_type": "conditional_markov_approximation",
+          "feature_names": [
+            "momentum_freq_1",
+            "momentum_freq_5",
+            "momentum_freq_10",
+            "momentum_freq_30",
+            "momentum_freq_100",
+            "exp_decay_30",
+            "misses",
+            "jiazi_index",
+            "stem_index",
+            "branch_index",
+            "he_partner_stem",
+            "he_partner_branch",
+            "he_sum",
+            "luoshu_palace",
+            "wuxing_bin__木",
+            "wuxing_bin__火",
+            "wuxing_bin__土",
+            "wuxing_bin__金",
+            "wuxing_bin__水",
+            "previous_spacing_1",
+            "previous_spacing_2",
+            "previous_spacing_3",
+            "previous_spacing_4",
+            "previous_spacing_5"
+          ],
+          "feature_count": 24,
+          "train_draw_count": 951,
+          "train_sample_count": 46599,
+          "random_state": null,
+          "formal_crf_status": "not_implemented",
+          "window": 10,
+          "smoothing": 1.0,
+          "frozen_history": true
+        },
+        "training": {
+          "draw_count": 951,
+          "sample_count": 46599,
+          "date_start": "2007-01-02",
+          "date_end": "2015-12-29",
+          "top_k": 15,
+          "threshold": 3,
+          "hit_at_least_threshold_rate": 0.26498422712933756,
+          "mean_recall": 0.31615842972309843,
+          "mean_hit_count": 1.896950578338591,
+          "brier_score": 0.10848091240409795,
+          "log_loss": 0.3753362724197078,
+          "permutation_p_value": 1.0
+        },
+        "validation": {
+          "draw_count": 551,
+          "sample_count": 26999,
+          "date_start": "2016-01-01",
+          "date_end": "2020-12-29",
+          "top_k": 15,
+          "threshold": 3,
+          "hit_at_least_threshold_rate": 0.27223230490018147,
+          "mean_recall": 0.321234119782214,
+          "mean_hit_count": 1.927404718693285,
+          "brier_score": 0.10856995181552687,
+          "log_loss": 0.37568053076957436,
+          "permutation_p_value": 1.0
+        }
+      },
+      {
+        "slot": "tcn",
+        "rank": 3,
+        "basis": "selected_feature_validation_ranking",
+        "actual_model_type": "tcn_baseline",
+        "fit_metadata": {
+          "model_type": "tcn_baseline",
+          "actual_model_type": "tcn_baseline",
+          "feature_names": [
+            "momentum_freq_1",
+            "momentum_freq_5",
+            "momentum_freq_10",
+            "momentum_freq_30",
+            "momentum_freq_100",
+            "exp_decay_30",
+            "misses",
+            "jiazi_index",
+            "stem_index",
+            "branch_index",
+            "he_partner_stem",
+            "he_partner_branch",
+            "he_sum",
+            "luoshu_palace",
+            "wuxing_bin__木",
+            "wuxing_bin__火",
+            "wuxing_bin__土",
+            "wuxing_bin__金",
+            "wuxing_bin__水",
+            "previous_spacing_1",
+            "previous_spacing_2",
+            "previous_spacing_3",
+            "previous_spacing_4",
+            "previous_spacing_5"
+          ],
+          "feature_count": 24,
+          "train_draw_count": 951,
+          "train_sample_count": 0,
+          "random_state": null,
+          "seed": 20260902,
+          "window_size": 30,
+          "train_steps": 24,
+          "learning_rate": 0.01,
+          "holdout_update_mode": "frozen_train_history"
+        },
+        "training": {
+          "draw_count": 951,
+          "sample_count": 46599,
+          "date_start": "2007-01-02",
+          "date_end": "2015-12-29",
+          "top_k": 15,
+          "threshold": 3,
+          "hit_at_least_threshold_rate": 0.29337539432176657,
+          "mean_recall": 0.3242201191728002,
+          "mean_hit_count": 1.9453207150368033,
+          "brier_score": 0.10782903823861241,
+          "log_loss": 0.3739919682665946,
+          "permutation_p_value": 1.0
+        },
+        "validation": {
+          "draw_count": 551,
+          "sample_count": 26999,
+          "date_start": "2016-01-01",
+          "date_end": "2020-12-29",
+          "top_k": 15,
+          "threshold": 3,
+          "hit_at_least_threshold_rate": 0.2849364791288566,
+          "mean_recall": 0.31457955232909857,
+          "mean_hit_count": 1.8874773139745917,
+          "brier_score": 0.10797004800348237,
+          "log_loss": 0.3746957364796682,
+          "permutation_p_value": 1.0
+        }
+      }
+    ]
+  },
+  "soft_voting": {
+    "status": "adopted",
+    "basis": "selected_feature_validation_ranking_only",
+    "weights": [
+      1,
+      1,
+      1
+    ],
+    "selected_slots": [
+      "logistic_l2",
+      "conditional_markov_approximation",
+      "tcn"
+    ],
+    "feature_names": [
+      "momentum_freq_1",
+      "momentum_freq_5",
+      "momentum_freq_10",
+      "momentum_freq_30",
+      "momentum_freq_100",
+      "exp_decay_30",
+      "misses",
+      "jiazi_index",
+      "stem_index",
+      "branch_index",
+      "he_partner_stem",
+      "he_partner_branch",
+      "he_sum",
+      "luoshu_palace",
+      "wuxing_bin__木",
+      "wuxing_bin__火",
+      "wuxing_bin__土",
+      "wuxing_bin__金",
+      "wuxing_bin__水",
+      "previous_spacing_1",
+      "previous_spacing_2",
+      "previous_spacing_3",
+      "previous_spacing_4",
+      "previous_spacing_5"
+    ],
+    "training": {
+      "draw_count": 951,
+      "sample_count": 46599,
+      "date_start": "2007-01-02",
+      "date_end": "2015-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.277602523659306,
+      "mean_recall": 0.3249211356466875,
+      "mean_hit_count": 1.9495268138801263,
+      "brier_score": 0.10748855921044827,
+      "log_loss": 0.3719063809965417,
+      "permutation_p_value": 0.7131474103585658
+    },
+    "validation": {
+      "draw_count": 551,
+      "sample_count": 26999,
+      "date_start": "2016-01-01",
+      "date_end": "2020-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.26497277676951,
+      "mean_recall": 0.32153660012099233,
+      "mean_hit_count": 1.9292196007259528,
+      "brier_score": 0.1075763803975264,
+      "log_loss": 0.3723117399506913,
+      "permutation_p_value": 0.7689243027888446
+    },
+    "final_holdout": {
+      "draw_count": 655,
+      "sample_count": 32095,
+      "date_start": "2021-01-01",
+      "date_end": "2026-07-31",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.2687022900763359,
+      "mean_recall": 0.30483460559796444,
+      "mean_hit_count": 1.8290076335877863,
+      "brier_score": 0.1077199109498074,
+      "log_loss": 0.3729431534920326,
+      "permutation_p_value": 0.2948207171314741
+    }
+  },
+  "residual_candidate": {
+    "model_type": "xgboost_residual_regressor",
+    "status": "not_adopted",
+    "reason": "validation_mean_recall_below_soft_vote",
+    "xgboost_probe": {
+      "available": true,
+      "module": "xgboost",
+      "python": "F:\\Python312\\python.exe",
+      "version": "3.2.0"
+    },
+    "fit_status": "adopted",
+    "fit_reason": "xgboost_regressor_fitted",
+    "seed": 20260902,
+    "train_draw_count": 951,
+    "train_sample_count": 46599,
+    "base_probability_shape": [
+      951,
+      49
+    ],
+    "training": {
+      "draw_count": 951,
+      "sample_count": 46599,
+      "date_start": "2007-01-02",
+      "date_end": "2015-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.40904311251314407,
+      "mean_recall": 0.3790746582544686,
+      "mean_hit_count": 2.274447949526814,
+      "brier_score": 0.10660311256292013,
+      "log_loss": 0.3682102486779054,
+      "permutation_p_value": 0.00398406374501992
+    },
+    "validation": {
+      "draw_count": 551,
+      "sample_count": 26999,
+      "date_start": "2016-01-01",
+      "date_end": "2020-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.27404718693284935,
+      "mean_recall": 0.30913490623109446,
+      "mean_hit_count": 1.8548094373865698,
+      "brier_score": 0.10764698641893046,
+      "log_loss": 0.3726259019186326,
+      "permutation_p_value": 0.4940239043824701
+    },
+    "validation_comparison": {
+      "soft_vote_mean_recall": 0.32153660012099233,
+      "residual_mean_recall": 0.30913490623109446,
+      "delta_residual_minus_soft_vote": -0.012401693889897869
+    }
+  },
+  "random_baseline": {
+    "seed": 20260902,
+    "generator": "uniform_random_scores",
+    "top_k": 15,
+    "threshold": 3,
+    "training": {
+      "draw_count": 951,
+      "sample_count": 46599,
+      "date_start": "2007-01-02",
+      "date_end": "2015-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.2544689800210305,
+      "mean_recall": 0.30967402733964217,
+      "mean_hit_count": 1.8580441640378549,
+      "brier_score": 0.33217112895213824,
+      "log_loss": 0.9972170163825967,
+      "permutation_p_value": 0.6095617529880478
+    },
+    "validation": {
+      "draw_count": 551,
+      "sample_count": 26999,
+      "date_start": "2016-01-01",
+      "date_end": "2020-12-29",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.27404718693284935,
+      "mean_recall": 0.3109497882637628,
+      "mean_hit_count": 1.865698729582577,
+      "brier_score": 0.33178048690712225,
+      "log_loss": 0.9966529408388082,
+      "permutation_p_value": 0.2868525896414343
+    },
+    "final_holdout": {
+      "draw_count": 655,
+      "sample_count": 32095,
+      "date_start": "2021-01-01",
+      "date_end": "2026-07-31",
+      "top_k": 15,
+      "threshold": 3,
+      "hit_at_least_threshold_rate": 0.2549618320610687,
+      "mean_recall": 0.3002544529262086,
+      "mean_hit_count": 1.8015267175572518,
+      "brier_score": 0.3359832019413684,
+      "log_loss": 1.006337633091229,
+      "permutation_p_value": 0.5179282868525896
+    }
+  },
+  "macau": {
+    "status": "not_generated",
+    "number_level_models": [],
+    "reason": "no_verified_draw_level_data"
+  },
+  "xgboost_probe": {
+    "available": true,
+    "module": "xgboost",
+    "python": "F:\\Python312\\python.exe",
+    "version": "3.2.0"
+  },
+  "selected_configuration": "soft_vote_top3",
+  "selected_feature_names": [
+    "momentum_freq_1",
+    "momentum_freq_5",
+    "momentum_freq_10",
+    "momentum_freq_30",
+    "momentum_freq_100",
+    "exp_decay_30",
+    "misses",
+    "jiazi_index",
+    "stem_index",
+    "branch_index",
+    "he_partner_stem",
+    "he_partner_branch",
+    "he_sum",
+    "luoshu_palace",
+    "wuxing_bin__木",
+    "wuxing_bin__火",
+    "wuxing_bin__土",
+    "wuxing_bin__金",
+    "wuxing_bin__水",
+    "previous_spacing_1",
+    "previous_spacing_2",
+    "previous_spacing_3",
+    "previous_spacing_4",
+    "previous_spacing_5"
+  ],
+  "selected_test_metrics": {
+    "draw_count": 655,
+    "sample_count": 32095,
+    "date_start": "2021-01-01",
+    "date_end": "2026-07-31",
+    "top_k": 15,
+    "threshold": 3,
+    "hit_at_least_threshold_rate": 0.2687022900763359,
+    "mean_recall": 0.30483460559796444,
+    "mean_hit_count": 1.8290076335877863,
+    "brier_score": 0.1077199109498074,
+    "log_loss": 0.3729431534920326,
+    "permutation_p_value": 0.2948207171314741
+  },
+  "conclusion": "第二轮使用选定特征分组训练五个候选模型，并按验证集选择三模型软投票；XGBoost 残差候选未优于软投票，因此未采用；澳门仍保持 BLOCKED。"
+}

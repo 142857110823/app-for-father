@@ -900,3 +900,50 @@
 - 当前环境 `xgboost` 不可用，因此残差候选返回 `status=not_implemented`、`reason=xgboost_unavailable`；采用分支由 fake 回归器测试覆盖。
 - 任务报告已写入 `F:\1\夫\六合\.superpowers\sdd\2026-09-02-liuhe-loop2-pruning-ensemble\task-2-report.md`。
 **【相关文档】** `task-2-brief.md`、`loop2_ensemble.py`、`test_loop2_ensemble.py`、`task-2-report.md`、`work-flow.md`
+
+## 2026-09-02 第二轮统一运行器与工作簿同步
+
+**【时间】** 2026-09-02 17:26:48 +08:00
+**【事件】** 完成第二轮统一运行器、第二轮集成测试、台湾 XLSX 第二轮摘要同步、任务三报告和工作流记录。
+**【问题来源】** `task-3-brief.md` 要求基于第一轮 JSON 和第二轮 pruning/ensemble 工具，生成第二轮 JSON/简报，并让台湾工作簿读入第二轮摘要，同时保持澳门 `BLOCKED`。
+**【执行方向】**
+1. 读取第一轮模型回测 JSON，按验证集选出前三模型并构建三模型软投票。
+2. 用 `loop2_pruning.py` 只在训练/验证集上完成四组修剪、精确 Shapley、前向选择和后向修剪。
+3. 仅对最终配置在测试集做一次统一评估，同时保留随机基线。
+4. 将第二轮摘要同步到 `build_blocked_workbooks.mjs`，让台湾 XLSX 读入第二轮结果，澳门继续保持阻塞审计。
+5. 补充集成测试、全量 Python 回归、工作簿验证和任务三报告。
+**【执行边界】**
+- 不修改原始 CSV。
+- 不派生其他智能体。
+- 不把残差候选伪装成优于软投票的最终结果。
+- 澳门仍保持 `BLOCKED`，不写入号码级结果。
+**【执行结果】**
+- 第二轮 JSON 已生成，`selected_configuration=soft_vote_top3`，`test_evaluation_calls=1`，`test_split_touch_count=2`。
+- 组选择结果为 `momentum / esoteric / spacing`，前三模型为 `conditional_markov_approximation / lightgbm_ranker / tcn`。
+- 软投票测试 `mean_recall=0.3071246819338424`，残差候选最终标记为 `not_adopted`。
+- 第二轮简报已写入，台湾 XLSX 已同步第二轮摘要，澳门 XLSX 仍为阻塞审计。
+- 验证通过：`Ran 3 tests in 128.414s`，`Ran 43 tests in 385.228s`，`test_liuhe_workbooks: PASS`，`PASS: 6 份治理文件已通过范围冻结检查`。
+**【相关文档】** `run_taiwan_loop2.py`、`test_loop2_integration.py`、`build_blocked_workbooks.mjs`、`台湾_第二轮特征修剪与集成.json`、`科研循环简报_第02轮.md`、`task-3-report.md`、`work-flow.md`
+
+## 2026-09-02 Task 3 修复轮次 1
+
+**【时间】** 2026-09-02 17:26:48 +08:00
+**【事件】** 修复第二轮特征分组未进入模型训练、测试集提前触碰两项 Critical，并重新生成第二轮 JSON、简报和台湾/澳门工作簿。
+**【问题来源】** 修复审查指出旧运行器仅将 `selected_groups` 写入摘要，五个模型仍使用全量特征；同时 soft vote 和随机基线在残差验证比较及最终配置冻结前计算了测试指标。
+**【执行方向】**
+1. 先完成四组特征的训练/验证选择，再调用 `build_feature_group_splits(dataset, selected_groups=...)` 重建选定训练/验证 split。
+2. 在选定 split 上重新拟合五个模型并按验证指标选择前三模型，soft vote 仅使用选定特征。
+3. 将残差比较限制在训练/验证集；冻结 `selected_configuration` 后才创建测试 split，并在单一 final evaluation 阶段评估最终配置和随机基线。
+4. 用 `F:\Python312\python.exe` 重新探测 xgboost，并同步更新集成测试、第二轮 JSON/简报、工作簿生成器和任务报告。
+**【执行边界】**
+- 不修改台湾或澳门原始 CSV。
+- 不派生其他智能体。
+- 不用测试指标选择特征、模型、soft vote 权重或残差采用状态。
+- 澳门继续保持 `BLOCKED`、`status=not_generated`、`number_level_models=[]`。
+**【执行结果】**
+- 五个候选模型的实际输入特征数均为 24，选定分组为 `momentum / esoteric / spacing`。
+- 第二轮验证排序为 `logistic_l2 / conditional_markov_approximation / tcn / bpr / lightgbm_ranker`，最终配置为 `soft_vote_top3`。
+- `xgboost 3.2.0` 在 `F:\Python312\python.exe` 可导入；残差候选验证 `mean_recall=0.309135` 低于 soft vote `0.321537`，标记为 `not_adopted`。
+- `evaluation_trace` 明确为训练/验证与残差比较之后先 `freeze_configuration`，再执行 `test:soft_vote_top3` 和 `test:empirical_random_baseline`；`test_evaluation_calls=1`。
+- 修复后验证通过：`Ran 4 tests in 172.892s`，`Ran 44 tests in 376.629s`，工作簿生成输出台湾 12 份、澳门 10 份渲染证据，`test_liuhe_workbooks: PASS`，范围冻结检查 `PASS`。
+**【相关文档】** `分析/运行时/run_taiwan_loop2.py`、`测试/test_loop2_integration.py`、`分析/统计结果/台湾_第二轮特征修剪与集成.json`、`分析/报告/科研循环简报_第02轮.md`、`分析/运行时/build_blocked_workbooks.mjs`、`.superpowers/sdd/2026-09-02-liuhe-loop2-pruning-ensemble/task-3-report.md`、`work-flow.md`
