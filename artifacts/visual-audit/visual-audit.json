@@ -1,8 +1,8 @@
 {
   "url": "http://localhost:8090/?qa=visual-audit",
-  "checkedAt": "2026-08-28T07:39:47.102Z",
+  "checkedAt": "2026-09-13T11:11:48.840Z",
   "results": {
-    "480x900": {
+    "1280x900": {
       "centerText": [
         "太常",
         "癸",
@@ -31,51 +31,51 @@
       "tiangang": [
         {
           "text": "河魁",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
-          "text": "登时",
-          "writingMode": "horizontal-tb"
+          "text": "登明",
+          "writingMode": "vertical-rl"
         },
         {
           "text": "神后",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "大吉",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "从魁",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "功曹",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "传送",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "太冲",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "小吉",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "腾光",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "太乙",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         },
         {
           "text": "天罡",
-          "writingMode": "horizontal-tb"
+          "writingMode": "vertical-rl"
         }
       ],
       "yueju": [
@@ -109,7 +109,7 @@
       "overlaps": [],
       "overflow": []
     },
-    "360x800": {
+    "375x812": {
       "centerText": [
         "太常",
         "癸",
@@ -141,7 +141,7 @@
           "writingMode": "horizontal-tb"
         },
         {
-          "text": "登时",
+          "text": "登明",
           "writingMode": "horizontal-tb"
         },
         {

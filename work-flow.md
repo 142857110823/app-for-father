@@ -1676,6 +1676,76 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 当前提交号：`bd07db3`；本次改动未创建新提交。
 **【相关文档】** `index.html`、`public/index.html`、`docs/index.html`、`二维码.jpg`、`public/二维码.jpg`、`docs/二维码.jpg`、`work-flow.md`
 
+### 2026-09-13｜项目熟悉与本地 APP 预览启动
+
+**【时间】** 2026-09-13 16:34（Asia/Shanghai）
+**【事件】** 按用户要求优先读取 `项目指南.md`、`AGENTS.md`、`项目信息\项目指南.md`、`项目信息\排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`项目信息\天罡.docx`，核对工作流、算法源码、测试和启动入口，并启动本地项目页面供用户预览。
+**【问题来源】** 用户要求“深度熟悉一遍，启动项目 APP，我要亲自预览一遍项目是否正常可使用”。
+**【执行方向】** 以权威 Word 表格和项目规范为主，先完成资料、代码、测试核对，再启动真实页面；使用游客模式进入，不填写账号、密码或密钥。
+**【执行边界】** 不修改排盘算法，不清理或回滚工作区既有改动，不提交用户凭据或 API 密钥；本次只做读取、启动和可用性核验。
+**【执行结果】** 已读取项目规范、指定 Word 文档表格及相关工作流；`algorithm/qimen.js`、`algorithm/pillars.js` 与前端入口已核对。算法现场验证：`node algorithm/qimen.js` 通过，`tests/qimen-core.test.js` 7/7 通过，`tests/paipan-render.test.js` 27/27 通过。已确认本地服务 `http://localhost:8090/` 正常运行，首页 HTTP 200，健康接口 HTTP 200；浏览器已打开首页并通过“游客登录”进入本地模式。
+**【当前风险】** 文档渲染工具因本机缺少 LibreOffice，未完成 Word 页面 PNG 级视觉复核；当前代码实时输出的日排局仍按当天农历月份计算，和本次 `AGENTS.md` 中“第 N 月由局数确定、5 局使用第五月并完整保留 1/2/3/29/30/31”的最新文字规则存在差异，暂未宣称排盘规则全部完成。
+**【补充验证】** 原有 `http://localhost:8090/` 浏览器会话复用到期设备试用记录，提交案例时被登录闸门拦截；临时启动 `http://localhost:8091/` 后以新来源重新游客登录，已真实进入标准案例结果页并确认“阴盘 · 阴遁 · 5局”、四柱、13 宫、中宫、天罡和日排局均可见。通用 `tests/visual-audit.js` 本次因未内置游客登录步骤而被登录闸门拦截，未将其结果记为视觉通过。
+**【相关文档】** `AGENTS.md`、`项目指南.md`、`项目信息\项目指南.md`、`项目信息\排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`项目信息\天罡.docx`、`work-flow.md`、`algorithm\qimen.js`、`algorithm\pillars.js`、`tests\qimen-core.test.js`、`tests\paipan-render.test.js`
+
+### 2026-09-13 项目文档深度熟悉 + 本地预览启动
+
+**【时间】** 2026-09-13（Asia/Shanghai）
+**【事件】** 深度读取 AGENTS.md、项目指南.md、天罡_extracted.txt、排盘-【阴盘-阴遁-5局】 2(1)(1)_extracted.txt 等文档，并启动本地服务供用户亲自预览。
+**【问题来源】** 用户要求「优先读取项目指南/AGENTS/阴遁5局标准案例等文档深度熟悉一遍，启动项目APP亲自预览」。
+**【执行方向】**
+1. 核对项目技术栈：Web 前端（HTML5 + Vanilla JS）+ Node/Express 后端 + Capacitor Android 封装。
+2. 确认服务入口 `server.js` 默认端口 8090、托管 `public/` 目录。
+3. 启动 `node server.js`，逐项验证健康检查、首页、核心排盘算法。
+**【执行边界】**
+- 本次仅做文档熟悉与启动验证，不修改任何算法、页面或资源。
+- 不触碰 Android APK 构建、Git 提交与推送。
+**【执行结果】**
+- 服务在 `http://localhost:8090` 正常启动，数据库 `F:\1\夫\data\app.db` 连接成功、表初始化完成。
+- 首页返回 HTTP 200（约 275KB）；`/api/health` 返回 `{"ok":true}`。
+- 标准案例 `fullPaiPan(2026,8,14,12,22)` 结果为：阴盘-阴遁-5局、四柱 `丙午/丙申/庚申/壬午`、13 宫，与权威文档一致。
+- 备注：`/api/paipan` 后端接口需登录 token（返回「未登录」属正常鉴权行为）；前端排盘由 `algorithm.bundle.js` 客户端本地计算。
+**【相关文档】** `AGENTS.md`、`项目指南.md`、`排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`天罡.docx`、`server.js`、`work-flow.md`
+
+### 2026-09-14 电脑控制插件重启项目 + 本地/公网双地址验证
+
+**【时间】** 2026-09-14 10:06（Asia/Shanghai）
+**【事件】** 使用 computer-use 插件重新启动项目 APP 并在浏览器中打开供用户预览，验证公网地址可用性。
+**【问题来源】** 用户要求「用 computer-use 插件再次启动项目APP并预览，检查是否正常可用，并提供公网网址」。
+**【执行方向】**
+1. 检查发现上次会话终端关闭导致本地服务停止，公网 Pages 正常。
+2. 后台重启 `node server.js`，验证健康检查与首页。
+3. 通过 mcp_cua-driver `launch_app` 在默认浏览器打开 `http://localhost:8090/`，`bring_to_front` 置于前台供用户亲自预览。
+**【执行边界】** 仅启动与验证，未修改任何代码或资源；未执行 Git 提交推送。
+**【执行结果】**
+- 本地：`/api/health` 返回 200 `{"ok":true}`；首页 200（275427 字节）；Edge 窗口标题确认为「道家奇门遁甲」，页面已加载。
+- 公网：`https://142857110823.github.io/app-for-father/` 返回 200（269014 字节），当前提交号 5765118（2026-09-02）。
+- 结论：本地与公网均正常可访问，用户可在前台浏览器亲自预览。
+**【相关文档】** `server.js`、`AGENTS.md`、`work-flow.md`
+
+### 2026-09-14 天罡要素「登时」统一更名为「登明」+ 重启验证
+
+**【时间】** 2026-09-14 10:29（Asia/Shanghai）
+**【事件】** 将项目内天罡十二要素之「登时」全量更名为「登明」，重建前端 bundle，重新生成案例库，重启服务并完成 DOM + 视觉双重验证。
+**【问题来源】** 用户指令「把【登时】统一修订为【登明】，然后重新启动」。
+**【执行方向】**
+1. 全局检索「登时」及 Unicode 转义形式（`\u767B\u65F6`，esbuild 产物），确定影响面：算法源码 4 文件、bundle 三副本、Android assets、案例库 xlsx、DB（无）、文档 9 份。
+2. 修改 `algorithm/qimen.js`（ELEMS+注释）、`knowledge.js`（TIANGANG_ELEMENTS+TIANGANG_ORIGINAL）、`reference.js`（标准案例数据+注释）、`_audit_full.js`；`npm run build:browser` 重建并同步至根目录、`public/`、`docs/`、`android/app/src/main/assets/public/` 四处。
+3. `node algorithm/generate-cases.js` 重新生成 10000 案例库（登明 10000 处、登时 0 处）；`node algorithm/regression-test.js` 抽样 500 案例回归全部通过。
+4. 更新文档：AGENTS.md、项目指南.md（根+项目信息）、新对话提示词.md、天罡_extracted.txt、排盘-【阴盘-阴遁-5局】 2(1)(1)_extracted.txt、docs/superpowers 计划/规格 2 份、artifacts/visual-audit/visual-audit.json。
+5. 重启 `node server.js`，用 computer-use 打开页面，点击「开始排盘」实际排盘验证。
+**【执行边界】**
+- 未提交/未推送 Git（用户未要求）；公网 Pages 仍为旧版 5765118。
+- 未改动 `.worktrees/`（独立分支工作树）与 `.tmp-tiangang/`（临时提取目录）内的旧副本。
+- 未修改原始 `.docx` 权威文档（天罡.docx 等，docx 为二进制 Word 文件，待用户确认后处理）。
+- 工作区存在此前会话遗留的未提交改动（pillars.js 日排局规则、index.html 等），本次未触碰。
+**【执行结果】**
+- 本地 `http://localhost:8090/` 重启正常；线上 bundle 验证：登明（转义）2 处、登时 0 处；静态资源 `Cache-Control: no-store` 确保无旧缓存。
+- 视觉审查案例：2026-09-14 10:23（巳时）→ 阴盘·阳遁·7局；DOM 层 12/12 天罡要素齐全，第 12 宫「腾蛇+戊+武曲+冲门+乙+庚+登明+九月+6/7」显示**登明**；布局复核 4×4、中宫 2×2、无重叠截断。证据：`artifacts/visual-audit/2026-09-14-登明验证.png`、`2026-09-14-登明验证-结果页.png`。
+- `npm test`（qimen 自检）全部通过；`test:school` 67 项中 3 项失败为学堂模块 school.css 既有问题，与本次无关（本次未改 index.html）。
+- 遗留风险：①公网地址需 commit+push 后才显示登明；②原始 .docx 文档仍为登时；③测试套件既有 3 项失败待学堂模块后续处理。
+**【相关文档】** `algorithm/qimen.js`、`algorithm/knowledge.js`、`algorithm/reference.js`、`algorithm/_audit_full.js`、`algorithm.bundle.js`、`public/algorithm.bundle.js`、`docs/algorithm.bundle.js`、`android/app/src/main/assets/public/algorithm.bundle.js`、`algorithm/案例库.xlsx`、`AGENTS.md`、`项目指南.md`、`新对话提示词.md`、`天罡_extracted.txt`、`排盘-【阴盘-阴遁-5局】 2(1)(1)_extracted.txt`、`work-flow.md`
+
 
 ### 2026-08-31 代码同步：推送本地修改至 GitHub master-doc
 

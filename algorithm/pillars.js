@@ -4,10 +4,10 @@ const { Solar, Lunar, LunarMonth } = require('lunar-javascript');
 const { fullPaiPan: corePaiPan, determinePan, determineGuiShen, SHEN, XING, MEN, GONG_LAYOUT } = require('./qimen.js');
 
 /**
- * 日排局第 N 月（当天农历月份）在指定农历年的实际天数
+ * 日排局第 N 月（由局数确定）在指定农历年的实际天数
  * 依据【万年历】【阴历】：农历月仅有 29 天（小月）或 30 天（大月）
  * @param {number} lunarYear 农历年
- * @param {number} riPaiMonth 日排局第 N 月（当天农历月份 1-12）
+ * @param {number} riPaiMonth 日排局第 N 月（局数 N；0局按10局）
  * @returns {number} 29 或 30（查询失败时保底 30）
  */
 function getRiPaiMonthDays(lunarYear, riPaiMonth) {
@@ -130,15 +130,32 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
   const lunarDay = lunar.getDay();
   const shiZhi = pillars.zhi.time;
 
-  // 日排局第 N 月 = 当天农历月份；取其农历实际天数用于尾簇截断
-  const riPaiMonth = lunarMonth;
-  const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
   const prevJieQi = lunar.getPrevJieQi();
   const nextJieQi = lunar.getNextJieQi();
 
-  const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
-  const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, '阳遁');
-  const yinResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, '阴遁');
+  function buildCoreResult(forceDun) {
+    const preview = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi }, forceDun);
+    const paiJuMonth = preview.ju === 0 ? 10 : preview.ju;
+    const paiJuMonthDays = getRiPaiMonthDays(lunar.getYear(), paiJuMonth);
+    return {
+      core: corePaiPan(
+        pillarArr,
+        dayGan,
+        night,
+        { lunarMonth, lunarDay, shiZhi, paiJuMonthDays },
+        forceDun,
+      ),
+      paiJuMonth,
+      paiJuMonthDays,
+    };
+  }
+
+  const natural = buildCoreResult();
+  const yang = buildCoreResult('阳遁');
+  const yin = buildCoreResult('阴遁');
+  const result = natural.core;
+  const yangResult = yang.core;
+  const yinResult = yin.core;
 
   return {
     input: { year, month, day, hour, minute },
@@ -151,9 +168,15 @@ function fullPaiPanFromTime(year, month, day, hour, minute) {
     lunarMonth,
     lunarDay,
     shiZhi,
-    paiJuMonth: riPaiMonth,
-    paiJuMonthDays: riPaiMonthDays,
-    extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+    paiJuMonth: natural.paiJuMonth,
+    paiJuMonthDays: natural.paiJuMonthDays,
+    extraContext: {
+      lunarMonth,
+      lunarDay,
+      shiZhi,
+      paiJuMonth: natural.paiJuMonth,
+      paiJuMonthDays: natural.paiJuMonthDays,
+    },
     lunar: {
       year: lunar.getYear(),
       yearGZ: lunar.getYearInGanZhi(),

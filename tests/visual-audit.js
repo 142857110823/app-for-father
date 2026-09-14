@@ -25,6 +25,10 @@ const url = process.env.QIMEN_VISUAL_URL || 'http://localhost:8090/?qa=visual-au
 async function auditViewport(browser, width, height) {
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
   await page.goto(url, { waitUntil: 'networkidle' });
+  if (await page.locator('#auth-gate').isVisible()) {
+    await page.getByText('游客登录', { exact: true }).click();
+  }
+  await page.locator('#auth-gate').waitFor({ state: 'hidden' });
   await page.selectOption('#y', '2026');
   await page.selectOption('#m', '8');
   await page.selectOption('#d', '14');
@@ -104,7 +108,7 @@ async function main() {
   const browser = await chromium.launch({ headless: true, executablePath: edgePath });
   try {
     const results = {};
-    for (const [width, height] of [[480, 900], [360, 800]]) {
+    for (const [width, height] of [[1280, 900], [375, 812]]) {
       results[`${width}x${height}`] = await auditViewport(browser, width, height);
     }
 
@@ -126,6 +130,11 @@ async function main() {
       }
       if (result.dates.some((d) => d.includes('31'))) {
         throw new Error(`${viewport} 日排局出现农历不存在的 31 日`);
+      }
+      for (const expected of ['20/21/22', '26/27/28', '6/7/8', '13/14/15']) {
+        if (!result.dates.includes(expected)) {
+          throw new Error(`${viewport} 特殊月份缺少三日期簇: ${expected}`);
+        }
       }
       // 手机端（≤540px）天罡标签改为横排，便于窄屏阅读
       const vpWidth = parseInt(viewport.split('x')[0], 10);

@@ -38,7 +38,7 @@ test('阴遁五局中宫使用标准三分区完整数据', () => {
   );
 });
 
-test('日排局按农历月份固定原始宫位且保留完整日期簇', () => {
+test('日排局按局数确定第N月并匹配阴遁五局第五月完整表', () => {
   const result = fullPaiPan(
     ['丙午', '丙申', '庚申', '壬午'],
     '庚',
@@ -47,25 +47,25 @@ test('日排局按农历月份固定原始宫位且保留完整日期簇', () =>
   );
   const actual = result.palaces.map((palace) => palace.riPaiJu);
 
-  // 第 N 月 = 当天农历月份（七月，小月 29 天）
+  // 阴遁5局固定使用第五月；五月为29天小月时，当前月完整簇为1/2/3/29。
   assert.deepEqual(actual, [
-    '4/5',       // idx0 八月
-    '1/2/3/29',  // idx1 七月（第 N 月）
-    '27/28',     // idx2 六月
-    '25/26',     // idx3 五月
-    '22/23/24',  // idx4 四月
-    '20/21',     // idx5 三月
-    '18/19',     // idx6 二月
-    '15/16/17',  // idx7 正月
-    '13/14',     // idx8 十二月
-    '11/12',     // idx9 十一月
-    '8/9/10',    // idx10 十月
-    '6/7',       // idx11 九月
+    '9/10',       // idx0 八月
+    '6/7/8',      // idx1 七月
+    '4/5',        // idx2 六月
+    '1/2/3/29',   // idx3 五月（第 N 月）
+    '26/27/28',   // idx4 四月
+    '25',         // idx5 三月
+    '23/24',      // idx6 二月
+    '20/21/22',   // idx7 正月
+    '18/19',      // idx8 十二月
+    '16/17',      // idx9 十一月
+    '13/14/15',   // idx10 十月
+    '11/12',      // idx11 九月
     '',          // idx12 中宫
   ]);
 });
 
-test('日排局第N月尾簇按农历实际天数截断（2026-02-26 阳遁3局）', () => {
+test('日排局第N月尾簇按局数对应农历月份实际天数截断（阳遁3局）', () => {
   // 2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局；当天为农历正月初十，正月大月 30 天
   const result = fullPaiPan(
     ['丙午', '庚寅', '辛未', '丙申'],
@@ -76,22 +76,53 @@ test('日排局第N月尾簇按农历实际天数截断（2026-02-26 阳遁3局�
 
   assert.equal(result.dun, '阳遁');
   assert.equal(result.ju, 3);
-  // 第 N 月 = 当天农历月份（正月），原始宫位 idx7（坎宫）：30 天大月 → 1/2/3/29/30，不出现 31
-  assert.equal(result.palaces[7].riPaiJu, '1/2/3/29/30');
+  // 第 N 月 = 局数对应的三月；这里显式传入30天，验证尾簇不会出现31。
+  assert.equal(result.palaces[5].riPaiJu, '1/2/3/29/30');
+  assert.notEqual(result.palaces[7].riPaiJu, '1/2/3/29/30');
   // 全盘不得出现 31 日
   for (const palace of result.palaces) {
     assert.equal(palace.riPaiJu.includes('31'), false);
   }
 });
 
+test('日排局按规则分配四个特殊月份的三日期模式', () => {
+  const result = fullPaiPan(
+    ['丙午', '丙申', '庚申', '壬午'],
+    '庚',
+    false,
+    { lunarMonth: 7, lunarDay: 2, shiZhi: '午', paiJuMonthDays: 30 },
+  );
+
+  // 5局的第五月：正月、四月、七月、十月均保留3日期；三月收缩为1日期以保持4..28无重复。
+  const dates = result.palaces.map((palace) => palace.riPaiJu);
+  assert.equal(dates[7], '20/21/22');
+  assert.equal(dates[1], '6/7/8');
+  assert.equal(dates[10], '13/14/15');
+  assert.equal(dates[4], '26/27/28');
+  assert.equal(dates[5], '25');
+});
+
+test('0局按10局确定日排局月份', () => {
+  const result = fullPaiPan(
+    ['甲子', '甲子', '甲子', '甲巳'],
+    '甲',
+    false,
+    { lunarMonth: 7, lunarDay: 2, shiZhi: '午', paiJuMonthDays: 29 },
+  );
+
+  assert.equal(result.ju, 0);
+  // 0局等价于10局，当前月为十月，原始宫位 idx10 承载完整尾簇。
+  assert.equal(result.palaces[10].riPaiJu, '1/2/3/29');
+});
+
 test('2026年农历小月腊月日排局不出现30日', () => {
-  // 2026-02-01 07:00 → 阴遁2局，当天为农历腊月（十二月）小月 29 天
+  // 2026-02-01 07:00 → 阴遁2局；日排局使用第二月，第二月为29天小月
   const result = fullPaiPanFromTime(2026, 2, 1, 7, 0);
   assert.equal(result.pan.dun, '阴遁');
   assert.equal(result.pan.ju, 2);
   assert.equal(result.paiJuMonthDays, 29);
-  // 第 N 月 = 当天农历月份（十二月），原始宫位 idx8（8首）应只显示 1/2/3/29，不得出现 30
-  assert.equal(result.palaces[8].riPaiJu, '1/2/3/29');
+  // 第 N 月 = 局数对应的第二月，原始宫位 idx6（6首）应只显示 1/2/3/29，不得出现 30
+  assert.equal(result.palaces[6].riPaiJu, '1/2/3/29');
   for (const palace of result.palaces) {
     assert.equal(palace.riPaiJu.includes('30'), false, `宫位 ${palace.index} 日排局不应含30: ${palace.riPaiJu}`);
   }

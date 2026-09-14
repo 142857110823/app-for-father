@@ -80,16 +80,16 @@ const YIN_DUN_5 = {
   palaces: [
     // idx0 = 4[尾] Row1Col1: 勾陈+己+巨门+癸+吉门+癸+庚 | 天罡=河魁 | 日排=9/10
     { idx: 0,  shen:'勾陈', xing:'巨门', men:'吉', tian:'癸', di:'癸', ren:'庚', ling:'己', tiangang:'河魁', riPai:'9/10' },
-    // idx1 = 9     Row1Col2: 太阴+己+天同+庚+冲门+庚+丙 | 天罡=登时 | 日排=6/7/8
-    { idx: 1,  shen:'太阴', xing:'天同', men:'冲', tian:'庚', di:'庚', ren:'丙', ling:'己', tiangang:'登时', riPai:'6/7/8' },
+    // idx1 = 9     Row1Col2: 太阴+己+天同+庚+冲门+庚+丙 | 天罡=登明 | 日排=6/7/8
+    { idx: 1,  shen:'太阴', xing:'天同', men:'冲', tian:'庚', di:'庚', ren:'丙', ling:'己', tiangang:'登明', riPai:'6/7/8' },
     // idx2 = 2[尾] Row1Col3: 天后+庚+天相+庚+天门+己+癸 | 天罡=神后 | 日排=4/5
     { idx: 2,  shen:'天后', xing:'天相', men:'天', tian:'庚', di:'己', ren:'癸', ling:'庚', tiangang:'神后', riPai:'4/5' },
     // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/2/3/29（五月29天小月，尾簇截断）
     { idx: 3,  shen:'玄灵', xing:'文曲', men:'杜', tian:'己', di:'己', ren:'壬', ling:'戊', tiangang:'大吉', riPai:'1/2/3/29' },
-    // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28 (4月特殊月，天罡.docx第五月表)
-    { idx: 4,  shen:'朱雀', xing:'左辅', men:'从', tian:'丁', di:'丁', ren:'己', ling:'丙', tiangang:'功曹', riPai:'27/28' },
-    // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26 (3月，天罡.docx第五月表)
-    { idx: 5,  shen:'白虎', xing:'右弼', men:'景', tian:'丙', di:'丙', ren:'辛', ling:'壬', tiangang:'太冲', riPai:'25/26' },
+    // idx4 = 7     用户2026-09-13按天罡核心规则②确认：四月特殊月保留3日
+    { idx: 4,  shen:'朱雀', xing:'左辅', men:'从', tian:'丁', di:'丁', ren:'己', ling:'丙', tiangang:'功曹', riPai:'26/27/28' },
+    // idx5 = 6[尾] 当前月为五月时，三月作为紧邻的普通月收缩为1日，保证4..28无重复
+    { idx: 5,  shen:'白虎', xing:'右弼', men:'景', tian:'丙', di:'丙', ren:'辛', ling:'壬', tiangang:'太冲', riPai:'25' },
     // idx6 = 6[首] Row4Col4: 玄武+乙+天机+戊+生门+戊+庚 | 天罡=天罡(起始) | 日排=23/24
     { idx: 6,  shen:'玄武', xing:'天机', men:'生', tian:'戊', di:'戊', ren:'庚', ling:'乙', tiangang:'天罡', riPai:'23/24' },
     // idx7 = 1     Row4Col3: 九天+辛+廉贞+戊+玄门+戊+乙 | 天罡=太乙 | 日排=20/21/22

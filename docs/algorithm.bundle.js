@@ -11806,16 +11806,16 @@ var QiMenAlgorithmBundle = (() => {
         palaces: [
           // idx0 = 4[尾] Row1Col1: 勾陈+己+巨门+癸+吉门+癸+庚 | 天罡=河魁 | 日排=9/10
           { idx: 0, shen: "\u52FE\u9648", xing: "\u5DE8\u95E8", men: "\u5409", tian: "\u7678", di: "\u7678", ren: "\u5E9A", ling: "\u5DF1", tiangang: "\u6CB3\u9B41", riPai: "9/10" },
-          // idx1 = 9     Row1Col2: 太阴+己+天同+庚+冲门+庚+丙 | 天罡=登时 | 日排=6/7/8
-          { idx: 1, shen: "\u592A\u9634", xing: "\u5929\u540C", men: "\u51B2", tian: "\u5E9A", di: "\u5E9A", ren: "\u4E19", ling: "\u5DF1", tiangang: "\u767B\u65F6", riPai: "6/7/8" },
+          // idx1 = 9     Row1Col2: 太阴+己+天同+庚+冲门+庚+丙 | 天罡=登明 | 日排=6/7/8
+          { idx: 1, shen: "\u592A\u9634", xing: "\u5929\u540C", men: "\u51B2", tian: "\u5E9A", di: "\u5E9A", ren: "\u4E19", ling: "\u5DF1", tiangang: "\u767B\u660E", riPai: "6/7/8" },
           // idx2 = 2[尾] Row1Col3: 天后+庚+天相+庚+天门+己+癸 | 天罡=神后 | 日排=4/5
           { idx: 2, shen: "\u5929\u540E", xing: "\u5929\u76F8", men: "\u5929", tian: "\u5E9A", di: "\u5DF1", ren: "\u7678", ling: "\u5E9A", tiangang: "\u795E\u540E", riPai: "4/5" },
           // idx3 = 2[首] Row1Col4: 玄灵+戊+文曲+己+杜门+己+壬 | 天罡=大吉 | 日排=1/2/3/29（五月29天小月，尾簇截断）
           { idx: 3, shen: "\u7384\u7075", xing: "\u6587\u66F2", men: "\u675C", tian: "\u5DF1", di: "\u5DF1", ren: "\u58EC", ling: "\u620A", tiangang: "\u5927\u5409", riPai: "1/2/3/29" },
-          // idx4 = 7     Row2Col4: 朱雀+丙+左辅+丁+从门+丁+己 | 天罡=功曹 | 日排=27/28 (4月特殊月，天罡.docx第五月表)
-          { idx: 4, shen: "\u6731\u96C0", xing: "\u5DE6\u8F85", men: "\u4ECE", tian: "\u4E01", di: "\u4E01", ren: "\u5DF1", ling: "\u4E19", tiangang: "\u529F\u66F9", riPai: "27/28" },
-          // idx5 = 6[尾] Row3Col4: 白虎+壬+右弼+丙+景门+丙+辛 | 天罡=太冲 | 日排=25/26 (3月，天罡.docx第五月表)
-          { idx: 5, shen: "\u767D\u864E", xing: "\u53F3\u5F3C", men: "\u666F", tian: "\u4E19", di: "\u4E19", ren: "\u8F9B", ling: "\u58EC", tiangang: "\u592A\u51B2", riPai: "25/26" },
+          // idx4 = 7     用户2026-09-13按天罡核心规则②确认：四月特殊月保留3日
+          { idx: 4, shen: "\u6731\u96C0", xing: "\u5DE6\u8F85", men: "\u4ECE", tian: "\u4E01", di: "\u4E01", ren: "\u5DF1", ling: "\u4E19", tiangang: "\u529F\u66F9", riPai: "26/27/28" },
+          // idx5 = 6[尾] 当前月为五月时，三月作为紧邻的普通月收缩为1日，保证4..28无重复
+          { idx: 5, shen: "\u767D\u864E", xing: "\u53F3\u5F3C", men: "\u666F", tian: "\u4E19", di: "\u4E19", ren: "\u8F9B", ling: "\u58EC", tiangang: "\u592A\u51B2", riPai: "25" },
           // idx6 = 6[首] Row4Col4: 玄武+乙+天机+戊+生门+戊+庚 | 天罡=天罡(起始) | 日排=23/24
           { idx: 6, shen: "\u7384\u6B66", xing: "\u5929\u673A", men: "\u751F", tian: "\u620A", di: "\u620A", ren: "\u5E9A", ling: "\u4E59", tiangang: "\u5929\u7F61", riPai: "23/24" },
           // idx7 = 1     Row4Col3: 九天+辛+廉贞+戊+玄门+戊+乙 | 天罡=太乙 | 日排=20/21/22
@@ -12126,7 +12126,7 @@ var QiMenAlgorithmBundle = (() => {
           ["\u4E11", "\u5B50", "\u4EA5", "\u620C", "\u9149", "\u7533", "\u672A", "\u5348", "\u5DF3", "\u8FB0", "\u536F", "\u5BC5"]
           // 行11=巳方(丑时)
         ];
-        const ELEMS = ["\u5929\u7F61", "\u592A\u4E59", "\u817E\u5149", "\u5C0F\u5409", "\u4F20\u9001", "\u4ECE\u9B41", "\u6CB3\u9B41", "\u767B\u65F6", "\u795E\u540E", "\u5927\u5409", "\u529F\u66F9", "\u592A\u51B2"];
+        const ELEMS = ["\u5929\u7F61", "\u592A\u4E59", "\u817E\u5149", "\u5C0F\u5409", "\u4F20\u9001", "\u4ECE\u9B41", "\u6CB3\u9B41", "\u767B\u660E", "\u795E\u540E", "\u5927\u5409", "\u529F\u66F9", "\u592A\u51B2"];
         const SHI_TO_ROW = {
           "\u5BC5": 0,
           "\u536F": 1,
@@ -12179,8 +12179,12 @@ var QiMenAlgorithmBundle = (() => {
           palaces[gongIdx].tiangang = ELEMS[i];
         }
       }
-      function placeRiPaiJu(palaces, riPaiMonth, riPaiMonthDays) {
+      function getRiPaiJuMonth(ju) {
+        return ju === 0 ? 10 : ju;
+      }
+      function placeRiPaiJu(palaces, ju, riPaiMonthDays) {
         palaces.forEach((p) => p.riPaiJu = "");
+        const riPaiMonth = getRiPaiJuMonth(ju);
         if (!Number.isInteger(riPaiMonth) || riPaiMonth < 1 || riPaiMonth > 12) return;
         const MONTH_TO_GONG_IDX = {
           1: 7,
@@ -12208,10 +12212,10 @@ var QiMenAlgorithmBundle = (() => {
         monthDates[riPaiMonth] = 6;
         if (!SPECIAL_MONTHS.includes(riPaiMonth)) {
           let prev = riPaiMonth === 1 ? 12 : riPaiMonth - 1;
-          while (!SPECIAL_MONTHS.includes(prev)) {
+          while (SPECIAL_MONTHS.includes(prev)) {
             prev = prev === 1 ? 12 : prev - 1;
           }
-          monthDates[prev] = 2;
+          monthDates[prev] = 1;
         }
         const tail = riPaiMonthDays === 29 ? "29" : "29/30";
         let nextDay = 4;
@@ -12403,7 +12407,7 @@ var QiMenAlgorithmBundle = (() => {
         if (extraContext) {
           const { lunarMonth, shiZhi, paiJuMonthDays } = extraContext;
           placeTianGang(palaces, lunarMonth, shiZhi);
-          placeRiPaiJu(palaces, lunarMonth, paiJuMonthDays);
+          placeRiPaiJu(palaces, pan.ju, paiJuMonthDays);
         }
         const calibrated = false;
         return {
@@ -12511,9 +12515,9 @@ var QiMenAlgorithmBundle = (() => {
         const ok3 = centerActual === "\u592A\u5E38/\u8D2A\u72FC/\u4F11/\u7678/\u4E59/\u4E59/\u620A";
         console.log(`
   \u4E2D\u5BAB\u6807\u51C6: ${centerActual} ${ok3 ? "\u2705" : "\u274C"}`);
-        const primaryDates = full2.palaces[1].riPaiJu;
+        const primaryDates = full2.palaces[3].riPaiJu;
         const ok4 = primaryDates === "1/2/3/29";
-        console.log(`  \u4E03\u6708(idx1)\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
+        console.log(`  \u4E94\u6708(idx3)\u65E5\u6392\u5C40: ${primaryDates} ${ok4 ? "\u2705" : "\u274C"}`);
         console.log("------ \u5B8C\u6574\u6392\u76D8\uFF08\u7528\u6237\u6848\u4F8B 2026-02-26 \u9633\u90413\u5C40\uFF09------");
         const full3 = fullPaiPan(
           ["\u4E19\u5348", "\u5E9A\u5BC5", "\u8F9B\u672A", "\u4E19\u7533"],
@@ -12521,9 +12525,9 @@ var QiMenAlgorithmBundle = (() => {
           false,
           { lunarMonth: 1, lunarDay: 10, shiZhi: "\u7533", paiJuMonthDays: 30 }
         );
-        const userCaseDates = full3.palaces[7].riPaiJu;
+        const userCaseDates = full3.palaces[5].riPaiJu;
         const ok5 = full3.dun === "\u9633\u9041" && full3.ju === 3 && userCaseDates === "1/2/3/29/30";
-        console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}\u5C40 | \u6B63\u6708(idx7)\u65E5\u6392\u5C40: ${userCaseDates} ${ok5 ? "\u2705" : "\u274C"}`);
+        console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}\u5C40 | \u4E09\u6708(idx5)\u65E5\u6392\u5C40: ${userCaseDates} ${ok5 ? "\u2705" : "\u274C"}`);
         const allOk = ok1 && ok2 && ok3 && ok4 && ok5;
         console.log(`
 ====== ${allOk ? "\u5168\u90E8\u9A8C\u8BC1\u901A\u8FC7 \u2705" : "\u5B58\u5728\u5931\u8D25 \u274C"} ======`);
@@ -12618,13 +12622,30 @@ var QiMenAlgorithmBundle = (() => {
         const lunarMonth = lunar.getMonth();
         const lunarDay = lunar.getDay();
         const shiZhi = pillars.zhi.time;
-        const riPaiMonth = lunarMonth;
-        const riPaiMonthDays = getRiPaiMonthDays(lunar.getYear(), riPaiMonth);
         const prevJieQi = lunar.getPrevJieQi();
         const nextJieQi = lunar.getNextJieQi();
-        const result = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays });
-        const yangResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9633\u9041");
-        const yinResult = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays }, "\u9634\u9041");
+        function buildCoreResult(forceDun) {
+          const preview = corePaiPan(pillarArr, dayGan, night, { lunarMonth, lunarDay, shiZhi }, forceDun);
+          const paiJuMonth = preview.ju === 0 ? 10 : preview.ju;
+          const paiJuMonthDays = getRiPaiMonthDays(lunar.getYear(), paiJuMonth);
+          return {
+            core: corePaiPan(
+              pillarArr,
+              dayGan,
+              night,
+              { lunarMonth, lunarDay, shiZhi, paiJuMonthDays },
+              forceDun
+            ),
+            paiJuMonth,
+            paiJuMonthDays
+          };
+        }
+        const natural = buildCoreResult();
+        const yang = buildCoreResult("\u9633\u9041");
+        const yin = buildCoreResult("\u9634\u9041");
+        const result = natural.core;
+        const yangResult = yang.core;
+        const yinResult = yin.core;
         return {
           input: { year, month, day, hour, minute },
           pillars,
@@ -12636,9 +12657,15 @@ var QiMenAlgorithmBundle = (() => {
           lunarMonth,
           lunarDay,
           shiZhi,
-          paiJuMonth: riPaiMonth,
-          paiJuMonthDays: riPaiMonthDays,
-          extraContext: { lunarMonth, lunarDay, shiZhi, paiJuMonthDays: riPaiMonthDays },
+          paiJuMonth: natural.paiJuMonth,
+          paiJuMonthDays: natural.paiJuMonthDays,
+          extraContext: {
+            lunarMonth,
+            lunarDay,
+            shiZhi,
+            paiJuMonth: natural.paiJuMonth,
+            paiJuMonthDays: natural.paiJuMonthDays
+          },
           lunar: {
             year: lunar.getYear(),
             yearGZ: lunar.getYearInGanZhi(),

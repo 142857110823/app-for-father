@@ -301,7 +301,7 @@ function placeLingGan(palaces) {
 //   col=7%12=7, row=4(午方按AGENTS.md), TABLE[4][7]='亥'(戌方行第7列)
 //   ZODIAC_GONG_INDEX['亥']=6 → startIdx=6 ✓
 //   idx6=天罡(0), idx7=太乙(1), idx8=腾光(2), idx9=小吉(3), idx10=传送(4), idx11=从魁(5),
-//   idx0=河魁(6), idx1=登时(7), idx2=神后(8), idx3=大吉(9), idx4=功曹(10), idx5=太冲(11)
+//   idx0=河魁(6), idx1=登明(7), idx2=神后(8), idx3=大吉(9), idx4=功曹(10), idx5=太冲(11)
 //   ↑ 与 reference 阴遁5局天罡分布 13/13 完全一致 ✓
 function placeTianGang(palaces, lunarMonth, shiZhi) {
   // 天罡.docx TABLE 6（行=时辰按AGENTS.md映射；列=月份正月=列1，七月=列7，十二月=列0）
@@ -319,7 +319,7 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
     ['子','亥','戌','酉','申','未','午','巳','辰','卯','寅','丑'], // 行10=辰方(子时)
     ['丑','子','亥','戌','酉','申','未','午','巳','辰','卯','寅']  // 行11=巳方(丑时)
   ];
-  const ELEMS = ['天罡', '太乙', '腾光', '小吉', '传送', '从魁', '河魁', '登时', '神后', '大吉', '功曹', '太冲'];
+  const ELEMS = ['天罡', '太乙', '腾光', '小吉', '传送', '从魁', '河魁', '登明', '神后', '大吉', '功曹', '太冲'];
   // 时辰地支 → 行索引（按 AGENTS.md §2.4(十)：寅=行0 卯=行1 ... 丑=行11）
   const SHI_TO_ROW = {
     '寅':0,'卯':1,'辰':2,'巳':3,
@@ -353,15 +353,20 @@ function placeTianGang(palaces, lunarMonth, shiZhi) {
 
 // ============ 日排局 ============
 // 天罡.docx 核心规则：
-// ① 以【当天农历月份】为第 N 月，核对当月的日月排局原始宫位；
+// ① 以【局数 N】为第 N 月，0局等价于10局；核对该月的日月排局原始宫位；
 //    第 N 月原始宫位承载 1/2/3 + 月末尾簇，之后按月份递增顺序分配 4..28。
 // ② 1/4/7/10 月为特殊月，默认承载 3 日；其余月默认承载 2 日。
-// ③ 若当前月不是 1/4/7/10，则 4 个特殊月中【紧邻当前月之前的那个】需让出 1 日（变为 2 日），
-//    以保证 4..28 共 25 天恰好分配完毕。
+// ③ 用户于2026-09-13明确要求四个特殊月不得被削减。当前月为普通月时，为保持 4..28
+//    共25日，紧邻当前月之前的普通月收缩为 1 日；特殊月始终保留 3 日。
 // ④ 依据【万年历】【阴历】：农历月仅有 29 天（小月）或 30 天（大月），尾簇截断为：
 //    30 天 → 1/2/3/29/30；29 天 → 1/2/3/29。
-function placeRiPaiJu(palaces, riPaiMonth, riPaiMonthDays) {
+function getRiPaiJuMonth(ju) {
+  return ju === 0 ? 10 : ju;
+}
+
+function placeRiPaiJu(palaces, ju, riPaiMonthDays) {
   palaces.forEach(p => p.riPaiJu = '');
+  const riPaiMonth = getRiPaiJuMonth(ju);
   if (!Number.isInteger(riPaiMonth) || riPaiMonth < 1 || riPaiMonth > 12) return;
 
   const MONTH_TO_GONG_IDX = {
@@ -385,13 +390,13 @@ function placeRiPaiJu(palaces, riPaiMonth, riPaiMonthDays) {
   // 当前月承载 1/2/3 + 尾簇，计 6 日（含尾簇）
   monthDates[riPaiMonth] = 6;
 
-  // 若当前月不是特殊月，需让紧邻其前的特殊月减少 1 日，保证总日期数为 31
+  // 当前月不是特殊月时，四个特殊月仍各保留3日；将紧邻当前月之前的普通月收缩为1日。
   if (!SPECIAL_MONTHS.includes(riPaiMonth)) {
     let prev = riPaiMonth === 1 ? 12 : riPaiMonth - 1;
-    while (!SPECIAL_MONTHS.includes(prev)) {
+    while (SPECIAL_MONTHS.includes(prev)) {
       prev = prev === 1 ? 12 : prev - 1;
     }
-    monthDates[prev] = 2;
+    monthDates[prev] = 1;
   }
 
   // 尾簇按第 N 农历月实际天数截断；未提供天数时按大月 30 天保底
@@ -732,8 +737,8 @@ function fullPaiPan(pillarArr, dayGan, isNight, extraContext, forceDun) {
   if (extraContext) {
     const { lunarMonth, shiZhi, paiJuMonthDays } = extraContext;
     placeTianGang(palaces, lunarMonth, shiZhi);
-    // 日排局第 N 月 = 当天农历月份（天罡.docx 示例：五月-卯时 核对【第五月】排局）
-    placeRiPaiJu(palaces, lunarMonth, paiJuMonthDays);
+    // 天罡取实际农历月；日排局取局数对应的第 N 月。
+    placeRiPaiJu(palaces, pan.ju, paiJuMonthDays);
   }
 
   // ===== 5. 不再用 applyReference 覆盖结果；单元测试对 13 宫逐字段比对并报告 diff =====
@@ -802,8 +807,8 @@ if (require.main === module) {
   const ok2 = r2.dun === '阴遁' && r2.ju === 5;
   console.log(`  ${ok2 ? '✅ 定遁定局通过' : '❌ 定遁定局失败'}\n`);
 
-  // 完整排盘：按阴遁5局权威案例检查中宫和日排局
-  // 丙午年五月为 29 天小月 → 2首(idx3) 尾簇截断为 1/2/3/29
+  // 完整排盘：按阴遁5局权威案例检查中宫和第五月日排局
+  // 阴遁5局使用第五月；五月为 29 天小月 → 2首(idx3) 尾簇截断为 1/2/3/29
   console.log('------ 完整排盘（示例② 阴遁5局）------');
   const full2 = fullPaiPan(
     ['丙午', '丙申', '庚申', '壬午'],
@@ -828,12 +833,12 @@ if (require.main === module) {
   const ok3 = centerActual === '太常/贪狼/休/癸/乙/乙/戊';
   console.log(`\n  中宫标准: ${centerActual} ${ok3 ? '✅' : '❌'}`);
 
-  const primaryDates = full2.palaces[1].riPaiJu;
+  const primaryDates = full2.palaces[3].riPaiJu;
   const ok4 = primaryDates === '1/2/3/29';
-  console.log(`  七月(idx1)日排局: ${primaryDates} ${ok4 ? '✅' : '❌'}`);
+  console.log(`  五月(idx3)日排局: ${primaryDates} ${ok4 ? '✅' : '❌'}`);
 
   // 用户案例：2026-02-26 16:55 → 丙午 庚寅 辛未 丙申 → 阳遁3局
-  // 当天农历正月初十，正月为 30 天大月 → 坎宫(idx7) 尾簇为 1/2/3/29/30，不得出现 31
+  // 阳遁3局使用第三月；第三月为 30 天大月 → 6尾(idx5) 尾簇为 1/2/3/29/30
   console.log('------ 完整排盘（用户案例 2026-02-26 阳遁3局）------');
   const full3 = fullPaiPan(
     ['丙午', '庚寅', '辛未', '丙申'],
@@ -841,9 +846,9 @@ if (require.main === module) {
     false,
     { lunarMonth: 1, lunarDay: 10, shiZhi: '申', paiJuMonthDays: 30 }
   );
-  const userCaseDates = full3.palaces[7].riPaiJu;
+  const userCaseDates = full3.palaces[5].riPaiJu;
   const ok5 = full3.dun === '阳遁' && full3.ju === 3 && userCaseDates === '1/2/3/29/30';
-  console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}局 | 正月(idx7)日排局: ${userCaseDates} ${ok5 ? '✅' : '❌'}`);
+  console.log(`  ${full3.pan}-${full3.dun}-${full3.ju}局 | 三月(idx5)日排局: ${userCaseDates} ${ok5 ? '✅' : '❌'}`);
 
   const allOk = ok1 && ok2 && ok3 && ok4 && ok5;
   console.log(`\n====== ${allOk ? '全部验证通过 ✅' : '存在失败 ❌'} ======`);
