@@ -2,10 +2,81 @@
 const express = require('express');
 const { get, all, run } = require('../db');
 const { adminOnly, loginAdmin } = require('../admin-auth');
+const aiInternals = require('./ai')._internals;
 
 const router = express.Router();
 
 router.post('/login', loginAdmin);
+
+// ========== AI 接口配置 ==========
+const DEFAULT_PROVIDERS = [
+  { code: 'juapi',    name: 'JuAPI 聚合中转',   base_url: 'https://www.juapi.net/v1',              models: ['deepseek-v4-flash', 'deepseek-v3', 'gpt-4o-mini', 'claude-sonnet-4-5'] },
+  { code: 'deepseek', name: 'DeepSeek 官方',    base_url: 'https://api.deepseek.com/v1',           models: ['deepseek-chat', 'deepseek-reasoner'] },
+  { code: 'moonshot', name: 'Kimi (月之暗面)', base_url: 'https://api.moonshot.cn/v1',             models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k', 'kimi-latest'] },
+  { code: 'zhipu',    name: '智谱 GLM',         base_url: 'https://open.bigmodel.cn/api/paas/v4',   models: ['glm-4-plus', 'glm-4-air', 'glm-4-flash'] },
+  { code: 'aliyun',   name: '阿里云百炼',       base_url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', models: ['qwen-plus', 'qwen-max', 'qwen-turbo'] },
+  { code: 'custom',   name: '自定义接口',       base_url: '',                                       models: [] },
+];
+
+router.get('/ai-config', adminOnly, async (req, res) => {
+  try {
+    await aiInternals.loadAiConfig();
+    const state = aiInternals.getAiState();
+    let apiKeyPlain = '';
+    try {
+      const row = await get('SELECT value FROM settings WHERE key = ?', ['ai_config']);
+      if (row && row.value) apiKeyPlain = (JSON.parse(row.value).api_key) || '';
+    } catch (e) { /* ignore */ }
+    res.json({
+      ok: true,
+      data: {
+        base_url: state.AI_BASE_URL,
+        model: state.AI_MODEL,
+        api_key: apiKeyPlain,
+        providers: DEFAULT_PROVIDERS,
+      }
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+router.put('/ai-config', adminOnly, async (req, res) => {
+  try {
+    const { base_url, api_key, model } = req.body || {};
+    if (!base_url || !/^https?:\/\//.test(base_url)) return res.status(400).json({ ok: false, error: '接口地址必须以 http(s):// 开头' });
+    if (!model) return res.status(400).json({ ok: false, error: '请填写模型名称' });
+    await aiInternals.saveAiConfig({ base_url: String(base_url).trim(), api_key: String(api_key || '').trim(), model: String(model).trim() });
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+router.post('/ai-config/test', adminOnly, async (req, res) => {
+  try {
+    const { base_url, api_key, model } = req.body || {};
+    const url = String(base_url || '').trim();
+    const key = String(api_key || '').trim();
+    const mdl = String(model || '').trim();
+    if (!/^https?:\/\//.test(url) || !key || !mdl) return res.status(400).json({ ok: false, error: '地址、密钥、模型均需填写' });
+    const started = Date.now();
+    const response = await fetch(`${url.replace(/\/+$/, '')}/chat/completions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      body: JSON.stringify({ model: mdl, messages: [{ role: 'user', content: '你好' }], max_tokens: 8, stream: false }),
+      signal: AbortSignal.timeout(15000),
+    });
+    const latency = Date.now() - started;
+    const text = await response.text();
+    if (!response.ok) {
+      return res.json({ ok: false, error: `HTTP ${response.status}（${latency}ms）：${text.slice(0, 200)}` });
+    }
+    res.json({ ok: true, data: { latency_ms: latency, sample: text.slice(0, 200) } });
+  } catch (e) {
+    res.json({ ok: false, error: e.message });
+  }
+});
 
 // ========== 数据统计总览 ==========
 router.get('/stats', adminOnly, async (req, res) => {
