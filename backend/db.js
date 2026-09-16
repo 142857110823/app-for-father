@@ -194,6 +194,15 @@ async function init() {
     )
   `);
 
+  // 系统设置（键值对，含 AI 接口配置）
+  await run(`
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT,
+      updated_at INTEGER DEFAULT (strftime('%s','now'))
+    )
+  `);
+
   // 默认会员套餐
   const plans = [
     { code: 'month', name: '月卡', duration_days: 30, ai_quota: 100, price_cent: 1800 },

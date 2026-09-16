@@ -1746,6 +1746,27 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 遗留风险：①公网地址需 commit+push 后才显示登明；②原始 .docx 文档仍为登时；③测试套件既有 3 项失败待学堂模块后续处理。
 **【相关文档】** `algorithm/qimen.js`、`algorithm/knowledge.js`、`algorithm/reference.js`、`algorithm/_audit_full.js`、`algorithm.bundle.js`、`public/algorithm.bundle.js`、`docs/algorithm.bundle.js`、`android/app/src/main/assets/public/algorithm.bundle.js`、`algorithm/案例库.xlsx`、`AGENTS.md`、`项目指南.md`、`新对话提示词.md`、`天罡_extracted.txt`、`排盘-【阴盘-阴遁-5局】 2(1)(1)_extracted.txt`、`work-flow.md`
 
+### 2026-09-14 权威 docx「登时→登明」修正 + 公网推送更新
+
+**【时间】** 2026-09-14 21:11 提交 / 2026-09-16 09:51 复验（Asia/Shanghai）
+**【事件】** 修正 4 份权威 .docx 内的「登时」为「登明」，将全部改动提交推送至 GitHub（master-doc 与 master 双分支），公网 GitHub Pages 部署验证通过。
+**【问题来源】** 用户确认「原始 .docx 权威文档修正」+「更新公网，当前公网看到的依旧是旧版」。
+**【执行方向】**
+1. 用 Python zipfile 直读 8 份 docx 的 word/document.xml：天罡.docx（根+项目信息）各 5 处、排盘-阴遁5局 2(1)(1).docx（根+项目信息）各 1 处，其余 4 份为 0。
+2. 等长 UTF-8 字节替换（登时→登明）后重建 zip（其余 entry 原字节保留），4 份全部替换成功并经 XML 良构性校验通过、复核登时清零。
+3. 确认 Pages 部署源：远程 master 与 master-doc 同点（d016a28），公网 269014 字节与远程 docs/index.html 完全一致。
+4. `git add -u`（仅已跟踪文件，未擅自加入六合/项目信息等历史未跟踪数据）→ 提交 70001f2 → `git push origin master-doc` + `git push origin master-doc:master`。
+5. 轮询公网 bundle 直到登明生效，并验证首页。
+**【执行边界】**
+- 仅提交已跟踪文件的修改；大量未跟踪的分析数据（六合/、项目信息/、artifacts 新截图、temp 脚本等）未入库，待用户决定。
+- docx 修改为 zip 内等长字节替换，未用 Word 跟踪修订（用户要求"修正"而非批注）。
+**【执行结果】**
+- 提交 70001f2（27 文件，468+/468-）推送成功：master-doc d016a28..70001f2、master 同步。
+- 公网轮询第二次即命中：`algorithm.bundle.js` ETag 变为 `6aa7f2cd-93c60`，登明（转义）=2、登时=0；首页 200（269470 字节）。
+- 2026-09-16 09:51 复验：公网登明仍为 2/登时 0、首页 200；本地 8090 重启后健康检查 200。
+- docx 修正结果：天罡.docx×2 各 5 处登明、排盘-阴遁5局.docx×2 各 1 处登明，全项目（代码/文档/案例库/公网/本地）已无「登时」。
+**【相关文档】** `天罡.docx`、`项目信息/天罡.docx`、`排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`项目信息/排盘-【阴盘-阴遁-5局】 2(1)(1).docx`、`work-flow.md`
+
 
 ### 2026-08-31 代码同步：推送本地修改至 GitHub master-doc
 
@@ -1811,3 +1832,81 @@ ode server.js（端口 8090），浏览器自动化验证通过：dun-info-bar �
 - 本次独立提交为 `5ad9fee`，已成功推送至 `origin/master-doc`。
 - 当前分支：`master-doc`；工作区仍保留其他任务的既有未提交修改，本次未纳入。
 **【相关文档】** `index.html`、`public/index.html`、`docs/index.html`、`二维码.jpg`、`public/二维码.jpg`、`docs/二维码.jpg`、`work-flow.md`
+
+### 2026-09-16 管理后台仪表盘：凭证重置 + 功能优化完善
+
+**【时间】** 2026-09-16 10:12（Asia/Shanghai）
+**【事件】** 管理后台（仪表盘）凭证重置并输出访问信息；后台页面四处功能优化；本地服务验证通过。
+**【问题来源】** 用户要求「后端采用仪表盘形式，优化完善并输出网址和进去的账号密码，一次性完成、不做过多验证」。
+**【执行方向】**
+1. 梳理后台现状：后端路由完整（登录/统计/用户/排盘/订单/套餐/公告/日志/活跃排行），前端 admin.html 八大模块齐全，发现四处待完善点。
+2. 凭证：原 admin-credentials.local.json 仅存哈希、明文未留存，重置为新凭证（admin / qm-2026-admin / DunJia@2026），bcrypt 12 轮哈希回写 json（每次请求动态读取、即改即生效），明文备忘存「管理员登录信息.txt」并加入 .gitignore。
+3. admin.html 优化（public/ 修改后同步根目录与 docs/ 共三处）：登录页支持回车提交；系统设置「运行时间」改用服务器真实 uptime（stats.system.uptime_seconds 反推启动时间）；「导出数据」由假按钮改为真实 CSV 下载（拉取列表接口生成带 BOM 的 UTF-8 CSV）；用户编辑弹窗新增「会员到期时间」字段（后端 PUT member_expire_at 原已支持）；「备份数据」改为如实说明备份路径。
+**【执行边界】**
+- 未改后端任何路由与鉴权逻辑（bcrypt+JWT 8 小时令牌、15 分钟 8 次失败锁定均保留）。
+- 公网 Render 后端凭证无法从本地直接修改：已生成配套哈希值写入「管理员登录信息.txt」，需用户在 Render 控制台 Environment 更新三个环境变量（ADMIN_USERNAME / ADMIN_ACCESS_KEY_HASH / ADMIN_PASSWORD_HASH）后公网即可使用同一套凭证。
+- admin.html 中用户昵称等字段直接插入 innerHTML 的低风险点（内部后台）未处理，保持最小改动。
+**【执行结果】**
+- 新凭证登录 200（token 正常签发）；错误凭据返回 401「管理员凭据错误」；/admin 页面 200。
+- 本地仪表盘地址 http://localhost:8090/admin 即时可用；公网 https://142857110823.github.io/app-for-father/admin 依赖 Render 环境变量更新。
+- 修改文件：admin-credentials.local.json（重置）、public/admin.html、admin.html、docs/admin.html（同步）、管理员登录信息.txt（新增）、.gitignore（追加一条）。
+**【相关文档】** `admin-credentials.local.json`、`管理员登录信息.txt`、`public/admin.html`、`admin.html`、`docs/admin.html`、`backend/admin-auth.js`、`backend/routes/admin.js`、`render.yaml`、`.gitignore`、`work-flow.md`
+
+### 2026-09-16 公网后台登录「网络错误」诊断：Render 后端服务离线
+
+**【时间】** 2026-09-16（Asia/Shanghai）
+**【事件】** 用户截图反馈公网仪表盘（github.io/app-for-father/admin）登录报「网络错误」；诊断确认 Render 后端服务已离线。
+**【问题来源】** 用户上传公网后台登录失败截图。
+**【执行方向】**
+1. 实测 `https://qimen-shisan-gong-api.onrender.com`：根路径与 `/api/health` 均返回 404（经 Cloudflare、空正文、Server 头 cloudflare）。
+2. 核对前端配置：public/index.html、admin.html 等四处均指向该域名，无新地址记录。
+3. 排除凭证问题：凭证错误会返回 401「管理员凭据错误」，而网络错误是 fetch 层失败；本地 8090 后台登录 200 正常。
+**【执行边界】** 纯诊断，未改任何代码；Render 服务托管在用户账户内，本地无法复活该服务。
+**【执行结果】**
+- 结论：Render 服务 `qimen-shisan-gong-api` 已删除或被暂停（空正文 404 为 Render 边缘对不存在服务的标准响应）。
+- 影响范围：公网仪表盘登录、公网用户登录/注册/AI 对话/历史同步均不可用；排盘为纯前端计算不受影响（游客模式）。
+- 本地后台 http://localhost:8090/admin 不受影响。
+- 恢复需用户登录 Render 控制台操作（续费恢复或重建服务），重建可用仓库 render.yaml；管理端需同步设置三个环境变量（值见 管理员登录信息.txt）。
+**【相关文档】** `render.yaml`、`管理员登录信息.txt`、`public/admin.html`、`public/index.html`、`work-flow.md`
+
+### 2026-09-16 AI 接口可自定义：管理后台配置化 + 服务商预设
+
+**【时间】** 2026-09-16 10:38（Asia/Shanghai）
+**【事件】** 将 AI 接口（地址/密钥/模型）改为管理员后台可自定义配置，支持常用服务商一键预设。
+**【问题来源】** 用户在后台「系统设置」截图基础上要求：AI 接口地址改为可自定义（如 https://www.juapi.net/v1），并提供 DeepSeek/Kimi/GLM/阿里云等官网接口选项。
+**【执行方向】**
+1. db.js 新增 settings 键值表（含 ai_config JSON，upsert 保存）。
+2. backend/routes/ai.js：AI_BASE_URL/AI_API_KEY/AI_MODEL 改为「环境变量/密钥文件 → 数据库」双层配置，每次 /chat 前懒加载最新值；新增 GET /api/ai/config（脱敏，返回 base_url/model/has_key/providers）；导出 _internals 供管理路由复用。
+3. backend/routes/admin.js：新增 GET/PUT /api/admin/ai-config（读回明文密钥供「留空沿用」，保存校验 http(s) 前缀与模型名）与 POST /api/admin/ai-config/test（真实发起 chat/completions 探测，返回延迟或上游错误）。
+4. admin.html 系统设置页重做 AI 配置卡片：服务商下拉（JuAPI 聚合中转/DeepSeek 官方/Kimi 月之暗面/智谱 GLM/阿里云百炼/自定义）联动填充地址与模型预设（datalist 可输入任意模型名）+ 密钥输入（留空沿用已保存）+ 测试连通 + 保存；三处副本（根/public/docs）同步。
+5. 修复一处启动崩溃：模块加载期 loadAiConfig 在 settings 建表前执行导致 uncaught SQLITE_ERROR，改为各路由内懒加载。
+**【执行边界】**
+- 未动 index.html/ai-client.js：主站 AI 对话不传模型时后端自动用配置的默认模型，前端零改动即生效。
+- 未改鉴权逻辑；API 密钥明文仅在管理员 GET 接口中返回（管理端必要），普通 /api/ai/config 仍脱敏。
+**【执行结果】**
+- 验证（2026-09-16 10:33）：/api/health 200；/api/ai/config 200 返回 6 家服务商；管理员登录→读取→保存→回读全链路 OK。
+- 连通测试功能实测正常（可透出上游错误）：当前 juapi 密钥下所有模型返回 HTTP 503「No available channel」——该中转站密钥已无可用通道（外部问题，与本次改动无关，改动前同样不可用）；用户可在后台切到 DeepSeek 官方/Kimi/GLM/阿里云并粘贴对应官网密钥即用。
+- 启动崩溃已修复，服务运行中；/admin 页面 200。
+**【相关文档】** `backend/db.js`、`backend/routes/ai.js`、`backend/routes/admin.js`、`public/admin.html`、`admin.html`、`docs/admin.html`、`API密钥.txt`、`work-flow.md`
+
+### 2026-09-16 删除登录界面，改为离线自动登录 + 启动本地/公网服务
+
+**【时间】** 2026-09-16 16:45（Asia/Shanghai）
+**【事件】** 按用户要求删除登录界面（账号密码登录 / 游客登录 / 注册弹窗），应用改为「打开即用」的离线本地模式；重启本地服务并同步公网。
+**【问题来源】** 用户直接指令：优先读取 AGENTS 与相关文件 → 启动本地服务和公网服务 → 删除登录界面、允许离线登录。
+**【执行方向】** 前端功能裁剪 + 离线降级
+1. 删除 `#auth-gate` 登录门与 `#register-modal` 注册弹窗两段 DOM（含账号输入框、登录/游客/注册按钮、auth-message、register-message 节点），替换为说明注释。
+2. 删除仅服务于登录的 8 个函数：`authMessage`、`registerMessage`、`openRegisterModal`、`closeRegisterModal`、`parseAuthResponse`、`normalizeAuthError`、`accountLogin`、`accountRegister`、`guestLogin`、`completeLogin`。
+3. 新增 `ensureOfflineSession()`：无 `auth_token` 或已是本地游客时，自动写入本地会话（local_ 令牌 + 游客用户信息 + `qimen_local_guest=1`）；`initAuth()` 改为「确保离线会话 + renderProfile + 首次进入显示 0.9s 启动屏」。
+4. `paipan()` 登录门重写：无本地会话→自动建立会话继续排盘；远端会话返回 401/403→静默降级为本地会话，不再弹出登录门、不再提示「请先登录」。
+5. 三处入口同步：`public/index.html` → 根 `index.html` → `docs/index.html`（md5 一致：272e53ac385229ab335b32c516eef0e5）。
+**【执行边界】**
+- 仅改前端 `index.html` 三处副本；未改后端路由（`/api/auth/*` 接口保留但前端不再调用）、未改 AI 对话、未改「我的」页面结构（该页 P1 已是本地游客文案：清除本地偏好/本地游客账号无需密码）。
+- 未删除后端 auth 路由，保留未来恢复账号体系的能力。
+- 公网后端 Render 服务仍为挂起状态（此前已诊断 404），本次未尝试恢复。
+**【执行结果】**
+- Playwright 实测（CDP viewport 420×900，2026-09-16 16:41）：`#auth-gate` 数量 0、`#register-modal` 数量 0、首页直接可见、控制台 0 error、自动生成 `local.` 会话令牌 + 游客用户信息。
+- 排盘回归：点击「开始排盘」十三宫 `#plate-table` 渲染 13 格；进一步用 route 拦截全部 `/api/**` 请求模拟完全离线后再次排盘，仍渲染 13 格 → 离线可用性确认。
+- 视觉证据：`artifacts/offline-login-home-20260916.png`（首页无登录门）、`artifacts/offline-login-paipan-20260916.png`（离线排盘十三宫 4×4 + 中宫 2×2）。
+- 本地服务：`http://localhost:8090/` 200、`/admin` 200、`/api/health` 返回 `{"ok":true}`。
+**【相关文档】** `public/index.html`、`index.html`、`docs/index.html`、`work-flow.md`、`AGENTS.md`、`新对话提示词.md`

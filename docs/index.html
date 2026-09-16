@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -892,33 +892,7 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
 </head>
 <body>
 
-<div id="auth-gate" style="position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px">
-  <div style="width:min(380px,100%);background:var(--card);border:1px solid var(--line);padding:28px 22px;box-shadow:var(--shadow);text-align:center">
-    <div style="font-size:24px;font-family:'STKaiti','KaiTi','楷体',serif;letter-spacing:5px">道家奇门遁甲</div>
-    <div style="font-size:12px;color:var(--sub);margin:8px 0 24px">请登录后进入十三宫排盘</div>
-    <input id="auth-username" autocomplete="username" placeholder="账号" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px">
-    <input id="auth-password" type="password" autocomplete="current-password" placeholder="密码（不少于6位）" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:12px">
-    <button onclick="accountLogin()" style="width:100%;padding:12px;background:var(--ink);color:#fff;font-weight:600">账号密码登录</button>
-    <button onclick="guestLogin()" style="width:100%;padding:12px;margin-top:10px;border:1px solid var(--line);color:var(--ink)">游客登录</button>
-    <button onclick="openRegisterModal()" style="margin-top:16px;color:var(--gold);font-size:12px">注册账号</button>
-    <div id="auth-message" style="min-height:20px;margin-top:12px;font-size:12px;color:var(--red)"></div>
-  </div>
-</div>
-
-<div id="register-modal" role="dialog" aria-modal="true" aria-labelledby="register-title" style="display:none;position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:24px">
-  <div style="width:min(360px,100%);background:var(--card);border:1px solid var(--line);padding:24px 20px;box-shadow:var(--shadow)">
-    <div id="register-title" style="font-size:20px;font-family:'STKaiti','KaiTi','楷体',serif;letter-spacing:4px;text-align:center">注册账号</div>
-    <div style="font-size:12px;color:var(--sub);margin:8px 0 20px;text-align:center">账号使用字母、数字或下划线，密码不少于6位</div>
-    <input id="register-username" autocomplete="username" placeholder="设置账号" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px">
-    <input id="register-password" type="password" autocomplete="new-password" placeholder="设置密码（不少于6位）" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px">
-    <input id="register-password-confirm" type="password" autocomplete="new-password" placeholder="再次输入密码" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:12px">
-    <div style="display:flex;gap:10px">
-      <button onclick="closeRegisterModal()" style="flex:1;padding:12px;border:1px solid var(--line);color:var(--ink)">取消</button>
-      <button onclick="accountRegister()" style="flex:1;padding:12px;background:var(--ink);color:#fff;font-weight:600">确认注册</button>
-    </div>
-    <div id="register-message" style="min-height:20px;margin-top:12px;font-size:12px;color:var(--red);text-align:center"></div>
-  </div>
-</div>
+<!-- 登录界面已移除：应用采用离线本地模式，首次进入自动建立本地会话，无需注册/登录 -->
 
 <div id="opening-screen" style="display:none;position:fixed;inset:0;z-index:9999;background:#1c1a17;color:#f5efd9;align-items:center;justify-content:center;text-align:center">
   <div>
@@ -2288,21 +2262,19 @@ function getSelectedPanType() {
 }
 
 async function paipan() {
-  const sessionToken = localStorage.getItem(AUTH_TOKEN_KEY);
-  if (!sessionToken) {
-    document.getElementById('auth-gate').style.display = 'flex';
-    showToast('请先登录');
-    return;
-  }
-  try {
-    const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
-    if (!sessionCheck.ok) throw new Error('登录已失效');
-  } catch (error) {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(USER_INFO_KEY);
-    document.getElementById('auth-gate').style.display = 'flex';
-    showToast(error.message || '登录已失效');
-    return;
+  // 离线优先：无本地会话时自动建立，绝不因后端不可达阻断排盘
+  if (!localStorage.getItem(AUTH_TOKEN_KEY)) {
+    enterLocalGuest();
+  } else if (!isLocalGuest()) {
+    try {
+      const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
+      if (sessionCheck.status === 401 || sessionCheck.status === 403) {
+        // 远端会话失效：直接降级为本地会话，继续排盘
+        enterLocalGuest();
+      }
+    } catch (error) {
+      // 网络不可达或后端离线：排盘为纯本地计算，直接放行
+    }
   }
   const y = document.getElementById('y');
   const m = document.getElementById('m');
@@ -3953,6 +3925,7 @@ function confirmLogout() {
     if (token) fetch(apiUrl('/api/auth/logout'), { method:'POST', headers:authHeaders() }).catch(() => {});
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(USER_INFO_KEY);
+    localStorage.removeItem('qimen_local_guest');
     // P1: 额外清除本地游客存储的昵称/头像/性别/生日/偏好
     localStorage.removeItem('profile_nickname');
     localStorage.removeItem('profile_avatar');
@@ -4047,11 +4020,22 @@ console.log('[APP] script start');
 const AUTH_TOKEN_KEY = 'auth_token';
 const USER_INFO_KEY = 'user_info';
 const RENDER_API_ORIGIN = 'https://qimen-shisan-gong-api.onrender.com';
+const LOCAL_GUEST_KEY = 'qimen_local_guest';
 window.QIMEN_API_BASE = window.QIMEN_API_BASE
   || (/github\.io$/i.test(location.hostname || '') ? RENDER_API_ORIGIN : '');
 function apiUrl(path) {
-  const base = String(window.QIMEN_API_BASE || '').replace(/\/+$/, '');
-  return base ? `${base}${path}` : path;
+  const b = String(window.QIMEN_API_BASE || '').replace(/\/+$/, '');
+  return b ? `${b}${path}` : path;
+}
+function isLocalGuest() { return localStorage.getItem(LOCAL_GUEST_KEY) === '1'; }
+function enterLocalGuest() {
+  const uid = 'local_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+  const fakeToken = 'local.' + btoa(uid + '|' + Date.now());
+  const user = { id: 0, nickname: '游客（本地）', is_guest: true, member_level: 'free', ai_quota: 0 };
+  localStorage.setItem(AUTH_TOKEN_KEY, fakeToken);
+  localStorage.setItem(USER_INFO_KEY, JSON.stringify(user));
+  localStorage.setItem(LOCAL_GUEST_KEY, '1');
+  return { token: fakeToken, user: user, isGuest: true };
 }
 function authHeaders(extra) {
   const headers = Object.assign({}, extra || {});
@@ -4069,137 +4053,26 @@ function setAuthSession(data) {
   localStorage.setItem(AUTH_TOKEN_KEY, data.token);
   localStorage.setItem(USER_INFO_KEY, JSON.stringify(data.user || {}));
 }
-function authMessage(text) {
-  const el = document.getElementById('auth-message');
-  if (el) el.textContent = text || '';
-}
-function registerMessage(text) {
-  const el = document.getElementById('register-message');
-  if (el) el.textContent = text || '';
-}
-function openRegisterModal() {
-  const modal = document.getElementById('register-modal');
-  const loginUsername = document.getElementById('auth-username');
-  const registerUsername = document.getElementById('register-username');
-  if (registerUsername && loginUsername) registerUsername.value = loginUsername.value.trim();
-  registerMessage('');
-  if (modal) modal.style.display = 'flex';
-  setTimeout(() => {
-    const target = registerUsername && !registerUsername.value
-      ? registerUsername
-      : document.getElementById('register-password');
-    if (target) target.focus();
-  }, 0);
-}
-function closeRegisterModal() {
-  const modal = document.getElementById('register-modal');
-  if (modal) modal.style.display = 'none';
-  registerMessage('');
-}
-async function parseAuthResponse(response) {
-  const contentType = response.headers && typeof response.headers.get === 'function'
-    ? String(response.headers.get('content-type') || '').toLowerCase()
-    : '';
-  const body = await response.text();
-  const normalizedBody = body.trim().toLowerCase();
-  const isHtml = contentType.includes('text/html')
-    || normalizedBody.startsWith('<!doctype html')
-    || normalizedBody.startsWith('<html');
-
-  if (isHtml) {
-    const isPublicPreview = /github\.io$/i.test(location.hostname || '');
-    throw new Error(isPublicPreview
-      ? '公网预览不提供账号服务，请打开本地完整服务：http://localhost:8090/'
-      : '登录服务未正确响应，请确认后端服务已启动后重试');
+/* 离线登录：无需账号密码，首次进入自动建立本地会话 */
+function ensureOfflineSession() {
+  const hasSession = !!localStorage.getItem(AUTH_TOKEN_KEY);
+  if (!hasSession || isLocalGuest()) {
+    enterLocalGuest();
+    return !hasSession; // true = 本次新建会话（首次打开）
   }
-
-  let result;
-  try {
-    result = JSON.parse(body);
-  } catch (error) {
-    throw new Error('登录服务返回异常，请稍后重试');
-  }
-  if (!response.ok || !result.ok) {
-    throw new Error(result.error || `登录请求失败（HTTP ${response.status}）`);
-  }
-  return result;
+  return false;
 }
-function normalizeAuthError(error) {
-  const message = String(error && error.message || '');
-  if (/Failed to fetch|NetworkError|network|连接被拒绝|拒绝连接|CORS|blocked|mixed content/i.test(message)
-      || error && error.name === 'TypeError') {
-    return /github\.io$/i.test(location.hostname || '')
-      ? '公网预览无法连接账号服务，请打开本地完整服务：http://localhost:8090/'
-      : '无法连接登录服务，请确认本地服务已启动';
-  }
-  return message || '登录失败，请稍后重试';
-}
-async function completeLogin(data) {
-  setAuthSession(data);
-  const gate = document.getElementById('auth-gate');
+async function showOfflineSplash() {
   const opening = document.getElementById('opening-screen');
-  if (gate) gate.style.display = 'none';
-  if (opening) {
-    opening.style.display = 'flex';
-    await new Promise(resolve => setTimeout(resolve, 900));
-    opening.style.display = 'none';
-  }
+  if (!opening) return;
+  opening.style.display = 'flex';
+  await new Promise(resolve => setTimeout(resolve, 900));
+  opening.style.display = 'none';
+}
+function initAuth() {
+  const isFirstVisit = ensureOfflineSession();
   renderProfile();
-  showPage('home');
-}
-async function accountLogin() {
-  const username = (document.getElementById('auth-username').value || '').trim();
-  const password = document.getElementById('auth-password').value || '';
-  if (!username || !password) return authMessage('请输入账号和密码');
-  authMessage('登录中...');
-  try {
-    const response = await fetch(apiUrl('/api/auth/account/login'), {
-      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify({ username, password })
-    });
-    const result = await parseAuthResponse(response);
-    await completeLogin(result.data);
-  } catch (error) { authMessage(normalizeAuthError(error)); }
-}
-async function accountRegister() {
-  const username = (document.getElementById('register-username').value || '').trim();
-  const password = document.getElementById('register-password').value || '';
-  const passwordConfirm = document.getElementById('register-password-confirm').value || '';
-  if (!username || !password || !passwordConfirm) return registerMessage('请完整填写账号、密码和确认密码');
-  if (password !== passwordConfirm) return registerMessage('两次输入的密码不一致');
-  registerMessage('注册中...');
-  try {
-    const response = await fetch(apiUrl('/api/auth/account/register'), {
-      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify({ username, password })
-    });
-    const result = await parseAuthResponse(response);
-    closeRegisterModal();
-    await completeLogin(result.data);
-  } catch (error) { registerMessage(normalizeAuthError(error)); }
-}
-async function guestLogin() {
-  authMessage('正在进入游客模式...');
-  try {
-    const response = await fetch(apiUrl('/api/auth/guest'), {
-      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' })
-    });
-    const result = await parseAuthResponse(response);
-    await completeLogin(result.data);
-  } catch (error) { authMessage(normalizeAuthError(error)); }
-}
-async function initAuth() {
-  const token = localStorage.getItem(AUTH_TOKEN_KEY);
-  if (!token) return;
-  try {
-    const response = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
-    const result = await parseAuthResponse(response);
-    localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data));
-    document.getElementById('auth-gate').style.display = 'none';
-  } catch (error) {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(USER_INFO_KEY);
-  }
+  if (isFirstVisit) showOfflineSplash();
 }
 
 /* ================================================
