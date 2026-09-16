@@ -900,7 +900,8 @@ html.dark .ig-icon.theme-icon.is-dark .icon-sun{display:inline}
     <input id="auth-password" type="password" autocomplete="current-password" placeholder="密码（不少于6位）" style="width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:12px">
     <button onclick="accountLogin()" style="width:100%;padding:12px;background:var(--ink);color:#fff;font-weight:600">账号密码登录</button>
     <button onclick="guestLogin()" style="width:100%;padding:12px;margin-top:10px;border:1px solid var(--line);color:var(--ink)">游客登录</button>
-    <button onclick="openRegisterModal()" style="margin-top:16px;color:var(--gold);font-size:12px">注册账号</button>
+    <div style="margin-top:8px;font-size:11px;color:var(--sub)">后端不可用时，游客登录将自动进入本地模式</div>
+    <button onclick="openRegisterModal()" style="margin-top:12px;color:var(--gold);font-size:12px">注册账号</button>
     <div id="auth-message" style="min-height:20px;margin-top:12px;font-size:12px;color:var(--red)"></div>
   </div>
 </div>
@@ -2294,15 +2295,19 @@ async function paipan() {
     showToast('请先登录');
     return;
   }
-  try {
-    const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
-    if (!sessionCheck.ok) throw new Error('登录已失效');
-  } catch (error) {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(USER_INFO_KEY);
-    document.getElementById('auth-gate').style.display = 'flex';
-    showToast(error.message || '登录已失效');
-    return;
+  if (!isLocalGuest()) {
+    try {
+      const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
+      if (sessionCheck.status === 401 || sessionCheck.status === 403) {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(USER_INFO_KEY);
+        document.getElementById('auth-gate').style.display = 'flex';
+        showToast('登录已失效，请重新登录');
+        return;
+      }
+    } catch (error) {
+      // 网络不可达或后端离线：排盘为纯本地计算，直接放行
+    }
   }
   const y = document.getElementById('y');
   const m = document.getElementById('m');
@@ -3953,6 +3958,7 @@ function confirmLogout() {
     if (token) fetch(apiUrl('/api/auth/logout'), { method:'POST', headers:authHeaders() }).catch(() => {});
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(USER_INFO_KEY);
+    localStorage.removeItem('qimen_local_guest');
     // P1: 额外清除本地游客存储的昵称/头像/性别/生日/偏好
     localStorage.removeItem('profile_nickname');
     localStorage.removeItem('profile_avatar');
@@ -4047,11 +4053,22 @@ console.log('[APP] script start');
 const AUTH_TOKEN_KEY = 'auth_token';
 const USER_INFO_KEY = 'user_info';
 const RENDER_API_ORIGIN = 'https://qimen-shisan-gong-api.onrender.com';
+const LOCAL_GUEST_KEY = 'qimen_local_guest';
 window.QIMEN_API_BASE = window.QIMEN_API_BASE
   || (/github\.io$/i.test(location.hostname || '') ? RENDER_API_ORIGIN : '');
 function apiUrl(path) {
-  const base = String(window.QIMEN_API_BASE || '').replace(/\/+$/, '');
-  return base ? `${base}${path}` : path;
+  const b = String(window.QIMEN_API_BASE || '').replace(/\/+$/, '');
+  return b ? `${b}${path}` : path;
+}
+function isLocalGuest() { return localStorage.getItem(LOCAL_GUEST_KEY) === '1'; }
+function enterLocalGuest() {
+  const uid = 'local_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+  const fakeToken = 'local.' + btoa(uid + '|' + Date.now());
+  const user = { id: 0, nickname: '游客（本地）', is_guest: true, member_level: 'free', ai_quota: 0 };
+  localStorage.setItem(AUTH_TOKEN_KEY, fakeToken);
+  localStorage.setItem(USER_INFO_KEY, JSON.stringify(user));
+  localStorage.setItem(LOCAL_GUEST_KEY, '1');
+  return { token: fakeToken, user: user, isGuest: true };
 }
 function authHeaders(extra) {
   const headers = Object.assign({}, extra || {});
@@ -4159,7 +4176,10 @@ async function accountLogin() {
     });
     const result = await parseAuthResponse(response);
     await completeLogin(result.data);
-  } catch (error) { authMessage(normalizeAuthError(error)); }
+  } catch (error) {
+    const msg = normalizeAuthError(error);
+    authMessage(msg + '，可点击「游客登录」先进入本地模式');
+  }
 }
 async function accountRegister() {
   const username = (document.getElementById('register-username').value || '').trim();
@@ -4176,7 +4196,9 @@ async function accountRegister() {
     const result = await parseAuthResponse(response);
     closeRegisterModal();
     await completeLogin(result.data);
-  } catch (error) { registerMessage(normalizeAuthError(error)); }
+  } catch (error) {
+    registerMessage(normalizeAuthError(error) + '，可关闭弹窗后点击「游客登录」');
+  }
 }
 async function guestLogin() {
   authMessage('正在进入游客模式...');
@@ -4186,9 +4208,17 @@ async function guestLogin() {
     });
     const result = await parseAuthResponse(response);
     await completeLogin(result.data);
-  } catch (error) { authMessage(normalizeAuthError(error)); }
+  } catch (error) {
+    authMessage('后端服务暂不可用，已自动进入本地游客模式');
+    const data = enterLocalGuest();
+    await completeLogin(data);
+  }
 }
 async function initAuth() {
+  if (isLocalGuest()) {
+    document.getElementById('auth-gate').style.display = 'none';
+    return;
+  }
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (!token) return;
   try {

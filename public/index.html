@@ -2295,15 +2295,19 @@ async function paipan() {
     showToast('请先登录');
     return;
   }
-  try {
-    const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
-    if (!sessionCheck.ok) throw new Error('登录已失效');
-  } catch (error) {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(USER_INFO_KEY);
-    document.getElementById('auth-gate').style.display = 'flex';
-    showToast(error.message || '登录已失效');
-    return;
+  if (!isLocalGuest()) {
+    try {
+      const sessionCheck = await fetch(apiUrl('/api/auth/me'), { headers: authHeaders() });
+      if (sessionCheck.status === 401 || sessionCheck.status === 403) {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(USER_INFO_KEY);
+        document.getElementById('auth-gate').style.display = 'flex';
+        showToast('登录已失效，请重新登录');
+        return;
+      }
+    } catch (error) {
+      // 网络不可达或后端离线：排盘为纯本地计算，直接放行
+    }
   }
   const y = document.getElementById('y');
   const m = document.getElementById('m');
